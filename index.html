@@ -176,16 +176,32 @@
         }
 
         function loadProgresDatabase() {
-            if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) return;
+            if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
+                dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
+                renderDaftarHalamanUtama();
+                return;
+            }
 
             fetch(`${API_URL}?userId=${encodeURIComponent(sessionUser.username)}`)
                 .then(res => res.json())
                 .then(resData => {
                     if(resData.status === "success") {
                         dbStatusModul = resData.progress;
+
+                        // PENGAMAN UTAMA: Konversi status string ke boolean murni
+                        for (let key in dbStatusModul) {
+                            dbStatusModul[key] = (dbStatusModul[key] === true || dbStatusModul[key] === "true" || dbStatusModul[key] === "TRUE");
+                        }
+
+                        // Jaminan Modul 1 selalu terbuka (TRUE) untuk pengguna baru / yang sedang belajar
+                        dbStatusModul[1] = true;
                         renderDaftarHalamanUtama();
                     }
-                }).catch(() => console.log("Gagal memuat data cloud."));
+                }).catch(() => {
+                    console.log("Gagal memuat data cloud. Mengaktifkan mode offline aman.");
+                    dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
+                    renderDaftarHalamanUtama();
+                });
         }
 
         function renderDaftarHalamanUtama() {
@@ -193,9 +209,13 @@
                 const card = document.getElementById(`card-modul-${i}`);
                 card.classList.remove('locked', 'completed');
 
-                if (dbStatusModul[i] === true) {
+                // Validasi status akses boolean sejati
+                const isAktif = (dbStatusModul[i] === true || dbStatusModul[i] === "true" || dbStatusModul[i] === "TRUE");
+
+                if (isAktif) {
                     card.classList.remove('locked');
-                    if (i < 5 && dbStatusModul[i+1] === true) {
+                    const nextAktif = (dbStatusModul[i+1] === true || dbStatusModul[i+1] === "true" || dbStatusModul[i+1] === "TRUE");
+                    if (i < 5 && nextAktif) {
                         card.classList.add('completed');
                     }
                 } else {
@@ -205,12 +225,18 @@
         }
 
         function bukaModul(noModul) {
-            if (!dbStatusModul[noModul]) {
+            // Evaluasi status boolean murni untuk membuka gembok
+            const statusAkses = (dbStatusModul[noModul] === true || dbStatusModul[noModul] === "true" || dbStatusModul[noModul] === "TRUE");
+
+            if (!statusAkses) {
                 alert("Modul terblokir! Selesaikan modul sebelumnya terlebih dahulu.");
                 return;
             }
             modulAktif = noModul;
-            let isAlreadyDone = (noModul < 5 && dbStatusModul[noModul+1] === true);
+            
+            // Cek apakah modul setelahnya sudah bernilai true (menandakan modul saat ini sudah lulus tuntas)
+            const nextAktif = (dbStatusModul[noModul+1] === true || dbStatusModul[noModul+1] === "true" || dbStatusModul[noModul+1] === "TRUE");
+            let isAlreadyDone = (noModul < 5 && nextAktif);
 
             internalAkses = { 1: true, 2: isAlreadyDone, 3: isAlreadyDone, pt: isAlreadyDone };
             internalDibuka = { 1: isAlreadyDone, 2: isAlreadyDone, 3: isAlreadyDone };
@@ -223,6 +249,9 @@
             document.getElementById('postTestContent').style.display = 'none';
 
             renderAccordionVisual();
+            
+            // Pemicu mutlak memunculkan modal overlay di layar
+            document.getElementById('moduleModal').classList.add('active');
         }
 
         function renderAccordionVisual() {
@@ -385,7 +414,6 @@
                 });
 
             } else {
-                // Tampilan Jika BELUM TUNTAS
                 box.className = 'result-box fail';
                 box.innerHTML = `
                     <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">❌ HASIL: BELUM TUNTAS</div>
@@ -400,23 +428,18 @@
             box.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // FITUR BARU: RESET ULANG AKSES MODAL SAAT SISWA TIDAK TUNTAS
         function pemicuUlangModul(form) {
-            form.reset(); // Kosongkan radio button & essay
+            form.reset(); 
             
-            // Tutup lembar post test secara otomatis
             const ptCard = document.getElementById('postTestBox');
             ptCard.classList.remove('expanded');
             document.getElementById('postTestContent').style.display = 'none';
 
-            // Kunci kembali Materi 2, Materi 3, dan Post Test secara internal
             internalAkses = { 1: true, 2: false, 3: false, pt: false };
-            internalDibuka = { 1: true, 2: false, 3: false }; // Materi 1 tetap ditandai sudah dibuka/dibaca
+            internalDibuka = { 1: true, 2: false, 3: false }; 
 
-            // Render ulang bentuk visual gembok di layar modal
             renderAccordionVisual();
 
-            // Berikan notifikasi pengingat
             alert("Materi 2, Materi 3, dan Post Test telah dikunci kembali. Silakan pelajari ulang materi secara berurutan!");
         }
     </script>
