@@ -1,6 +1,6 @@
-<form onsubmit="submitKuis(event)" style="display: flex; flex-direction: column; gap: 18px;">
+<form onsubmit="periksaKuis(event)" style="display: flex; flex-direction: column; gap: 18px;">
     
-    <!-- Soal 1: Pilihan Ganda -->
+    <!-- Soal 1: Pilihan Ganda (Kunci Jawaban di Pilihan C) -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937;">1. Ada berapa pilar utama dalam konsep perancangan SPAB?</p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer;">
@@ -9,8 +9,9 @@
         <label style="display: block; margin-bottom: 6px; cursor: pointer;">
             <input type="radio" name="soal1" value="B" style="margin-right: 8px;"> B. 2 Pilar
         </label>
+        <!-- Ditambahkan atribut data-correct sebagai kunci jawaban yang benar -->
         <label style="display: block; margin-bottom: 6px; cursor: pointer;">
-            <input type="radio" name="soal1" value="C" style="margin-right: 8px;"> C. 3 Pilar (Fasilitas, Manajemen, Edukasi)
+            <input type="radio" name="soal1" value="C" data-correct style="margin-right: 8px;"> C. 3 Pilar (Fasilitas, Manajemen, Edukasi)
         </label>
     </div>
 
