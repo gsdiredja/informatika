@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFORMATIKA | Daftar Topik</title>
+    <title>Pelatihan Mandiri | Daftar Topik</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: #f8fafc; color: #333333; }
         
-        /* Navbar Biru Ruang Guru */
+        /* Navbar Biru Ruang Guru & GTK */
         .pmm-navbar { width: 100%; background-color: #1d74ed; color: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .nav-left { display: flex; align-items: center; gap: 15px; }
         .nav-logo { background: white; width: 35px; height: 35px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #1d74ed; font-size: 20px; }
         .nav-title { font-size: 18px; font-weight: 600; }
         .nav-right-btn { background: transparent; border: none; color: white; font-weight: 500; cursor: pointer; font-size: 15px; }
 
-        /* Breadcrumb Breadcrumb */
+        /* Breadcrumb Bar */
         .breadcrumb-bar { max-width: 1200px; width: 100%; margin: 20px auto 0 auto; padding: 0 20px; font-size: 14px; color: #64748b; }
         .breadcrumb-bar span { color: #334155; font-weight: 500; }
 
@@ -40,19 +40,23 @@
 
         /* Styling Kartu Topik PMM */
         .topik-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
-        .topik-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-color: #cbd5e1; }
+        .topik-card:hover:not(.locked) { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-color: #cbd5e1; }
         
+        /* State Topik Terkunci */
+        .topik-card.locked { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; opacity: 0.6; }
+        .topik-card.locked .topik-title { color: #94a3b8; }
+        .topik-card.locked .thumbnail-box { background-color: #e2e8f0 !important; color: #94a3b8 !important; }
+        
+        /* State Topik Selesai */
+        .topik-card.completed { border-color: #10b981; }
+        .topik-card.completed::after { content: "✓ Selesai"; position: absolute; top: 15px; right: 80px; background: #10b981; color: white; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
+
         .card-top-info { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 12px; }
         .topik-title { font-size: 16px; font-weight: 700; color: #1e2937; line-height: 1.4; }
         .topik-desc { font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         
-        /* Label Sasaran Guru/Kepsek */
         .topik-target { background-color: #f1f5f9; color: #475569; font-size: 12px; padding: 4px 10px; border-radius: 6px; font-weight: 500; width: fit-content; }
-        
-        /* Ikon Modul Bawah */
         .card-bottom-info { border-top: 1px solid #f1f5f9; padding-top: 14px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; font-weight: 500; }
-        
-        /* Gambar Mini Atas Kanan Kartu */
         .thumbnail-box { width: 50px; height: 50px; background-color: #a5f3fc; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #0369a1; }
     </style>
 </head>
@@ -62,7 +66,7 @@
     <div class="pmm-navbar">
         <div class="nav-left">
             <div class="nav-logo">📄</div>
-            <div class="nav-title">KELAS DIGITAL - INFORMATIKA</div>
+            <div class="nav-title">Ruang Guru dan Tenaga Kependidikan (GTK)</div>
         </div>
         <button class="nav-right-btn" onclick="logoutAkses()">Keluar</button>
     </div>
@@ -75,10 +79,9 @@
     <!-- Konten Utama List Grid -->
     <div class="main-container">
         
-        <!-- Tab Konten -->
         <div class="tab-menu-row">
             <div class="tab-item active">Topik</div>
-            <div class="tab-item">ULANGAN HARIAN</div>
+            <div class="tab-item">Aksi Nyata</div>
         </div>
 
         <div class="section-header-title">
@@ -86,14 +89,13 @@
             <button class="filter-btn">Urutan: <b>Rekomendasi</b></button>
         </div>
 
-        <!-- Kisi Grid Kartu -->
         <div class="topik-grid">
             
-            <!-- KARTU 1: TOPIK KITA YANG BISA DIKLIK MASUK INDEX -->
-            <div class="topik-card" onclick="masukHalamanModul()">
+            <!-- TOPIK 1: SATUAN PENDIDIKAN AMAN BENCANA -->
+            <div class="topik-card" id="topik-1" onclick="bukaTopik(1)">
                 <div>
                     <div class="card-top-info">
-                        <h4 class="topik-title">1 Satuan Pendidikan Aman Bencana</h4>
+                        <h4 class="topik-title">Satuan Pendidikan Aman Bencana</h4>
                         <div class="thumbnail-box" style="background-color:#cffafe; color:#0891b2;">🏫</div>
                     </div>
                     <p class="topik-desc">Melalui topik ini, Anda diharapkan dapat memahami konsep menyeluruh mengenai kesiapsiagaan darurat...</p>
@@ -104,33 +106,33 @@
                 </div>
             </div>
 
-            <!-- KARTU 2: REPLIKA KUNCI (DUMMY) -->
-            <div class="topik-card">
+            <!-- TOPIK 2: PJOK (BARU TERBUKA JIKA TOPIK 1 LULUS MODUL 5) -->
+            <div class="topik-card locked" id="topik-2" onclick="bukaTopik(2)">
                 <div>
                     <div class="card-top-info">
-                        <h4 class="topik-title">2 Pembelajaran yang Berpusat pada Murid</h4>
+                        <h4 class="topik-title">PJOK: Pembelajaran yang Berpusat pada Murid</h4>
                         <div class="thumbnail-box" style="background-color:#dcfce7; color:#16a34a;">🏃‍♂️</div>
                     </div>
                     <p class="topik-desc">Mempelajari strategi perancangan kurikulum jasmani aktif yang berpihak penuh pada kesenangan gerak anak.</p>
                 </div>
                 <div>
                     <div class="topik-target" style="margin-bottom: 12px;">Untuk Guru</div>
-                    <div class="card-bottom-info">📖 3 modul</div>
+                    <div class="card-bottom-info"><span id="lock-icon-2">🔒 </span>📖 3 modul</div>
                 </div>
             </div>
 
-            <!-- KARTU 3: REPLIKA KUNCI (DUMMY) -->
-            <div class="topik-card">
+            <!-- TOPIK 3: KOMUNIKASI VISI MISI -->
+            <div class="topik-card locked" id="topik-3" onclick="bukaTopik(3)">
                 <div>
                     <div class="card-top-info">
-                        <h4 class="topik-title">3 Komunikasi Visi, Misi, dan Program Sekolah</h4>
+                        <h4 class="topik-title">Komunikasi Visi, Misi, dan Program Sekolah</h4>
                         <div class="thumbnail-box" style="background-color:#fee2e2; color:#dc2626;">📢</div>
                     </div>
                     <p class="topik-desc">Membangun transparansi akuntabilitas kerja komite eksternal sekolah bersama jajaran wali murid.</p>
                 </div>
                 <div>
                     <div class="topik-target" style="margin-bottom: 12px;">Untuk Kepala Sekolah</div>
-                    <div class="card-bottom-info">📖 4 modul</div>
+                    <div class="card-bottom-info"><span id="lock-icon-3">🔒 </span>📖 4 modul</div>
                 </div>
             </div>
 
@@ -138,17 +140,98 @@
     </div>
 
     <script>
-        // PROTEKSI KEAMANAN: Wajib login terlebih dahulu
+        // PENTING: URL WEB APP GOOGLE SCRIPT (/exec) ANDA
+        const API_URL = "https://script.google.com/macros/s/AKfycbyL_jb4enKAJ7BZwt9w-7mc36pvOSjdOYyk6rSJ284ZkxvB7mp55aaxdAZyWD_5EP62/exec"; 
+
+        let sessionUser = null;
+        let statusTopik = { 1: true, 2: false, 3: false }; // State status akses topik
+
         (function cekTiketAkses() {
             const token = localStorage.getItem('loggedSiswa');
             if(!token) {
                 window.location.href = "login.html";
+            } else {
+                sessionUser = JSON.parse(token);
+                document.addEventListener("DOMContentLoaded", loadStatusTopikDariCloud);
             }
         })();
 
-        // Aksi lempar ke file index.html (Modul)
-        function masukHalamanModul() {
-            window.location.href = "index.html";
+        function loadStatusTopikDariCloud() {
+            if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) return;
+
+            // Hubungi database untuk melihat lembar progres kuis siswa
+            fetch(`${API_URL}?userId=${encodeURIComponent(sessionUser.username)}`)
+                .then(res => res.json())
+                .then(resData => {
+                    if(resData.status === "success") {
+                        let prog = resData.progress;
+                        
+                        // Konversi nilai ke boolean murni
+                        for (let k in prog) {
+                            prog[k] = (prog[k] === true || prog[k] === "true" || prog[k] === "TRUE");
+                        }
+
+                        // Syarat Topik 1 Tuntas: Modul 5 bernilai TRUE AND Modul 4 bernilai TRUE (Penanda Selesai Semua)
+                        // Karena di database kita membuka gembok kolom sebelah kanan otomatis, cara paling valid melihat Topik 1 tuntas
+                        // adalah mengecek apakah data progres kuis Modul 5 bernilai true.
+                        let topik1Selesai = (prog[5] === true);
+
+                        if (topik1Selesai) {
+                            statusTopik[1] = true;
+                            statusTopik[2] = true; // Buka kunci Topik 2!
+                        }
+
+                        // Contoh simulasi berantai (jika topik 2 punya modul kuis lagi):
+                        // let topik2Selesai = ...
+                        // if(topik2Selesai) statusTopik[3] = true;
+
+                        renderGembokVisualTopik();
+                    }
+                }).catch(() => {
+                    // Fallback jika offline: Topik 1 tetap aktif default
+                    renderGembokVisualTopik();
+                });
+        }
+
+        function renderGembokVisualTopik() {
+            for (let i = 1; i <= 3; i++) {
+                const card = document.getElementById(`topik-${i}`);
+                if (!card) continue;
+
+                if (statusTopik[i]) {
+                    card.classList.remove('locked');
+                    
+                    // Hilangkan teks teks ikon gembok jika sudah terbuka
+                    const lockIcon = document.getElementById(`lock-icon-${i}`);
+                    if(lockIcon) lockIcon.style.display = 'none';
+
+                    // Beri penanda centang hijau "Completed" jika topik tersebut sudah selesai total
+                    if (i === 1 && dbStatusModulSelesaiM5()) {
+                        card.classList.add('completed');
+                    }
+                } else {
+                    card.classList.add('locked');
+                }
+            }
+        }
+
+        // Cek lokal state bantuan untuk tanda tuntas
+        function dbStatusModulSelesaiM5() {
+            return statusTopik[2] === true; // Jika Topik 2 sudah terbuka, tandanya Topik 1 pasti sudah selesai
+        }
+
+        function bukaTopik(idTopik) {
+            if (!statusTopik[idTopik]) {
+                alert("Topik ini masih terkunci! Selesaikan seluruh modul pada topik sebelumnya terlebih dahulu.");
+                return;
+            }
+
+            if (idTopik === 1) {
+                // Sesuai dengan alur: Buka halaman modul index.html milik kuis kebencanaan
+                window.location.href = "index.html";
+            } else {
+                alert("Topik " + idTopik + " berhasil dibuka! Anda dapat menghubungkannya ke halaman kuis materi topik tersebut.");
+            }
         }
 
         function logoutAkses() {
