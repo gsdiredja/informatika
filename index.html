@@ -366,14 +366,12 @@
         }
 
         // ==========================================
-        // FITUR BUKA HALAMAN KUIS MANDIRI (NEXT/PREV SLIDE)
+        // FITUR BUKA HALAMAN KUIS MANDIRI
         // ==========================================
         function bukaHalamanPostTest() {
             if (!internalAkses.pt) return;
 
-            // Sembunyikan daftar materi
             document.getElementById('materiSectionArea').style.display = 'none';
-            // Tampilkan halaman post test khusus
             const containerKuis = document.getElementById('postTestPageArea');
             containerKuis.style.display = 'block';
 
@@ -383,7 +381,6 @@
             const wrapperSoal = document.getElementById('slideQuestionsWrapper');
             wrapperSoal.innerHTML = `<div style="text-align:center; padding: 20px;"><em>Memuat Lembar Kuis...</em></div>`;
 
-            // Ambil berkas HTML soal kuis
             fetch(`posttest-m${modulAktif}.html`)
                 .then(res => res.text())
                 .then(data => {
@@ -442,7 +439,7 @@
         }
 
         // ==========================================
-        // PROSES PENILAIAN, PENGAMBILAN DATA ESSAY & RECORD DATABASE
+        // PROSES PENILAIAN & RECORD DATABASE
         // ==========================================
         function periksaKuis(event) {
             event.preventDefault();
@@ -452,7 +449,6 @@
             let jawabanBenar = 0;
             let listJawabanPG = [];
 
-            // 1. Rekam Jawaban Pilihan Ganda & Deteksi Benar/Salah
             form.querySelectorAll('input[type="radio"]').forEach(radio => {
                 if(radio.checked) {
                     const isCorrect = radio.hasAttribute('data-correct');
@@ -461,33 +457,27 @@
                 }
             });
 
-            // Hitung total kelompok PG
             const namaGrupRadio = new Set();
             form.querySelectorAll('input[type="radio"]').forEach(radio => namaGrupRadio.add(radio.name));
             totalSoalPilihanGanda = namaGrupRadio.size;
 
-            // 2. Rekam Jawaban Essay dari Textarea
             let listJawabanEssay = [];
             form.querySelectorAll('textarea').forEach((txt, idx) => {
                 listJawabanEssay.push(`Essay ${idx+1}: "${txt.value.replace(/"/g, "'")}"`);
             });
 
-            // 3. Kalkulasi Skor Matematika
             let skorAkhir = totalSoalPilihanGanda > 0 ? Math.round((jawabanBenar / totalSoalPilihanGanda) * 100) : 100;
             let lulus = (skorAkhir === 100);
 
-            // Gabungkan list array menjadi format teks rapi untuk spreadsheet
             const strJawabanPG = listJawabanPG.join(" | ");
             const strJawabanEssay = listJawabanEssay.join(" | ");
 
             const resultWrapper = document.getElementById('skorResultContainer');
             resultWrapper.innerHTML = `<div style="text-align:center; padding: 20px;"><em>Menyimpan lembar jawaban ke server...</em></div>`;
 
-            // Sembunyikan soal & tombol navigasi agar tidak diklik dua kali
             document.getElementById('slideQuestionsWrapper').innerHTML = "";
             document.getElementById('kuisNavRow').style.display = 'none';
 
-            // Kirim detil lengkap ke Google Sheets (baik LULUS maupun REMEDIAL)
             const dataKirim = new URLSearchParams();
             dataKirim.append('userId', sessionUser.username);
             dataKirim.append('nama', sessionUser.nama);
@@ -504,7 +494,7 @@
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: dataKirim.toString()
             }).then(() => {
-                resultWrapper.innerHTML = ""; // Bersihkan teks loading
+                resultWrapper.innerHTML = ""; 
                 const box = document.createElement('div');
 
                 if(lulus) {
@@ -529,7 +519,6 @@
                     }, 2500);
 
                 } else {
-                    // Tampilan remedial dengan kunci Post Test
                     box.className = 'result-box fail';
                     box.innerHTML = `
                         <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">❌ HASIL: BELUM TUNTAS</div>
@@ -539,7 +528,6 @@
                     `;
                     resultWrapper.appendChild(box);
 
-                    // BLOKIR AKSES KERJAKAN POST TEST
                     const ptCard = document.getElementById('postTestBox');
                     ptCard.classList.add('remedial-locked');
                 }
@@ -547,17 +535,26 @@
             });
         }
 
+        // =============================================================
+        // PERUBAHAN UTAMA: Selesai klik tombol merah, langsung tutup modal kembali ke index
+        // =============================================================
         function pemicuUlangModul(form) {
-            form.reset(); 
+            if(form) form.reset(); 
             
+            // Set ulang susunan modal agar ketika dibuka kembali sudah bersih seperti sedia kala
             document.getElementById('materiSectionArea').style.display = 'block';
             document.getElementById('postTestPageArea').style.display = 'none';
 
+            // Kunci kembali Materi 2, Materi 3, dan Post Test secara internal
             internalAkses = { 1: true, 2: false, 3: false, pt: false };
             internalDibuka = { 1: true, 2: false, 3: false }; 
 
             renderAccordionVisual();
-            alert("Bab 2, 3, dan Kuis dikunci kembali. Silakan baca ulang materi 1 untuk membuka kunci!");
+
+            // TUTUP MODAL OVERLAY (Kembali ke Daftar Modul Pelatihan utama)
+            tutupModul();
+
+            alert("Post Test tidak tuntas! Anda dikembalikan ke halaman utama. Silakan masuk kembali ke Modul " + modulAktif + " untuk mempelajari ulang Materi 1, Materi 2, dan Materi 3 secara berurutan!");
         }
     </script>
 </body>
