@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelatihan Mandiri | Daftar Topik</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f8fafc; color: #333333; }
+        
+        /* Navbar Biru Ruang Guru & GTK */
+        .pmm-navbar { width: 100%; background-color: #1d74ed; color: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .nav-left { display: flex; align-items: center; gap: 15px; }
+        .nav-logo { background: white; width: 35px; height: 35px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #1d74ed; font-size: 20px; }
+        .nav-title { font-size: 18px; font-weight: 600; }
+        .nav-right-btn { background: transparent; border: none; color: white; font-weight: 500; cursor: pointer; font-size: 15px; }
+
+        /* Breadcrumb Breadcrumb */
+        .breadcrumb-bar { max-width: 1200px; width: 100%; margin: 20px auto 0 auto; padding: 0 20px; font-size: 14px; color: #64748b; }
+        .breadcrumb-bar span { color: #334155; font-weight: 500; }
+
+        /* Main Content Container */
+        .main-container { max-width: 1200px; width: 100%; margin: 0 auto; padding: 20px; }
+        
+        /* Tab Menu */
+        .tab-menu-row { display: flex; gap: 24px; border-bottom: 2px solid #e2e8f0; margin-bottom: 30px; padding-bottom: 2px; }
+        .tab-item { font-size: 16px; font-weight: 600; color: #64748b; padding-bottom: 8px; cursor: pointer; position: relative; text-decoration: none; }
+        .tab-item.active { color: #1d74ed; }
+        .tab-item.active::after { content: ""; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background-color: #1d74ed; border-radius: 3px; }
+
+        .section-header-title { font-size: 24px; font-weight: 700; color: #1e293b; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+        .filter-btn { border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 8px; font-size: 14px; background: white; color: #334155; font-weight: 500; }
+
+        /* Layout Grid Kartu Topik */
+        .topik-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        
+        @media (max-width: 992px) { .topik-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .topik-grid { grid-template-columns: 1fr; } }
+
+        /* Styling Kartu Topik PMM */
+        .topik-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+        .topik-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-color: #cbd5e1; }
+        
+        .card-top-info { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 12px; }
+        .topik-title { font-size: 16px; font-weight: 700; color: #1e2937; line-height: 1.4; }
+        .topik-desc { font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        /* Label Sasaran Guru/Kepsek */
+        .topik-target { background-color: #f1f5f9; color: #475569; font-size: 12px; padding: 4px 10px; border-radius: 6px; font-weight: 500; width: fit-content; }
+        
+        /* Ikon Modul Bawah */
+        .card-bottom-info { border-top: 1px solid #f1f5f9; padding-top: 14px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; font-weight: 500; }
+        
+        /* Gambar Mini Atas Kanan Kartu */
+        .thumbnail-box { width: 50px; height: 50px; background-color: #a5f3fc; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #0369a1; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar Biru Utama -->
+    <div class="pmm-navbar">
+        <div class="nav-left">
+            <div class="nav-logo">📄</div>
+            <div class="nav-title">Ruang Guru dan Tenaga Kependidikan (GTK)</div>
+        </div>
+        <button class="nav-right-btn" onclick="logoutAkses()">Keluar</button>
+    </div>
+
+    <!-- Jalur Navigasi Mini (Breadcrumb) -->
+    <div class="breadcrumb-bar">
+        Beranda &gt; Pelatihan Mandiri &gt; <span>Daftar Topik</span>
+    </div>
+
+    <!-- Konten Utama List Grid -->
+    <div class="main-container">
+        
+        <!-- Tab Konten -->
+        <div class="tab-menu-row">
+            <div class="tab-item active">Topik</div>
+            <div class="tab-item">Aksi Nyata</div>
+        </div>
+
+        <div class="section-header-title">
+            <span>Daftar Topik</span>
+            <button class="filter-btn">Urutan: <b>Rekomendasi</b></button>
+        </div>
+
+        <!-- Kisi Grid Kartu -->
+        <div class="topik-grid">
+            
+            <!-- KARTU 1: TOPIK KITA YANG BISA DIKLIK MASUK INDEX -->
+            <div class="topik-card" onclick="masukHalamanModul()">
+                <div>
+                    <div class="card-top-info">
+                        <h4 class="topik-title">Satuan Pendidikan Aman Bencana</h4>
+                        <div class="thumbnail-box" style="background-color:#cffafe; color:#0891b2;">🏫</div>
+                    </div>
+                    <p class="topik-desc">Melalui topik ini, Anda diharapkan dapat memahami konsep menyeluruh mengenai kesiapsiagaan darurat...</p>
+                </div>
+                <div>
+                    <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa & Guru</div>
+                    <div class="card-bottom-info">📖 5 modul</div>
+                </div>
+            </div>
+
+            <!-- KARTU 2: REPLIKA KUNCI (DUMMY) -->
+            <div class="topik-card">
+                <div>
+                    <div class="card-top-info">
+                        <h4 class="topik-title">PJOK: Pembelajaran yang Berpusat pada Murid</h4>
+                        <div class="thumbnail-box" style="background-color:#dcfce7; color:#16a34a;">🏃‍♂️</div>
+                    </div>
+                    <p class="topik-desc">Mempelajari strategi perancangan kurikulum jasmani aktif yang berpihak penuh pada kesenangan gerak anak.</p>
+                </div>
+                <div>
+                    <div class="topik-target" style="margin-bottom: 12px;">Untuk Guru</div>
+                    <div class="card-bottom-info">📖 3 modul</div>
+                </div>
+            </div>
+
+            <!-- KARTU 3: REPLIKA KUNCI (DUMMY) -->
+            <div class="topik-card">
+                <div>
+                    <div class="card-top-info">
+                        <h4 class="topik-title">Komunikasi Visi, Misi, dan Program Sekolah</h4>
+                        <div class="thumbnail-box" style="background-color:#fee2e2; color:#dc2626;">📢</div>
+                    </div>
+                    <p class="topik-desc">Membangun transparansi akuntabilitas kerja komite eksternal sekolah bersama jajaran wali murid.</p>
+                </div>
+                <div>
+                    <div class="topik-target" style="margin-bottom: 12px;">Untuk Kepala Sekolah</div>
+                    <div class="card-bottom-info">📖 4 modul</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // PROTEKSI KEAMANAN: Wajib login terlebih dahulu
+        (function cekTiketAkses() {
+            const token = localStorage.getItem('loggedSiswa');
+            if(!token) {
+                window.location.href = "login.html";
+            }
+        })();
+
+        // Aksi lempar ke file index.html (Modul)
+        function masukHalamanModul() {
+            window.location.href = "index.html";
+        }
+
+        function logoutAkses() {
+            localStorage.removeItem('loggedSiswa');
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>
