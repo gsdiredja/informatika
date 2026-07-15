@@ -69,7 +69,7 @@
         .materi-item.expanded .arrow-icon { transform: rotate(180deg); }
 
         .post-test-card { background-color: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: not-allowed; opacity: 0.6; }
-        .post-test-card.ready { cursor: pointer; opacity: 1; }
+        .post-test-card.ready { pointer-events: auto; cursor: pointer; opacity: 1; }
         .post-test-card.expanded { border-radius: 12px 12px 0 0; border-bottom: none; }
         .post-test-content { display: none; background-color: white; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 12px 12px; padding: 24px 20px; margin-top: -14px; margin-bottom: 20px; }
         .post-test-card.expanded + .post-test-content { display: block; }
@@ -139,7 +139,7 @@
     <script src="datasiswa.js"></script>
     <script>
         // PENTING: URL WEB APP GOOGLE SCRIPT (/exec)
-        const API_URL = "https://script.google.com/macros/s/AKfycbwWCapvlbKvCunPSyQ2XIvdNVlvEh4d_K6MhwKnvlboQUHTBctyjDKrDZb8iyaSDz8U/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbyL_jb4enKAJ7BZwt9w-7mc36pvOSjdOYyk6rSJ284ZkxvB7mp55aaxdAZyWD_5EP62/exec"; 
 
         const dataModul = {
             1: { title: "Modul 1: Sekolah Aman Dimulai dari Sini!", materi: ["Mengapa SPAB? Mari Pahami Beserta Tantangannya", "3 Pilar SPAB: Fondasi Utama Sekolah Siaga", "Jalankan SPAB Sesuai Aturan Juknis Resmi"] },
@@ -155,7 +155,7 @@
         let internalDibuka = { 1: false, 2: false, 3: false };
         let modulAktif = 1;
 
-        // PROTEKSI HALAMAN: Validasi session login siswa
+        // PROTEKSI HALAMAN
         (function verifikasiAkses() {
             const savedUser = localStorage.getItem('loggedSiswa');
             if(!savedUser) {
@@ -222,6 +222,10 @@
             document.getElementById('postTestBox').classList.remove('expanded');
             document.getElementById('postTestContent').style.display = 'none';
 
+            renderAccordionVisual();
+        }
+
+        function renderAccordionVisual() {
             for (let i = 1; i <= 3; i++) {
                 const item = document.getElementById(`item-${i}`);
                 const circle = document.getElementById(`circle-${i}`);
@@ -244,21 +248,14 @@
             if (internalAkses.pt) {
                 ptCard.classList.add('ready');
                 ptCard.style.opacity = '1';
-                if(isAlreadyDone) {
-                    ptCircle.className = "status-circle opened";
-                    ptCircle.innerHTML = "✓";
-                } else {
-                    ptCircle.className = "status-circle ready";
-                    ptCircle.innerHTML = "";
-                }
+                ptCircle.className = "status-circle ready";
+                ptCircle.innerHTML = "";
             } else {
                 ptCard.classList.remove('ready');
                 ptCard.style.opacity = '0.6';
                 ptCircle.className = "status-circle";
                 ptCircle.innerHTML = "🔒";
             }
-
-            document.getElementById('moduleModal').classList.add('active');
         }
 
         function tutupModul() { document.getElementById('moduleModal').classList.remove('active'); }
@@ -334,23 +331,19 @@
             }
         }
 
-        // PERBAIKAN: Hanya menghitung skor Pilihan Ganda (Radio) dan mengabaikan Essay
         function periksaKuis(event) {
             event.preventDefault();
             const form = event.target;
             let totalSoalPilihanGanda = 0, jawabanBenar = 0;
 
-            // 1. Hitung radio button yang dicentang & memiliki kunci data-correct
             form.querySelectorAll('input[type="radio"]').forEach(radio => {
                 if(radio.checked && radio.hasAttribute('data-correct')) jawabanBenar++;
             });
 
-            // 2. Hitung jumlah total soal pilihan ganda berdasarkan keunikan grup 'name'
             const namaGrupRadio = new Set();
             form.querySelectorAll('input[type="radio"]').forEach(radio => namaGrupRadio.add(radio.name));
             totalSoalPilihanGanda = namaGrupRadio.size;
 
-            // 3. Hitung persentase skor akhir (jika tidak ada PG, set otomatis 100)
             let skorAkhir = totalSoalPilihanGanda > 0 ? Math.round((jawabanBenar / totalSoalPilihanGanda) * 100) : 100;
             let lulus = (skorAkhir === 100);
 
@@ -371,7 +364,6 @@
                 document.getElementById('circle-pt').className = "status-circle opened";
                 document.getElementById('circle-pt').innerHTML = "✓";
 
-                // URLSearchParams untuk bypass pembatasan CORS browser
                 const dataKirim = new URLSearchParams();
                 dataKirim.append('userId', sessionUser.username);
                 dataKirim.append('modulSelesai', modulAktif);
@@ -393,12 +385,13 @@
                 });
 
             } else {
+                // Tampilan Jika BELUM TUNTAS
                 box.className = 'result-box fail';
                 box.innerHTML = `
                     <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">❌ HASIL: BELUM TUNTAS</div>
                     <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: ${skorAkhir} / 100</div>
                     <p style="font-weight: 400; font-size: 13px; margin-bottom: 12px;">Maaf, Anda harus menjawab semua pertanyaan kuis dengan benar (Syarat Kelulusan: Skor 100).</p>
-                    <button type="button" onclick="ulangKuis(this.form)" style="background:#991b1b; color:white; border:none; padding:6px 12px; border-radius:4px; font-weight:600; cursor:pointer; font-size:12px;">Ulangi Post Test</button>
+                    <button type="button" onclick="pemicuUlangModul(this.form)" style="background:#991b1b; color:white; border:none; padding:6px 12px; border-radius:4px; font-weight:600; cursor:pointer; font-size:12px;">Ulangi Mempelajari Modul</button>
                 `;
             }
 
@@ -407,10 +400,24 @@
             box.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        function ulangKuis(form) {
-            form.reset();
-            const oldBox = document.getElementById('resultStatusBox');
-            if(oldBox) oldBox.remove();
+        // FITUR BARU: RESET ULANG AKSES MODAL SAAT SISWA TIDAK TUNTAS
+        function pemicuUlangModul(form) {
+            form.reset(); // Kosongkan radio button & essay
+            
+            // Tutup lembar post test secara otomatis
+            const ptCard = document.getElementById('postTestBox');
+            ptCard.classList.remove('expanded');
+            document.getElementById('postTestContent').style.display = 'none';
+
+            // Kunci kembali Materi 2, Materi 3, dan Post Test secara internal
+            internalAkses = { 1: true, 2: false, 3: false, pt: false };
+            internalDibuka = { 1: true, 2: false, 3: false }; // Materi 1 tetap ditandai sudah dibuka/dibaca
+
+            // Render ulang bentuk visual gembok di layar modal
+            renderAccordionVisual();
+
+            // Berikan notifikasi pengingat
+            alert("Materi 2, Materi 3, dan Post Test telah dikunci kembali. Silakan pelajari ulang materi secara berurutan!");
         }
     </script>
 </body>
