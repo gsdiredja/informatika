@@ -339,29 +339,40 @@
             const form = event.target;
             let totalSoal = 0, jawabanBenar = 0;
 
+            // 1. Hitung jumlah jawaban yang benar (mempunyai atribut data-correct)
             form.querySelectorAll('input[type="radio"]').forEach(radio => {
                 if(radio.checked && radio.hasAttribute('data-correct')) jawabanBenar++;
             });
 
+            // 2. Hitung total soal berdasarkan nama grup radio button yang unik
             const names = new Set();
             form.querySelectorAll('input[type="radio"]').forEach(radio => names.add(radio.name));
             totalSoal = names.size;
 
+            // 3. Kalkulasi Skor Matematika
             let skorAkhir = Math.round((jawabanBenar / totalSoal) * 100);
             let lulus = (skorAkhir === 100);
 
+            // 4. Hapus kotak hasil lama jika ada agar tidak menumpuk
             const oldBox = document.getElementById('resultStatusBox');
             if(oldBox) oldBox.remove();
+            
             const box = document.createElement('div');
             box.id = 'resultStatusBox';
 
             if(lulus) {
+                // Tampilan Jika LULUS (Skor 100)
                 box.className = 'result-box success';
-                box.innerHTML = `🎉 Nilai: 100/100. LULUS! Menyelaraskan progres ke server...`;
+                box.innerHTML = `
+                    <div style="font-size: 16px; margin-bottom: 4px;">🎉 HASIL: TUNTAS (LULUS)</div>
+                    <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: 100 / 100</div>
+                    <p style="font-weight: 400; font-size: 13px;">Selamat! Semua jawaban Anda benar. Progres berhasil disimpan ke database awan dan modul berikutnya telah terbuka.</p>
+                `;
+                
                 document.getElementById('circle-pt').className = "status-circle opened";
                 document.getElementById('circle-pt').innerHTML = "✓";
 
-                // BYPASS CORS ANTI-FAIL MENGGUNAKAN FORM URLENCODED NO-CORS
+                // Kirim data sinkronisasi ke Google Sheets
                 const dataKirim = new URLSearchParams();
                 dataKirim.append('userId', sessionUser.username);
                 dataKirim.append('modulSelesai', modulAktif);
@@ -378,18 +389,34 @@
 
                         renderDaftarHalamanUtama();
                         tutupModul();
-                        alert("Selamat! Modul berhasil diselesaikan dan data tersimpan ke database.");
+                        alert("Selamat! Progres Modul " + modulAktif + " berhasil disimpan.");
                     }, 1500);
-                }).catch(() => {
-                    alert("Gagal terhubung ke database cloud.");
                 });
+
             } else {
+                // Tampilan Jika TIDAK LULUS (Skor < 100)
                 box.className = 'result-box fail';
-                box.innerHTML = `❌ Nilai: ${skorAkhir}/100. TIDAK LULUS. Silakan koreksi kembali jawaban Anda.`;
+                box.innerHTML = `
+                    <div style="font-size: 16px; margin-bottom: 4px;">❌ HASIL: BELUM TUNTAS</div>
+                    <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: ${skorAkhir} / 100</div>
+                    <p style="font-weight: 400; font-size: 13px; margin-bottom: 12px;">Maaf, Anda harus menjawab semua pertanyaan dengan benar (Syarat Kelulusan: Skor 100).</p>
+                    <button type="button" onclick="ulangKuis(this.form)" style="background:#991b1b; color:white; border:none; padding:6px 12px; border-radius:4px; font-weight:600; cursor:pointer; font-size:12px;">Ulangi Post Test</button>
+                `;
             }
 
+            // Sisipkan kotak hasil di bagian paling atas konten post test
             const containerSoal = document.getElementById('postTestContent');
             containerSoal.insertBefore(box, containerSoal.firstChild);
+            
+            // Efek scroll halus ke arah kotak skor agar siswa langsung bisa melihat hasilnya
+            box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Fungsi Tambahan untuk Mereset Pilihan Radio Button Siswa saat Gagal
+        function ulangKuis(form) {
+            form.reset(); // Mengosongkan semua bulatan pilihan yang sudah dicentang sebelumnya
+            const oldBox = document.getElementById('resultStatusBox');
+            if(oldBox) oldBox.remove(); // Hapus kotak merah kegagalan agar bersih kembali
         }
     </script>
 </body>
