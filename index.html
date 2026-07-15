@@ -92,7 +92,7 @@
 </head>
 <body>
 
-    <!-- Bar Header Siswa (Akan menempel di bagian paling atas layar) -->
+    <!-- Bar Header Siswa -->
     <div class="global-student-header" id="globalStudentHeader">
         <div class="student-info-text">
             👤 Siswa: <span id="hdrNamaSiswa">-</span> | Kelas: <span id="hdrKelasSiswa">-</span>
@@ -136,7 +136,7 @@
         </div>
     </div>
 
-    <!-- WINDOW MODAL PMM (KONTEN MODUL) -->
+    <!-- WINDOW MODAL PMM -->
     <div class="modal-overlay" id="moduleModal">
         <div class="modal-container">
             <div class="pmm-header">
@@ -165,8 +165,8 @@
 
     <!-- LOGIKA CORE UTAMA JS -->
     <script>
-        // MASUKKAN LINK APPS SCRIPT DATABASE ANDA DI SINI
-        const API_URL = "https://script.google.com/macros/s/AKfycbz7znd8YJClYYKh9CQpX7tkV7J21qLXqDVfQvqTEIUGRtrC0vPY6iyI04-OYG8tXZjI/exec";
+        // PENTING: TEMPELKAN URL DEPLOYMENT APPS SCRIPT BERAKHIRAN /exec DI SINI
+        const API_URL = "https://script.google.com/macros/s/AKfycbzV-XgU8rC7tQy6pE-gBskB_WfV1ZqV0XlNzr6v8w/exec"; 
 
         const dataModul = {
             1: { title: "Modul 1: Sekolah Aman Dimulai dari Sini!", materi: ["Mengapa SPAB? Mari Pahami Beserta Tantangannya", "3 Pilar SPAB: Fondasi Utama Sekolah Siaga", "Jalankan SPAB Sesuai Aturan Juknis Resmi"] },
@@ -182,7 +182,6 @@
         let internalDibuka = { 1: false, 2: false, 3: false };
         let modulAktif = 1;
 
-        // Cek apakah ada session tersimpan di browser saat dimuat
         window.onload = function() {
             const savedUser = localStorage.getItem('loggedSiswa');
             if(savedUser) {
@@ -191,7 +190,6 @@
             }
         };
 
-        // Fungsi Memvalidasi Input Login dengan dataSiswa.js
         function prosesLogin() {
             const userIn = document.getElementById('inputUser').value.trim();
             const passIn = document.getElementById('inputPass').value.trim();
@@ -201,7 +199,6 @@
                 return;
             }
 
-            // Cari kecocokan data dari file datasiswa.js
             const ketemu = daftarSiswa.find(s => s.username === userIn && s.password === passIn);
 
             if(ketemu) {
@@ -214,11 +211,9 @@
         }
 
         function aktifkanAntarmukaAplikasi() {
-            // Update Teks Header Global (Tetap muncul di atas index dan modal)
             document.getElementById('hdrNamaSiswa').innerText = sessionUser.nama;
             document.getElementById('hdrKelasSiswa').innerText = sessionUser.kelas;
 
-            // Transisi Tampilan UI
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('globalStudentHeader').style.display = 'flex';
             document.getElementById('appContent').style.display = 'flex';
@@ -229,7 +224,7 @@
         function logoutSiswa() {
             localStorage.removeItem('loggedSiswa');
             sessionUser = null;
-            location.reload(); // Segarkan halaman untuk mengunci ulang aplikasi
+            location.reload();
         }
 
         function loadProgresDatabase() {
@@ -391,6 +386,7 @@
             }
         }
 
+        // PENYESUAIAN FITUR PENGIRIMAN DATA KE DATABASE GOOGLE SHEETS
         function periksaKuis(event) {
             event.preventDefault();
             const form = event.target;
@@ -418,16 +414,21 @@
                 document.getElementById('circle-pt').className = "status-circle opened";
                 document.getElementById('circle-pt').innerHTML = "✓";
 
-                if(!API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
-                    fetch(API_URL, {
-                        method: "POST",
-                        mode: "no-cors",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ userId: sessionUser.username, modulSelesai: modulAktif })
-                    }).then(() => {
-                        setTimeout(loadProgresDatabase, 1500);
-                    });
-                }
+                // bypass CORS menggunakan text/plain header menuju doPost di Apps Script
+                fetch(API_URL, {
+                    method: "POST",
+                    mode: "cors",
+                    headers: { "Content-Type": "text/plain" },
+                    body: JSON.stringify({ userId: sessionUser.username, modulSelesai: modulAktif })
+                }).then(() => {
+                    setTimeout(() => {
+                        loadProgresDatabase();
+                        tutupModul();
+                        alert("Selamat! Modul berhasil diselesaikan dan data tersimpan ke database.");
+                    }, 1500);
+                }).catch(() => {
+                    alert("Progres gagal dikirim ke awan. Pastikan proyek dijalankan via Live Server/GitHub Pages.");
+                });
             } else {
                 box.className = 'result-box fail';
                 box.innerHTML = `❌ Nilai: ${skorAkhir}/100. TIDAK LULUS. Silakan koreksi kembali jawaban Anda.`;
