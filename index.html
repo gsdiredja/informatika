@@ -58,7 +58,14 @@
         .section-subtitle {
             font-size: 14px;
             color: #6b7280;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* --- DAFTAR MODUL LIST --- */
+        .modules-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .module-card {
@@ -122,7 +129,7 @@
             cursor: pointer;
         }
 
-        /* --- STYLING MODAL FULL SCREEN KAYA PMM --- */
+        /* --- STYLING MODAL GAYA PMM --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -152,12 +159,10 @@
             flex-direction: column;
         }
 
-        /* Banner Biru Atas */
         .pmm-header {
             background-color: #0b3a7a;
             color: white;
             padding: 30px 24px;
-            position: relative;
         }
 
         .btn-back {
@@ -190,7 +195,6 @@
             align-items: center;
             gap: 10px;
             font-size: 13px;
-            margin-bottom: 16px;
         }
 
         .author-avatar {
@@ -205,17 +209,6 @@
             font-size: 11px;
         }
 
-        .link-detail {
-            color: #60a5fa;
-            font-size: 14px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: 500;
-        }
-
-        /* Area Konten Bawah Banner */
         .pmm-body {
             padding: 24px;
         }
@@ -225,17 +218,15 @@
             font-weight: 700;
             color: #1f2937;
             margin-bottom: 16px;
-            margin-top: 10px;
         }
 
-        /* Accordion List Item */
+        /* Accordion */
         .materi-item {
             background-color: white;
             border: 1px solid #e5e7eb;
             border-radius: 12px;
             margin-bottom: 14px;
             overflow: hidden;
-            transition: border-color 0.2s;
         }
 
         .materi-header {
@@ -254,13 +245,12 @@
         }
 
         .materi-title {
-            font-size: 14.5px;
+            font-size: 14px;
             font-weight: 600;
             color: #374151;
             line-height: 1.4;
         }
 
-        /* Status Lingkaran Centang / Gembok */
         .status-circle {
             width: 24px;
             height: 24px;
@@ -271,6 +261,7 @@
             flex-shrink: 0;
             border: 2px solid #9ca3af;
             background-color: #f3f4f6;
+            font-size: 12px;
         }
 
         .status-circle.opened {
@@ -285,10 +276,8 @@
             color: #3b82f6;
         }
 
-        /* State Terkunci */
         .materi-item.locked {
             background-color: #f9fafb;
-            cursor: not-allowed;
         }
 
         .materi-item.locked .materi-header {
@@ -299,7 +288,6 @@
             color: #9ca3af;
         }
 
-        /* Panel Isi Dokumen Accordion */
         .materi-content {
             display: none;
             padding: 20px;
@@ -323,7 +311,6 @@
             transform: rotate(180deg);
         }
 
-        /* Card Post Test */
         .post-test-card {
             background-color: white;
             border: 1px solid #e5e7eb;
@@ -349,93 +336,143 @@
         
         <div class="description-card">
             <ul>
-                <li>Praktik implementasi dalam topik ini dirancang agar Anda dapat merefleksikan dan menerapkan pembelajaran secara konkret dalam kegiatan sekolah...</li>
+                <li>Praktik implementasi dirancang untuk memperkuat pemahaman kesiapsiagaan menghadapi kebencanaan secara menyeluruh dan sistematis di lingkungan sekolah.</li>
             </ul>
         </div>
 
-        <div class="section-title">Modul Pelatihan</div>
+        <div class="section-title">Daftar Modul Pelatihan</div>
         <div class="section-subtitle">Silakan pelajari modul sesuai urutan</div>
 
-        <!-- Pemicu Buka Modul 1 -->
-        <div class="module-card" id="openModuleBtn">
-            <div class="module-number">1</div>
-            <div class="module-info">
-                <div style="font-size: 13px; color: #6b7280;">Modul 1</div>
-                <div class="module-name">Modul 1: Sekolah Aman Dimulai dari Sini!</div>
-                <div class="module-meta">
-                    <div class="meta-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        <span>1.5 jam</span>
+        <!-- DAFTAR MODUL 1 - 5 -->
+        <div class="modules-list">
+            <!-- Modul 1 -->
+            <div class="module-card" onclick="bukaModul(1)">
+                <div class="module-number">1</div>
+                <div class="module-info">
+                    <div style="font-size: 13px; color: #6b7280;">Modul 1</div>
+                    <div class="module-name">Sekolah Aman Dimulai dari Sini!</div>
+                    <div class="module-meta">
+                        <div class="meta-item">⏱️ 1.5 jam</div>
+                        <div class="meta-item">📖 3 materi</div>
                     </div>
-                    <div class="meta-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                        <span>3 materi</span>
-                    </div>
+                    <button class="btn-study">Pelajari Materi</button>
                 </div>
-                <button class="btn-study">Pelajari Materi</button>
+            </div>
+
+            <!-- Modul 2 -->
+            <div class="module-card" onclick="bukaModul(2)">
+                <div class="module-number">2</div>
+                <div class="module-info">
+                    <div style="font-size: 13px; color: #6b7280;">Modul 2</div>
+                    <div class="module-name">Pemetaan Risiko & Jalur Evakuasi Sekolah</div>
+                    <div class="module-meta">
+                        <div class="meta-item">⏱️ 2 jam</div>
+                        <div class="meta-item">📖 3 materi</div>
+                    </div>
+                    <button class="btn-study">Pelajari Materi</button>
+                </div>
+            </div>
+
+            <!-- Modul 3 -->
+            <div class="module-card" onclick="bukaModul(3)">
+                <div class="module-number">3</div>
+                <div class="module-info">
+                    <div style="font-size: 13px; color: #6b7280;">Modul 3</div>
+                    <div class="module-name">Simulasi Kebencanaan & SOP Kedaruratan</div>
+                    <div class="module-meta">
+                        <div class="meta-item">⏱️ 1.5 jam</div>
+                        <div class="meta-item">📖 3 materi</div>
+                    </div>
+                    <button class="btn-study">Pelajari Materi</button>
+                </div>
+            </div>
+
+            <!-- Modul 4 -->
+            <div class="module-card" onclick="bukaModul(4)">
+                <div class="module-number">4</div>
+                <div class="module-info">
+                    <div style="font-size: 13px; color: #6b7280;">Modul 4</div>
+                    <div class="module-name">Pertolongan Pertama & Psikososial Pasca Bencana</div>
+                    <div class="module-meta">
+                        <div class="meta-item">⏱️ 2 jam</div>
+                        <div class="meta-item">📖 3 materi</div>
+                    </div>
+                    <button class="btn-study">Pelajari Materi</button>
+                </div>
+            </div>
+
+            <!-- Modul 5 -->
+            <div class="module-card" onclick="bukaModul(5)">
+                <div class="module-number">5</div>
+                <div class="module-info">
+                    <div style="font-size: 13px; color: #6b7280;">Modul 5</div>
+                    <div class="module-name">Evaluasi, Kemitraan, & Aksi Nyata Berkelanjutan</div>
+                    <div class="module-meta">
+                        <div class="meta-item">⏱️ 1.5 jam</div>
+                        <div class="meta-item">📖 3 materi</div>
+                    </div>
+                    <button class="btn-study">Pelajari Materi</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- TAMPILAN MODAL SATU KOLOM GAYA PMM -->
+    <!-- WINDOW MODAL SATU KOLOM GAYA PMM (DINAMIS) -->
     <div class="modal-overlay" id="moduleModal">
         <div class="modal-container">
             
-            <!-- Banner Biru Atas -->
             <div class="pmm-header">
-                <button class="btn-back" id="closeModuleBtn">
+                <button class="btn-back" onclick="tutupModul()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 8px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                 </button>
-                <div class="tag-modul">Modul</div>
-                <h2>Modul 1: Sekolah Aman Dimulai dari Sini!</h2>
+                <div class="tag-modul" id="modalTag">Modul X</div>
+                <h2 id="modalTitle">Judul Modul</h2>
                 <div class="author-box">
                     <div class="author-avatar">DG</div>
                     <span>Dikembangkan oleh Ditjen GTKPG Kemendikdasmen</span>
                 </div>
-                <a href="#" class="link-detail">Baca detail modul ❯</a>
             </div>
 
-            <!-- Bagian List Pembelajaran -->
             <div class="pmm-body">
                 <div class="section-label">Daftar Materi</div>
 
-                <!-- Accordion Materi 1 (Terbuka sejak awal) -->
+                <!-- Materi 1 -->
                 <div class="materi-item" id="item-1">
                     <div class="materi-header" onclick="toggleMateri(1)">
                         <div class="materi-header-left">
                             <div class="status-circle ready" id="circle-1"></div>
-                            <div class="materi-title">Mengapa SPAB? Mari Pahami dan Bersiap Menjadi Sekolah Tangguh</div>
+                            <div class="materi-title" id="title-materi-1">Judul Materi 1</div>
                         </div>
                         <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-                    <div class="materi-content" id="content-1">Memuat konten materi...</div>
+                    <div class="materi-content" id="content-1">Memuat materi...</div>
                 </div>
 
-                <!-- Accordion Materi 2 (Terkunci awal) -->
+                <!-- Materi 2 -->
                 <div class="materi-item locked" id="item-2">
                     <div class="materi-header" onclick="toggleMateri(2)">
                         <div class="materi-header-left">
                             <div class="status-circle" id="circle-2">🔒</div>
-                            <div class="materi-title">3 Pilar SPAB: Fondasi Sekolah Siaga Bencana!</div>
+                            <div class="materi-title" id="title-materi-2">Judul Materi 2</div>
                         </div>
                         <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-                    <div class="materi-content" id="content-2">Memuat konten materi...</div>
+                    <div class="materi-content" id="content-2">Memuat materi...</div>
                 </div>
 
-                <!-- Accordion Materi 3 (Terkunci awal) -->
+                <!-- Materi 3 -->
                 <div class="materi-item locked" id="item-3">
                     <div class="materi-header" onclick="toggleMateri(3)">
                         <div class="materi-header-left">
                             <div class="status-circle" id="circle-3">🔒</div>
-                            <div class="materi-title">Jalankan SPAB Sesuai Aturan: Pahami Juknisnya, Lindungi Sekolahmu!</div>
+                            <div class="materi-title" id="title-materi-3">Judul Materi 3</div>
                         </div>
                         <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-                    <div class="materi-content" id="content-3">Memuat konten materi...</div>
+                    <div class="materi-content" id="content-3">Memuat materi...</div>
                 </div>
 
-                <!-- Bagian Post Test -->
+                <!-- Post Test -->
                 <div class="section-label" style="margin-top: 24px;">Post Test</div>
                 <div class="post-test-card" id="postTestBox">
                     <div class="materi-header-left">
@@ -452,92 +489,202 @@
         </div>
     </div>
 
-    <!-- SCRIPT KONTROL LOGIKA ACCORDION & PROGRESS -->
+    <!-- LOGIKA JAVASCRIPT MODUL DINAMIS -->
     <script>
-        let aksesMateri = { 1: true, 2: false, 3: false, postTest: false };
-        let sudahDibuka = { 1: false, 2: false, 3: false };
+        // Data judul modul dan materi
+        const dataModul = {
+            1: {
+                title: "Modul 1: Sekolah Aman Dimulai dari Sini!",
+                materi: [
+                    "Mengapa SPAB? Mari Pahami dan Bersiap Menjadi Sekolah Tangguh",
+                    "3 Pilar SPAB: Fondasi Sekolah Siaga Bencana!",
+                    "Jalankan SPAB Sesuai Aturan: Pahami Juknisnya, Lindungi Sekolahmu!"
+                ]
+            },
+            2: {
+                title: "Modul 2: Pemetaan Risiko & Jalur Evakuasi Sekolah",
+                materi: [
+                    "Identifikasi Bahaya: Membaca Kerentanan Lingkungan Belajar",
+                    "Cara Membuat Peta Evakuasi dan Menentukan Titik Kumpul",
+                    "Pemasangan Rambu dan Pengondisian Kelas Aman Gempa"
+                ]
+            },
+            3: {
+                title: "Modul 3: Simulasi Kebencanaan & SOP Kedaruratan",
+                materi: [
+                    "Menyusun SOP Penyelamatan Diri Saat Bencana",
+                    "Langkah Taktis Melakukan Simulasi Evakuasi Mandiri",
+                    "Peran Guru dan Komite Sekolah Saat Terjadi Kedaruratan"
+                ]
+            },
+            4: {
+                title: "Modul 4: Pertolongan Pertama & Psikososial Pasca Bencana",
+                materi: [
+                    "Dasar Pertolongan Pertama pada Luka dan Cedera Fisik",
+                    "Dukungan Psikososial Awal (PFA) untuk Anak Pasca Trauma",
+                    "Manajemen Posko Darurat & Logistik Skala Sekolah"
+                ]
+            },
+            5: {
+                title: "Modul 5: Evaluasi, Kemitraan, & Aksi Nyata Berkelanjutan",
+                materi: [
+                    "Evaluasi Kelayakan Kesiapsiagaan Sekolah secara Berkala",
+                    "Membangun Jejaring Bersama BPBD, Puskesmas, dan Komunitas",
+                    "Menyusun Laporan Aksi Nyata SPAB untuk Budaya Berkelanjutan"
+                ]
+            }
+        };
 
-        const cardModul = document.getElementById('openModuleBtn');
-        const modalPenuh = document.getElementById('moduleModal');
-        const tombolTutup = document.getElementById('closeModuleBtn');
+        // Progress pelacakan tiap-tiap modul
+        let progressModul = {
+            1: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false } },
+            2: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false } },
+            3: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false } },
+            4: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false } },
+            5: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false } }
+        };
 
-        cardModul.addEventListener('click', () => {
-            modalPenuh.classList.add('active');
+        let modulAktif = 1;
+
+        function bukaModul(noModul) {
+            modulAktif = noModul;
+            
+            // 1. Set Header Modal
+            document.getElementById('modalTag').innerText = `Modul ${noModul}`;
+            document.getElementById('modalTitle').innerText = dataModul[noModul].title;
+
+            // 2. Set Judul Materi 1, 2, dan 3
+            document.getElementById('title-materi-1').innerText = dataModul[noModul].materi[0];
+            document.getElementById('title-materi-2').innerText = dataModul[noModul].materi[1];
+            document.getElementById('title-materi-3').innerText = dataModul[noModul].materi[2];
+
+            // 3. Reset dan Sesuaikan Keadaan Kunci Materi
+            const prog = progressModul[noModul];
+            for (let i = 1; i <= 3; i++) {
+                const item = document.getElementById(`item-${i}`);
+                const circle = document.getElementById(`circle-${i}`);
+                const content = document.getElementById(`content-${i}`);
+
+                item.classList.remove('expanded');
+                content.style.display = 'none';
+
+                if (prog.akses[i]) {
+                    item.classList.remove('locked');
+                    if (prog.dibuka[i]) {
+                        circle.className = "status-circle opened";
+                        circle.innerHTML = "✓";
+                    } else {
+                        circle.className = "status-circle ready";
+                        circle.innerHTML = "";
+                    }
+                } else {
+                    item.classList.add('locked');
+                    circle.className = "status-circle";
+                    circle.innerHTML = "🔒";
+                }
+            }
+
+            // 4. Atur Keadaan Post Test
+            const ptCard = document.getElementById('postTestBox');
+            const ptCircle = document.getElementById('circle-pt');
+            if (prog.akses.pt) {
+                ptCard.classList.add('ready');
+                ptCard.style.cursor = 'pointer';
+                ptCard.style.opacity = '1';
+                ptCircle.className = "status-circle ready";
+                ptCard.onclick = function() {
+                    alert(`Memulai Evaluasi Post Test untuk ${dataModul[noModul].title}!`);
+                };
+            } else {
+                ptCard.classList.remove('ready');
+                ptCard.style.cursor = 'not-allowed';
+                ptCard.style.opacity = '0.6';
+                ptCircle.className = "status-circle";
+                ptCircle.innerHTML = "";
+                ptCard.onclick = null;
+            }
+
+            // Tampilkan Modal
+            document.getElementById('moduleModal').classList.add('active');
             window.scrollTo(0,0);
-        });
+        }
 
-        tombolTutup.addEventListener('click', () => {
-            modalPenuh.classList.remove('active');
-        });
+        function tutupModul() {
+            document.getElementById('moduleModal').classList.remove('active');
+        }
 
-        function toggleMateri(id) {
-            if (!aksesMateri[id]) {
-                alert("Materi ini masih terkunci. Silakan pelajari materi sebelumnya terlebih dahulu!");
+        function toggleMateri(noMateri) {
+            const prog = progressModul[modulAktif];
+            
+            if (!prog.akses[noMateri]) {
+                alert("Materi ini masih terkunci! Silakan buka materi sebelumnya terlebih dahulu.");
                 return;
             }
 
-            const itemEl = document.getElementById(`item-${id}`);
-            const contentEl = document.getElementById(`content-${id}`);
-            const circleEl = document.getElementById(`circle-${id}`);
+            const item = document.getElementById(`item-${noMateri}`);
+            const content = document.getElementById(`content-${noMateri}`);
+            const circle = document.getElementById(`circle-${noMateri}`);
 
-            // Jika sedang tertutup, maka buka dan fetch data
-            if (!itemEl.classList.contains('expanded')) {
-                // Tutup accordion lain yang sedang terbuka
+            if (!item.classList.contains('expanded')) {
+                // Tutup accordion lain
                 document.querySelectorAll('.materi-item').forEach(el => el.classList.remove('expanded'));
                 
-                itemEl.classList.add('expanded');
+                item.classList.add('expanded');
+                content.style.display = 'block';
 
-                // Efek CENTANG & UBAH WARNA JADI HIJAU TEPAT SAAT DIKLIK/DIBUKA
-                if (!sudahDibuka[id]) {
-                    sudahDibuka[id] = true;
-                    circleEl.className = "status-circle opened";
-                    circleEl.innerHTML = "✓";
+                // Tandai Terbuka (Centang Hijau) saat diklik pertama kali
+                if (!prog.dibuka[noMateri]) {
+                    prog.dibuka[noMateri] = true;
+                    circle.className = "status-circle opened";
+                    circle.innerHTML = "✓";
                 }
 
-                // Ambil data file html terpisah
-                contentEl.innerHTML = `<em>Memuat isi materi ${id}...</em>`;
-                fetch(`materi-${id}.html`)
+                // Fetch materi file eksternal dengan pola terstruktur
+                content.innerHTML = `<em>Memuat isi materi...</em>`;
+                fetch(`materi-m${modulAktif}-${noMateri}.html`)
                     .then(res => {
                         if (!res.ok) throw new Error();
                         return res.text();
                     })
                     .then(data => {
-                        contentEl.innerHTML = data;
-                        bukaGembokBerikutnya(id);
+                        content.innerHTML = data;
+                        bukaKunciBerikutnya(noMateri);
                     })
                     .catch(() => {
-                        contentEl.innerHTML = `<span style="color:red;">Gagal memuat teks. Pastikan menggunakan Live Server / di-deploy ke GitHub Pages.</span>`;
+                        content.innerHTML = `<span style="color:red;">Gagal memuat materi. Pastikan file materi-m${modulAktif}-${noMateri}.html tersedia di server Anda.</span>`;
                     });
             } else {
-                // Jika diklik lagi saat terbuka, maka tutup accordion
-                itemEl.classList.remove('expanded');
+                item.classList.remove('expanded');
+                content.style.display = 'none';
             }
         }
 
-        function bukaGembokBerikutnya(currentId) {
-            let nextId = currentId + 1;
-            
-            if (nextId <= 3) {
-                if (!aksesMateri[nextId]) {
-                    aksesMateri[nextId] = true;
-                    const nextItem = document.getElementById(`item-${nextId}`);
+        function bukaKunciBerikutnya(currentMateri) {
+            const prog = progressModul[modulAktif];
+            let nextMateri = currentMateri + 1;
+
+            if (nextMateri <= 3) {
+                if (!prog.akses[nextMateri]) {
+                    prog.akses[nextMateri] = true;
+                    const nextItem = document.getElementById(`item-${nextMateri}`);
                     nextItem.classList.remove('locked');
                     
-                    const nextCircle = document.getElementById(`circle-${nextId}`);
+                    const nextCircle = document.getElementById(`circle-${nextMateri}`);
                     nextCircle.className = "status-circle ready";
-                    nextCircle.innerHTML = ""; // Gembok hilang, berganti jadi lingkaran kosong siap klik
+                    nextCircle.innerHTML = "";
                 }
             } else {
-                // Jika ke-3 materi sudah dibuka, aktifkan Post Test
-                aksesMateri.postTest = true;
+                // Aktifkan Post Test setelah semua materi terbuka
+                prog.akses.pt = true;
                 const ptCard = document.getElementById('postTestBox');
+                const ptCircle = document.getElementById('circle-pt');
+                
                 ptCard.classList.add('ready');
                 ptCard.style.cursor = 'pointer';
                 ptCard.style.opacity = '1';
-                document.getElementById('circle-pt').className = "status-circle ready";
-                
+                ptCircle.className = "status-circle ready";
                 ptCard.onclick = function() {
-                    alert("Memulai lembar Post Test Evaluasi Modul 1!");
+                    alert(`Memulai Evaluasi Post Test untuk ${dataModul[modulAktif].title}!`);
                 };
             }
         }
