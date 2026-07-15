@@ -166,7 +166,7 @@
     <!-- LOGIKA CORE UTAMA JS -->
     <script>
         // MASUKKAN LINK APPS SCRIPT DATABASE ANDA DI SINI
-        const API_URL = "URL_GOOGLE_APPS_SCRIPT_ANDA";
+        const API_URL = "https://script.google.com/macros/s/AKfycbz7znd8YJClYYKh9CQpX7tkV7J21qLXqDVfQvqTEIUGRtrC0vPY6iyI04-OYG8tXZjI/exec";
 
         const dataModul = {
             1: { title: "Modul 1: Sekolah Aman Dimulai dari Sini!", materi: ["Mengapa SPAB? Mari Pahami Beserta Tantangannya", "3 Pilar SPAB: Fondasi Utama Sekolah Siaga", "Jalankan SPAB Sesuai Aturan Juknis Resmi"] },
@@ -418,7 +418,7 @@
                 document.getElementById('circle-pt').className = "status-circle opened";
                 document.getElementById('circle-pt').innerHTML = "✓";
 
-                if(!API_URL.includes("https://script.google.com/macros/s/AKfycbz7znd8YJClYYKh9CQpX7tkV7J21qLXqDVfQvqTEIUGRtrC0vPY6iyI04-OYG8tXZjI/exec")) {
+                if(!API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
                     fetch(API_URL, {
                         method: "POST",
                         mode: "no-cors",
