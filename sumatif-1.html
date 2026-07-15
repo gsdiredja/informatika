@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penilaian Sumatif 1 | Kelas Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f3f4f6; color: #333333; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        
+        /* Header Ujian */
+        .sumatif-header { width: 100%; background-color: #0b3a7a; color: white; padding: 20px; position: sticky; top: 0; z-index: 99; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-quit { background: transparent; border: 1px solid white; color: white; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
+        .btn-quit:hover { background: rgba(255, 255, 255, 0.1); }
+
+        .container { max-width: 650px; width: 100%; padding: 30px 20px; flex: 1; display: flex; flex-direction: column; }
+        .quiz-card-page { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .top-meta-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 12px; margin-bottom: 20px; }
+        .exam-title { font-size: 16px; font-weight: 700; color: #0b3a7a; }
+        .step-label { font-size: 13px; font-weight: 600; color: #6b7280; }
+
+        /* Struktur Langkah Slide Soal */
+        .soal-step { display: none; }
+        .soal-step.active { display: block; }
+        
+        .question-text { font-size: 15px; font-weight: 600; color: #1f2937; line-height: 1.6; margin-bottom: 16px; }
+        .options-list { display: flex; flex-direction: column; gap: 12px; }
+        .option-item { border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background 0.2s; }
+        .option-item:hover { background-color: #f9fafb; border-color: #cbd5e1; }
+        .option-item input[type="radio"] { width: 18px; height: 18px; cursor: pointer; }
+        
+        /* Textarea Untuk Essay */
+        .essay-textarea { width: 100%; height: 150px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; font-size: 14px; resize: none; outline: none; line-height: 1.5; }
+        .essay-textarea:focus { border-color: #1d74ed; box-shadow: 0 0 0 3px rgba(29, 116, 237, 0.1); }
+
+        /* Tombol Aksi Bawah */
+        .nav-footer { display: flex; justify-content: space-between; margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px; }
+        .btn-nav { background-color: #0b3a7a; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; }
+        .btn-nav.disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+        
+        /* Hasil Skor Akhir */
+        .result-box { padding: 24px; border-radius: 12px; text-align: center; margin-top: 20px; }
+        .result-box.done { background-color: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+        .btn-finish-redirect { background-color: #0369a1; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; cursor: pointer; margin-top: 20px; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Atas Portal -->
+    <div class="sumatif-header">
+        <div>
+            <span style="font-weight: 700; font-size: 15px;">📝 LEMBAR EVALUASI DIGITAL</span>
+        </div>
+        <button class="btn-quit" onclick="keluarUjian()">Keluar Ujian</button>
+    </div>
+
+    <div class="container">
+        <div class="quiz-card-page">
+            
+            <div id="quizFormWrapper">
+                <div class="top-meta-row">
+                    <span class="exam-title">Sumatif 1: Kebencanaan (Informatika)</span>
+                    <span id="labelTracker" class="step-label">Soal 1 dari 3</span>
+                </div>
+
+                <!-- Form Konten Utama -->
+                <form id="formSumatifUjian" onsubmit="selesaiKirimSumatif(event)">
+                    <div id="questionsContainer">
+                        
+                        <!-- SOAL 1: PILIHAN GANDA -->
+                        <div class="soal-step active" id="soal-1">
+                            <p class="question-text">1. Komponen apa yang bertugas melakukan manajemen alur data pada sistem komputer?</p>
+                            <div class="options-list">
+                                <label class="option-item"><input type="radio" name="soal_pg_1" value="A"> <span>A. Storage Drive</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_1" value="B" data-correct> <span>B. Central Processing Unit (CPU)</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_1" value="C"> <span>C. RAM Internal</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_1" value="D"> <span>D. Power Supply</span></label>
+                            </div>
+                        </div>
+
+                        <!-- SOAL 2: PILIHAN GANDA -->
+                        <div class="soal-step" id="soal-2">
+                            <p class="question-text">2. Manakah di bawah ini yang merupakan tindakan mitigasi kebencanaan struktural di lingkungan sekolah?</p>
+                            <div class="options-list">
+                                <label class="option-item"><input type="radio" name="soal_pg_2" value="A"> <span>A. Mengadakan simulasi evakuasi berkala</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_2" value="B"> <span>B. Membuat dokumen SOP kedaruratan</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_2" value="C" data-correct> <span>C. Memperkuat struktur pilar bangunan tahan gempa</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_2" value="D"> <span>D. Membentuk regu komite penyelamat</span></label>
+                            </div>
+                        </div>
+
+                        <!-- SOAL 3: ESSAY -->
+                        <div class="soal-step" id="soal-3">
+                            <p class="question-text">3. Jelaskan pendapat Anda mengenai pentingnya pengintegrasian peta risiko kebencanaan ke dalam sistem lab komputer sekolah!</p>
+                            <textarea class="essay-textarea" name="soal_essay_1" placeholder="Tuliskan jawaban penjelasan esai Anda secara lengkap di sini..."></textarea>
+                        </div>
+
+                    </div>
+
+                    <!-- Bar Navigasi Bawah -->
+                    <div class="nav-footer">
+                        <button type="button" class="btn-nav disabled" id="btnBack" onclick="geserSoal(-1)">Kembali</button>
+                        <button type="button" class="btn-nav" id="btnNext" onclick="geserSoal(1)">Selanjutnya</button>
+                        <button type="submit" class="btn-nav" id="btnSubmit" style="display:none; background-color:#10b981;">Kirim Hasil Ujian</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Panel Layar Hasil Sukses Kirim -->
+            <div id="resultPanel" style="display: none;">
+                <div class="result-box done">
+                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">🎉 Hasil Ujian Berhasil Dikirim!</h3>
+                    <p style="font-size: 14px; line-height: 1.5;">Jawaban pilihan ganda dan lembar penjelasan esai Anda telah berhasil diamankan di basis data cloud guru. Nilai Anda akan segera dievaluasi.</p>
+                </div>
+                <button class="btn-finish-redirect" onclick="kembaliKeTopik()">Kembali Ke Halaman Utama</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Sesuaikan dengan URL Web App Apps Script Anda yang aktif
+        const API_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec"; 
+
+        let sessionUser = null;
+        let urutanSoalAktif = 1;
+        let totalSoal = 3; 
+
+        (function validasiMasuk() {
+            const saved = localStorage.getItem('loggedSiswa');
+            if(!saved) {
+                window.location.href = "login.html";
+            } else {
+                sessionUser = JSON.parse(saved);
+            }
+        })();
+
+        function geserSoal(arah) {
+            let target = urutanSoalAktif + arah;
+            if(target >= 1 && target <= totalSoal) {
+                // Sembunyikan langkah lama
+                document.getElementById(`soal-${urutanSoalAktif}`).classList.remove('active');
+                urutanSoalAktif = target;
+                // Munculkan langkah baru
+                document.getElementById(`soal-${urutanSoalAktif}`).classList.add('active');
+                
+                // Update teks pelacak atas
+                document.getElementById('labelTracker').innerText = `Soal ${urutanSoalAktif} dari ${totalSoal}`;
+                
+                // Kelola visibilitas tombol navigasi
+                document.getElementById('btnBack').className = (urutanSoalAktif === 1) ? "btn-nav disabled" : "btn-nav";
+                
+                if(urutanSoalAktif === totalSoal) {
+                    document.getElementById('btnNext').style.display = 'none';
+                    document.getElementById('btnSubmit').style.display = 'block';
+                } else {
+                    document.getElementById('btnNext').style.display = 'block';
+                    document.getElementById('btnSubmit').style.display = 'none';
+                }
+            }
+        }
+
+        function selesaiKirimSumatif(event) {
+            event.preventDefault();
+            const form = event.target;
+            
+            let totalPG = 0;
+            let pgBenar = 0;
+            let logPG = [];
+
+            // 1. Periksa Hasil Jawaban Pilihan Ganda
+            form.querySelectorAll('input[type="radio"]').forEach(radio => {
+                if(radio.checked) {
+                    const isCorrect = radio.hasAttribute('data-correct');
+                    if(isCorrect) pgBenar++;
+                    logPG.push(`${radio.name}: ${radio.value} (${isCorrect ? "BENAR" : "SALAH"})`);
+                }
+            });
+
+            const namaGrupRadio = new Set();
+            form.querySelectorAll('input[type="radio"]').forEach(radio => namaGrupRadio.add(radio.name));
+            totalPG = namaGrupRadio.size;
+
+            let skorPG = totalPG > 0 ? Math.round((pgBenar / totalPG) * 100) : 100;
+
+            // 2. Ambil Teks Esai Konten
+            let logEssay = [];
+            form.querySelectorAll('textarea').forEach((area) => {
+                logEssay.push(`${area.name}: "${area.value.replace(/"/g, "'")}"`);
+            });
+
+            document.getElementById('quizFormWrapper').innerHTML = `<div style="text-align:center; padding:40px; color:#6b7280;"><em>Sedang mengirim berkas lembar ujian sumatif Anda ke basis data server cloud guru...</em></div>`;
+
+            // 3. Paketkan Data Untuk Ditembak Ke Google Sheets
+            const payload = new URLSearchParams();
+            payload.append('tipeAksi', 'KIRIM_SUMATIF'); // Penanda rute data baru
+            payload.append('userId', sessionUser.username);
+            payload.append('nama', sessionUser.nama);
+            payload.append('kelas', sessionUser.kelas);
+            payload.append('skorPG', skorPG);
+            payload.append('jawabanPG', logPG.join(" | "));
+            payload.append('jawabanEssay', logEssay.join(" | "));
+
+            fetch(API_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: payload.toString()
+            }).then(() => {
+                // Tampilkan panel sukses selesai
+                document.getElementById('quizFormWrapper').style.display = 'none';
+                document.getElementById('resultPanel').style.display = 'block';
+            });
+        }
+
+        function kembaliKeTopik() { window.location.href = "topik.html"; }
+        function keluarUjian() { if(confirm("Apakah Anda yakin ingin keluar? Seluruh isi jawaban berjalan saat ini akan hilang.")) kembaliKeTopik(); }
+    </script>
+</body>
+</html>
