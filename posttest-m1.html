@@ -1,0 +1,29 @@
+<form onsubmit="submitKuis(event)" style="display: flex; flex-direction: column; gap: 18px;">
+    
+    <!-- Soal 1: Pilihan Ganda -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937;">1. Ada berapa pilar utama dalam konsep perancangan SPAB?</p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer;">
+            <input type="radio" name="soal1" value="A" required style="margin-right: 8px;"> A. 1 Pilar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer;">
+            <input type="radio" name="soal1" value="B" style="margin-right: 8px;"> B. 2 Pilar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer;">
+            <input type="radio" name="soal1" value="C" style="margin-right: 8px;"> C. 3 Pilar (Fasilitas, Manajemen, Edukasi)
+        </label>
+    </div>
+
+    <!-- Soal 2: Essay -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937;">2. Jelaskan secara singkat mengapa simulasi kebencanaan mandiri perlu diadakan secara berkala di sekolah?</p>
+        <textarea required rows="4" placeholder="Tuliskan jawaban essay Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
+    </div>
+
+    <!-- Tombol Kirim Jawaban -->
+    <button type="submit" 
+        style="background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; width: fit-content; align-self: flex-end;">
+        Kirim Jawaban
+    </button>
+</form>
