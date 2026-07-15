@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satuan Pendidikan Aman Bencana</title>
-    <!-- Menggunakan font eksternal agar mirip dengan tampilan modern -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -34,18 +33,12 @@
             margin-bottom: 20px;
         }
 
-        /* Card Deskripsi Atas */
         .description-card {
             background-color: #ffffff;
             border: 1px solid #e5e7eb;
             border-radius: 8px;
             padding: 24px;
             margin-bottom: 30px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .description-card ul {
-            padding-left: 20px;
         }
 
         .description-card li {
@@ -55,11 +48,6 @@
             margin-bottom: 12px;
         }
 
-        .description-card li:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Bagian Modul Pelatihan */
         .section-title {
             font-size: 20px;
             font-weight: 700;
@@ -73,7 +61,6 @@
             margin-bottom: 16px;
         }
 
-        /* Card Modul Klik-able */
         .module-card {
             background-color: #ffffff;
             border: 1px solid #e5e7eb;
@@ -83,7 +70,6 @@
             gap: 20px;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .module-card:hover {
@@ -91,7 +77,6 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.08);
         }
 
-        /* Badge Angka Bulat */
         .module-number {
             background-color: #3b82f6;
             color: white;
@@ -102,35 +87,22 @@
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: 16px;
             flex-shrink: 0;
-        }
-
-        .module-info {
-            flex-grow: 1;
-        }
-
-        .module-tag {
-            font-size: 13px;
-            color: #6b7280;
-            margin-bottom: 4px;
         }
 
         .module-name {
             font-size: 18px;
             font-weight: 700;
             color: #111827;
-            margin-bottom: 12px;
+            margin: 4px 0 12px 0;
         }
 
-        /* Meta Durasi & Materi */
         .module-meta {
             display: flex;
             gap: 20px;
             font-size: 14px;
             color: #4b5563;
             margin-bottom: 16px;
-            align-items: center;
         }
 
         .meta-item {
@@ -139,7 +111,6 @@
             gap: 6px;
         }
 
-        /* Tombol Pelajari Materi */
         .btn-study {
             background-color: #a5f3fc;
             color: #0369a1;
@@ -149,29 +120,21 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
         }
 
-        .btn-study:hover {
-            background-color: #7dd3fc;
-        }
-
-        /* --- TAMPILAN PENUH MODAL (OVERLAY) --- */
+        /* --- STYLING MODAL FULL SCREEN KAYA PMM --- */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-color: #f3f4f6;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.25s ease;
             z-index: 1000;
-            padding: 20px;
+            overflow-y: auto;
         }
 
         .modal-overlay.active {
@@ -179,67 +142,203 @@
             pointer-events: auto;
         }
 
-        .modal-content {
-            background-color: white;
+        .modal-container {
+            max-width: 650px;
             width: 100%;
-            max-width: 800px;
-            height: 90vh;
-            border-radius: 12px;
+            margin: 0 auto;
+            background-color: #f3f4f6;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
         }
 
-        .modal-overlay.active .modal-content {
-            transform: scale(1);
-        }
-
-        /* Header Modal */
-        .modal-header {
-            background-color: #1e3a8a;
+        /* Banner Biru Atas */
+        .pmm-header {
+            background-color: #0b3a7a;
             color: white;
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 30px 24px;
+            position: relative;
         }
 
-        .modal-title h2 {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-
-        .btn-close {
+        .btn-back {
             background: transparent;
             border: none;
             color: white;
-            font-size: 28px;
             cursor: pointer;
-            line-height: 1;
-        }
-
-        /* Konten Isi Pembelajaran Penuh */
-        .modal-body {
-            padding: 30px;
-            overflow-y: auto;
-            flex-grow: 1;
-            background-color: #f9fafb;
-        }
-
-        .content-section {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 20px;
+            display: flex;
+            align-items: center;
             margin-bottom: 20px;
         }
 
-        .content-section h3 {
-            margin-bottom: 10px;
-            color: #1e3a8a;
+        .pmm-header .tag-modul {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            opacity: 0.9;
+        }
+
+        .pmm-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .author-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .author-avatar {
+            background-color: rgba(255,255,255,0.2);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .link-detail {
+            color: #60a5fa;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+
+        /* Area Konten Bawah Banner */
+        .pmm-body {
+            padding: 24px;
+        }
+
+        .section-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 16px;
+            margin-top: 10px;
+        }
+
+        /* Accordion List Item */
+        .materi-item {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .materi-header {
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .materi-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .materi-title {
+            font-size: 14.5px;
+            font-weight: 600;
+            color: #374151;
+            line-height: 1.4;
+        }
+
+        /* Status Lingkaran Centang / Gembok */
+        .status-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 2px solid #9ca3af;
+            background-color: #f3f4f6;
+        }
+
+        .status-circle.opened {
+            border-color: #10b981;
+            background-color: #10b981;
+            color: white;
+        }
+
+        .status-circle.ready {
+            border-color: #3b82f6;
+            background-color: white;
+            color: #3b82f6;
+        }
+
+        /* State Terkunci */
+        .materi-item.locked {
+            background-color: #f9fafb;
+            cursor: not-allowed;
+        }
+
+        .materi-item.locked .materi-header {
+            cursor: not-allowed;
+        }
+
+        .materi-item.locked .materi-title {
+            color: #9ca3af;
+        }
+
+        /* Panel Isi Dokumen Accordion */
+        .materi-content {
+            display: none;
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+            background-color: #fafafa;
+            line-height: 1.6;
+            color: #4b5563;
+            font-size: 14px;
+        }
+
+        .materi-item.expanded .materi-content {
+            display: block;
+        }
+
+        .arrow-icon {
+            transition: transform 0.2s;
+            color: #6b7280;
+        }
+
+        .materi-item.expanded .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Card Post Test */
+        .post-test-card {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .post-test-card.ready {
+            cursor: pointer;
+            opacity: 1;
         }
     </style>
 </head>
@@ -247,107 +346,201 @@
 
     <div class="container">
         <h1>Satuan Pendidikan Aman Bencana</h1>
-
-        <!-- Deskripsi Atas -->
+        
         <div class="description-card">
             <ul>
-                <li>Praktik implementasi dalam topik ini dirancang agar Anda dapat merefleksikan dan menerapkan pembelajaran secara konkret dalam kegiatan sekolah, baik melalui kampanye SPAB bersama peserta didik maupun pelaksanaan monitoring dan evaluasi mandiri kesiapsiagaan sekolah. Seluruh kegiatan Aksi Nyata dapat diintegrasikan dalam pembelajaran atau budaya sekolah secara berkelanjutan.</li>
-                <li>Praktik Implementasi ini diharapkan mampu mendorong inisiatif nyata yang berdampak langsung terhadap peningkatan kesadaran, kolaborasi warga sekolah, serta penguatan praktik pembelajaran yang aman, inklusif, dan adaptif terhadap risiko bencana.</li>
+                <li>Praktik implementasi dalam topik ini dirancang agar Anda dapat merefleksikan dan menerapkan pembelajaran secara konkret dalam kegiatan sekolah...</li>
             </ul>
         </div>
 
-        <!-- Judul Modul -->
         <div class="section-title">Modul Pelatihan</div>
         <div class="section-subtitle">Silakan pelajari modul sesuai urutan</div>
 
-        <!-- Box Modul 1 -->
+        <!-- Pemicu Buka Modul 1 -->
         <div class="module-card" id="openModuleBtn">
             <div class="module-number">1</div>
             <div class="module-info">
-                <div class="module-tag">Modul 1</div>
+                <div style="font-size: 13px; color: #6b7280;">Modul 1</div>
                 <div class="module-name">Modul 1: Sekolah Aman Dimulai dari Sini!</div>
-                
                 <div class="module-meta">
-                    <!-- Icon Jam (SVG) -->
                     <div class="meta-item">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                         <span>1.5 jam</span>
                     </div>
-                    <!-- Icon Dokumen/Materi (SVG) -->
                     <div class="meta-item">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                         <span>3 materi</span>
                     </div>
                 </div>
-
                 <button class="btn-study">Pelajari Materi</button>
             </div>
         </div>
     </div>
 
-    <!-- --- LAYAR TAMPILAN PENUH MODUL 1 (MODAL) --- -->
+    <!-- TAMPILAN MODAL SATU KOLOM GAYA PMM -->
     <div class="modal-overlay" id="moduleModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <p style="font-size: 14px; opacity: 0.9;">Modul 1</p>
-                    <h2>Sekolah Aman Dimulai dari Sini!</h2>
-                </div>
-                <button class="btn-close" id="closeModuleBtn">&times;</button>
-            </div>
+        <div class="modal-container">
             
-            <div class="modal-body">
-                <div style="margin-bottom: 20px; font-weight: 600; color: #4b5563;">
-                    Estimasi Waktu Pelajaran: 1.5 Jam | Total: 3 Materi Utama
+            <!-- Banner Biru Atas -->
+            <div class="pmm-header">
+                <button class="btn-back" id="closeModuleBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 8px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                </button>
+                <div class="tag-modul">Modul</div>
+                <h2>Modul 1: Sekolah Aman Dimulai dari Sini!</h2>
+                <div class="author-box">
+                    <div class="author-avatar">DG</div>
+                    <span>Dikembangkan oleh Ditjen GTKPG Kemendikdasmen</span>
                 </div>
-                
-                <!-- Materi 1 -->
-                <div class="content-section">
-                    <h3>Materi 1: Pengenalan Konsep SPAB</h3>
-                    <p>Materi ini membahas dasar-dasar perancangan Satuan Pendidikan Aman Bencana (SPAB) serta pilar utama yang menyusun sistem keamanan sekolah dari ancaman bencana makro maupun mikro.</p>
+                <a href="#" class="link-detail">Baca detail modul ❯</a>
+            </div>
+
+            <!-- Bagian List Pembelajaran -->
+            <div class="pmm-body">
+                <div class="section-label">Daftar Materi</div>
+
+                <!-- Accordion Materi 1 (Terbuka sejak awal) -->
+                <div class="materi-item" id="item-1">
+                    <div class="materi-header" onclick="toggleMateri(1)">
+                        <div class="materi-header-left">
+                            <div class="status-circle ready" id="circle-1"></div>
+                            <div class="materi-title">Mengapa SPAB? Mari Pahami dan Bersiap Menjadi Sekolah Tangguh</div>
+                        </div>
+                        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="materi-content" id="content-1">Memuat konten materi...</div>
                 </div>
 
-                <!-- Materi 2 -->
-                <div class="content-section">
-                    <h3>Materi 2: Manajemen Risiko Mandiri</h3>
-                    <p>Langkah taktis bagi warga sekolah untuk memetakan jalur evakuasi, titik kumpul, dan menganalisis kerentanan struktural bangunan sekolah secara berkala.</p>
+                <!-- Accordion Materi 2 (Terkunci awal) -->
+                <div class="materi-item locked" id="item-2">
+                    <div class="materi-header" onclick="toggleMateri(2)">
+                        <div class="materi-header-left">
+                            <div class="status-circle" id="circle-2">🔒</div>
+                            <div class="materi-title">3 Pilar SPAB: Fondasi Sekolah Siaga Bencana!</div>
+                        </div>
+                        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="materi-content" id="content-2">Memuat konten materi...</div>
                 </div>
 
-                <!-- Materi 3 -->
-                <div class="content-section">
-                    <h3>Materi 3: Aksi Nyata & Kampanye Kesiapsiagaan</h3>
-                    <p>Bagaimana mengintegrasikan simulasi gempa atau kebakaran ke dalam budaya sekolah sehari-hari dan melibatkan murid secara aktif dan inklusif.</p>
+                <!-- Accordion Materi 3 (Terkunci awal) -->
+                <div class="materi-item locked" id="item-3">
+                    <div class="materi-header" onclick="toggleMateri(3)">
+                        <div class="materi-header-left">
+                            <div class="status-circle" id="circle-3">🔒</div>
+                            <div class="materi-title">Jalankan SPAB Sesuai Aturan: Pahami Juknisnya, Lindungi Sekolahmu!</div>
+                        </div>
+                        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="materi-content" id="content-3">Memuat konten materi...</div>
                 </div>
+
+                <!-- Bagian Post Test -->
+                <div class="section-label" style="margin-top: 24px;">Post Test</div>
+                <div class="post-test-card" id="postTestBox">
+                    <div class="materi-header-left">
+                        <div class="status-circle" id="circle-pt"></div>
+                        <div>
+                            <div class="materi-title" style="font-weight: 700;">Kerjakan post test</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">Evaluasi pemahaman modul</div>
+                        </div>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#6b7280;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <!-- JavaScript untuk fungsi Interaktif membuka/menutup tampilan penuh -->
+    <!-- SCRIPT KONTROL LOGIKA ACCORDION & PROGRESS -->
     <script>
+        let aksesMateri = { 1: true, 2: false, 3: false, postTest: false };
+        let sudahDibuka = { 1: false, 2: false, 3: false };
+
         const cardModul = document.getElementById('openModuleBtn');
         const modalPenuh = document.getElementById('moduleModal');
         const tombolTutup = document.getElementById('closeModuleBtn');
 
-        // Buka Tampilan Penuh ketika Modul diklik
         cardModul.addEventListener('click', () => {
             modalPenuh.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Kunci scroll latar belakang
+            window.scrollTo(0,0);
         });
 
-        // Tutup Tampilan Penuh ketika tanda X diklik
-        tombolTutup.addEventListener('click', (e) => {
-            e.stopPropagation(); // Mencegah konflik klik
+        tombolTutup.addEventListener('click', () => {
             modalPenuh.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Aktifkan kembali scroll
         });
 
-        // Tutup jika area luar modal diklik
-        modalPenuh.addEventListener('click', (e) => {
-            if(e.target === modalPenuh) {
-                modalPenuh.classList.remove('active');
-                document.body.style.overflow = 'auto';
+        function toggleMateri(id) {
+            if (!aksesMateri[id]) {
+                alert("Materi ini masih terkunci. Silakan pelajari materi sebelumnya terlebih dahulu!");
+                return;
             }
-        });
+
+            const itemEl = document.getElementById(`item-${id}`);
+            const contentEl = document.getElementById(`content-${id}`);
+            const circleEl = document.getElementById(`circle-${id}`);
+
+            // Jika sedang tertutup, maka buka dan fetch data
+            if (!itemEl.classList.contains('expanded')) {
+                // Tutup accordion lain yang sedang terbuka
+                document.querySelectorAll('.materi-item').forEach(el => el.classList.remove('expanded'));
+                
+                itemEl.classList.add('expanded');
+
+                // Efek CENTANG & UBAH WARNA JADI HIJAU TEPAT SAAT DIKLIK/DIBUKA
+                if (!sudahDibuka[id]) {
+                    sudahDibuka[id] = true;
+                    circleEl.className = "status-circle opened";
+                    circleEl.innerHTML = "✓";
+                }
+
+                // Ambil data file html terpisah
+                contentEl.innerHTML = `<em>Memuat isi materi ${id}...</em>`;
+                fetch(`materi-${id}.html`)
+                    .then(res => {
+                        if (!res.ok) throw new Error();
+                        return res.text();
+                    })
+                    .then(data => {
+                        contentEl.innerHTML = data;
+                        bukaGembokBerikutnya(id);
+                    })
+                    .catch(() => {
+                        contentEl.innerHTML = `<span style="color:red;">Gagal memuat teks. Pastikan menggunakan Live Server / di-deploy ke GitHub Pages.</span>`;
+                    });
+            } else {
+                // Jika diklik lagi saat terbuka, maka tutup accordion
+                itemEl.classList.remove('expanded');
+            }
+        }
+
+        function bukaGembokBerikutnya(currentId) {
+            let nextId = currentId + 1;
+            
+            if (nextId <= 3) {
+                if (!aksesMateri[nextId]) {
+                    aksesMateri[nextId] = true;
+                    const nextItem = document.getElementById(`item-${nextId}`);
+                    nextItem.classList.remove('locked');
+                    
+                    const nextCircle = document.getElementById(`circle-${nextId}`);
+                    nextCircle.className = "status-circle ready";
+                    nextCircle.innerHTML = ""; // Gembok hilang, berganti jadi lingkaran kosong siap klik
+                }
+            } else {
+                // Jika ke-3 materi sudah dibuka, aktifkan Post Test
+                aksesMateri.postTest = true;
+                const ptCard = document.getElementById('postTestBox');
+                ptCard.classList.add('ready');
+                ptCard.style.cursor = 'pointer';
+                ptCard.style.opacity = '1';
+                document.getElementById('circle-pt').className = "status-circle ready";
+                
+                ptCard.onclick = function() {
+                    alert("Memulai lembar Post Test Evaluasi Modul 1!");
+                };
+            }
+        }
     </script>
 </body>
 </html>
