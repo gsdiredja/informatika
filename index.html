@@ -6,652 +6,230 @@
     <title>Satuan Pendidikan Aman Bencana</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f3f4f6; color: #333333; padding: 30px 20px; display: flex; justify-content: center; }
+        .container { max-width: 650px; width: 100%; }
+        h1 { font-size: 24px; font-weight: 700; color: #2c3e50; margin-bottom: 20px; }
+        .description-card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px; margin-bottom: 30px; }
+        .description-card li { font-size: 14.5px; line-height: 1.6; color: #4b5563; margin-bottom: 12px; }
+        .section-title { font-size: 20px; font-weight: 700; color: #1f2937; margin-bottom: 4px; }
+        .section-subtitle { font-size: 14px; color: #6b7280; margin-bottom: 20px; }
+        .modules-list { display: flex; flex-direction: column; gap: 16px; }
+        .module-card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px; display: flex; gap: 20px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .module-card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.08); }
+        .module-number { background-color: #3b82f6; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; }
+        .module-name { font-size: 18px; font-weight: 700; color: #111827; margin: 4px 0 12px 0; }
+        .module-meta { display: flex; gap: 20px; font-size: 14px; color: #4b5563; margin-bottom: 16px; }
+        .btn-study { background-color: #a5f3fc; color: #0369a1; border: none; padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; }
 
-        body {
-            background-color: #f3f4f6;
-            color: #333333;
-            padding: 30px 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            max-width: 650px;
-            width: 100%;
-        }
-
-        h1 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-
-        .description-card {
-            background-color: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 30px;
-        }
-
-        .description-card li {
-            font-size: 14.5px;
-            line-height: 1.6;
-            color: #4b5563;
-            margin-bottom: 12px;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 4px;
-        }
-
-        .section-subtitle {
-            font-size: 14px;
-            color: #6b7280;
-            margin-bottom: 20px;
-        }
-
-        /* --- DAFTAR MODUL LIST --- */
-        .modules-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .module-card {
-            background-color: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 24px;
-            display: flex;
-            gap: 20px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .module-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-        }
-
-        .module-number {
-            background-color: #3b82f6;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-
-        .module-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #111827;
-            margin: 4px 0 12px 0;
-        }
-
-        .module-meta {
-            display: flex;
-            gap: 20px;
-            font-size: 14px;
-            color: #4b5563;
-            margin-bottom: 16px;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-study {
-            background-color: #a5f3fc;
-            color: #0369a1;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* --- STYLING MODAL GAYA PMM --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #f3f4f6;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease;
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-container {
-            max-width: 650px;
-            width: 100%;
-            margin: 0 auto;
-            background-color: #f3f4f6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .pmm-header {
-            background-color: #0b3a7a;
-            color: white;
-            padding: 30px 24px;
-        }
-
-        .btn-back {
-            background: transparent;
-            border: none;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .pmm-header .tag-modul {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-            opacity: 0.9;
-        }
-
-        .pmm-header h2 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-
-        .author-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-        }
-
-        .author-avatar {
-            background-color: rgba(255,255,255,0.2);
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 11px;
-        }
-
-        .pmm-body {
-            padding: 24px;
-        }
-
-        .section-label {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 16px;
-        }
+        /* --- OVERLAY MODAL --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f4f6; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 1000; overflow-y: auto; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-container { max-width: 650px; width: 100%; margin: 0 auto; background-color: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
+        .pmm-header { background-color: #0b3a7a; color: white; padding: 30px 24px; }
+        .btn-back { background: transparent; border: none; color: white; cursor: pointer; display: flex; align-items: center; margin-bottom: 20px; }
+        .pmm-header .tag-modul { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; opacity: 0.9; }
+        .pmm-header h2 { font-size: 20px; font-weight: 700; margin-bottom: 12px; line-height: 1.4; }
+        .author-box { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+        .author-avatar { background-color: rgba(255,255,255,0.2); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 11px; }
+        .pmm-body { padding: 24px; }
+        .section-label { font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 16px; }
 
         /* Accordion */
-        .materi-item {
-            background-color: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            margin-bottom: 14px;
-            overflow: hidden;
-        }
+        .materi-item { background-color: white; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+        .materi-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+        .materi-header-left { display: flex; align-items: center; gap: 14px; }
+        .materi-title { font-size: 14px; font-weight: 600; color: #374151; line-height: 1.4; }
+        .status-circle { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid #9ca3af; background-color: #f3f4f6; font-size: 12px; }
+        .status-circle.opened { border-color: #10b981; background-color: #10b981; color: white; }
+        .status-circle.ready { border-color: #3b82f6; background-color: white; color: #3b82f6; }
+        .materi-item.locked { background-color: #f9fafb; }
+        .materi-item.locked .materi-header { cursor: not-allowed; }
+        .materi-item.locked .materi-title { color: #9ca3af; }
+        .materi-content { display: none; padding: 20px; border-top: 1px solid #e5e7eb; background-color: #fafafa; line-height: 1.6; color: #4b5563; font-size: 14px; }
+        .materi-item.expanded .materi-content { display: block; }
+        .arrow-icon { transition: transform 0.2s; color: #6b7280; }
+        .materi-item.expanded .arrow-icon { transform: rotate(180deg); }
 
-        .materi-header {
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .materi-header-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .materi-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #374151;
-            line-height: 1.4;
-        }
-
-        .status-circle {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            border: 2px solid #9ca3af;
-            background-color: #f3f4f6;
-            font-size: 12px;
-        }
-
-        .status-circle.opened {
-            border-color: #10b981;
-            background-color: #10b981;
-            color: white;
-        }
-
-        .status-circle.ready {
-            border-color: #3b82f6;
-            background-color: white;
-            color: #3b82f6;
-        }
-
-        .materi-item.locked {
-            background-color: #f9fafb;
-        }
-
-        .materi-item.locked .materi-header {
-            cursor: not-allowed;
-        }
-
-        .materi-item.locked .materi-title {
-            color: #9ca3af;
-        }
-
-        .materi-content {
-            display: none;
-            padding: 20px;
-            border-top: 1px solid #e5e7eb;
-            background-color: #fafafa;
-            line-height: 1.6;
-            color: #4b5563;
-            font-size: 14px;
-        }
-
-        .materi-item.expanded .materi-content {
-            display: block;
-        }
-
-        .arrow-icon {
-            transition: transform 0.2s;
-            color: #6b7280;
-        }
-
-        .materi-item.expanded .arrow-icon {
-            transform: rotate(180deg);
-        }
-
-        .post-test-card {
-            background-color: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .post-test-card.ready {
-            cursor: pointer;
-            opacity: 1;
-        }
+        /* Post Test Card & Content Area */
+        .post-test-card { background-color: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: not-allowed; opacity: 0.6; }
+        .post-test-card.ready { cursor: pointer; opacity: 1; }
+        .post-test-card.expanded { border-radius: 12px 12px 0 0; border-bottom: none; }
+        .post-test-content { display: none; background-color: white; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 12px 12px; padding: 24px 20px; margin-top: -14px; margin-bottom: 20px; }
+        .post-test-card.expanded + .post-test-content { display: block; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>Satuan Pendidikan Aman Bencana</h1>
-        
         <div class="description-card">
-            <ul>
-                <li>Praktik implementasi dirancang untuk memperkuat pemahaman kesiapsiagaan menghadapi kebencanaan secara menyeluruh dan sistematis di lingkungan sekolah.</li>
-            </ul>
+            <ul><li>Praktik implementasi dirancang untuk memperkuat pemahaman kesiapsiagaan menghadapi kebencanaan secara menyeluruh.</li></ul>
         </div>
-
         <div class="section-title">Daftar Modul Pelatihan</div>
         <div class="section-subtitle">Silakan pelajari modul sesuai urutan</div>
 
-        <!-- DAFTAR MODUL 1 - 5 -->
         <div class="modules-list">
-            <!-- Modul 1 -->
-            <div class="module-card" onclick="bukaModul(1)">
-                <div class="module-number">1</div>
-                <div class="module-info">
-                    <div style="font-size: 13px; color: #6b7280;">Modul 1</div>
-                    <div class="module-name">Sekolah Aman Dimulai dari Sini!</div>
-                    <div class="module-meta">
-                        <div class="meta-item">⏱️ 1.5 jam</div>
-                        <div class="meta-item">📖 3 materi</div>
-                    </div>
-                    <button class="btn-study">Pelajari Materi</button>
-                </div>
-            </div>
-
-            <!-- Modul 2 -->
-            <div class="module-card" onclick="bukaModul(2)">
-                <div class="module-number">2</div>
-                <div class="module-info">
-                    <div style="font-size: 13px; color: #6b7280;">Modul 2</div>
-                    <div class="module-name">Pemetaan Risiko & Jalur Evakuasi Sekolah</div>
-                    <div class="module-meta">
-                        <div class="meta-item">⏱️ 2 jam</div>
-                        <div class="meta-item">📖 3 materi</div>
-                    </div>
-                    <button class="btn-study">Pelajari Materi</button>
-                </div>
-            </div>
-
-            <!-- Modul 3 -->
-            <div class="module-card" onclick="bukaModul(3)">
-                <div class="module-number">3</div>
-                <div class="module-info">
-                    <div style="font-size: 13px; color: #6b7280;">Modul 3</div>
-                    <div class="module-name">Simulasi Kebencanaan & SOP Kedaruratan</div>
-                    <div class="module-meta">
-                        <div class="meta-item">⏱️ 1.5 jam</div>
-                        <div class="meta-item">📖 3 materi</div>
-                    </div>
-                    <button class="btn-study">Pelajari Materi</button>
-                </div>
-            </div>
-
-            <!-- Modul 4 -->
-            <div class="module-card" onclick="bukaModul(4)">
-                <div class="module-number">4</div>
-                <div class="module-info">
-                    <div style="font-size: 13px; color: #6b7280;">Modul 4</div>
-                    <div class="module-name">Pertolongan Pertama & Psikososial Pasca Bencana</div>
-                    <div class="module-meta">
-                        <div class="meta-item">⏱️ 2 jam</div>
-                        <div class="meta-item">📖 3 materi</div>
-                    </div>
-                    <button class="btn-study">Pelajari Materi</button>
-                </div>
-            </div>
-
-            <!-- Modul 5 -->
-            <div class="module-card" onclick="bukaModul(5)">
-                <div class="module-number">5</div>
-                <div class="module-info">
-                    <div style="font-size: 13px; color: #6b7280;">Modul 5</div>
-                    <div class="module-name">Evaluasi, Kemitraan, & Aksi Nyata Berkelanjutan</div>
-                    <div class="module-meta">
-                        <div class="meta-item">⏱️ 1.5 jam</div>
-                        <div class="meta-item">📖 3 materi</div>
-                    </div>
-                    <button class="btn-study">Pelajari Materi</button>
-                </div>
-            </div>
+            <!-- Loop manual modul 1 - 5 -->
+            <div class="module-card" onclick="bukaModul(1)"><div class="module-number">1</div><div class="module-info"><div class="module-name">Modul 1: Sekolah Aman Dimulai dari Sini!</div><div class="module-meta">📖 3 materi + Post Test</div><button class="btn-study">Pelajari Materi</button></div></div>
+            <div class="module-card" onclick="bukaModul(2)"><div class="module-number">2</div><div class="module-info"><div class="module-name">Modul 2: Pemetaan Risiko & Jalur Evakuasi Sekolah</div><div class="module-meta">📖 3 materi + Post Test</div><button class="btn-study">Pelajari Materi</button></div></div>
+            <div class="module-card" onclick="bukaModul(3)"><div class="module-number">3</div><div class="module-info"><div class="module-name">Modul 3: Simulasi Kebencanaan & SOP Kedaruratan</div><div class="module-meta">📖 3 materi + Post Test</div><button class="btn-study">Pelajari Materi</button></div></div>
+            <div class="module-card" onclick="bukaModul(4)"><div class="module-number">4</div><div class="module-info"><div class="module-name">Modul 4: Pertolongan Pertama & Psikososial Pasca Bencana</div><div class="module-meta">📖 3 materi + Post Test</div><button class="btn-study">Pelajari Materi</button></div></div>
+            <div class="module-card" onclick="bukaModul(5)"><div class="module-number">5</div><div class="module-info"><div class="module-name">Modul 5: Evaluasi, Kemitraan, & Aksi Nyata Berkelanjutan</div><div class="module-meta">📖 3 materi + Post Test</div><button class="btn-study">Pelajari Materi</button></div></div>
         </div>
     </div>
 
-    <!-- WINDOW MODAL SATU KOLOM GAYA PMM (DINAMIS) -->
+    <!-- WINDOW MODAL PMM -->
     <div class="modal-overlay" id="moduleModal">
         <div class="modal-container">
-            
             <div class="pmm-header">
                 <button class="btn-back" onclick="tutupModul()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 8px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                 </button>
                 <div class="tag-modul" id="modalTag">Modul X</div>
                 <h2 id="modalTitle">Judul Modul</h2>
-                <div class="author-box">
-                    <div class="author-avatar">DG</div>
-                    <span>Dikembangkan oleh Ditjen GTKPG Kemendikdasmen</span>
-                </div>
             </div>
 
             <div class="pmm-body">
                 <div class="section-label">Daftar Materi</div>
 
-                <!-- Materi 1 -->
+                <!-- Materi 1, 2, 3 -->
                 <div class="materi-item" id="item-1">
                     <div class="materi-header" onclick="toggleMateri(1)">
-                        <div class="materi-header-left">
-                            <div class="status-circle ready" id="circle-1"></div>
-                            <div class="materi-title" id="title-materi-1">Judul Materi 1</div>
-                        </div>
+                        <div class="materi-header-left"><div class="status-circle ready" id="circle-1"></div><div class="materi-title" id="title-materi-1">Materi 1</div></div>
                         <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-                    <div class="materi-content" id="content-1">Memuat materi...</div>
+                    <div class="materi-content" id="content-1"></div>
                 </div>
 
-                <!-- Materi 2 -->
                 <div class="materi-item locked" id="item-2">
                     <div class="materi-header" onclick="toggleMateri(2)">
-                        <div class="materi-header-left">
-                            <div class="status-circle" id="circle-2">🔒</div>
-                            <div class="materi-title" id="title-materi-2">Judul Materi 2</div>
-                        </div>
+                        <div class="materi-header-left"><div class="status-circle" id="circle-2">🔒</div><div class="materi-title" id="title-materi-2">Materi 2</div></div>
                         <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-                    <div class="materi-content" id="content-2">Memuat materi...</div>
+                    <div class="materi-content" id="content-2"></div>
                 </div>
 
-                <!-- Materi 3 -->
                 <div class="materi-item locked" id="item-3">
                     <div class="materi-header" onclick="toggleMateri(3)">
-                        <div class="materi-header-left">
-                            <div class="status-circle" id="circle-3">🔒</div>
-                            <div class="materi-title" id="title-materi-3">Judul Materi 3</div>
-                        </div>
+                        <div class="materi-header-left"><div class="status-circle" id="circle-3">🔒</div><div class="materi-title" id="title-materi-3">Materi 3</div></div>
                         <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-                    <div class="materi-content" id="content-3">Memuat materi...</div>
+                    <div class="materi-content" id="content-3"></div>
                 </div>
 
-                <!-- Post Test -->
+                <!-- Post Test Area -->
                 <div class="section-label" style="margin-top: 24px;">Post Test</div>
-                <div class="post-test-card" id="postTestBox">
+                <div class="post-test-card" id="postTestBox" onclick="togglePostTest()">
                     <div class="materi-header-left">
-                        <div class="status-circle" id="circle-pt"></div>
-                        <div>
-                            <div class="materi-title" style="font-weight: 700;">Kerjakan post test</div>
-                            <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">Evaluasi pemahaman modul</div>
-                        </div>
+                        <div class="status-circle" id="circle-pt">🔒</div>
+                        <div><div class="materi-title" style="font-weight: 700;">Kerjakan post test</div></div>
                     </div>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#6b7280;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <svg class="arrow-icon" id="pt-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
+                <div class="post-test-content" id="postTestContent">Memuat soal post test...</div>
 
             </div>
         </div>
     </div>
 
-    <!-- LOGIKA JAVASCRIPT MODUL DINAMIS -->
     <script>
-        // Data judul modul dan materi
         const dataModul = {
-            1: {
-                title: "Modul 1: Sekolah Aman Dimulai dari Sini!",
-                materi: [
-                    "Mengapa SPAB? Mari Pahami dan Bersiap Menjadi Sekolah Tangguh",
-                    "3 Pilar SPAB: Fondasi Sekolah Siaga Bencana!",
-                    "Jalankan SPAB Sesuai Aturan: Pahami Juknisnya, Lindungi Sekolahmu!"
-                ]
-            },
-            2: {
-                title: "Modul 2: Pemetaan Risiko & Jalur Evakuasi Sekolah",
-                materi: [
-                    "Identifikasi Bahaya: Membaca Kerentanan Lingkungan Belajar",
-                    "Cara Membuat Peta Evakuasi dan Menentukan Titik Kumpul",
-                    "Pemasangan Rambu dan Pengondisian Kelas Aman Gempa"
-                ]
-            },
-            3: {
-                title: "Modul 3: Simulasi Kebencanaan & SOP Kedaruratan",
-                materi: [
-                    "Menyusun SOP Penyelamatan Diri Saat Bencana",
-                    "Langkah Taktis Melakukan Simulasi Evakuasi Mandiri",
-                    "Peran Guru dan Komite Sekolah Saat Terjadi Kedaruratan"
-                ]
-            },
-            4: {
-                title: "Modul 4: Pertolongan Pertama & Psikososial Pasca Bencana",
-                materi: [
-                    "Dasar Pertolongan Pertama pada Luka dan Cedera Fisik",
-                    "Dukungan Psikososial Awal (PFA) untuk Anak Pasca Trauma",
-                    "Manajemen Posko Darurat & Logistik Skala Sekolah"
-                ]
-            },
-            5: {
-                title: "Modul 5: Evaluasi, Kemitraan, & Aksi Nyata Berkelanjutan",
-                materi: [
-                    "Evaluasi Kelayakan Kesiapsiagaan Sekolah secara Berkala",
-                    "Membangun Jejaring Bersama BPBD, Puskesmas, dan Komunitas",
-                    "Menyusun Laporan Aksi Nyata SPAB untuk Budaya Berkelanjutan"
-                ]
-            }
+            1: { title: "Modul 1: Sekolah Aman Dimulai dari Sini!", materi: ["Mengapa SPAB? Mari Pahami Beserta Tantangannya", "3 Pilar SPAB: Fondasi Utama Sekolah Siaga", "Jalankan SPAB Sesuai Aturan Juknis Resmi"] },
+            2: { title: "Modul 2: Pemetaan Risiko & Jalur Evakuasi Sekolah", materi: ["Identifikasi Bahaya Lingkungan Belajar", "Cara Membuat Peta Jalur Evakuasi Efektif", "Pemasangan Rambu & Titik Kumpul Aman"] },
+            3: { title: "Modul 3: Simulasi Kebencanaan & SOP Kedaruratan", materi: ["Menyusun Dokumen SOP Sekolah", "Simulasi Evakuasi Gempa & Kebakaran", "Peran Komite Kedaruratan Sekolah"] },
+            4: { title: "Modul 4: Pertolongan Pertama & Psikososial Pasca Bencana", materi: ["Dasar Medis Pertolongan Pertama Lapangan", "Dukungan Psikososial Awal Anak Trauma", "Manajemen Logistik Darurat Sekolah"] },
+            5: { title: "Modul 5: Evaluasi, Kemitraan, & Aksi Nyata Berkelanjutan", materi: ["Audit Kelayakan Kesiapsiagaan Internal", "Kolaborasi Bersama BPBD & Puskesmas", "Pelaporan Dokumentasi Aksi Nyata Modul"] }
         };
 
-        // Progress pelacakan tiap-tiap modul
         let progressModul = {
-            1: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false } },
-            2: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false } },
-            3: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false } },
-            4: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false } },
-            5: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false } }
+            1: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false }, ptSelesai: false },
+            2: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false }, ptSelesai: false },
+            3: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false }, ptSelesai: false },
+            4: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false }, ptSelesai: false },
+            5: { akses: { 1: true, 2: false, 3: false, pt: false }, dibuka: { 1: false, 2: false, 3: false }, ptSelesai: false }
         };
 
         let modulAktif = 1;
 
         function bukaModul(noModul) {
             modulAktif = noModul;
-            
-            // 1. Set Header Modal
             document.getElementById('modalTag').innerText = `Modul ${noModul}`;
             document.getElementById('modalTitle').innerText = dataModul[noModul].title;
+            for(let i=1; i<=3; i++) document.getElementById(`title-materi-${i}`).innerText = dataModul[noModul].materi[i-1];
 
-            // 2. Set Judul Materi 1, 2, dan 3
-            document.getElementById('title-materi-1').innerText = dataModul[noModul].materi[0];
-            document.getElementById('title-materi-2').innerText = dataModul[noModul].materi[1];
-            document.getElementById('title-materi-3').innerText = dataModul[noModul].materi[2];
-
-            // 3. Reset dan Sesuaikan Keadaan Kunci Materi
+            // Render status gembok/centang materi
             const prog = progressModul[noModul];
+            document.getElementById('postTestBox').classList.remove('expanded');
             for (let i = 1; i <= 3; i++) {
                 const item = document.getElementById(`item-${i}`);
                 const circle = document.getElementById(`circle-${i}`);
-                const content = document.getElementById(`content-${i}`);
-
                 item.classList.remove('expanded');
-                content.style.display = 'none';
-
+                document.getElementById(`content-${i}`).style.display = 'none';
+                
                 if (prog.akses[i]) {
                     item.classList.remove('locked');
-                    if (prog.dibuka[i]) {
-                        circle.className = "status-circle opened";
-                        circle.innerHTML = "✓";
-                    } else {
-                        circle.className = "status-circle ready";
-                        circle.innerHTML = "";
-                    }
+                    circle.innerHTML = prog.dibuka[i] ? "✓" : "";
+                    circle.className = prog.dibuka[i] ? "status-circle opened" : "status-circle ready";
                 } else {
                     item.classList.add('locked');
-                    circle.className = "status-circle";
                     circle.innerHTML = "🔒";
+                    circle.className = "status-circle";
                 }
             }
 
-            // 4. Atur Keadaan Post Test
+            // Render status gembok Post Test
             const ptCard = document.getElementById('postTestBox');
             const ptCircle = document.getElementById('circle-pt');
             if (prog.akses.pt) {
                 ptCard.classList.add('ready');
-                ptCard.style.cursor = 'pointer';
                 ptCard.style.opacity = '1';
-                ptCircle.className = "status-circle ready";
-                ptCard.onclick = function() {
-                    alert(`Memulai Evaluasi Post Test untuk ${dataModul[noModul].title}!`);
-                };
+                if (prog.ptSelesai) {
+                    ptCircle.className = "status-circle opened";
+                    ptCircle.innerHTML = "✓";
+                } else {
+                    ptCircle.className = "status-circle ready";
+                    ptCircle.innerHTML = "";
+                }
             } else {
                 ptCard.classList.remove('ready');
-                ptCard.style.cursor = 'not-allowed';
                 ptCard.style.opacity = '0.6';
                 ptCircle.className = "status-circle";
-                ptCircle.innerHTML = "";
-                ptCard.onclick = null;
+                ptCircle.innerHTML = "🔒";
             }
 
-            // Tampilkan Modal
             document.getElementById('moduleModal').classList.add('active');
-            window.scrollTo(0,0);
         }
 
-        function tutupModul() {
-            document.getElementById('moduleModal').classList.remove('active');
-        }
+        function tutupModul() { document.getElementById('moduleModal').classList.remove('active'); }
 
         function toggleMateri(noMateri) {
             const prog = progressModul[modulAktif];
-            
-            if (!prog.akses[noMateri]) {
-                alert("Materi ini masih terkunci! Silakan buka materi sebelumnya terlebih dahulu.");
-                return;
-            }
+            if (!prog.akses[noMateri]) return;
 
             const item = document.getElementById(`item-${noMateri}`);
             const content = document.getElementById(`content-${noMateri}`);
             const circle = document.getElementById(`circle-${noMateri}`);
 
             if (!item.classList.contains('expanded')) {
-                // Tutup accordion lain
                 document.querySelectorAll('.materi-item').forEach(el => el.classList.remove('expanded'));
+                document.getElementById('postTestBox').classList.remove('expanded');
                 
                 item.classList.add('expanded');
                 content.style.display = 'block';
 
-                // Tandai Terbuka (Centang Hijau) saat diklik pertama kali
                 if (!prog.dibuka[noMateri]) {
                     prog.dibuka[noMateri] = true;
                     circle.className = "status-circle opened";
                     circle.innerHTML = "✓";
                 }
 
-                // Fetch materi file eksternal dengan pola terstruktur
-                content.innerHTML = `<em>Memuat isi materi...</em>`;
+                content.innerHTML = `<em>Memuat...</em>`;
                 fetch(`materi-m${modulAktif}-${noMateri}.html`)
-                    .then(res => {
-                        if (!res.ok) throw new Error();
-                        return res.text();
-                    })
+                    .then(res => res.text())
                     .then(data => {
                         content.innerHTML = data;
                         bukaKunciBerikutnya(noMateri);
-                    })
-                    .catch(() => {
-                        content.innerHTML = `<span style="color:red;">Gagal memuat materi. Pastikan file materi-m${modulAktif}-${noMateri}.html tersedia di server Anda.</span>`;
                     });
             } else {
                 item.classList.remove('expanded');
@@ -661,32 +239,62 @@
 
         function bukaKunciBerikutnya(currentMateri) {
             const prog = progressModul[modulAktif];
-            let nextMateri = currentMateri + 1;
-
-            if (nextMateri <= 3) {
-                if (!prog.akses[nextMateri]) {
-                    prog.akses[nextMateri] = true;
-                    const nextItem = document.getElementById(`item-${nextMateri}`);
-                    nextItem.classList.remove('locked');
-                    
-                    const nextCircle = document.getElementById(`circle-${nextMateri}`);
-                    nextCircle.className = "status-circle ready";
-                    nextCircle.innerHTML = "";
+            let next = currentMateri + 1;
+            if (next <= 3) {
+                if (!prog.akses[next]) {
+                    prog.akses[next] = true;
+                    document.getElementById(`item-${next}`).classList.remove('locked');
+                    document.getElementById(`circle-${next}`).className = "status-circle ready";
+                    document.getElementById(`circle-${next}`).innerHTML = "";
                 }
-            } else {
-                // Aktifkan Post Test setelah semua materi terbuka
+            } else if (!prog.akses.pt) {
                 prog.akses.pt = true;
                 const ptCard = document.getElementById('postTestBox');
-                const ptCircle = document.getElementById('circle-pt');
-                
                 ptCard.classList.add('ready');
-                ptCard.style.cursor = 'pointer';
                 ptCard.style.opacity = '1';
-                ptCircle.className = "status-circle ready";
-                ptCard.onclick = function() {
-                    alert(`Memulai Evaluasi Post Test untuk ${dataModul[modulAktif].title}!`);
-                };
+                document.getElementById('circle-pt').className = "status-circle ready";
+                document.getElementById('circle-pt').innerHTML = "";
             }
+        }
+
+        // Fungsi Membuka Accordion Post Test & Load Soal
+        function togglePostTest() {
+            const prog = progressModul[modulAktif];
+            if (!prog.akses.pt) {
+                alert("Selesaikan semua materi terlebih dahulu!");
+                return;
+            }
+
+            const ptCard = document.getElementById('postTestBox');
+            const ptArrow = document.getElementById('pt-arrow');
+            
+            if (!ptCard.classList.contains('expanded')) {
+                document.querySelectorAll('.materi-item').forEach(el => el.classList.remove('expanded'));
+                ptCard.classList.add('expanded');
+                ptArrow.style.transform = 'rotate(180deg)';
+
+                const containerSoal = document.getElementById('postTestContent');
+                containerSoal.innerHTML = `<em>Memuat Lembar Kuis...</em>`;
+
+                // Fetch file soal post test eksternal (contoh: posttest-m1.html)
+                fetch(`posttest-m${modulAktif}.html`)
+                    .then(res => res.text())
+                    .then(data => { containerSoal.innerHTML = data; })
+                    .catch(() => { containerSoal.innerHTML = `<span style="color:red;">Gagal memuat kuis.</span>`; });
+            } else {
+                ptCard.classList.remove('expanded');
+                ptArrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Fungsi pembantu untuk memproses jawaban kuis
+        function submitKuis(e) {
+            if(e) e.preventDefault();
+            progressModul[modulAktif].ptSelesai = true;
+            document.getElementById('circle-pt').className = "status-circle opened";
+            document.getElementById('circle-pt').innerHTML = "✓";
+            alert("Selamat! Jawaban Post Test Anda telah berhasil disimpan.");
+            togglePostTest();
         }
     </script>
 </body>
