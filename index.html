@@ -135,9 +135,11 @@
         </div>
     </div>
 
+    <!-- Gunakan datasiswa.js eksternal -->
+    <script src="datasiswa.js"></script>
     <script>
-        // PENTING: TEMPELKAN URL WEB APP GOOGLE SCRIPT (/exec) DI SINI
-        const API_URL = "https://script.google.com/macros/s/AKfycbyL_jb4enKAJ7BZwt9w-7mc36pvOSjdOYyk6rSJ284ZkxvB7mp55aaxdAZyWD_5EP62/exec"; 
+        // PENTING: URL WEB APP GOOGLE SCRIPT (/exec)
+        const API_URL = "https://script.google.com/macros/s/AKfycbwWCapvlbKvCunPSyQ2XIvdNVlvEh4d_K6MhwKnvlboQUHTBctyjDKrDZb8iyaSDz8U/exec"; 
 
         const dataModul = {
             1: { title: "Modul 1: Sekolah Aman Dimulai dari Sini!", materi: ["Mengapa SPAB? Mari Pahami Beserta Tantangannya", "3 Pilar SPAB: Fondasi Utama Sekolah Siaga", "Jalankan SPAB Sesuai Aturan Juknis Resmi"] },
@@ -153,15 +155,13 @@
         let internalDibuka = { 1: false, 2: false, 3: false };
         let modulAktif = 1;
 
-        // PROTEKSI HALAMAN: Validasi tiket masuk session login
+        // PROTEKSI HALAMAN: Validasi session login siswa
         (function verifikasiAkses() {
             const savedUser = localStorage.getItem('loggedSiswa');
             if(!savedUser) {
-                // Jika paksa masuk tanpa login, tendang balik ke login.html
                 window.location.href = "login.html";
             } else {
                 sessionUser = JSON.parse(savedUser);
-                // Jalankan inisialisasi nama di header setelah DOM siap
                 document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById('hdrNamaSiswa').innerText = sessionUser.nama;
                     document.getElementById('hdrKelasSiswa').innerText = sessionUser.kelas;
@@ -185,7 +185,7 @@
                         dbStatusModul = resData.progress;
                         renderDaftarHalamanUtama();
                     }
-                }).catch(() => console.log("Gagal menyinkronkan dengan basis data cloud."));
+                }).catch(() => console.log("Gagal memuat data cloud."));
         }
 
         function renderDaftarHalamanUtama() {
@@ -334,26 +334,26 @@
             }
         }
 
+        // PERBAIKAN: Hanya menghitung skor Pilihan Ganda (Radio) dan mengabaikan Essay
         function periksaKuis(event) {
             event.preventDefault();
             const form = event.target;
-            let totalSoal = 0, jawabanBenar = 0;
+            let totalSoalPilihanGanda = 0, jawabanBenar = 0;
 
-            // 1. Hitung jumlah jawaban yang benar (mempunyai atribut data-correct)
+            // 1. Hitung radio button yang dicentang & memiliki kunci data-correct
             form.querySelectorAll('input[type="radio"]').forEach(radio => {
                 if(radio.checked && radio.hasAttribute('data-correct')) jawabanBenar++;
             });
 
-            // 2. Hitung total soal berdasarkan nama grup radio button yang unik
-            const names = new Set();
-            form.querySelectorAll('input[type="radio"]').forEach(radio => names.add(radio.name));
-            totalSoal = names.size;
+            // 2. Hitung jumlah total soal pilihan ganda berdasarkan keunikan grup 'name'
+            const namaGrupRadio = new Set();
+            form.querySelectorAll('input[type="radio"]').forEach(radio => namaGrupRadio.add(radio.name));
+            totalSoalPilihanGanda = namaGrupRadio.size;
 
-            // 3. Kalkulasi Skor Matematika
-            let skorAkhir = Math.round((jawabanBenar / totalSoal) * 100);
+            // 3. Hitung persentase skor akhir (jika tidak ada PG, set otomatis 100)
+            let skorAkhir = totalSoalPilihanGanda > 0 ? Math.round((jawabanBenar / totalSoalPilihanGanda) * 100) : 100;
             let lulus = (skorAkhir === 100);
 
-            // 4. Hapus kotak hasil lama jika ada agar tidak menumpuk
             const oldBox = document.getElementById('resultStatusBox');
             if(oldBox) oldBox.remove();
             
@@ -361,18 +361,17 @@
             box.id = 'resultStatusBox';
 
             if(lulus) {
-                // Tampilan Jika LULUS (Skor 100)
                 box.className = 'result-box success';
                 box.innerHTML = `
-                    <div style="font-size: 16px; margin-bottom: 4px;">🎉 HASIL: TUNTAS (LULUS)</div>
+                    <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">🎉 HASIL: TUNTAS (LULUS)</div>
                     <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: 100 / 100</div>
-                    <p style="font-weight: 400; font-size: 13px;">Selamat! Semua jawaban Anda benar. Progres berhasil disimpan ke database awan dan modul berikutnya telah terbuka.</p>
+                    <p style="font-weight: 400; font-size: 13px;">Selamat! Semua jawaban Anda benar. Progres berhasil disimpan ke database dan modul berikutnya telah terbuka.</p>
                 `;
                 
                 document.getElementById('circle-pt').className = "status-circle opened";
                 document.getElementById('circle-pt').innerHTML = "✓";
 
-                // Kirim data sinkronisasi ke Google Sheets
+                // URLSearchParams untuk bypass pembatasan CORS browser
                 const dataKirim = new URLSearchParams();
                 dataKirim.append('userId', sessionUser.username);
                 dataKirim.append('modulSelesai', modulAktif);
@@ -394,29 +393,24 @@
                 });
 
             } else {
-                // Tampilan Jika TIDAK LULUS (Skor < 100)
                 box.className = 'result-box fail';
                 box.innerHTML = `
-                    <div style="font-size: 16px; margin-bottom: 4px;">❌ HASIL: BELUM TUNTAS</div>
+                    <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">❌ HASIL: BELUM TUNTAS</div>
                     <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: ${skorAkhir} / 100</div>
-                    <p style="font-weight: 400; font-size: 13px; margin-bottom: 12px;">Maaf, Anda harus menjawab semua pertanyaan dengan benar (Syarat Kelulusan: Skor 100).</p>
+                    <p style="font-weight: 400; font-size: 13px; margin-bottom: 12px;">Maaf, Anda harus menjawab semua pertanyaan kuis dengan benar (Syarat Kelulusan: Skor 100).</p>
                     <button type="button" onclick="ulangKuis(this.form)" style="background:#991b1b; color:white; border:none; padding:6px 12px; border-radius:4px; font-weight:600; cursor:pointer; font-size:12px;">Ulangi Post Test</button>
                 `;
             }
 
-            // Sisipkan kotak hasil di bagian paling atas konten post test
             const containerSoal = document.getElementById('postTestContent');
             containerSoal.insertBefore(box, containerSoal.firstChild);
-            
-            // Efek scroll halus ke arah kotak skor agar siswa langsung bisa melihat hasilnya
             box.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // Fungsi Tambahan untuk Mereset Pilihan Radio Button Siswa saat Gagal
         function ulangKuis(form) {
-            form.reset(); // Mengosongkan semua bulatan pilihan yang sudah dicentang sebelumnya
+            form.reset();
             const oldBox = document.getElementById('resultStatusBox');
-            if(oldBox) oldBox.remove(); // Hapus kotak merah kegagalan agar bersih kembali
+            if(oldBox) oldBox.remove();
         }
     </script>
 </body>
