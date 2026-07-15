@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMA N 1 MUNCAR</title>
+    <title>Satuan Pendidikan Aman Bencana</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -70,12 +70,19 @@
 
         .post-test-card { background-color: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: not-allowed; opacity: 0.6; }
         .post-test-card.ready { pointer-events: auto; cursor: pointer; opacity: 1; }
-        .post-test-card.expanded { border-radius: 12px 12px 0 0; border-bottom: none; }
-        .post-test-content { display: none; background-color: white; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 12px 12px; padding: 24px 20px; margin-top: -14px; margin-bottom: 20px; }
-        .post-test-card.expanded + .post-test-content { display: block; }
-        .result-box { padding: 16px; border-radius: 8px; margin-bottom: 16px; font-weight: 600; font-size: 14px; }
-        .result-box.success { background-color: #d1fae5; color: #065f46; border: 1px solid #10b981; }
-        .result-box.fail { background-color: #fee2e2; color: #991b1b; border: 1px solid #ef4444; }
+        
+        /* State Terblokir Khusus Saat Remedial */
+        .post-test-card.remedial-locked { pointer-events: none !important; cursor: not-allowed !important; opacity: 0.4 !important; background-color: #f3f4f6 !important; }
+
+        /* --- STYLING HALAMAN POST TEST MANDIRI --- */
+        .post-test-container-page { display: none; background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-top: 10px; }
+        .kuis-step { display: none; }
+        .kuis-step.active { display: block; }
+        .step-navigation { display: flex; justify-content: space-between; margin-top: 24px; align-items: center; }
+        
+        .btn-nav-kuis { background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; }
+        .btn-nav-kuis.disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+        .btn-remedial-action { background-color: #991b1b; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 14px; margin-top: 15px; display: block; width: 100%; text-align: center; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -120,25 +127,52 @@
             </div>
 
             <div class="pmm-body">
-                <div class="section-label">Daftar Materi</div>
-                <div class="materi-item" id="item-1"><div class="materi-header" onclick="toggleMateri(1)"><div class="materi-header-left"><div class="status-circle ready" id="circle-1"></div><div class="materi-title" id="title-materi-1">Materi 1</div></div><svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="materi-content" id="content-1"></div></div>
-                <div class="materi-item locked" id="item-2"><div class="materi-header" onclick="toggleMateri(2)"><div class="materi-header-left"><div class="status-circle" id="circle-2">🔒</div><div class="materi-title" id="title-materi-2">Materi 2</div></div><svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="materi-content" id="content-2"></div></div>
-                <div class="materi-item locked" id="item-3"><div class="materi-header" onclick="toggleMateri(3)"><div class="materi-header-left"><div class="status-circle" id="circle-3">🔒</div><div class="materi-title" id="title-materi-3">Materi 3</div></div><svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="materi-content" id="content-3"></div></div>
+                <!-- PANEL 1: AREA DAFTAR MATERI ACCORDION -->
+                <div id="materiSectionArea">
+                    <div class="section-label">Daftar Materi</div>
+                    <div class="materi-item" id="item-1"><div class="materi-header" onclick="toggleMateri(1)"><div class="materi-header-left"><div class="status-circle ready" id="circle-1"></div><div class="materi-title" id="title-materi-1">Materi 1</div></div><svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="materi-content" id="content-1"></div></div>
+                    <div class="materi-item locked" id="item-2"><div class="materi-header" onclick="toggleMateri(2)"><div class="materi-header-left"><div class="status-circle" id="circle-2">🔒</div><div class="materi-title" id="title-materi-2">Materi 2</div></div><svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="materi-content" id="content-2"></div></div>
+                    <div class="materi-item locked" id="item-3"><div class="materi-header" onclick="toggleMateri(3)"><div class="materi-header-left"><div class="status-circle" id="circle-3">🔒</div><div class="materi-title" id="title-materi-3">Materi 3</div></div><svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="materi-content" id="content-3"></div></div>
 
-                <div class="section-label" style="margin-top: 24px;">Post Test</div>
-                <div class="post-test-card" id="postTestBox" onclick="togglePostTest()">
-                    <div class="materi-header-left"><div class="status-circle" id="circle-pt">🔒</div><div><div class="materi-title" style="font-weight: 700;">Kerjakan post test</div></div></div>
-                    <svg class="arrow-icon" id="pt-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <div class="section-label" style="margin-top: 24px;">Post Test</div>
+                    <div class="post-test-card" id="postTestBox" onclick="bukaHalamanPostTest()">
+                        <div class="materi-header-left"><div class="status-circle" id="circle-pt">🔒</div><div><div class="materi-title" style="font-weight: 700;">Kerjakan post test</div></div></div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
                 </div>
-                <div class="post-test-content" id="postTestContent">Memuat soal post test...</div>
+
+                <!-- PANEL 2: HALAMAN POST TEST MANDIRI (MATERI SEMBUNYI) -->
+                <div class="post-test-container-page" id="postTestPageArea">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; border-bottom: 1px solid #e5e7eb; padding-bottom: 12px;">
+                        <h3 style="font-size:16px; font-weight:700; color:#0b3a7a;">Lembar Post Test</h3>
+                        <span id="labelStepIndicator" style="font-size:13px; font-weight:600; color:#6b7280;">Soal 1 dari 1</span>
+                    </div>
+                    
+                    <!-- Kotak Hasil/Skor Kelulusan -->
+                    <div id="skorResultContainer"></div>
+
+                    <!-- Form Kuis Utama -->
+                    <form id="formKuisSlide" onsubmit="periksaKuis(event)">
+                        <div id="slideQuestionsWrapper">
+                            <!-- Soal dinamis dimuat di sini -->
+                        </div>
+
+                        <!-- Navigasi Ganti Halaman Soal -->
+                        <div class="step-navigation" id="kuisNavRow">
+                            <button type="button" class="btn-nav-kuis disabled" id="btnPrevKuis" onclick="geserHalamanKuis(-1)">Kembali</button>
+                            <button type="button" class="btn-nav-kuis" id="btnNextKuis" onclick="geserHalamanKuis(1)">Selanjutnya</button>
+                            <button type="submit" class="btn-nav-kuis" id="btnSubmitKuis" style="display:none; background-color:#10b981;">Kirim Jawaban</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Gunakan datasiswa.js eksternal -->
+    <!-- Berkas eksternal NISN siswa -->
     <script src="datasiswa.js"></script>
     <script>
-        // PENTING: URL WEB APP GOOGLE SCRIPT (/exec)
+        // PENTING: Tautan aktif Google Sheets Apps Script Anda
         const API_URL = "https://script.google.com/macros/s/AKfycbyL_jb4enKAJ7BZwt9w-7mc36pvOSjdOYyk6rSJ284ZkxvB7mp55aaxdAZyWD_5EP62/exec"; 
 
         const dataModul = {
@@ -155,7 +189,10 @@
         let internalDibuka = { 1: false, 2: false, 3: false };
         let modulAktif = 1;
 
-        // PROTEKSI HALAMAN
+        // Properti navigasi per halaman soal
+        let currentKuisIndex = 0;
+        let totalSoalAktif = 0;
+
         (function verifikasiAkses() {
             const savedUser = localStorage.getItem('loggedSiswa');
             if(!savedUser) {
@@ -187,18 +224,13 @@
                 .then(resData => {
                     if(resData.status === "success") {
                         dbStatusModul = resData.progress;
-
-                        // PENGAMAN UTAMA: Konversi status string ke boolean murni
                         for (let key in dbStatusModul) {
                             dbStatusModul[key] = (dbStatusModul[key] === true || dbStatusModul[key] === "true" || dbStatusModul[key] === "TRUE");
                         }
-
-                        // Jaminan Modul 1 selalu terbuka (TRUE) untuk pengguna baru / yang sedang belajar
-                        dbStatusModul[1] = true;
+                        dbStatusModul[1] = true; 
                         renderDaftarHalamanUtama();
                     }
                 }).catch(() => {
-                    console.log("Gagal memuat data cloud. Mengaktifkan mode offline aman.");
                     dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
                     renderDaftarHalamanUtama();
                 });
@@ -209,7 +241,6 @@
                 const card = document.getElementById(`card-modul-${i}`);
                 card.classList.remove('locked', 'completed');
 
-                // Validasi status akses boolean sejati
                 const isAktif = (dbStatusModul[i] === true || dbStatusModul[i] === "true" || dbStatusModul[i] === "TRUE");
 
                 if (isAktif) {
@@ -225,7 +256,6 @@
         }
 
         function bukaModul(noModul) {
-            // Evaluasi status boolean murni untuk membuka gembok
             const statusAkses = (dbStatusModul[noModul] === true || dbStatusModul[noModul] === "true" || dbStatusModul[noModul] === "TRUE");
 
             if (!statusAkses) {
@@ -233,10 +263,7 @@
                 return;
             }
             modulAktif = noModul;
-            
-            // Cek apakah modul setelahnya sudah bernilai true (menandakan modul saat ini sudah lulus tuntas)
-            const nextAktif = (dbStatusModul[noModul+1] === true || dbStatusModul[noModul+1] === "true" || dbStatusModul[noModul+1] === "TRUE");
-            let isAlreadyDone = (noModul < 5 && nextAktif);
+            let isAlreadyDone = (noModul < 5 && dbStatusModul[noModul+1] === true);
 
             internalAkses = { 1: true, 2: isAlreadyDone, 3: isAlreadyDone, pt: isAlreadyDone };
             internalDibuka = { 1: isAlreadyDone, 2: isAlreadyDone, 3: isAlreadyDone };
@@ -245,12 +272,12 @@
             document.getElementById('modalTitle').innerText = dataModul[noModul].title;
             for(let i=1; i<=3; i++) document.getElementById(`title-materi-${i}`).innerText = dataModul[noModul].materi[i-1];
 
-            document.getElementById('postTestBox').classList.remove('expanded');
-            document.getElementById('postTestContent').style.display = 'none';
+            // Reset tampilan ke halaman materi
+            document.getElementById('materiSectionArea').style.display = 'block';
+            document.getElementById('postTestPageArea').style.display = 'none';
+            document.getElementById('postTestBox').classList.remove('remedial-locked');
 
             renderAccordionVisual();
-            
-            // Pemicu mutlak memunculkan modal overlay di layar
             document.getElementById('moduleModal').classList.add('active');
         }
 
@@ -297,8 +324,6 @@
 
             if (!item.classList.contains('expanded')) {
                 document.querySelectorAll('.materi-item').forEach(el => el.classList.remove('expanded'));
-                document.getElementById('postTestBox').classList.remove('expanded');
-                document.getElementById('postTestContent').style.display = 'none';
                 
                 item.classList.add('expanded');
                 content.style.display = 'block';
@@ -340,47 +365,111 @@
             }
         }
 
-        function togglePostTest() {
+        // ==========================================
+        // FITUR BARU: HALAMAN POST TEST MANDIRI
+        // ==========================================
+        function bukaHalamanPostTest() {
             if (!internalAkses.pt) return;
-            const ptCard = document.getElementById('postTestBox');
-            const containerSoal = document.getElementById('postTestContent');
-            
-            if (!ptCard.classList.contains('expanded')) {
-                document.querySelectorAll('.materi-item').forEach(el => el.classList.remove('expanded'));
-                ptCard.classList.add('expanded');
-                containerSoal.style.display = 'block';
 
-                containerSoal.innerHTML = `<em>Memuat Lembar Kuis...</em>`;
-                fetch(`posttest-m${modulAktif}.html`)
-                    .then(res => res.text())
-                    .then(data => { containerSoal.innerHTML = data; });
+            // Sembunyikan daftar materi
+            document.getElementById('materiSectionArea').style.display = 'none';
+            // Tampilkan halaman post test khusus
+            const containerKuis = document.getElementById('postTestPageArea');
+            containerKuis.style.display = 'block';
+
+            document.getElementById('skorResultContainer').innerHTML = "";
+            document.getElementById('kuisNavRow').style.display = 'flex';
+
+            const wrapperSoal = document.getElementById('slideQuestionsWrapper');
+            wrapperSoal.innerHTML = `<div style="text-align:center; padding: 20px;"><em>Memuat Lembar Kuis...</em></div>`;
+
+            // Ambil berkas HTML soal kuis
+            fetch(`posttest-m${modulAktif}.html`)
+                .then(res => res.text())
+                .then(data => {
+                    // Buat penampung DOM sementara untuk memisahkan form kuis menjadi elemen kuis-step
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const originalForm = doc.querySelector('form');
+                    
+                    if(originalForm) {
+                        const childNodes = Array.from(originalForm.children);
+                        wrapperSoal.innerHTML = "";
+                        let indexSoal = 1;
+
+                        childNodes.forEach((node) => {
+                            // Deteksi container soal (yang memiliki tag <p> nomor soal)
+                            if (node.tagName === 'DIV') {
+                                node.className = 'kuis-step';
+                                node.id = `step-soal-${indexSoal}`;
+                                wrapperSoal.appendChild(node);
+                                indexSoal++;
+                            }
+                        });
+
+                        totalSoalAktif = indexSoal - 1;
+                        currentKuisIndex = 1;
+                        tampilkanHalamanSoalAktif();
+                    } else {
+                        wrapperSoal.innerHTML = `<div style="color:red; padding:20px;">Gagal memproses berkas soal.</div>`;
+                    }
+                });
+        }
+
+        function tampilkanHalamanSoalAktif() {
+            // Sembunyikan semua slide soal
+            document.querySelectorAll('.kuis-step').forEach(step => step.classList.remove('active'));
+            
+            // Tampilkan satu slide soal aktif
+            const activeStep = document.getElementById(`step-soal-${currentKuisIndex}`);
+            if (activeStep) activeStep.classList.add('active');
+
+            // Update Label Indikator Soal
+            document.getElementById('labelStepIndicator').innerText = `Soal ${currentKuisIndex} dari ${totalSoalAktif}`;
+
+            // Kelola Status Tombol Navigasi
+            document.getElementById('btnPrevKuis').className = (currentKuisIndex === 1) ? "btn-nav-kuis disabled" : "btn-nav-kuis";
+            
+            if (currentKuisIndex === totalSoalAktif) {
+                document.getElementById('btnNextKuis').style.display = 'none';
+                document.getElementById('btnSubmitKuis').style.display = 'block';
             } else {
-                ptCard.classList.remove('expanded');
-                containerSoal.style.display = 'none';
+                document.getElementById('btnNextKuis').style.display = 'block';
+                document.getElementById('btnSubmitKuis').style.display = 'none';
+            }
+        }
+
+        function geserHalamanKuis(arah) {
+            let targetIndex = currentKuisIndex + arah;
+            if (targetIndex >= 1 && targetIndex <= totalSoalAktif) {
+                currentKuisIndex = targetIndex;
+                tampilkanHalamanSoalAktif();
             }
         }
 
         function periksaKuis(event) {
             event.preventDefault();
             const form = event.target;
-            let totalSoalPilihanGanda = 0, jawabanBenar = 0;
+            let jawabanBenar = 0;
 
+            // 1. Hitung radio button yang dicentang & memiliki data-correct
             form.querySelectorAll('input[type="radio"]').forEach(radio => {
                 if(radio.checked && radio.hasAttribute('data-correct')) jawabanBenar++;
             });
 
-            const namaGrupRadio = new Set();
-            form.querySelectorAll('input[type="radio"]').forEach(radio => namaGrupRadio.add(radio.name));
-            totalSoalPilihanGanda = namaGrupRadio.size;
-
-            let skorAkhir = totalSoalPilihanGanda > 0 ? Math.round((jawabanBenar / totalSoalPilihanGanda) * 100) : 100;
+            // 2. Hitung persentase skor akhir
+            let skorAkhir = totalSoalAktif > 0 ? Math.round((jawabanBenar / totalSoalAktif) * 100) : 100;
             let lulus = (skorAkhir === 100);
 
-            const oldBox = document.getElementById('resultStatusBox');
-            if(oldBox) oldBox.remove();
-            
+            const resultWrapper = document.getElementById('skorResultContainer');
+            resultWrapper.innerHTML = "";
+
+            // Sembunyikan soal & navigasi saat hasil keluar
+            document.getElementById('slideQuestionsWrapper').innerHTML = "";
+            document.getElementById('kuisNavRow').style.display = 'none';
+            document.getElementById('labelStepIndicator').innerText = "Hasil Evaluasi";
+
             const box = document.createElement('div');
-            box.id = 'resultStatusBox';
 
             if(lulus) {
                 box.className = 'result-box success';
@@ -389,10 +478,12 @@
                     <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: 100 / 100</div>
                     <p style="font-weight: 400; font-size: 13px;">Selamat! Semua jawaban Anda benar. Progres berhasil disimpan ke database dan modul berikutnya telah terbuka.</p>
                 `;
+                resultWrapper.appendChild(box);
                 
                 document.getElementById('circle-pt').className = "status-circle opened";
                 document.getElementById('circle-pt').innerHTML = "✓";
 
+                // Kirim progres tuntas ke Google Sheets
                 const dataKirim = new URLSearchParams();
                 dataKirim.append('userId', sessionUser.username);
                 dataKirim.append('modulSelesai', modulAktif);
@@ -414,33 +505,39 @@
                 });
 
             } else {
+                // Tampilan Jika BELUM TUNTAS (POST TEST TERKUNCI TOTAL & REMEDIAL)
                 box.className = 'result-box fail';
                 box.innerHTML = `
                     <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">❌ HASIL: BELUM TUNTAS</div>
                     <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: ${skorAkhir} / 100</div>
                     <p style="font-weight: 400; font-size: 13px; margin-bottom: 12px;">Maaf, Anda harus menjawab semua pertanyaan kuis dengan benar (Syarat Kelulusan: Skor 100).</p>
-                    <button type="button" onclick="pemicuUlangModul(this.form)" style="background:#991b1b; color:white; border:none; padding:6px 12px; border-radius:4px; font-weight:600; cursor:pointer; font-size:12px;">Ulangi Mempelajari Modul</button>
+                    <button type="button" class="btn-remedial-action" onclick="pemicuUlangModul(document.getElementById('formKuisSlide'))">Ulangi Mempelajari Modul</button>
                 `;
+                resultWrapper.appendChild(box);
+
+                // BLOKIR TOTAL TOMBOL POST TEST KETIKA REMEDIAL
+                const ptCard = document.getElementById('postTestBox');
+                ptCard.classList.add('remedial-locked');
             }
 
-            const containerSoal = document.getElementById('postTestContent');
-            containerSoal.insertBefore(box, containerSoal.firstChild);
             box.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
+        // AKSI REMEDIAL: Reset semua gembok modul aktif ke awal
         function pemicuUlangModul(form) {
             form.reset(); 
             
-            const ptCard = document.getElementById('postTestBox');
-            ptCard.classList.remove('expanded');
-            document.getElementById('postTestContent').style.display = 'none';
+            // Kembalikan ke panel materi utama
+            document.getElementById('materiSectionArea').style.display = 'block';
+            document.getElementById('postTestPageArea').style.display = 'none';
 
+            // Kunci total Materi 2, Materi 3, dan Post Test kembali ke posisi gembok
             internalAkses = { 1: true, 2: false, 3: false, pt: false };
             internalDibuka = { 1: true, 2: false, 3: false }; 
 
             renderAccordionVisual();
 
-            alert("Materi 2, Materi 3, dan Post Test telah dikunci kembali. Silakan pelajari ulang materi secara berurutan!");
+            alert("Post Test terkunci. Anda wajib mempelajari kembali Materi 1, Materi 2, dan Materi 3 secara berurutan untuk membukanya!");
         }
     </script>
 </body>
