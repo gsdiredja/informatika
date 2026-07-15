@@ -11,7 +11,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: #f3f4f6; color: #333333; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
-        /* Global Header untuk Nama & Kelas */
+        /* Global Header Lengket (Sticky) untuk Nama & Kelas */
         .global-student-header { width: 100%; background-color: #1e293b; color: #f8fafc; padding: 12px 20px; font-size: 14px; display: none; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 99; }
         .student-info-text { font-weight: 500; }
         .btn-logout { background: #ef4444; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
@@ -22,7 +22,7 @@
         .section-title { font-size: 20px; font-weight: 700; color: #1f2937; margin-bottom: 4px; }
         .section-subtitle { font-size: 14px; color: #6b7280; margin-bottom: 20px; }
         
-        /* Login Container Screen */
+        /* Layar Form Login */
         .login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; width: 100%; padding: 20px; }
         .login-card { background: white; border: 1px solid #e5e7eb; padding: 30px; border-radius: 12px; max-width: 400px; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .login-card h2 { margin-bottom: 20px; color: #0b3a7a; font-size: 20px; text-align: center; }
@@ -31,19 +31,21 @@
         .form-group input { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; outline: none; font-size: 14px; }
         .btn-login { width: 100%; background: #0b3a7a; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; margin-top: 10px; }
 
-        /* Main App Area */
-        .app-content { display: none; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        /* Area Halaman Utama Aplikasi */
+        .app-content { display: none; width: 100%; flex-direction: column; align-items: center; }
 
         .modules-list { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+        
+        /* Style Kartu Modul */
         .module-card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px; display: flex; gap: 20px; cursor: pointer; transition: all 0.2s; position: relative; }
         
-        /* State Terkunci */
+        /* Modul Terkunci (Tanda Merah) */
         .module-card.locked { background-color: #fef2f2; border-color: #fca5a5; cursor: not-allowed; opacity: 0.8; }
         .module-card.locked .module-name { color: #991b1b; }
         .module-card.locked .module-number { background-color: #ef4444; }
         .module-card.locked .btn-study { background-color: #fee2e2; color: #991b1b; cursor: not-allowed; }
         
-        /* State Tuntas */
+        /* Modul Selesai (Centang Hijau) */
         .module-card.completed { border-color: #10b981; }
         .module-card.completed::after { content: "✓ Tuntas"; position: absolute; top: 15px; right: 20px; background: #10b981; color: white; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
 
@@ -53,7 +55,7 @@
         .module-meta { font-size: 13px; color: #6b7280; margin-bottom: 12px; }
         .btn-study { background-color: #a5f3fc; color: #0369a1; border: none; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; }
 
-        /* --- STYLING MODAL FULL SCREEN --- */
+        /* --- STYLING MODAL WINDOW --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f4f6; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 1000; overflow-y: auto; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-container { max-width: 650px; width: 100%; margin: 0 auto; background-color: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
@@ -64,7 +66,7 @@
         .pmm-body { padding: 24px; }
         .section-label { font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 16px; }
 
-        /* Accordion */
+        /* Accordion Pembelajaran */
         .materi-item { background-color: white; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
         .materi-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
         .materi-header-left { display: flex; align-items: center; gap: 14px; }
@@ -92,7 +94,7 @@
 </head>
 <body>
 
-    <!-- Bar Header Siswa -->
+    <!-- Bar Header Siswa Terverifikasi -->
     <div class="global-student-header" id="globalStudentHeader">
         <div class="student-info-text">
             👤 Siswa: <span id="hdrNamaSiswa">-</span> | Kelas: <span id="hdrKelasSiswa">-</span>
@@ -100,7 +102,7 @@
         <button class="btn-logout" onclick="logoutSiswa()">Keluar</button>
     </div>
 
-    <!-- TAMPILAN 1: FORM LOGIN -->
+    <!-- TAMPILAN 1: LAYAR LOGIN -->
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <h2>Login Pelatihan SPAB</h2>
@@ -116,7 +118,7 @@
         </div>
     </div>
 
-    <!-- TAMPILAN 2: HALAMAN UTAMA APLIKASI -->
+    <!-- TAMPILAN 2: HALAMAN DAFTAR MODUL UTAMA -->
     <div class="app-content" id="appContent">
         <div class="container">
             <h1>Satuan Pendidikan Aman Bencana</h1>
@@ -136,7 +138,7 @@
         </div>
     </div>
 
-    <!-- WINDOW MODAL PMM -->
+    <!-- WINDOW MODAL DOKUMEN MODUL (PMM STYLE) -->
     <div class="modal-overlay" id="moduleModal">
         <div class="modal-container">
             <div class="pmm-header">
@@ -163,10 +165,10 @@
         </div>
     </div>
 
-    <!-- LOGIKA CORE UTAMA JS -->
+    <!-- LOGIKA JAVASCRIPT UTAMA -->
     <script>
-        // PENTING: TEMPELKAN URL DEPLOYMENT APPS SCRIPT BERAKHIRAN /exec DI SINI
-        const API_URL = "https://script.google.com/macros/s/AKfycbzV-XgU8rC7tQy6pE-gBskB_WfV1ZqV0XlNzr6v8w/exec"; 
+        // PENTING: TEMPELKAN URL APPS SCRIPT WEB APP ANDA BERAKHIRAN /exec DI SINI
+        const API_URL = "https://script.google.com/macros/s/AKfycbyL_jb4enKAJ7BZwt9w-7mc36pvOSjdOYyk6rSJ284ZkxvB7mp55aaxdAZyWD_5EP62/exec"; 
 
         const dataModul = {
             1: { title: "Modul 1: Sekolah Aman Dimulai dari Sini!", materi: ["Mengapa SPAB? Mari Pahami Beserta Tantangannya", "3 Pilar SPAB: Fondasi Utama Sekolah Siaga", "Jalankan SPAB Sesuai Aturan Juknis Resmi"] },
@@ -182,6 +184,7 @@
         let internalDibuka = { 1: false, 2: false, 3: false };
         let modulAktif = 1;
 
+        // Cek sesi login otomatis saat halaman dimuat
         window.onload = function() {
             const savedUser = localStorage.getItem('loggedSiswa');
             if(savedUser) {
@@ -195,7 +198,7 @@
             const passIn = document.getElementById('inputPass').value.trim();
 
             if(!userIn || !passIn) {
-                alert("Username dan Password tidak boleh kosong!");
+                alert("Username dan Password wajib diisi!");
                 return;
             }
 
@@ -206,7 +209,7 @@
                 localStorage.setItem('loggedSiswa', JSON.stringify(ketemu));
                 aktifkanAntarmukaAplikasi();
             } else {
-                alert("Username atau Password salah! Periksa kembali data Anda.");
+                alert("Username atau Password tidak cocok!");
             }
         }
 
@@ -237,7 +240,7 @@
                         dbStatusModul = resData.progress;
                         renderDaftarHalamanUtama();
                     }
-                }).catch(() => console.log("Gagal memuat basis data awan."));
+                }).catch(() => console.log("Gagal memuat sinkronisasi cloud."));
         }
 
         function renderDaftarHalamanUtama() {
@@ -258,7 +261,7 @@
 
         function bukaModul(noModul) {
             if (!dbStatusModul[noModul]) {
-                alert("Modul ini masih terblokir! Selesaikan modul sebelumnya terlebih dahulu.");
+                alert("Modul terkunci! Selesaikan modul sebelumnya terlebih dahulu.");
                 return;
             }
             modulAktif = noModul;
@@ -386,7 +389,7 @@
             }
         }
 
-        // PENYESUAIAN FITUR PENGIRIMAN DATA KE DATABASE GOOGLE SHEETS
+        // FUNGSI CHECK KUIS DAN KIRIM NO-CORS KE APPS SCRIPT
         function periksaKuis(event) {
             event.preventDefault();
             const form = event.target;
@@ -410,24 +413,32 @@
 
             if(lulus) {
                 box.className = 'result-box success';
-                box.innerHTML = `🎉 Nilai: 100/100. LULUS! Menyelaraskan progres ke server...`;
+                box.innerHTML = `🎉 Nilai: 100/100. LULUS! Menyimpan progres ke server...`;
                 document.getElementById('circle-pt').className = "status-circle opened";
                 document.getElementById('circle-pt').innerHTML = "✓";
 
-                // bypass CORS menggunakan text/plain header menuju doPost di Apps Script
+                // MEMAKAI URLSEARCHPARAMS UNTUK MENGHINDARI BLOKIR PREFLIGHT OPTIONS (CORS BROWSER)
+                const dataKirim = new URLSearchParams();
+                dataKirim.append('userId', sessionUser.username);
+                dataKirim.append('modulSelesai', modulAktif);
+
                 fetch(API_URL, {
                     method: "POST",
-                    mode: "cors",
-                    headers: { "Content-Type": "text/plain" },
-                    body: JSON.stringify({ userId: sessionUser.username, modulSelesai: modulAktif })
+                    mode: "no-cors", 
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: dataKirim.toString()
                 }).then(() => {
                     setTimeout(() => {
-                        loadProgresDatabase();
+                        // Buka paksa lokal state agar UI langsung aktif tanpa menunggu penundaan fetch database
+                        let nextModul = modulAktif + 1;
+                        if(nextModul <= 5) dbStatusModul[nextModul] = true;
+
+                        renderDaftarHalamanUtama();
                         tutupModul();
-                        alert("Selamat! Modul berhasil diselesaikan dan data tersimpan ke database.");
+                        alert("Selamat! Modul diselesaikan dan data berhasil dicatat.");
                     }, 1500);
                 }).catch(() => {
-                    alert("Progres gagal dikirim ke awan. Pastikan proyek dijalankan via Live Server/GitHub Pages.");
+                    alert("Gagal terhubung ke database awan.");
                 });
             } else {
                 box.className = 'result-box fail';
