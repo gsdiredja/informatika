@@ -141,7 +141,7 @@
                     </div>
                 </div>
 
-                <!-- PANEL 2: HALAMAN POST TEST MANDIRI (MATERI SEMBUNYI) -->
+                <!-- PANEL 2: HALAMAN POST TEST MANDIRI -->
                 <div class="post-test-container-page" id="postTestPageArea">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; border-bottom: 1px solid #e5e7eb; padding-bottom: 12px;">
                         <h3 style="font-size:16px; font-weight:700; color:#0b3a7a;">Lembar Post Test</h3>
@@ -173,7 +173,7 @@
     <script src="datasiswa.js"></script>
     <script>
         // PENTING: Tautan aktif Google Sheets Apps Script Anda
-        const API_URL = "https://script.google.com/macros/s/AKfycbyL_jb4enKAJ7BZwt9w-7mc36pvOSjdOYyk6rSJ284ZkxvB7mp55aaxdAZyWD_5EP62/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec"; 
 
         const dataModul = {
             1: { title: "Modul 1: Sekolah Aman Dimulai dari Sini!", materi: ["Mengapa SPAB? Mari Pahami Beserta Tantangannya", "3 Pilar SPAB: Fondasi Utama Sekolah Siaga", "Jalankan SPAB Sesuai Aturan Juknis Resmi"] },
@@ -366,7 +366,7 @@
         }
 
         // ==========================================
-        // FITUR BARU: HALAMAN POST TEST MANDIRI
+        // FITUR BUKA HALAMAN KUIS MANDIRI (NEXT/PREV SLIDE)
         // ==========================================
         function bukaHalamanPostTest() {
             if (!internalAkses.pt) return;
@@ -387,7 +387,6 @@
             fetch(`posttest-m${modulAktif}.html`)
                 .then(res => res.text())
                 .then(data => {
-                    // Buat penampung DOM sementara untuk memisahkan form kuis menjadi elemen kuis-step
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(data, 'text/html');
                     const originalForm = doc.querySelector('form');
@@ -398,7 +397,6 @@
                         let indexSoal = 1;
 
                         childNodes.forEach((node) => {
-                            // Deteksi container soal (yang memiliki tag <p> nomor soal)
                             if (node.tagName === 'DIV') {
                                 node.className = 'kuis-step';
                                 node.id = `step-soal-${indexSoal}`;
@@ -417,17 +415,13 @@
         }
 
         function tampilkanHalamanSoalAktif() {
-            // Sembunyikan semua slide soal
             document.querySelectorAll('.kuis-step').forEach(step => step.classList.remove('active'));
             
-            // Tampilkan satu slide soal aktif
             const activeStep = document.getElementById(`step-soal-${currentKuisIndex}`);
             if (activeStep) activeStep.classList.add('active');
 
-            // Update Label Indikator Soal
             document.getElementById('labelStepIndicator').innerText = `Soal ${currentKuisIndex} dari ${totalSoalAktif}`;
 
-            // Kelola Status Tombol Navigasi
             document.getElementById('btnPrevKuis').className = (currentKuisIndex === 1) ? "btn-nav-kuis disabled" : "btn-nav-kuis";
             
             if (currentKuisIndex === totalSoalAktif) {
@@ -447,97 +441,123 @@
             }
         }
 
+        // ==========================================
+        // PROSES PENILAIAN, PENGAMBILAN DATA ESSAY & RECORD DATABASE
+        // ==========================================
         function periksaKuis(event) {
             event.preventDefault();
             const form = event.target;
+            
+            let totalSoalPilihanGanda = 0;
             let jawabanBenar = 0;
+            let listJawabanPG = [];
 
-            // 1. Hitung radio button yang dicentang & memiliki data-correct
+            // 1. Rekam Jawaban Pilihan Ganda & Deteksi Benar/Salah
             form.querySelectorAll('input[type="radio"]').forEach(radio => {
-                if(radio.checked && radio.hasAttribute('data-correct')) jawabanBenar++;
+                if(radio.checked) {
+                    const isCorrect = radio.hasAttribute('data-correct');
+                    if(isCorrect) jawabanBenar++;
+                    listJawabanPG.push(`${radio.name}: ${radio.value} (${isCorrect ? "BENAR" : "SALAH"})`);
+                }
             });
 
-            // 2. Hitung persentase skor akhir
-            let skorAkhir = totalSoalAktif > 0 ? Math.round((jawabanBenar / totalSoalAktif) * 100) : 100;
+            // Hitung total kelompok PG
+            const namaGrupRadio = new Set();
+            form.querySelectorAll('input[type="radio"]').forEach(radio => namaGrupRadio.add(radio.name));
+            totalSoalPilihanGanda = namaGrupRadio.size;
+
+            // 2. Rekam Jawaban Essay dari Textarea
+            let listJawabanEssay = [];
+            form.querySelectorAll('textarea').forEach((txt, idx) => {
+                listJawabanEssay.push(`Essay ${idx+1}: "${txt.value.replace(/"/g, "'")}"`);
+            });
+
+            // 3. Kalkulasi Skor Matematika
+            let skorAkhir = totalSoalPilihanGanda > 0 ? Math.round((jawabanBenar / totalSoalPilihanGanda) * 100) : 100;
             let lulus = (skorAkhir === 100);
 
-            const resultWrapper = document.getElementById('skorResultContainer');
-            resultWrapper.innerHTML = "";
+            // Gabungkan list array menjadi format teks rapi untuk spreadsheet
+            const strJawabanPG = listJawabanPG.join(" | ");
+            const strJawabanEssay = listJawabanEssay.join(" | ");
 
-            // Sembunyikan soal & navigasi saat hasil keluar
+            const resultWrapper = document.getElementById('skorResultContainer');
+            resultWrapper.innerHTML = `<div style="text-align:center; padding: 20px;"><em>Menyimpan lembar jawaban ke server...</em></div>`;
+
+            // Sembunyikan soal & tombol navigasi agar tidak diklik dua kali
             document.getElementById('slideQuestionsWrapper').innerHTML = "";
             document.getElementById('kuisNavRow').style.display = 'none';
-            document.getElementById('labelStepIndicator').innerText = "Hasil Evaluasi";
 
-            const box = document.createElement('div');
+            // Kirim detil lengkap ke Google Sheets (baik LULUS maupun REMEDIAL)
+            const dataKirim = new URLSearchParams();
+            dataKirim.append('userId', sessionUser.username);
+            dataKirim.append('nama', sessionUser.nama);
+            dataKirim.append('kelas', sessionUser.kelas);
+            dataKirim.append('modulSelesai', modulAktif);
+            dataKirim.append('skor', skorAkhir);
+            dataKirim.append('status', lulus ? "TUNTAS" : "REMEDIAL");
+            dataKirim.append('jawabanPG', strJawabanPG);
+            dataKirim.append('jawabanEssay', strJawabanEssay);
 
-            if(lulus) {
-                box.className = 'result-box success';
-                box.innerHTML = `
-                    <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">🎉 HASIL: TUNTAS (LULUS)</div>
-                    <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: 100 / 100</div>
-                    <p style="font-weight: 400; font-size: 13px;">Selamat! Semua jawaban Anda benar. Progres berhasil disimpan ke database dan modul berikutnya telah terbuka.</p>
-                `;
-                resultWrapper.appendChild(box);
-                
-                document.getElementById('circle-pt').className = "status-circle opened";
-                document.getElementById('circle-pt').innerHTML = "✓";
+            fetch(API_URL, {
+                method: "POST",
+                mode: "no-cors", 
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: dataKirim.toString()
+            }).then(() => {
+                resultWrapper.innerHTML = ""; // Bersihkan teks loading
+                const box = document.createElement('div');
 
-                // Kirim progres tuntas ke Google Sheets
-                const dataKirim = new URLSearchParams();
-                dataKirim.append('userId', sessionUser.username);
-                dataKirim.append('modulSelesai', modulAktif);
+                if(lulus) {
+                    box.className = 'result-box success';
+                    box.innerHTML = `
+                        <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">🎉 HASIL: TUNTAS (LULUS)</div>
+                        <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: 100 / 100</div>
+                        <p style="font-weight: 400; font-size: 13px;">Selamat! Semua jawaban Anda benar. Rekaman jawaban berhasil disimpan dan modul berikutnya telah terbuka.</p>
+                    `;
+                    resultWrapper.appendChild(box);
+                    
+                    document.getElementById('circle-pt').className = "status-circle opened";
+                    document.getElementById('circle-pt').innerHTML = "✓";
 
-                fetch(API_URL, {
-                    method: "POST",
-                    mode: "no-cors", 
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: dataKirim.toString()
-                }).then(() => {
                     setTimeout(() => {
                         let nextModul = modulAktif + 1;
                         if(nextModul <= 5) dbStatusModul[nextModul] = true;
 
                         renderDaftarHalamanUtama();
                         tutupModul();
-                        alert("Selamat! Progres Modul " + modulAktif + " berhasil disimpan.");
-                    }, 1500);
-                });
+                        alert("Berhasil! Progres tuntas Anda sudah diamankan di sistem.");
+                    }, 2500);
 
-            } else {
-                // Tampilan Jika BELUM TUNTAS (POST TEST TERKUNCI TOTAL & REMEDIAL)
-                box.className = 'result-box fail';
-                box.innerHTML = `
-                    <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">❌ HASIL: BELUM TUNTAS</div>
-                    <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: ${skorAkhir} / 100</div>
-                    <p style="font-weight: 400; font-size: 13px; margin-bottom: 12px;">Maaf, Anda harus menjawab semua pertanyaan kuis dengan benar (Syarat Kelulusan: Skor 100).</p>
-                    <button type="button" class="btn-remedial-action" onclick="pemicuUlangModul(document.getElementById('formKuisSlide'))">Ulangi Mempelajari Modul</button>
-                `;
-                resultWrapper.appendChild(box);
+                } else {
+                    // Tampilan remedial dengan kunci Post Test
+                    box.className = 'result-box fail';
+                    box.innerHTML = `
+                        <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">❌ HASIL: BELUM TUNTAS</div>
+                        <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: ${skorAkhir} / 100</div>
+                        <p style="font-weight: 400; font-size: 13px; margin-bottom: 12px;">Maaf, Anda harus menjawab semua kuis dengan benar (Syarat Kelulusan: Skor 100). Percobaan remedial Anda telah dicatat.</p>
+                        <button type="button" class="btn-remedial-action" onclick="pemicuUlangModul(document.getElementById('formKuisSlide'))">Ulangi Mempelajari Modul</button>
+                    `;
+                    resultWrapper.appendChild(box);
 
-                // BLOKIR TOTAL TOMBOL POST TEST KETIKA REMEDIAL
-                const ptCard = document.getElementById('postTestBox');
-                ptCard.classList.add('remedial-locked');
-            }
-
-            box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // BLOKIR AKSES KERJAKAN POST TEST
+                    const ptCard = document.getElementById('postTestBox');
+                    ptCard.classList.add('remedial-locked');
+                }
+                box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
         }
 
-        // AKSI REMEDIAL: Reset semua gembok modul aktif ke awal
         function pemicuUlangModul(form) {
             form.reset(); 
             
-            // Kembalikan ke panel materi utama
             document.getElementById('materiSectionArea').style.display = 'block';
             document.getElementById('postTestPageArea').style.display = 'none';
 
-            // Kunci total Materi 2, Materi 3, dan Post Test kembali ke posisi gembok
             internalAkses = { 1: true, 2: false, 3: false, pt: false };
             internalDibuka = { 1: true, 2: false, 3: false }; 
 
             renderAccordionVisual();
-
-            alert("Post Test terkunci. Anda wajib mempelajari kembali Materi 1, Materi 2, dan Materi 3 secara berurutan untuk membukanya!");
+            alert("Bab 2, 3, dan Kuis dikunci kembali. Silakan baca ulang materi 1 untuk membuka kunci!");
         }
     </script>
 </body>
