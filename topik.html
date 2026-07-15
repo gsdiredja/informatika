@@ -59,7 +59,7 @@
         .card-bottom-info { border-top: 1px solid #f1f5f9; padding-top: 14px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; font-weight: 500; }
         .thumbnail-box { width: 50px; height: 50px; background-color: #a5f3fc; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #0369a1; }
 
-        /* --- STYLING AREA PENILAIAN SUMATIF & KARTU SOAL --- */
+        /* Styling Area Penilaian Sumatif & Kartu Soal */
         .sumatif-container { display: none; }
         .sumatif-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
         @media (max-width: 640px) { .sumatif-grid { grid-template-columns: 1fr; } }
@@ -126,7 +126,7 @@
                     </div>
                     <div>
                         <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
-                        <div class="card-bottom-info">📖 5 modul</div>
+                        <div class="card-bottom-info">5 modul</div>
                     </div>
                 </div>
 
@@ -141,7 +141,7 @@
                     </div>
                     <div>
                         <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
-                        <div class="card-bottom-info"><span id="lock-icon-2">🔒 </span>📖 3 modul</div>
+                        <div class="card-bottom-info"><span id="lock-icon-2">🔒 </span>3 modul</div>
                     </div>
                 </div>
 
@@ -156,7 +156,7 @@
                     </div>
                     <div>
                         <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
-                        <div class="card-bottom-info"><span id="lock-icon-3">🔒 </span>📖 4 modul</div>
+                        <div class="card-bottom-info"><span id="lock-icon-3">🔒 </span>4 modul</div>
                     </div>
                 </div>
             </div>
@@ -170,7 +170,7 @@
             <p style="color:#64748b; font-size:14px; margin-bottom: 24px;">Pilih tautan di bawah ini untuk memulai pengerjaan ujian penilaian sumatif digital:</p>
             
             <div class="sumatif-grid">
-                <!-- CARD SOAL 1: AKTIF SECARA DEFAULT -->
+                <!-- CARD SOAL 1 -->
                 <div class="soal-card" id="soal-sumatif-1" onclick="bukaSoalSumatif(1)">
                     <div class="soal-info-left">
                         <span class="soal-tag-status terbuka" id="tag-soal-1">Siap Dikerjakan</span>
@@ -180,7 +180,7 @@
                     <div class="arrow-circle-icon">➔</div>
                 </div>
 
-                <!-- CARD SOAL 2: TERKUNCI (OTOMATIS TERBUKA JIKA TOPIK 1 LULUS M5) -->
+                <!-- CARD SOAL 2 -->
                 <div class="soal-card locked" id="soal-sumatif-2" onclick="bukaSoalSumatif(2)">
                     <div class="soal-info-left">
                         <span class="soal-tag-status terkunci" id="tag-soal-2">🔒 Terkunci</span>
@@ -195,6 +195,7 @@
     </div>
 
     <script>
+        // MASUKKAN URL GOOGLE WEB APP SCRIPT ANDA DI SINI
         const API_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec"; 
 
         let sessionUser = null;
@@ -244,6 +245,7 @@
                             prog[k] = (prog[k] === true || prog[k] === "true" || prog[k] === "TRUE");
                         }
 
+                        // Topik 2 terbuka jika Modul 5 pada Topik 1 sudah lulus (bernilai true)
                         let topik1Selesai = (prog[5] === true);
                         if (topik1Selesai) {
                             statusTopik[1] = true;
@@ -266,7 +268,7 @@
                     const lockIcon = document.getElementById(`lock-icon-${i}`);
                     if(lockIcon) lockIcon.style.display = 'none';
 
-                    if (i === 1 && dbStatusModulSelesaiM5()) {
+                    if (i === 1 && statusTopik[2] === true) {
                         card.classList.add('completed');
                     }
                 } else {
@@ -274,7 +276,7 @@
                 }
             }
 
-            // MENGINTEGRASIKAN LOGIKA GEMBOK KE KARTU LINK SOAL SUMATIF
+            // Gembok Kartu Ujian Sumatif
             const cardSoal2 = document.getElementById('soal-sumatif-2');
             const tagSoal2 = document.getElementById('tag-soal-2');
             if (statusTopik[2]) {
@@ -286,10 +288,6 @@
                 tagSoal2.className = "soal-tag-status terkunci";
                 tagSoal2.innerText = "🔒 Terkunci";
             }
-        }
-
-        function dbStatusModulSelesaiM5() {
-            return statusTopik[2] === true; 
         }
 
         function bukaTopik(idTopik) {
@@ -305,7 +303,6 @@
             }
         }
 
-        // FUNGSI BARU: Mengontrol Klik pada Link Card Soal Sumatif
         function bukaSoalSumatif(idSoal) {
             if (idSoal === 2 && !statusTopik[2]) {
                 alert("Soal Sumatif 2 masih terkunci! Anda harus menyelesaikan materi dan pasca-test di Topik 1 terlebih dahulu.");
@@ -313,9 +310,7 @@
             }
 
             if (idSoal === 1) {
-                // Contoh pengalihan: Arahkan ke file kuis khusus sumatif milikmu
-                alert("Membuka lembar Soal Sumatif 1...");
-                // window.location.href = "sumatif-1.html"; 
+                window.location.href = "sumatif-1.html"; 
             } else {
                 alert("Membuka lembar Soal Sumatif " + idSoal + "...");
             }
