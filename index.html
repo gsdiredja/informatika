@@ -9,8 +9,14 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: #f3f4f6; color: #333333; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
-        /* Sticky Header Atas */
+        /* Sticky Header Atas (Disesuaikan dengan Tombol Back) */
         .global-student-header { width: 100%; background-color: #1e293b; color: #f8fafc; padding: 12px 20px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 99; }
+        .header-left-side { display: flex; align-items: center; gap: 16px; }
+        
+        /* STYLING BARU: Tombol Tanda Panah Kembali ke Topik */
+        .btn-back-to-topik { background: transparent; border: none; color: #f8fafc; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: 50%; transition: background 0.2s; }
+        .btn-back-to-topik:hover { background: rgba(255, 255, 255, 0.1); }
+        
         .student-info-text { font-weight: 500; }
         .btn-logout { background: #ef4444; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
 
@@ -87,10 +93,19 @@
 </head>
 <body>
 
-    <!-- Bar Header Siswa -->
+    <!-- Bar Header Siswa (Dengan Tanda Panah Kembali) -->
     <div class="global-student-header">
-        <div class="student-info-text">
-            👤 Siswa: <span id="hdrNamaSiswa">-</span> | Kelas: <span id="hdrKelasSiswa">-</span>
+        <div class="header-left-side">
+            <!-- ELEMEN BARU: Tombol SVG Tanda Panah Back ke topik.html -->
+            <button class="btn-back-to-topik" onclick="kembaliKeDaftarTopik()" title="Kembali ke Daftar Topik">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
+            <div class="student-info-text">
+                👤 Siswa: <span id="hdrNamaSiswa">-</span> | Kelas: <span id="hdrKelasSiswa">-</span>
+            </div>
         </div>
         <button class="btn-logout" onclick="logoutSiswa()">Keluar</button>
     </div>
@@ -172,7 +187,6 @@
     <!-- Berkas eksternal NISN siswa -->
     <script src="datasiswa.js"></script>
     <script>
-        // PENTING: Tautan aktif Google Sheets Apps Script Anda
         const API_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec"; 
 
         const dataModul = {
@@ -189,7 +203,6 @@
         let internalDibuka = { 1: false, 2: false, 3: false };
         let modulAktif = 1;
 
-        // Properti navigasi per halaman soal
         let currentKuisIndex = 0;
         let totalSoalAktif = 0;
 
@@ -206,6 +219,11 @@
                 });
             }
         })();
+
+        // FUNSI BARU: Pemicu lompat balik halaman ke topik.html
+        function kembaliKeDaftarTopik() {
+            window.location.href = "topik.html";
+        }
 
         function logoutSiswa() {
             localStorage.removeItem('loggedSiswa');
@@ -272,7 +290,6 @@
             document.getElementById('modalTitle').innerText = dataModul[noModul].title;
             for(let i=1; i<=3; i++) document.getElementById(`title-materi-${i}`).innerText = dataModul[noModul].materi[i-1];
 
-            // Reset tampilan ke halaman materi
             document.getElementById('materiSectionArea').style.display = 'block';
             document.getElementById('postTestPageArea').style.display = 'none';
             document.getElementById('postTestBox').classList.remove('remedial-locked');
@@ -365,9 +382,6 @@
             }
         }
 
-        // ==========================================
-        // FITUR BUKA HALAMAN KUIS MANDIRI
-        // ==========================================
         function bukaHalamanPostTest() {
             if (!internalAkses.pt) return;
 
@@ -438,9 +452,6 @@
             }
         }
 
-        // ==========================================
-        // PROSES PENILAIAN & RECORD DATABASE
-        // ==========================================
         function periksaKuis(event) {
             event.preventDefault();
             const form = event.target;
@@ -463,7 +474,7 @@
 
             let listJawabanEssay = [];
             form.querySelectorAll('textarea').forEach((txt, idx) => {
-                listJawabanEssay.push(`Essay ${idx+1}: "${txt.value.replace(/"/g, "'")}"`);
+                listJawabanEssay.push('Essay ' + (idx+1) + ': "' + txt.value.replace(/"/g, "'") + '"');
             });
 
             let skorAkhir = totalSoalPilihanGanda > 0 ? Math.round((jawabanBenar / totalSoalPilihanGanda) * 100) : 100;
@@ -535,23 +546,16 @@
             });
         }
 
-        // =============================================================
-        // PERUBAHAN UTAMA: Selesai klik tombol merah, langsung tutup modal kembali ke index
-        // =============================================================
         function pemicuUlangModul(form) {
             if(form) form.reset(); 
             
-            // Set ulang susunan modal agar ketika dibuka kembali sudah bersih seperti sedia kala
             document.getElementById('materiSectionArea').style.display = 'block';
             document.getElementById('postTestPageArea').style.display = 'none';
 
-            // Kunci kembali Materi 2, Materi 3, dan Post Test secara internal
             internalAkses = { 1: true, 2: false, 3: false, pt: false };
             internalDibuka = { 1: true, 2: false, 3: false }; 
 
             renderAccordionVisual();
-
-            // TUTUP MODAL OVERLAY (Kembali ke Daftar Modul Pelatihan utama)
             tutupModul();
 
             alert("Post Test tidak tuntas! Anda dikembalikan ke halaman utama. Silakan masuk kembali ke Modul " + modulAktif + " untuk mempelajari ulang Materi 1, Materi 2, dan Materi 3 secara berurutan!");
