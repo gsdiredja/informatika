@@ -9,7 +9,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: #f8fafc; color: #333333; }
         
-        /* Navbar Biru Ruang Guru & GTK */
+        /* Navbar Biru Utama */
         .pmm-navbar { width: 100%; background-color: #1d74ed; color: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .nav-left { display: flex; align-items: center; gap: 15px; }
         .nav-logo { background: white; width: 35px; height: 35px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #1d74ed; font-size: 20px; }
@@ -24,15 +24,15 @@
         .main-container { max-width: 1200px; width: 100%; margin: 0 auto; padding: 20px; }
         
         /* Tab Menu */
-        .tab-menu-row { display: flex; gap: 24px; border-bottom: 2px solid #e2e8f0; margin-bottom: 30px; padding-bottom: 2px; }
+        .tab-menu-row { display: flex; gap: 24px; border-bottom: 2px solid #e2e8f0; margin-bottom: 30px; padding-bottom: 8px; }
         .tab-item { font-size: 16px; font-weight: 600; color: #64748b; padding-bottom: 8px; cursor: pointer; position: relative; text-decoration: none; user-select: none; }
         .tab-item.active { color: #1d74ed; }
-        .tab-item.active::after { content: ""; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background-color: #1d74ed; border-radius: 3px; }
+        .tab-item.active::after { content: ""; position: absolute; bottom: -10px; left: 0; width: 100%; height: 3px; background-color: #1d74ed; border-radius: 3px; }
 
         .section-header-title { font-size: 24px; font-weight: 700; color: #1e293b; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
         .filter-btn { border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 8px; font-size: 14px; background: white; color: #334155; font-weight: 500; }
 
-        /* Layout Grid Kartu Topik */
+        /* Layout Grid Kartu */
         .topik-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         
         @media (max-width: 992px) { .topik-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -42,14 +42,14 @@
         .topik-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
         .topik-card:hover:not(.locked) { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-color: #cbd5e1; }
         
-        /* State Topik Terkunci */
+        /* State Terkunci */
         .topik-card.locked { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; opacity: 0.6; }
         .topik-card.locked .topik-title { color: #94a3b8; }
         .topik-card.locked .thumbnail-box { background-color: #e2e8f0 !important; color: #94a3b8 !important; }
         
-        /* State Topik Selesai */
+        /* State Selesai */
         .topik-card.completed { border-color: #10b981; }
-        .topik-card.completed::after { content: "✓ Selesai"; position: absolute; top: 15px; right: 80px; background: #10b981; color: white; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
+        .topik-card.completed::after { content: "✓ Selesai"; position: absolute; top: 15px; right: 20px; background: #10b981; color: white; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
 
         .card-top-info { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 12px; }
         .topik-title { font-size: 16px; font-weight: 700; color: #1e2937; line-height: 1.4; }
@@ -59,14 +59,27 @@
         .card-bottom-info { border-top: 1px solid #f1f5f9; padding-top: 14px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; font-weight: 500; }
         .thumbnail-box { width: 50px; height: 50px; background-color: #a5f3fc; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #0369a1; }
 
-        /* AREA BARU: Styling Tabel Penilaian Sumatif */
-        .sumatif-container { display: none; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .tabel-nilai { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
-        .tabel-nilai th { background-color: #f1f5f9; color: #334155; text-align: left; padding: 12px; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
-        .tabel-nilai td { padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569; }
-        .badge-status { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
-        .badge-status.lulus { background-color: #d1fae5; color: #065f46; }
-        .badge-status.belum { background-color: #fee2e2; color: #991b1b; }
+        /* --- STYLING AREA PENILAIAN SUMATIF & KARTU SOAL --- */
+        .sumatif-container { display: none; }
+        .sumatif-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        @media (max-width: 640px) { .sumatif-grid { grid-template-columns: 1fr; } }
+        
+        .soal-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
+        .soal-card:hover:not(.locked) { border-color: #1d74ed; box-shadow: 0 4px 12px rgba(29, 116, 237, 0.08); transform: translateY(-2px); }
+        
+        .soal-card.locked { background-color: #f8fafc; cursor: not-allowed; opacity: 0.6; }
+        .soal-card.locked .soal-title { color: #94a3b8; }
+        
+        .soal-info-left { display: flex; flex-direction: column; gap: 6px; }
+        .soal-tag-status { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; width: fit-content; }
+        .soal-tag-status.terbuka { background-color: #e0f2fe; color: #0369a1; }
+        .soal-tag-status.terkunci { background-color: #f1f5f9; color: #64748b; }
+        .soal-title { font-size: 15px; font-weight: 700; color: #1e293b; }
+        .soal-meta { font-size: 12px; color: #64748b; }
+        
+        .arrow-circle-icon { width: 32px; height: 32px; border-radius: 50%; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #1d74ed; transition: all 0.2s; }
+        .soal-card:hover:not(.locked) .arrow-circle-icon { background-color: #1d74ed; color: white; }
+        .soal-card.locked .arrow-circle-icon { color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -88,7 +101,7 @@
     <!-- Konten Utama List Grid -->
     <div class="main-container">
         
-        <!-- Tab Menu (Ditambahkan fungsi switch tab onclick) -->
+        <!-- Tab Menu -->
         <div class="tab-menu-row">
             <div class="tab-item active" id="tabTopik" onclick="pindahMenuTab('topik')">Topik</div>
             <div class="tab-item" id="tabSumatif" onclick="pindahMenuTab('sumatif')">PENILAIAN SUMATIF</div>
@@ -102,7 +115,7 @@
             </div>
 
             <div class="topik-grid">
-                <!-- TOPIK 1: SATUAN PENDIDIKAN AMAN BENCANA -->
+                <!-- TOPIK 1 -->
                 <div class="topik-card" id="topik-1" onclick="bukaTopik(1)">
                     <div>
                         <div class="card-top-info">
@@ -127,7 +140,7 @@
                         <p class="topik-desc">Mempelajari strategi perancangan kurikulum jasmani aktif yang berpihak penuh pada kesenangan gerak anak.</p>
                     </div>
                     <div>
-                        <div class="topik-target" style="margin-bottom: 12px;">Pour Siswa</div>
+                        <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
                         <div class="card-bottom-info"><span id="lock-icon-2">🔒 </span>📖 3 modul</div>
                     </div>
                 </div>
@@ -149,43 +162,34 @@
             </div>
         </div>
 
-        <!-- AREA MENU 2: HALAMAN DUST CONTENT REKAP PENILAIAN SUMATIF -->
+        <!-- AREA MENU 2: HALAMAN CARD LINKS PENILAIAN SUMATIF -->
         <div class="sumatif-container" id="halamanSumatifKonten">
             <div class="section-header-title">
-                <span>Rekapitulasi Penilaian Sumatif</span>
+                <span>Daftar Soal Sumatif</span>
             </div>
-            <p style="color:#64748b; font-size:14px;">Berikut adalah riwayat nilai capaian evaluasi pelatihan mandiri yang telah Anda selesaikan:</p>
+            <p style="color:#64748b; font-size:14px; margin-bottom: 24px;">Pilih tautan di bawah ini untuk memulai pengerjaan ujian penilaian sumatif digital:</p>
             
-            <table class="tabel-nilai">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Materi Pembelajaran / Topik</th>
-                        <th>Skor Capaian</th>
-                        <th>Status Kelulusan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Topik 1: Satuan Pendidikan Aman Bencana (SPAB)</td>
-                        <td style="font-weight:700; color:#1e293b;">100 / 100</td>
-                        <td><span class="badge-status lulus">TUNTAS</span></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Topik 2: Pembelajaran yang Berpusat pada Murid</td>
-                        <td style="color:#94a3b8;">--</td>
-                        <td><span class="badge-status belum">BELUM AKSES</span></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Topik 3: Komunikasi Visi, Misi, dan Program Sekolah</td>
-                        <td style="color:#94a3b8;">--</td>
-                        <td><span class="badge-status belum">BELUM AKSES</span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="sumatif-grid">
+                <!-- CARD SOAL 1: AKTIF SECARA DEFAULT -->
+                <div class="soal-card" id="soal-sumatif-1" onclick="bukaSoalSumatif(1)">
+                    <div class="soal-info-left">
+                        <span class="soal-tag-status terbuka" id="tag-soal-1">Siap Dikerjakan</span>
+                        <h4 class="soal-title">Soal Sumatif 1: Kesiapsiagaan Kebencanaan</h4>
+                        <span class="soal-meta">📋 Durasi: 45 Menit | Pilihan Ganda & Essay</span>
+                    </div>
+                    <div class="arrow-circle-icon">➔</div>
+                </div>
+
+                <!-- CARD SOAL 2: TERKUNCI (OTOMATIS TERBUKA JIKA TOPIK 1 LULUS M5) -->
+                <div class="soal-card locked" id="soal-sumatif-2" onclick="bukaSoalSumatif(2)">
+                    <div class="soal-info-left">
+                        <span class="soal-tag-status terkunci" id="tag-soal-2">🔒 Terkunci</span>
+                        <h4 class="soal-title">Soal Sumatif 2: Strategi Pembelajaran Aktif</h4>
+                        <span class="soal-meta">📋 Durasi: 60 Menit | Pembahasan Topik 2</span>
+                    </div>
+                    <div class="arrow-circle-icon">➔</div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -206,7 +210,6 @@
             }
         })();
 
-        // ELEMEN BARU: Fungsi Pengendali Navigasi Tab Menu atas
         function pindahMenuTab(menuTarget) {
             const tabTopik = document.getElementById('tabTopik');
             const tabSumatif = document.getElementById('tabSumatif');
@@ -270,6 +273,19 @@
                     card.classList.add('locked');
                 }
             }
+
+            // MENGINTEGRASIKAN LOGIKA GEMBOK KE KARTU LINK SOAL SUMATIF
+            const cardSoal2 = document.getElementById('soal-sumatif-2');
+            const tagSoal2 = document.getElementById('tag-soal-2');
+            if (statusTopik[2]) {
+                cardSoal2.classList.remove('locked');
+                tagSoal2.className = "soal-tag-status terbuka";
+                tagSoal2.innerText = "Siap Dikerjakan";
+            } else {
+                cardSoal2.classList.add('locked');
+                tagSoal2.className = "soal-tag-status terkunci";
+                tagSoal2.innerText = "🔒 Terkunci";
+            }
         }
 
         function dbStatusModulSelesaiM5() {
@@ -285,7 +301,23 @@
             if (idTopik === 1) {
                 window.location.href = "index.html";
             } else {
-                alert("Topik " + idTopik + " berhasil dibuka! Anda dapat menghubungkannya ke halaman kuis materi topik tersebut.");
+                alert("Topik " + idTopik + " berhasil dibuka!");
+            }
+        }
+
+        // FUNGSI BARU: Mengontrol Klik pada Link Card Soal Sumatif
+        function bukaSoalSumatif(idSoal) {
+            if (idSoal === 2 && !statusTopik[2]) {
+                alert("Soal Sumatif 2 masih terkunci! Anda harus menyelesaikan materi dan pasca-test di Topik 1 terlebih dahulu.");
+                return;
+            }
+
+            if (idSoal === 1) {
+                // Contoh pengalihan: Arahkan ke file kuis khusus sumatif milikmu
+                alert("Membuka lembar Soal Sumatif 1...");
+                // window.location.href = "sumatif-1.html"; 
+            } else {
+                alert("Membuka lembar Soal Sumatif " + idSoal + "...");
             }
         }
 
