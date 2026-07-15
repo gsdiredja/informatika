@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satuan Pendidikan Aman Bencana</title>
+    <!-- Menggunakan font eksternal agar mirip dengan tampilan modern -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -33,6 +34,7 @@
             margin-bottom: 20px;
         }
 
+        /* Card Deskripsi Atas */
         .description-card {
             background-color: #ffffff;
             border: 1px solid #e5e7eb;
@@ -57,6 +59,7 @@
             margin-bottom: 0;
         }
 
+        /* Bagian Modul Pelatihan */
         .section-title {
             font-size: 20px;
             font-weight: 700;
@@ -70,6 +73,7 @@
             margin-bottom: 16px;
         }
 
+        /* Card Modul Klik-able */
         .module-card {
             background-color: #ffffff;
             border: 1px solid #e5e7eb;
@@ -87,6 +91,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.08);
         }
 
+        /* Badge Angka Bulat */
         .module-number {
             background-color: #3b82f6;
             color: white;
@@ -97,22 +102,35 @@
             align-items: center;
             justify-content: center;
             font-weight: 600;
+            font-size: 16px;
             flex-shrink: 0;
+        }
+
+        .module-info {
+            flex-grow: 1;
+        }
+
+        .module-tag {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 4px;
         }
 
         .module-name {
             font-size: 18px;
             font-weight: 700;
             color: #111827;
-            margin: 4px 0 12px 0;
+            margin-bottom: 12px;
         }
 
+        /* Meta Durasi & Materi */
         .module-meta {
             display: flex;
             gap: 20px;
             font-size: 14px;
             color: #4b5563;
             margin-bottom: 16px;
+            align-items: center;
         }
 
         .meta-item {
@@ -121,6 +139,7 @@
             gap: 6px;
         }
 
+        /* Tombol Pelajari Materi */
         .btn-study {
             background-color: #a5f3fc;
             color: #0369a1;
@@ -137,7 +156,7 @@
             background-color: #7dd3fc;
         }
 
-        /* --- STYLING MODAL SPLIT-SCREEN --- */
+        /* --- TAMPILAN PENUH MODAL (OVERLAY) --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -163,109 +182,64 @@
         .modal-content {
             background-color: white;
             width: 100%;
-            max-width: 900px;
+            max-width: 800px;
             height: 90vh;
             border-radius: 12px;
             display: flex;
+            flex-direction: column;
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
         }
 
-        /* Navigasi Kiri (Sidebar) */
-        .modal-sidebar {
-            width: 35%;
-            border-right: 1px solid #e5e7eb;
-            background-color: #f9fafb;
-            display: flex;
-            flex-direction: column;
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
         }
 
-        .sidebar-header {
-            padding: 20px;
+        /* Header Modal */
+        .modal-header {
             background-color: #1e3a8a;
             color: white;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-
-        .menu-item {
-            padding: 16px 20px;
-            border-bottom: 1px solid #e5e7eb;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 14.5px;
-        }
-
-        .menu-item.active {
-            background-color: #eff6ff;
-            border-left: 4px solid #3b82f6;
-            font-weight: 600;
-        }
-
-        .menu-item.locked {
-            color: #9ca3af;
-            cursor: not-allowed;
-            background-color: #f3f4f6;
-        }
-
-        .lock-icon {
-            font-size: 12px;
-            background: #e5e7eb;
-            padding: 2px 6px;
-            border-radius: 4px;
-            color: #6b7280;
-        }
-
-        .check-icon {
-            color: #10b981;
-            font-weight: bold;
-        }
-
-        /* Konten Kanan (Main Reader) */
-        .modal-main {
-            width: 65%;
-            display: flex;
-            flex-direction: column;
-            background-color: #ffffff;
-        }
-
-        .main-header {
-            padding: 20px;
-            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .modal-title h2 {
+            font-size: 20px;
+            margin-bottom: 4px;
         }
 
         .btn-close {
             background: transparent;
             border: none;
+            color: white;
             font-size: 28px;
             cursor: pointer;
-            color: #6b7280;
             line-height: 1;
         }
 
-        .main-body {
+        /* Konten Isi Pembelajaran Penuh */
+        .modal-body {
             padding: 30px;
             overflow-y: auto;
             flex-grow: 1;
-            line-height: 1.6;
-            color: #374151;
+            background-color: #f9fafb;
         }
 
-        .loading-spinner {
-            text-align: center;
-            color: #6b7280;
-            padding: 40px 0;
-            font-style: italic;
+        .content-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .content-section h3 {
+            margin-bottom: 10px;
+            color: #1e3a8a;
         }
     </style>
 </head>
@@ -282,166 +256,98 @@
             </ul>
         </div>
 
+        <!-- Judul Modul -->
         <div class="section-title">Modul Pelatihan</div>
         <div class="section-subtitle">Silakan pelajari modul sesuai urutan</div>
 
-        <!-- Card Modul 1 -->
+        <!-- Box Modul 1 -->
         <div class="module-card" id="openModuleBtn">
             <div class="module-number">1</div>
             <div class="module-info">
-                <div style="font-size: 13px; color: #6b7280;">Modul 1</div>
+                <div class="module-tag">Modul 1</div>
                 <div class="module-name">Modul 1: Sekolah Aman Dimulai dari Sini!</div>
+                
                 <div class="module-meta">
+                    <!-- Icon Jam (SVG) -->
                     <div class="meta-item">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                         <span>1.5 jam</span>
                     </div>
+                    <!-- Icon Dokumen/Materi (SVG) -->
                     <div class="meta-item">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                         <span>3 materi</span>
                     </div>
                 </div>
+
                 <button class="btn-study">Pelajari Materi</button>
             </div>
         </div>
     </div>
 
-    <!-- WINDOW MODAL TAMPILAN UTUH -->
+    <!-- --- LAYAR TAMPILAN PENUH MODUL 1 (MODAL) --- -->
     <div class="modal-overlay" id="moduleModal">
         <div class="modal-content">
-            
-            <!-- SISI KIRI: DAFTAR MENU -->
-            <div class="modal-sidebar">
-                <div class="sidebar-header">
-                    <p style="font-size: 12px; opacity: 0.8;">MODUL 1</p>
-                    <h3 style="font-size: 16px;">Daftar Materi</h3>
+            <div class="modal-header">
+                <div class="modal-title">
+                    <p style="font-size: 14px; opacity: 0.9;">Modul 1</p>
+                    <h2>Sekolah Aman Dimulai dari Sini!</h2>
                 </div>
-                <ul class="sidebar-menu">
-                    <!-- Materi 1: Bisa diklik sejak awal -->
-                    <li class="menu-item" id="menu-1" onclick="switchMateri(1)">
-                        <span>1. Pengenalan SPAB</span>
-                        <span id="badge-1" style="color: #3b82f6; font-weight: 500;">🔓 Siap Dibuka</span>
-                    </li>
-                    <!-- Materi 2 & 3: Dikunci saat awal mula -->
-                    <li class="menu-item locked" id="menu-2" onclick="switchMateri(2)">
-                        <span>2. Manajemen Risiko</span>
-                        <span id="badge-2" class="lock-icon">🔒 Terkunci</span>
-                    </li>
-                    <li class="menu-item locked" id="menu-3" onclick="switchMateri(3)">
-                        <span>3. Aksi Nyata</span>
-                        <span id="badge-3" class="lock-icon">🔒 Terkunci</span>
-                    </li>
-                </ul>
+                <button class="btn-close" id="closeModuleBtn">&times;</button>
             </div>
-
-            <!-- SISI KANAN: AREA MEMBACA KONTEN -->
-            <div class="modal-main">
-                <div class="main-header">
-                    <h2 id="judulMateriTerpilih">Pilih Materi</h2>
-                    <button class="btn-close" id="closeModuleBtn">&times;</button>
+            
+            <div class="modal-body">
+                <div style="margin-bottom: 20px; font-weight: 600; color: #4b5563;">
+                    Estimasi Waktu Pelajaran: 1.5 Jam | Total: 3 Materi Utama
                 </div>
                 
-                <div class="main-body" id="dynamicContent">
-                    <div style="text-align: center; color: #6b7280; padding-top: 50px;">
-                        Silakan pilih materi di menu sebelah kiri untuk mulai membaca.
-                    </div>
+                <!-- Materi 1 -->
+                <div class="content-section">
+                    <h3>Materi 1: Pengenalan Konsep SPAB</h3>
+                    <p>Materi ini membahas dasar-dasar perancangan Satuan Pendidikan Aman Bencana (SPAB) serta pilar utama yang menyusun sistem keamanan sekolah dari ancaman bencana makro maupun mikro.</p>
+                </div>
+
+                <!-- Materi 2 -->
+                <div class="content-section">
+                    <h3>Materi 2: Manajemen Risiko Mandiri</h3>
+                    <p>Langkah taktis bagi warga sekolah untuk memetakan jalur evakuasi, titik kumpul, dan menganalisis kerentanan struktural bangunan sekolah secara berkala.</p>
+                </div>
+
+                <!-- Materi 3 -->
+                <div class="content-section">
+                    <h3>Materi 3: Aksi Nyata & Kampanye Kesiapsiagaan</h3>
+                    <p>Bagaimana mengintegrasikan simulasi gempa atau kebakaran ke dalam budaya sekolah sehari-hari dan melibatkan murid secara aktif dan inklusif.</p>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- SISTEM LOGIKA JAVASCRIPT -->
+    <!-- JavaScript untuk fungsi Interaktif membuka/menutup tampilan penuh -->
     <script>
-        // Status Akses Klik: Materi 1 sudah true (buka kunci), materi 2 & 3 false (terkunci)
-        let aksesMateri = {
-            1: true,
-            2: false,
-            3: false
-        };
-
         const cardModul = document.getElementById('openModuleBtn');
         const modalPenuh = document.getElementById('moduleModal');
         const tombolTutup = document.getElementById('closeModuleBtn');
-        const dynamicContent = document.getElementById('dynamicContent');
 
-        // Aksi ketika Kotak Modul Utama diklik
+        // Buka Tampilan Penuh ketika Modul diklik
         cardModul.addEventListener('click', () => {
             modalPenuh.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Mengunci scroll body luar
-            switchMateri(1); // Otomatis trigger buka materi 1 saat pertama dibuka
+            document.body.style.overflow = 'hidden'; // Kunci scroll latar belakang
         });
 
-        // Aksi tombol silang X (Tutup modal)
+        // Tutup Tampilan Penuh ketika tanda X diklik
         tombolTutup.addEventListener('click', (e) => {
-            e.stopPropagation();
+            e.stopPropagation(); // Mencegah konflik klik
             modalPenuh.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Mengaktifkan kembali scroll body luar
+            document.body.style.overflow = 'auto'; // Aktifkan kembali scroll
         });
 
-        // Fungsi berpindah materi
-        function switchMateri(nomorMateri) {
-            // 1. Proteksi Gembok: Jika akses masih false, tolak klik
-            if (!aksesMateri[nomorMateri]) {
-                alert("Selesaikan materi sebelumnya terlebih dahulu!");
-                return;
+        // Tutup jika area luar modal diklik
+        modalPenuh.addEventListener('click', (e) => {
+            if(e.target === modalPenuh) {
+                modalPenuh.classList.remove('active');
+                document.body.style.overflow = 'auto';
             }
-
-            // 2. Perbarui Judul Atas pada area bacaan
-            const daftarJudul = {
-                1: "Materi 1: Pengenalan Konsep SPAB",
-                2: "Materi 2: Manajemen Risiko",
-                3: "Materi 3: Aksi Nyata"
-            };
-            document.getElementById('judulMateriTerpilih').innerText = daftarJudul[nomorMateri];
-
-            // 3. Perbarui visual Menu Aktif di Sidebar (Highlight Biru)
-            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-            document.getElementById(`menu-${nomorMateri}`).classList.add('active');
-
-            // 4. KOREKSI BARU: Ubah teks menjadi "✓ Opened" HANYA ketika materi ini sudah diklik/dibuka
-            const badgeSekarang = document.getElementById(`badge-${nomorMateri}`);
-            badgeSekarang.removeAttribute('style'); // hapus custom style lama jika ada
-            badgeSekarang.className = "check-icon";
-            badgeSekarang.innerText = "✓ Opened";
-
-            // 5. Tampilkan indikator Loading teks sebelum file termuat sempurna
-            dynamicContent.innerHTML = `<div class="loading-spinner">Memuat konten materi ${nomorMateri}...</div>`;
-
-            // 6. Mengambil data eksternal (materi-1.html, materi-2.html, dst)
-            fetch(`materi-${nomorMateri}.html`)
-                .then(response => {
-                    if (!response.ok) throw new Error("File gagal diambil");
-                    return response.text();
-                })
-                .then(data => {
-                    dynamicContent.innerHTML = data; // Masukkan konten ke dalam HTML
-                    
-                    // 7. BUKA AKSES MATERI BERIKUTNYA (Ubah status gembok menjadi "Siap dibuka")
-                    let materiBerikutnya = nomorMateri + 1;
-                    if (materiBerikutnya <= 3 && !aksesMateri[materiBerikutnya]) {
-                        aksesMateri[materiBerikutnya] = true; // Izinkan klik di memori script
-
-                        const menuTarget = document.getElementById(`menu-${materiBerikutnya}`);
-                        menuTarget.classList.remove('locked'); // Hilangkan gaya buram/redup CSS
-
-                        const badgeTarget = document.getElementById(`badge-${materiBerikutnya}`);
-                        badgeTarget.className = ""; // Bersihkan class lock-icon bawaan
-                        badgeTarget.style.color = "#3b82f6"; // Beri warna biru penanda interaksi
-                        badgeTarget.style.fontWeight = "500";
-                        badgeTarget.innerText = "🔓 Siap Dibuka"; // Ubah status teks
-                    }
-                })
-                .catch(error => {
-                    dynamicContent.innerHTML = `
-                        <p style="color:#ef4444; text-align:center; padding: 20px; font-weight: 500;">
-                            Gagal memuat halaman materi.<br>
-                            <span style="font-size: 13px; color: #6b7280; font-weight: 400;">
-                                Catatan: Fitur fetch data membutuhkan lingkungan server. Pastikan Anda membukanya menggunakan ekstensi <strong>Live Server</strong> di VS Code atau setelah di-deploy ke <strong>GitHub Pages</strong>.
-                            </span>
-                        </p>`;
-                });
-        }
+        });
     </script>
 </body>
 </html>
