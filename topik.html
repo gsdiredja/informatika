@@ -25,7 +25,7 @@
         
         /* Tab Menu */
         .tab-menu-row { display: flex; gap: 24px; border-bottom: 2px solid #e2e8f0; margin-bottom: 30px; padding-bottom: 2px; }
-        .tab-item { font-size: 16px; font-weight: 600; color: #64748b; padding-bottom: 8px; cursor: pointer; position: relative; text-decoration: none; }
+        .tab-item { font-size: 16px; font-weight: 600; color: #64748b; padding-bottom: 8px; cursor: pointer; position: relative; text-decoration: none; user-select: none; }
         .tab-item.active { color: #1d74ed; }
         .tab-item.active::after { content: ""; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background-color: #1d74ed; border-radius: 3px; }
 
@@ -58,6 +58,15 @@
         .topik-target { background-color: #f1f5f9; color: #475569; font-size: 12px; padding: 4px 10px; border-radius: 6px; font-weight: 500; width: fit-content; }
         .card-bottom-info { border-top: 1px solid #f1f5f9; padding-top: 14px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; font-weight: 500; }
         .thumbnail-box { width: 50px; height: 50px; background-color: #a5f3fc; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #0369a1; }
+
+        /* AREA BARU: Styling Tabel Penilaian Sumatif */
+        .sumatif-container { display: none; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .tabel-nilai { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+        .tabel-nilai th { background-color: #f1f5f9; color: #334155; text-align: left; padding: 12px; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+        .tabel-nilai td { padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569; }
+        .badge-status { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .badge-status.lulus { background-color: #d1fae5; color: #065f46; }
+        .badge-status.belum { background-color: #fee2e2; color: #991b1b; }
     </style>
 </head>
 <body>
@@ -73,78 +82,119 @@
 
     <!-- Jalur Navigasi Mini (Breadcrumb) -->
     <div class="breadcrumb-bar">
-        Beranda</span>
+        Beranda &gt; <span id="breadcrumbActiveText">Daftar Topik</span>
     </div>
 
     <!-- Konten Utama List Grid -->
     <div class="main-container">
         
+        <!-- Tab Menu (Ditambahkan fungsi switch tab onclick) -->
         <div class="tab-menu-row">
-            <div class="tab-item active">Topik</div>
-            <div class="tab-item">PENILAIAN SUMATIF</div>
+            <div class="tab-item active" id="tabTopik" onclick="pindahMenuTab('topik')">Topik</div>
+            <div class="tab-item" id="tabSumatif" onclick="pindahMenuTab('sumatif')">PENILAIAN SUMATIF</div>
         </div>
 
-        <div class="section-header-title">
-            <span>Daftar Topik</span>
-            <button class="filter-btn">Urutan: <b>Rekomendasi</b></button>
+        <!-- AREA MENU 1: HALAMAN DAFTAR TOPIK -->
+        <div id="halamanTopikUtama">
+            <div class="section-header-title">
+                <span>Daftar Topik</span>
+                <button class="filter-btn">Urutan: <b>Rekomendasi</b></button>
+            </div>
+
+            <div class="topik-grid">
+                <!-- TOPIK 1: SATUAN PENDIDIKAN AMAN BENCANA -->
+                <div class="topik-card" id="topik-1" onclick="bukaTopik(1)">
+                    <div>
+                        <div class="card-top-info">
+                            <h4 class="topik-title">1 Satuan Pendidikan Aman Bencana</h4>
+                            <div class="thumbnail-box" style="background-color:#cffafe; color:#0891b2;">🏫</div>
+                        </div>
+                        <p class="topik-desc">Melalui topik ini, Anda diharapkan dapat memahami konsep menyeluruh mengenai kesiapsiagaan darurat...</p>
+                    </div>
+                    <div>
+                        <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
+                        <div class="card-bottom-info">📖 5 modul</div>
+                    </div>
+                </div>
+
+                <!-- TOPIK 2 -->
+                <div class="topik-card locked" id="topik-2" onclick="bukaTopik(2)">
+                    <div>
+                        <div class="card-top-info">
+                            <h4 class="topik-title">2 Pembelajaran yang Berpusat pada Murid</h4>
+                            <div class="thumbnail-box" style="background-color:#dcfce7; color:#16a34a;">🏃‍♂️</div>
+                        </div>
+                        <p class="topik-desc">Mempelajari strategi perancangan kurikulum jasmani aktif yang berpihak penuh pada kesenangan gerak anak.</p>
+                    </div>
+                    <div>
+                        <div class="topik-target" style="margin-bottom: 12px;">Pour Siswa</div>
+                        <div class="card-bottom-info"><span id="lock-icon-2">🔒 </span>📖 3 modul</div>
+                    </div>
+                </div>
+
+                <!-- TOPIK 3 -->
+                <div class="topik-card locked" id="topik-3" onclick="bukaTopik(3)">
+                    <div>
+                        <div class="card-top-info">
+                            <h4 class="topik-title">3 Komunikasi Visi, Misi, dan Program Sekolah</h4>
+                            <div class="thumbnail-box" style="background-color:#fee2e2; color:#dc2626;">📢</div>
+                        </div>
+                        <p class="topik-desc">Membangun transparansi akuntabilitas kerja komite eksternal sekolah bersama jajaran wali murid.</p>
+                    </div>
+                    <div>
+                        <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
+                        <div class="card-bottom-info"><span id="lock-icon-3">🔒 </span>📖 4 modul</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="topik-grid">
+        <!-- AREA MENU 2: HALAMAN DUST CONTENT REKAP PENILAIAN SUMATIF -->
+        <div class="sumatif-container" id="halamanSumatifKonten">
+            <div class="section-header-title">
+                <span>Rekapitulasi Penilaian Sumatif</span>
+            </div>
+            <p style="color:#64748b; font-size:14px;">Berikut adalah riwayat nilai capaian evaluasi pelatihan mandiri yang telah Anda selesaikan:</p>
             
-            <!-- TOPIK 1: SATUAN PENDIDIKAN AMAN BENCANA -->
-            <div class="topik-card" id="topik-1" onclick="bukaTopik(1)">
-                <div>
-                    <div class="card-top-info">
-                        <h4 class="topik-title">1 Satuan Pendidikan Aman Bencana</h4>
-                        <div class="thumbnail-box" style="background-color:#cffafe; color:#0891b2;">🏫</div>
-                    </div>
-                    <p class="topik-desc">Melalui topik ini, Anda diharapkan dapat memahami konsep menyeluruh mengenai kesiapsiagaan darurat...</p>
-                </div>
-                <div>
-                    <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
-                    <div class="card-bottom-info">📖 5 modul</div>
-                </div>
-            </div>
-
-            <!-- TOPIK 2: PJOK (BARU TERBUKA JIKA TOPIK 1 LULUS MODUL 5) -->
-            <div class="topik-card locked" id="topik-2" onclick="bukaTopik(2)">
-                <div>
-                    <div class="card-top-info">
-                        <h4 class="topik-title">2 Pembelajaran yang Berpusat pada Murid</h4>
-                        <div class="thumbnail-box" style="background-color:#dcfce7; color:#16a34a;">🏃‍♂️</div>
-                    </div>
-                    <p class="topik-desc">Mempelajari strategi perancangan kurikulum jasmani aktif yang berpihak penuh pada kesenangan gerak anak.</p>
-                </div>
-                <div>
-                    <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
-                    <div class="card-bottom-info"><span id="lock-icon-2">🔒 </span>📖 3 modul</div>
-                </div>
-            </div>
-
-            <!-- TOPIK 3: KOMUNIKASI VISI MISI -->
-            <div class="topik-card locked" id="topik-3" onclick="bukaTopik(3)">
-                <div>
-                    <div class="card-top-info">
-                        <h4 class="topik-title">3 Komunikasi Visi, Misi, dan Program Sekolah</h4>
-                        <div class="thumbnail-box" style="background-color:#fee2e2; color:#dc2626;">📢</div>
-                    </div>
-                    <p class="topik-desc">Membangun transparansi akuntabilitas kerja komite eksternal sekolah bersama jajaran wali murid.</p>
-                </div>
-                <div>
-                    <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
-                    <div class="card-bottom-info"><span id="lock-icon-3">🔒 </span>📖 4 modul</div>
-                </div>
-            </div>
-
+            <table class="tabel-nilai">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Materi Pembelajaran / Topik</th>
+                        <th>Skor Capaian</th>
+                        <th>Status Kelulusan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Topik 1: Satuan Pendidikan Aman Bencana (SPAB)</td>
+                        <td style="font-weight:700; color:#1e293b;">100 / 100</td>
+                        <td><span class="badge-status lulus">TUNTAS</span></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Topik 2: Pembelajaran yang Berpusat pada Murid</td>
+                        <td style="color:#94a3b8;">--</td>
+                        <td><span class="badge-status belum">BELUM AKSES</span></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Topik 3: Komunikasi Visi, Misi, dan Program Sekolah</td>
+                        <td style="color:#94a3b8;">--</td>
+                        <td><span class="badge-status belum">BELUM AKSES</span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+
     </div>
 
     <script>
-        // PENTING: URL WEB APP GOOGLE SCRIPT (/exec) ANDA
         const API_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec"; 
 
         let sessionUser = null;
-        let statusTopik = { 1: true, 2: false, 3: false }; // State status akses topik
+        let statusTopik = { 1: true, 2: false, 3: false };
 
         (function cekTiketAkses() {
             const token = localStorage.getItem('loggedSiswa');
@@ -156,39 +206,49 @@
             }
         })();
 
+        // ELEMEN BARU: Fungsi Pengendali Navigasi Tab Menu atas
+        function pindahMenuTab(menuTarget) {
+            const tabTopik = document.getElementById('tabTopik');
+            const tabSumatif = document.getElementById('tabSumatif');
+            const areaTopik = document.getElementById('halamanTopikUtama');
+            const areaSumatif = document.getElementById('halamanSumatifKonten');
+            const breadcrumbText = document.getElementById('breadcrumbActiveText');
+
+            if(menuTarget === 'topik') {
+                tabTopik.classList.add('active');
+                tabSumatif.classList.remove('active');
+                areaTopik.style.display = 'block';
+                areaSumatif.style.display = 'none';
+                breadcrumbText.innerText = "Daftar Topik";
+            } else if(menuTarget === 'sumatif') {
+                tabSumatif.classList.add('active');
+                tabTopik.classList.remove('active');
+                areaTopik.style.display = 'none';
+                areaSumatif.style.display = 'block';
+                breadcrumbText.innerText = "Penilaian Sumatif";
+            }
+        }
+
         function loadStatusTopikDariCloud() {
             if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) return;
 
-            // Hubungi database untuk melihat lembar progres kuis siswa
             fetch(`${API_URL}?userId=${encodeURIComponent(sessionUser.username)}`)
                 .then(res => res.json())
                 .then(resData => {
                     if(resData.status === "success") {
                         let prog = resData.progress;
-                        
-                        // Konversi nilai ke boolean murni
                         for (let k in prog) {
                             prog[k] = (prog[k] === true || prog[k] === "true" || prog[k] === "TRUE");
                         }
 
-                        // Syarat Topik 1 Tuntas: Modul 5 bernilai TRUE AND Modul 4 bernilai TRUE (Penanda Selesai Semua)
-                        // Karena di database kita membuka gembok kolom sebelah kanan otomatis, cara paling valid melihat Topik 1 tuntas
-                        // adalah mengecek apakah data progres kuis Modul 5 bernilai true.
                         let topik1Selesai = (prog[5] === true);
-
                         if (topik1Selesai) {
                             statusTopik[1] = true;
-                            statusTopik[2] = true; // Buka kunci Topik 2!
+                            statusTopik[2] = true; 
                         }
-
-                        // Contoh simulasi berantai (jika topik 2 punya modul kuis lagi):
-                        // let topik2Selesai = ...
-                        // if(topik2Selesai) statusTopik[3] = true;
-
                         renderGembokVisualTopik();
                     }
                 }).catch(() => {
-                    // Fallback jika offline: Topik 1 tetap aktif default
                     renderGembokVisualTopik();
                 });
         }
@@ -200,12 +260,9 @@
 
                 if (statusTopik[i]) {
                     card.classList.remove('locked');
-                    
-                    // Hilangkan teks teks ikon gembok jika sudah terbuka
                     const lockIcon = document.getElementById(`lock-icon-${i}`);
                     if(lockIcon) lockIcon.style.display = 'none';
 
-                    // Beri penanda centang hijau "Completed" jika topik tersebut sudah selesai total
                     if (i === 1 && dbStatusModulSelesaiM5()) {
                         card.classList.add('completed');
                     }
@@ -215,9 +272,8 @@
             }
         }
 
-        // Cek lokal state bantuan untuk tanda tuntas
         function dbStatusModulSelesaiM5() {
-            return statusTopik[2] === true; // Jika Topik 2 sudah terbuka, tandanya Topik 1 pasti sudah selesai
+            return statusTopik[2] === true; 
         }
 
         function bukaTopik(idTopik) {
@@ -227,7 +283,6 @@
             }
 
             if (idTopik === 1) {
-                // Sesuai dengan alur: Buka halaman modul index.html milik kuis kebencanaan
                 window.location.href = "index.html";
             } else {
                 alert("Topik " + idTopik + " berhasil dibuka! Anda dapat menghubungkannya ke halaman kuis materi topik tersebut.");
