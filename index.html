@@ -96,8 +96,8 @@
     <!-- Bar Header Siswa (Dengan Tanda Panah Kembali) -->
     <div class="global-student-header">
         <div class="header-left-side">
-            <!-- ELEMEN BARU: Tombol SVG Tanda Panah Back ke topik.html -->
-            <button class="btn-back-to-topik" onclick="kembaliKeDaftarTopik()" title="Kembali ke Daftar Topik">
+            <!-- ELEMEN PERBAIKAN: Tombol Kembali ke topik.html dengan type="button" dan stopPropagation -->
+            <button type="button" class="btn-back-to-topik" onclick="event.stopPropagation(); kembaliKeDaftarTopik();" title="Kembali ke Daftar Topik">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
@@ -107,7 +107,8 @@
                 👤 Siswa: <span id="hdrNamaSiswa">-</span> | Kelas: <span id="hdrKelasSiswa">-</span>
             </div>
         </div>
-        <button class="btn-logout" onclick="logoutSiswa()">Keluar</button>
+        <!-- ELEMEN PERBAIKAN: Tombol Logout dengan type="button" dan stopPropagation -->
+        <button type="button" class="btn-logout" onclick="event.stopPropagation(); logoutSiswa();">Keluar</button>
     </div>
 
     <!-- DAFTAR MODUL UTAMA -->
@@ -193,7 +194,7 @@
         const dataModul = {
             1: { title: "Modul 1: STRATEGI ALGORITMIK DAN PEMROGRAMAN", materi: ["4 Pilar Stategi Algoritmik", "Pemrograman C++", "Pemahaman Problem Solving"] },
             2: { title: "Modul 2: BERPIKIR KRITIS DAN DAMPAK SOSIAL INFORMATIKA", materi: [""] },
-            3: { title: "Modul 3: JARINGAN KOMPUTER DAN INTERNET [""] },
+            3: { title: "Modul 3: JARINGAN KOMPUTER DAN INTERNET", materi: [""] },
             4: { title: "Modul 4: ", materi: [""] },
             5: { title: "Modul 5: ", materi: [""] }
         };
@@ -210,7 +211,7 @@
         (function verifikasiAkses() {
             const savedUser = localStorage.getItem('loggedSiswa');
             if(!savedUser) {
-                window.location.href = "login.html";
+                window.location.replace("login.html");
             } else {
                 sessionUser = JSON.parse(savedUser);
                 document.addEventListener("DOMContentLoaded", () => {
@@ -221,14 +222,15 @@
             }
         })();
 
-        // FUNSI BARU: Pemicu lompat balik halaman ke topik.html
+        // FUNGSI PERBAIKAN: Navigasi Kembali ke topik.html
         function kembaliKeDaftarTopik() {
-            window.location.href = "topik.html";
+            window.location.replace("topik.html");
         }
 
+        // FUNGSI PERBAIKAN: Navigasi Logout Ke login.html
         function logoutSiswa() {
             localStorage.removeItem('loggedSiswa');
-            window.location.href = "login.html";
+            window.location.replace("login.html");
         }
 
         function loadProgresDatabase() {
@@ -258,6 +260,8 @@
         function renderDaftarHalamanUtama() {
             for (let i = 1; i <= 5; i++) {
                 const card = document.getElementById(`card-modul-${i}`);
+                if (!card) continue;
+                
                 card.classList.remove('locked', 'completed');
 
                 const isAktif = (dbStatusModul[i] === true || dbStatusModul[i] === "true" || dbStatusModul[i] === "TRUE");
@@ -289,7 +293,12 @@
 
             document.getElementById('modalTag').innerText = `Modul ${noModul}`;
             document.getElementById('modalTitle').innerText = dataModul[noModul].title;
-            for(let i=1; i<=3; i++) document.getElementById(`title-materi-${i}`).innerText = dataModul[noModul].materi[i-1];
+            for(let i=1; i<=3; i++) {
+                const elTitle = document.getElementById(`title-materi-${i}`);
+                if (elTitle && dataModul[noModul].materi[i-1]) {
+                    elTitle.innerText = dataModul[noModul].materi[i-1];
+                }
+            }
 
             document.getElementById('materiSectionArea').style.display = 'block';
             document.getElementById('postTestPageArea').style.display = 'none';
@@ -358,6 +367,9 @@
                     .then(data => {
                         content.innerHTML = data;
                         bukaKunciBerikutnya(noMateri);
+                    })
+                    .catch(() => {
+                        content.innerHTML = `<div style="color:red; padding:10px;">Gagal memuat berkas materi.</div>`;
                     });
             } else {
                 item.classList.remove('expanded');
@@ -423,6 +435,9 @@
                     } else {
                         wrapperSoal.innerHTML = `<div style="color:red; padding:20px;">Gagal memproses berkas soal.</div>`;
                     }
+                })
+                .catch(() => {
+                    wrapperSoal.innerHTML = `<div style="color:red; padding:20px;">Gagal memuat berkas post test.</div>`;
                 });
         }
 
