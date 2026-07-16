@@ -1,16 +1,140 @@
 <div style="padding: 5px 0;">
-    <h4 style="margin-bottom: 12px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
-        Memahami Petunjuk Teknis (Juknis) Resmi untuk Perlindungan Sekolah
+    <h3 style="margin-bottom: 16px; color: #0b3a7a; font-size: 18px; font-weight: 700; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
+        IDENTIFIKASI JENIS SEGITIGA
+    </h3>
+
+    <!-- 1. Problem Analysis -->
+    <h4 style="margin-bottom: 8px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
+        1. Menganalisis dan Memahami Masalah (Problem Analysis)
+    </h4>
+    
+    <div style="overflow-x: auto; margin-bottom: 16px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #374151;">
+            <tbody>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-weight: 700; color: #0b3a7a; width: 20%;">Masalah</td>
+                    <td style="padding: 8px 12px;">Guru matematika memberi tugas untuk mengidentifikasi sebuah segitiga.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; font-weight: 700; color: #0b3a7a;">Deskripsi</td>
+                    <td style="padding: 8px 12px;">Diberikan 3 buah bilangan bulat pada rentang 1 &ndash; 1000 yang merupakan panjang sisi sebuah segitiga, untuk menentukan apakah ketiga bilangan tersebut (a, b, c) membentuk sebuah segitiga beserta jenisnya.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-weight: 700; color: #0b3a7a;">Masukan (Input)</td>
+                    <td style="padding: 8px 12px;">3 buah bilangan bulat <code>a</code>, <code>b</code>, <code>c</code> pada rentang 1 &ndash; 1000.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; font-weight: 700; color: #0b3a7a;">Proses & Keluaran</td>
+                    <td style="padding: 8px 12px;">
+                        Memeriksa apakah data merupakan sisi segitiga dengan keluaran hasil:
+                        <ul style="margin: 4px 0 0 0; padding-left: 20px;">
+                            <li>Segitiga sama sisi</li>
+                            <li>Segitiga sama kaki</li>
+                            <li>Segitiga sembarang</li>
+                            <li>Bukan Segitiga</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2. Algorithm Design -->
+    <h4 style="margin-bottom: 8px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
+        2. Merancang Strategi / Algoritma (Algorithm Design)
+    </h4>
+    <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        Untuk semua segitiga dengan panjang sisi <code>a</code>, <code>b</code>, dan <code>c</code> harus memenuhi ketaksamaan segitiga:
+    </p>
+    <ul style="margin-bottom: 16px; padding-left: 20px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        <li style="margin-bottom: 4px;"><code>a + b &gt; c</code></li>
+        <li style="margin-bottom: 4px;"><code>a + c &gt; b</code></li>
+        <li style="margin-bottom: 4px;"><code>b + c &gt; a</code></li>
+    </ul>
+
+    <!-- 3. Implementation / Coding -->
+    <h4 style="margin-bottom: 8px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
+        3. Mengimplementasikan Algoritma ke Kode (Implementation)
+    </h4>
+    <p style="margin-bottom: 8px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        Perkakas program Bahasa C++:
+    </p>
+    <pre style="background-color: #f3f4f6; padding: 12px; border-radius: 4px; border: 1px solid #e5e7eb; font-family: monospace; font-size: 13px; color: #111827; margin-bottom: 16px; overflow-x: auto;">/* Program untuk Menentukan Jenis Segitiga */
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a, b, c;
+    scanf("%d %d %d", &amp;a, &amp;b, &amp;c);
+    
+    if ((a &gt;= b + c) || (b &gt;= a + c) || (c &gt;= a + b))
+        printf("Bukan Segitiga");
+    else
+        if ((a == b) &amp;&amp; (b == c))
+            printf("Segitiga Sama Sisi");
+        else if ((a == b) || (b == c) || (a == c))
+            printf("Segitiga Sama Kaki");
+        else
+            printf("Segitiga Sembarang");
+    return 0;
+}</pre>
+
+    <!-- 4. Testing & Debugging -->
+    <h4 style="margin-bottom: 8px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
+        4. Menguji dan Membenahi Program (Testing & Debugging)
     </h4>
     <p style="margin-bottom: 12px; font-size: 14px; color: #4b5563; line-height: 1.6;">
-        Implementasi pelaksanaan SPAB tidak boleh dilakukan secara sembarangan. Seluruh langkah mitigasi, mulai dari penentuan titik kumpul, standarisasi warna rambu evakuasi, hingga bentuk koordinasi dengan BPBD setempat harus mengacu pada dokumen petunjuk teknis resmi dari Kemendikbudristek dan BNPB.
+        Setelah program selesai, kita perlu menguji kebenaran program tersebut menggunakan kasus uji berikut:
     </p>
-    <p style="margin-bottom: 15px; font-size: 14px; color: #4b5563; line-height: 1.6;">
-        Dengan memahami aturan hukum dan teknis ini, program keselamatan yang diterapkan di sekolah Anda akan berjalan seragam, legal, dan terukur secara nasional.
-    </p>
-    <div style="background-color: #ecfdf5; border-left: 4px solid #10b981; padding: 12px; border-radius: 4px;">
-        <span style="font-size: 13px; color: #065f46; font-weight: 600;">
-            🎉 Selamat! Semua materi telah selesai dibaca. Menu "Post Test" di bagian bawah sekarang telah aktif dan siap dikerjakan.
+
+    <div style="overflow-x: auto; margin-bottom: 16px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #374151;">
+            <thead>
+                <tr style="background-color: #f3f4f6; text-align: left; border-bottom: 2px solid #d1d5db;">
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700; width: 8%;">No</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700; width: 22%;">Masukan</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700; width: 25%;">Keluaran Sebenarnya</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700; width: 25%;">Keluaran Program</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700; width: 20%;">Hasil Benar/Salah</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; text-align: center;">1</td>
+                    <td style="padding: 8px 12px; font-family: monospace;">5 5 5</td>
+                    <td style="padding: 8px 12px;">Segitiga Sama Sisi</td>
+                    <td style="padding: 8px 12px;"></td>
+                    <td style="padding: 8px 12px;"></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; text-align: center;">2</td>
+                    <td style="padding: 8px 12px; font-family: monospace;">1000 1000 500</td>
+                    <td style="padding: 8px 12px;">Segitiga Sama Kaki</td>
+                    <td style="padding: 8px 12px;"></td>
+                    <td style="padding: 8px 12px;"></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; text-align: center;">3</td>
+                    <td style="padding: 8px 12px; font-family: monospace;">100 200 500</td>
+                    <td style="padding: 8px 12px;">Bukan Segitiga</td>
+                    <td style="padding: 8px 12px;"></td>
+                    <td style="padding: 8px 12px;"></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; text-align: center;">4</td>
+                    <td style="padding: 8px 12px; text-align: left; font-family: monospace;">100 400 200</td>
+                    <td style="padding: 8px 12px;">Segitiga Sembarang</td>
+                    <td style="padding: 8px 12px;"></td>
+                    <td style="padding: 8px 12px;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Evaluasi / Callout -->
+    <div style="background-color: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px; border-radius: 4px; margin-top: 16px;">
+        <span style="font-size: 13px; color: #1e40af; font-weight: 600;">
+            📌 <strong>Evaluasi:</strong> Apakah terdapat kasus uji yang tidak menghasilkan keluaran yang benar oleh Program? Lakukan analisis kembali untuk mengidentifikasi kesalahan tersebut.
         </span>
     </div>
 </div>
