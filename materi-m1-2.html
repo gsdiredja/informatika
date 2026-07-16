@@ -1,24 +1,334 @@
 <div style="padding: 5px 0;">
-    <h4 style="margin-bottom: 12px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
-        Mengenal 3 Pilar Utama Fondasi Kerja SPAB
+    <h3 style="margin-bottom: 16px; color: #0b3a7a; font-size: 18px; font-weight: 700; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
+        PEMROGRAMAN BAHASA C++
+    </h3>
+
+    <!-- 1. Pengertian -->
+    <h4 style="margin-bottom: 8px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
+        1. Pengertian Bahasa C++
     </h4>
     <p style="margin-bottom: 12px; font-size: 14px; color: #4b5563; line-height: 1.6;">
-        Untuk mewujudkan sekolah yang tangguh, implementasi program SPAB ditopang oleh tiga pilar utama yang saling berkaitan:
+        Bahasa C++ adalah salah satu bahasa pemrograman paling populer yang bersifat <em>compiled</em>, berkinerja tinggi, dan mendukung paradigma Pemrograman Berorientasi Objek (<em>Object-Oriented Programming</em> / OOP).
     </p>
-    <ul style="padding-left: 20px; margin-bottom: 15px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+    <p style="margin-bottom: 12px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        C++ dikembangkan oleh Bjarne Stroustrup pada tahun 1979 di AT&T Bell Labs sebagai ekstensi dari bahasa C. Nama "C++" berasal dari operator increment <code>++</code> pada bahasa C, yang melambangkan bahwa C++ adalah versi peningkatan atau langkah berikutnya dari bahasa C.
+    </p>
+    
+    <p style="margin-bottom: 6px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        Karakteristik Utama C++:
+    </p>
+    <ul style="margin-bottom: 16px; padding-left: 20px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        <li style="margin-bottom: 6px;"><strong>General-Purpose:</strong> Bisa digunakan untuk membuat berbagai jenis aplikasi (game engine, sistem operasi, aplikasi desktop, embedded system).</li>
+        <li style="margin-bottom: 6px;"><strong>Multi-Paradigm:</strong> Mendukung pemrograman prosedural, berorientasi objek (OOP), dan generik.</li>
+        <li style="margin-bottom: 6px;"><strong>Tingkat Menengah (Mid-Level Language):</strong> Memiliki efisiensi dan akses kontrol memori tingkat rendah (low-level) seperti bahasa C, namun memiliki abstraksi tingkat tinggi (high-level) seperti OOP.</li>
+    </ul>
+
+    <!-- 2. Istilah-Istilah Penting -->
+    <h4 style="margin-bottom: 8px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
+        2. Istilah-Istilah Penting pada C++
+    </h4>
+    <p style="margin-bottom: 12px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        Berikut adalah istilah-istilah dasar hingga menengah yang wajib dipahami saat belajar C++:
+    </p>
+
+    <p style="margin-bottom: 8px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        A. Struktur & Komponen Dasar
+    </p>
+    <div style="overflow-x: auto; margin-bottom: 16px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #374151;">
+            <thead>
+                <tr style="background-color: #f3f4f6; text-align: left; border-bottom: 2px solid #d1d5db;">
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700; width: 30%;">Istilah</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700;">Pengertian & Fungsi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-weight: 600;">Header File (#include)</td>
+                    <td style="padding: 8px 12px;">File pustaka (library) yang diimpor di awal program. Contoh: <code>#include &lt;iostream&gt;</code> untuk fungsi input-output.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; font-weight: 600;">std:: (Standard Namespace)</td>
+                    <td style="padding: 8px 12px;">Ruang nama tempat pustaka standar C++ berada, untuk mencegah bentrok nama variabel/fungsi.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-weight: 600;">main() Function</td>
+                    <td style="padding: 8px 12px;">Fungsi utama dan titik awal (entry point) di mana eksekusi program C++ selalu dimulai.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; font-weight: 600;">Compiler</td>
+                    <td style="padding: 8px 12px;">Program pembantu untuk menerjemahkan kode C++ (source code) menjadi file eksekusi (binary/machine code).</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-weight: 600;">cout & cin</td>
+                    <td style="padding: 8px 12px;"><code>cout</code> (character output) untuk menampilkan data ke layar; <code>cin</code> (character input) untuk menerima input dari pengguna.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p style="margin-bottom: 8px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        B. Variabel, Data, & Memori
+    </p>
+    <div style="overflow-x: auto; margin-bottom: 16px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #374151;">
+            <thead>
+                <tr style="background-color: #f3f4f6; text-align: left; border-bottom: 2px solid #d1d5db;">
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700; width: 30%;">Istilah</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700;">Pengertian & Fungsi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-weight: 600;">Data Types</td>
+                    <td style="padding: 8px 12px;">Tipe data untuk menentukan jenis nilai variabel (misal: int, float, double, char, bool, string).</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; font-weight: 600;">Pointer (*)</td>
+                    <td style="padding: 8px 12px;">Variabel khusus yang menyimpan alamat memori dari variabel lain.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-weight: 600;">Reference (&)</td>
+                    <td style="padding: 8px 12px;">Nama alias atau shortcut langsung ke alamat memori variabel yang sudah ada.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; font-weight: 600;">Array</td>
+                    <td style="padding: 8px 12px;">Kumpulan data dengan tipe data yang sama yang disimpan secara berurutan di memori.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-weight: 600;">Vector (std::vector)</td>
+                    <td style="padding: 8px 12px;">Struktur data mirip Array, tetapi ukurannya dinamis (bisa bertambah/berkurang secara fleksibel).</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p style="margin-bottom: 8px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        C. Pemrograman Berorientasi Objek (OOP)
+    </p>
+    <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        C++ sangat terkenal dengan fitur OOP-nya. Berikut istilah pentingnya:
+    </p>
+    <ul style="margin-bottom: 16px; padding-left: 20px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        <li style="margin-bottom: 6px;"><strong>Class:</strong> Cetak biru (blueprint) atau templat untuk membuat sebuah objek.</li>
+        <li style="margin-bottom: 6px;"><strong>Object:</strong> Bentuk nyata (instance) yang dibuat berdasarkan rancangan Class.</li>
+        <li style="margin-bottom: 6px;"><strong>Encapsulation:</strong> Mengemas data dan fungsi menjadi satu unit (class) serta membatasi akses langsung dari luar menggunakan Access Specifiers (private, public, protected).</li>
+        <li style="margin-bottom: 6px;"><strong>Inheritance (Pewarisan):</strong> Kemampuan sebuah class baru (child) untuk mewarisi sifat dan fungsi dari class lain (parent).</li>
+        <li style="margin-bottom: 6px;"><strong>Polymorphism:</strong> Kemampuan suatu fungsi/objek untuk memiliki banyak bentuk atau perilaku berbeda.</li>
+        <li style="margin-bottom: 6px;"><strong>Constructor:</strong> Fungsi khusus dalam class yang dipanggil secara otomatis saat objek pertama kali dibuat.</li>
+        <li style="margin-bottom: 6px;"><strong>Destructor:</strong> Fungsi khusus yang dipanggil saat objek dihancurkan untuk membersihkan memori.</li>
+    </ul>
+
+    <!-- 3. Input/Output -->
+    <h4 style="margin-bottom: 8px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
+        3. Komponen Input/Output dan Struktur Program
+    </h4>
+    <p style="margin-bottom: 12px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        Komponen dasar dari bahasa C/C++ yang digunakan untuk komunikasi antara program dengan pengguna (proses Input/Output) serta pengaturan struktur program:
+    </p>
+
+    <p style="margin-bottom: 6px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        Perintah & File Header Utama:
+    </p>
+    <ul style="margin-bottom: 16px; padding-left: 20px; font-size: 14px; color: #4b5563; line-height: 1.6;">
         <li style="margin-bottom: 8px;">
-            <strong>Pilar 1: Fasilitas Sekolah Aman</strong> — Memastikan keandalan struktur bangunan, penataan kelas yang tidak menghalangi jalur evakuasi, serta tersedianya rambu-rambu bencana.
+            <strong>#include:</strong> Perintah pra-pemrosesan (preprocessor directive) yang berfungsi untuk memasukkan/mengimpor library (pustaka kode) eksternal ke dalam program kita. Tanpa perintah ini, program tidak akan mengenali fungsi-fungsi dasar seperti <code>printf</code> atau <code>scanf</code>.
         </li>
         <li style="margin-bottom: 8px;">
-            <strong>Pilar 2: Manajemen Bencana Sekolah</strong> — Pembentukan komite siaga bencana tingkat sekolah, penyusunan Prosedur Operasional Standar (SOP) kedaruratan, dan pemetaan risiko mandiri.
+            <strong>stdio.h:</strong> Kepanjangan dari Standard Input Output Header (.h berarti file header). Menyediakan fungsi-fungsi dasar input-output seperti <code>printf()</code> (menampilkan ke layar) dan <code>scanf()</code> (menerima input dari keyboard).<br>
+            <em>Catatan:</em> Biasanya ditulis <code>#include &lt;stdio.h&gt;</code> pada bahasa C, sedangkan pada C++ modern sering ditulis <code>#include &lt;iostream&gt;</code>.
         </li>
         <li style="margin-bottom: 8px;">
-            <strong>Pilar 3: Pendidikan Pengurangan Risiko Bencana</strong> — Integrasi materi kebencanaan ke dalam kurikulum pembelajaran serta pelatihan simulasi berkala bagi siswa dan guru.
+            <strong>int main():</strong> Fungsi utama yang menjadi titik awal eksekusi program (entry point). Ketika program dijalankan, komputer akan selalu mencari dan mengeksekusi baris kode yang ada di dalam <code>int main()</code> terlebih dahulu dari atas ke bawah. Kata <code>int</code> di depannya menandakan fungsi ini akan mengembalikan nilai berupa angka bulat (biasanya <code>return 0;</code> di akhir program sebagai tanda program sukses berjalan).
         </li>
     </ul>
-    <div style="background-color: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px; border-radius: 4px;">
+
+    <p style="margin-bottom: 6px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        Penentu Format / Format Specifier (%)
+    </p>
+    <p style="margin-bottom: 12px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        Simbol <code>%</code> yang diikuti huruf tertentu digunakan pada fungsi input-output (seperti <code>printf</code> atau <code>scanf</code>) untuk memberi tahu komputer jenis/tipe data apa yang sedang dicetak atau dibaca:
+    </p>
+    <div style="overflow-x: auto; margin-bottom: 16px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #374151;">
+            <thead>
+                <tr style="background-color: #f3f4f6; text-align: left; border-bottom: 2px solid #d1d5db;">
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700;">Format Specifier</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700;">Tipe Data</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700;">Pengertian & Kegunaan</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700;">Contoh Nilai</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-family: monospace; font-weight: 600; color: #1e40af;">%d atau %i</td>
+                    <td style="padding: 8px 12px;">int (Integer)</td>
+                    <td style="padding: 8px 12px;">Menampilkan/membaca bilangan bulat (desimal/signed integer).</td>
+                    <td style="padding: 8px 12px;">10, -5, 100</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; font-family: monospace; font-weight: 600; color: #1e40af;">%f</td>
+                    <td style="padding: 8px 12px;">float / double</td>
+                    <td style="padding: 8px 12px;">Menampilkan/membaca bilangan pecahan/desimal.</td>
+                    <td style="padding: 8px 12px;">3.14, 0.5, -12.45</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-family: monospace; font-weight: 600; color: #1e40af;">%c</td>
+                    <td style="padding: 8px 12px;">char (Character)</td>
+                    <td style="padding: 8px 12px;">Menampilkan/membaca satu karakter tunggal.</td>
+                    <td style="padding: 8px 12px;">'A', 'z', '7', '#'</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; font-family: monospace; font-weight: 600; color: #1e40af;">%s</td>
+                    <td style="padding: 8px 12px;">string / char[]</td>
+                    <td style="padding: 8px 12px;">Menampilkan/membaca kumpulan karakter / teks / kata.</td>
+                    <td style="padding: 8px 12px;">"Halo", "Koding"</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 4. Simbol Penting -->
+    <h4 style="margin-bottom: 8px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
+        4. Simbol-Simbol Penting dalam Koding C/C++
+    </h4>
+    <p style="margin-bottom: 6px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        A. Karakter Lepas / Escape Sequence (Format Teks)
+    </p>
+    <ul style="margin-bottom: 12px; padding-left: 20px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        <li style="margin-bottom: 4px;"><code>\n</code> (New Line): Membuat baris baru (sama seperti menekan Enter di keyboard).</li>
+        <li style="margin-bottom: 4px;"><code>\t</code> (Tab): Memberikan jarak/spasi tab horizontal.</li>
+        <li style="margin-bottom: 4px;"><code>\\</code>: Menampilkan karakter backslash <code>\</code>.</li>
+        <li style="margin-bottom: 4px;"><code>\"</code>: Menampilkan tanda petik ganda <code>"</code> di dalam teks.</li>
+    </ul>
+
+    <p style="margin-bottom: 6px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        B. Simbol Sintaksis & Pemformatan
+    </p>
+    <ul style="margin-bottom: 16px; padding-left: 20px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        <li style="margin-bottom: 6px;"><strong>; (Semicolon / Titik Koma):</strong> Penanda akhir pernyataan (statement). Setiap baris instruksi wajib diakhiri dengan <code>;</code> agar tidak terjadi syntax error.</li>
+        <li style="margin-bottom: 6px;"><strong>{ } (Curly Braces / Kurung Kurawal):</strong> Menandai awal dan akhir dari blok kode atau fungsi.</li>
+        <li style="margin-bottom: 6px;"><strong>& (Ampersand / Operator Alamat):</strong> Digunakan saat mengambil input dengan <code>scanf("&amp;variabel")</code> untuk menandai alamat memori variabel tempat data tersimpan.</li>
+        <li style="margin-bottom: 6px;"><strong>// dan /* ... */ (Komentar):</strong> Digunakan untuk menulis catatan di kode yang diabaikan oleh komputer (tidak dieksekusi). Gunakan <code>//</code> untuk komentar 1 baris, dan <code>/* ... */</code> untuk komentar banyak baris.</li>
+    </ul>
+
+    <!-- 5. Percabangan Logika -->
+    <h4 style="margin-bottom: 8px; color: #0b3a7a; font-size: 15px; font-weight: 700;">
+        5. Percabangan Logika (Conditional Statements / Control Flow)
+    </h4>
+    <p style="margin-bottom: 12px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        Percabangan Logika adalah konsep dalam pemrograman yang memungkinkan komputer untuk mengambil keputusan berdasarkan kondisi tertentu.<br>
+        <em>Prinsip dasar: "Jika hari hujan, maka saya membawa payung. Jika tidak, saya tidak membawa payung."</em>
+    </p>
+
+    <p style="margin-bottom: 6px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        Jenis-Jenis Percabangan Logika:
+    </p>
+    
+    <div style="margin-bottom: 12px;">
+        <strong style="font-size: 14px; color: #0b3a7a;">1. Percabangan if (1 Kondisi)</strong>
+        <p style="margin: 4px 0 8px 0; font-size: 14px; color: #4b5563; line-height: 1.6;">
+            Digunakan ketika kita hanya ingin mengeksekusi suatu perintah jika kondisinya bernilai benar (True). Jika salah (False), program tidak akan melakukan apa-apa.<br>
+            <strong>Logika:</strong> Jika [Kondisi True] &rarr; Jalankan Perintah.
+        </p>
+        <pre style="background-color: #f3f4f6; padding: 10px; border-radius: 4px; border: 1px solid #e5e7eb; font-family: monospace; font-size: 13px; color: #111827; margin: 0;">nilai = 85
+if nilai >= 75:
+    print("Selamat, Anda Lulus!")</pre>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+        <strong style="font-size: 14px; color: #0b3a7a;">2. Percabangan if - else (2 Kondisi)</strong>
+        <p style="margin: 4px 0 8px 0; font-size: 14px; color: #4b5563; line-height: 1.6;">
+            Digunakan untuk menangani dua pilihan: satu aksi jika kondisi bernilai True, dan aksi alternatif jika kondisi bernilai False.<br>
+            <strong>Logika:</strong> Jika [Kondisi True] &rarr; Jalankan Perintah A. Jika tidak &rarr; Jalankan Perintah B.
+        </p>
+        <pre style="background-color: #f3f4f6; padding: 10px; border-radius: 4px; border: 1px solid #e5e7eb; font-family: monospace; font-size: 13px; color: #111827; margin: 0;">int nilai = 60;
+if (nilai >= 75) {
+    cout << "Selamat, Anda Lulus!";
+} else {
+    cout << "Maaf, Anda Harus Remidi.";
+}</pre>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+        <strong style="font-size: 14px; color: #0b3a7a;">3. Percabangan if - else if - else / elif (Banyak Kondisi)</strong>
+        <p style="margin: 4px 0 8px 0; font-size: 14px; color: #4b5563; line-height: 1.6;">
+            Digunakan jika ada lebih dari dua pilihan kondisi yang perlu diperiksa secara berurutan.<br>
+            <strong>Logika:</strong> Cek Kondisi 1 &rarr; Jika True, jalankan Perintah 1. Jika False, Cek Kondisi 2 &rarr; Jika True, jalankan Perintah 2. Jika semua False &rarr; Jalankan Perintah Terakhir (Else).
+        </p>
+        <pre style="background-color: #f3f4f6; padding: 10px; border-radius: 4px; border: 1px solid #e5e7eb; font-family: monospace; font-size: 13px; color: #111827; margin: 0;">int nilai = 85;
+if (nilai >= 90) {
+    cout << "Nilai Anda: A";
+} else if (nilai >= 80) {
+    cout << "Nilai Anda: B";
+} else if (nilai >= 70) {
+    cout << "Nilai Anda: C";
+} else {
+    cout << "Nilai Anda: D";
+}</pre>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+        <strong style="font-size: 14px; color: #0b3a7a;">4. Percabangan switch - case</strong>
+        <p style="margin: 4px 0 8px 0; font-size: 14px; color: #4b5563; line-height: 1.6;">
+            Metode alternatif dari if - else bercabang yang khusus digunakan untuk memeriksa satu variabel terhadap banyak nilai konstan/pasti.
+        </p>
+        <pre style="background-color: #f3f4f6; padding: 10px; border-radius: 4px; border: 1px solid #e5e7eb; font-family: monospace; font-size: 13px; color: #111827; margin: 0;">int kodePilihan = 2;
+switch (kodePilihan) {
+    case 1:
+        cout << "Anda memilih Nasi Goreng";
+        break;
+    case 2:
+        cout << "Anda memilih Mie Ayam";
+        break;
+    default:
+        cout << "Pilihan tidak tersedia";
+}</pre>
+    </div>
+
+    <p style="margin-bottom: 8px; font-size: 14px; color: #1e40af; font-weight: 600;">
+        Operator Logika Pendukung Percabangan
+    </p>
+    <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.6;">
+        Sering kali kita perlu mengecek beberapa syarat sekaligus menggunakan Operator Logika:
+    </p>
+    <div style="overflow-x: auto; margin-bottom: 16px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #374151;">
+            <thead>
+                <tr style="background-color: #f3f4f6; text-align: left; border-bottom: 2px solid #d1d5db;">
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700;">Operator</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700;">Nama Operator</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700;">Fungsi / Syarat Lulus</th>
+                    <th style="padding: 8px 12px; color: #0b3a7a; font-weight: 700;">Contoh</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-family: monospace; font-weight: 600; color: #1e40af;">&amp;&amp; (atau and)</td>
+                    <td style="padding: 8px 12px;">AND</td>
+                    <td style="padding: 8px 12px;">Bernilai True jika SEMUA kondisi terpenuhi</td>
+                    <td style="padding: 8px 12px; font-family: monospace;">(umur &gt;= 17 &amp;&amp; punyaSIM == true)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                    <td style="padding: 8px 12px; font-family: monospace; font-weight: 600; color: #1e40af;">|| (atau or)</td>
+                    <td style="padding: 8px 12px;">OR</td>
+                    <td style="padding: 8px 12px;">Bernilai True jika SALAH SATU kondisi terpenuhi</td>
+                    <td style="padding: 8px 12px; font-family: monospace;">(hari == "Sabtu" || hari == "Minggu")</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px 12px; font-family: monospace; font-weight: 600; color: #1e40af;">! (atau not)</td>
+                    <td style="padding: 8px 12px;">NOT</td>
+                    <td style="padding: 8px 12px;">Membalikkan nilai logika (True jadi False, dan sebaliknya)</td>
+                    <td style="padding: 8px 12px; font-family: monospace;">!(nilai &lt; 60)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Banner Penutup -->
+    <div style="background-color: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px; border-radius: 4px; margin-top: 16px;">
         <span style="font-size: 13px; color: #1e40af; font-weight: 600;">
-            🎉 Materi 2 Selesai! Materi 3 sekarang sudah terbuka dan siap dipelajari pada daftar di atas.
+            🎉 Materi Selesai! Anda telah mempelajari konsep dasar C++, komponen I/O, simbol sintaksis, serta percabangan logika.
         </span>
     </div>
 </div>
