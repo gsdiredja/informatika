@@ -206,27 +206,35 @@
         function logoutSiswa() { localStorage.removeItem('loggedSiswa'); window.location.replace("login.html"); }
 
         function loadProgresDatabase() {
-            if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
-                dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
-                renderDaftarHalamanUtama();
-                return;
-            }
+    // KONDISI KHUSUS: Jika username = "admin", buka SEMUA modul (1 sampai 10)
+    if (sessionUser && sessionUser.username === "admin") {
+        dbStatusModul = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true };
+        renderDaftarHalamanUtama();
+        return;
+    }
 
-            fetch(`${API_URL}?userId=${encodeURIComponent(sessionUser.username)}`)
-                .then(res => res.json())
-                .then(resData => {
-                    if(resData.status === "success") {
-                        dbStatusModul = resData.progress;
-                        for (let key in dbStatusModul) {
-                            dbStatusModul[key] = (dbStatusModul[key] === true || dbStatusModul[key] === "true" || dbStatusModul[key] === "TRUE");
-                        }
-                        dbStatusModul[1] = true; 
-                        renderDaftarHalamanUtama();
-                    }
-                }).catch(() => {
-                    renderDaftarHalamanUtama();
-                });
-        }
+    // Jika siswa biasa, jalankan logika normal dari database
+    if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
+        dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
+        renderDaftarHalamanUtama();
+        return;
+    }
+
+    fetch(`${API_URL}?userId=${encodeURIComponent(sessionUser.username)}`)
+        .then(res => res.json())
+        .then(resData => {
+            if(resData.status === "success") {
+                dbStatusModul = resData.progress;
+                for (let key in dbStatusModul) {
+                    dbStatusModul[key] = (dbStatusModul[key] === true || dbStatusModul[key] === "true" || dbStatusModul[key] === "TRUE");
+                }
+                dbStatusModul[1] = true; 
+                renderDaftarHalamanUtama();
+            }
+        }).catch(() => {
+            renderDaftarHalamanUtama();
+        });
+}
 
         function renderDaftarHalamanUtama() {
             const dataTopikSaatIni = DATA_TOPIK[topikAktif] || DATA_TOPIK[1];
