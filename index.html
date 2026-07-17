@@ -85,9 +85,11 @@
             <button type="button" class="btn-back-to-topik" onclick="event.stopPropagation(); kembaliKeDaftarTopik();" title="Kembali ke Daftar Topik">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-            </button>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
             
             <!-- PENGGUNAAN LOGO OPSI 2 -->
             <div class="header-logo-box">
@@ -206,35 +208,33 @@
         function logoutSiswa() { localStorage.removeItem('loggedSiswa'); window.location.replace("login.html"); }
 
         function loadProgresDatabase() {
-    // KONDISI KHUSUS: Jika username = "admin", buka SEMUA modul (1 sampai 10)
-    if (sessionUser && sessionUser.username === "admin") {
-        dbStatusModul = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true };
-        renderDaftarHalamanUtama();
-        return;
-    }
-
-    // Jika siswa biasa, jalankan logika normal dari database
-    if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
-        dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
-        renderDaftarHalamanUtama();
-        return;
-    }
-
-    fetch(`${API_URL}?userId=${encodeURIComponent(sessionUser.username)}`)
-        .then(res => res.json())
-        .then(resData => {
-            if(resData.status === "success") {
-                dbStatusModul = resData.progress;
-                for (let key in dbStatusModul) {
-                    dbStatusModul[key] = (dbStatusModul[key] === true || dbStatusModul[key] === "true" || dbStatusModul[key] === "TRUE");
-                }
-                dbStatusModul[1] = true; 
+            if (sessionUser && sessionUser.username === "admin") {
+                dbStatusModul = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true };
                 renderDaftarHalamanUtama();
+                return;
             }
-        }).catch(() => {
-            renderDaftarHalamanUtama();
-        });
-}
+
+            if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
+                dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
+                renderDaftarHalamanUtama();
+                return;
+            }
+
+            fetch(`${API_URL}?userId=${encodeURIComponent(sessionUser.username)}`)
+                .then(res => res.json())
+                .then(resData => {
+                    if(resData.status === "success") {
+                        dbStatusModul = resData.progress;
+                        for (let key in dbStatusModul) {
+                            dbStatusModul[key] = (dbStatusModul[key] === true || dbStatusModul[key] === "true" || dbStatusModul[key] === "TRUE");
+                        }
+                        dbStatusModul[1] = true; 
+                        renderDaftarHalamanUtama();
+                    }
+                }).catch(() => {
+                    renderDaftarHalamanUtama();
+                });
+        }
 
         function renderDaftarHalamanUtama() {
             const dataTopikSaatIni = DATA_TOPIK[topikAktif] || DATA_TOPIK[1];
@@ -354,6 +354,7 @@
 
         function tutupModul() { document.getElementById('moduleModal').classList.remove('active'); }
 
+        // LOGIKA FETCH MATERI DIUBAH AGAR MENANGKAP ERROR FILE 404 KUSTOM
         function toggleMateri(noMateri) {
             if (!internalAkses[noMateri]) return;
             const item = document.getElementById(`item-${noMateri}`);
@@ -375,13 +376,27 @@
                 content.innerHTML = `<em>Memuat...</em>`;
                 
                 fetch(`materi/t${topikAktif}-m${modulAktif}-m${noMateri}.html`)
-                    .then(res => res.text())
+                    .then(res => {
+                        if (!res.ok) throw new Error("404");
+                        return res.text();
+                    })
                     .then(data => {
                         content.innerHTML = data;
                         bukaKunciBerikutnya(noMateri);
                     })
                     .catch(() => {
-                        content.innerHTML = `<div style="color:red; padding:10px;">Gagal memuat berkas materi (materi/t${topikAktif}-m${modulAktif}-m${noMateri}.html)</div>`;
+                        // Tampilan Kustom Saat Materi Belum Dibuat / Error 404
+                        content.innerHTML = `
+                            <div style="text-align: center; padding: 25px 15px; color: #64748b; background-color: #ffffff; border-radius: 8px; border: 1px dashed #cbd5e1;">
+                                <div style="font-size: 32px; margin-bottom: 8px;">🚧</div>
+                                <h4 style="font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Materi Belum Tersedia</h4>
+                                <p style="font-size: 13px; line-height: 1.4;">Bahan ajar digital untuk bagian ini sedang dalam proses penyusunan oleh tim guru.</p>
+                            </div>
+                        `;
+                        // Tetap buka materi berikutnya/kuis jika admin agar tidak stuck testing
+                        if(sessionUser && sessionUser.username === "admin") {
+                            bukaKunciBerikutnya(noMateri);
+                        }
                     });
             } else {
                 item.classList.remove('expanded');
@@ -407,6 +422,7 @@
             }
         }
 
+        // LOGIKA FETCH POSTTEST DIUBAH AGAR MENANGKAP ERROR FILE 404 KUSTOM
         function bukaHalamanPostTest() {
             if (!internalAkses.pt) return;
 
@@ -421,7 +437,10 @@
             wrapperSoal.innerHTML = `<div style="text-align:center; padding: 20px;"><em>Memuat Lembar Kuis...</em></div>`;
 
             fetch(`posttest/t${topikAktif}-m${modulAktif}-pt.html`)
-                .then(res => res.text())
+                .then(res => {
+                    if (!res.ok) throw new Error("404");
+                    return res.text();
+                })
                 .then(data => {
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(data, 'text/html');
@@ -449,7 +468,16 @@
                     }
                 })
                 .catch(() => {
-                    wrapperSoal.innerHTML = `<div style="color:red; padding:20px;">Gagal memuat berkas post test (posttest/t${topikAktif}-m${modulAktif}-pt.html)</div>`;
+                    // Tampilan Kustom Saat Soal Kuis Belum Tersedia / Error 404
+                    document.getElementById('kuisNavRow').style.display = 'none';
+                    wrapperSoal.innerHTML = `
+                        <div style="text-align: center; padding: 35px 20px; color: #64748b;">
+                            <div style="font-size: 40px; margin-bottom: 10px;">📝</div>
+                            <h4 style="font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 6px;">Soal Kuis Belum Tersedia</h4>
+                            <p style="font-size: 13px; margin-bottom: 20px;">Lembar evaluasi post test untuk modul ini belum dikonfigurasi di server.</p>
+                            <button type="button" class="btn-nav-kuis" onclick="pemicuUlangModul(null)" style="background-color: #64748b; float: none; display: inline-block;">Kembali</button>
+                        </div>
+                    `;
                 });
         }
 
