@@ -2,7 +2,7 @@
 
 const DATA_TOPIK = {
     // =========================================================================
-    // TOPIK 1: STRATEGI ALGORITMIK DAN PEMROGRAMAN (LENGKAP)
+    // TOPIK 1: STRATEGI ALGORITMIK DAN PEMROGRAMAN
     // =========================================================================
     1: {
         judulTopik: "STRATEGI ALGORITMIK DAN PEMROGRAMAN",
@@ -52,7 +52,7 @@ const DATA_TOPIK = {
     },
 
     // =========================================================================
-    // TOPIK 2: BERPIKIR KRITIS DAN DAMPAK SOSIAL INFORMATIKA (DRAFT/EDITABLE)
+    // TOPIK 2: BERPIKIR KRITIS DAN DAMPAK SOSIAL INFORMATIKA (EDITABLE)
     // =========================================================================
     2: {
         judulTopik: "BERPIKIR KRITIS DAN DAMPAK SOSIAL INFORMATIKA",
@@ -86,7 +86,7 @@ const DATA_TOPIK = {
     },
 
     // =========================================================================
-    // TOPIK 3: JARINGAN KOMPUTER DAN INTERNET (DRAFT/EDITABLE)
+    // TOPIK 3: JARINGAN KOMPUTER DAN INTERNET (EDITABLE)
     // =========================================================================
     3: {
         judulTopik: "JARINGAN KOMPUTER DAN INTERNET",
@@ -111,7 +111,7 @@ const DATA_TOPIK = {
     },
 
     // =========================================================================
-    // TOPIK 4: PENGEMBANGAN APLIKASI MOBILE DENGAN APP INVENTOR (DRAFT/EDITABLE)
+    // TOPIK 4: PENGEMBANGAN APLIKASI MOBILE DENGAN APP INVENTOR (EDITABLE)
     // =========================================================================
     4: {
         judulTopik: "PENGEMBANGAN APLIKASI MOBILE DENGAN APP INVENTOR",
@@ -135,7 +135,7 @@ const DATA_TOPIK = {
     },
 
     // =========================================================================
-    // TOPIK 5: PROYEK ANALISIS DATA (DRAFT/EDITABLE)
+    // TOPIK 5: PROYEK ANALISIS DATA (EDITABLE)
     // =========================================================================
     5: {
         judulTopik: "PROYEK ANALISIS DATA",
