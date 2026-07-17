@@ -28,22 +28,34 @@
         h3 {
             color: #34495e;
         }
-        code {
-            background-color: #f8f9fa;
-            border: 1px solid #eaecf0;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 0.9em;
-        }
+        
+        /* FIX KONFLIK CSS: Memaksa teks kode terlihat dan menghilangkan kotak putih */
         pre {
-            background-color: #2d3748;
-            color: #f7fafc;
+            background-color: #2d3748 !important;
+            color: #f7fafc !important;
             padding: 15px;
             border-radius: 6px;
             overflow-x: auto;
             font-family: "Courier New", Courier, monospace;
+            margin: 20px 0;
         }
+        pre code {
+            background-color: transparent !important;
+            color: #f7fafc !important;
+            padding: 0 !important;
+            border: none !important;
+            display: block;
+            font-family: "Courier New", Courier, monospace;
+        }
+        p code, li code {
+            background-color: #f8f9fa !important;
+            color: #e67e22 !important;
+            border: 1px solid #eaecf0 !important;
+            padding: 2px 6px !important;
+            border-radius: 4px !important;
+            font-family: "Courier New", Courier, monospace;
+        }
+
         .box-info {
             background-color: #fff9db;
             border-left: 4px solid #f59f00;
@@ -87,7 +99,7 @@
     </style>
 </head>
 <body>
-
+   
     <p>Kata <strong>"Greedy"</strong> secara harfiah berarti <em>serakah</em> atau <em>rakus</em>. Dalam ilmu komputer, <strong>Algoritma Greedy</strong> adalah pendekatan pemecahan masalah yang membuat keputusan terbaik di setiap langkah saat itu juga (disebut <strong>solusi lokal optimal</strong>), tanpa memikirkan konsekuensi jangka panjangnya. Harapan utamanya adalah bahwa rangkaian pilihan jangka pendek tersebut akan menuntun kita ke hasil akhir yang terbaik secara keseluruhan (disebut <strong>solusi global optimal</strong>).</p>
 
     <div class="box-info">
@@ -125,7 +137,7 @@
     <p>Meskipun cepat dan sederhana, kelemahan terbesar algoritma ini adalah <strong>sifatnya yang berpandangan pendek (short-sighted)</strong>. Pilihan terbaik di awal belum tentu menghasilkan hasil akhir terbaik.</p>
 
     <h3>Studi Kasus Kegagalan: Masalah Kembalian Uang Pecahan Langka</h3>
-    <p>Bayangkan Anda harus memberikan kembalian senilai <strong>12</strong> rupiah, dan pecahan koin yang tersedia di negara tersebut adalah <strong>[10, 8, 1]</strong>.</p>
+    <p>Bayangkan Anda harus memberikan kembalian senilai <strong>16</strong> rupiah, dan pecahan koin yang tersedia di negara tersebut adalah <strong>[10, 8, 1]</strong>.</p>
     
     <table>
         <thead>
@@ -139,13 +151,13 @@
         <tbody>
             <tr>
                 <td><strong>Pendekatan Greedy</strong></td>
-                <td>Pilih 10 (sisa 2) &rarr; Pilih 1 &rarr; Pilih 1. <br>Koin: (10, 1, 1)</td>
-                <td>3 Koin</td>
+                <td>Pilih 10 (sisa 6) &rarr; Pilih 1 sebanyak 6 kali.<br>Koin: (10, 1, 1, 1, 1, 1, 1)</td>
+                <td>7 Koin</td>
                 <td style="color: red; font-weight: bold;">Tidak Optimal</td>
             </tr>
             <tr>
                 <td><strong>Pendekatan Terbaik (Global)</strong></td>
-                <td>Pilih 8 (sisa 4) &rarr; Pilih 1 &rarr; Pilih 1 &rarr; Masih tidak optimal. <br>Tunggu, solusi terbaik sebenarnya adalah menggunakan pecahan <strong>[8]</strong> lalu sisa 4 dicari dari kombinasi lain? Tidak ada. <br>Mari evaluasi: Jika langsung memilih pecahan <strong>(8 + 1 + 1 + 1 + 1)</strong> = 5 koin. <br>Bagaimana jika target kembaliannya <strong>16</strong>? <br>Greedy: 10 + 1 + 1 + 1 + 1 + 1 + 1 (7 koin). <br>Solusi Terbaik: 8 + 8 (2 koin).</td>
+                <td>Langsung memilih pecahan 8 sebanyak 2 kali.<br>Koin: (8, 8)</td>
                 <td>2 Koin</td>
                 <td style="color: green; font-weight: bold;">Optimal</td>
             </tr>
