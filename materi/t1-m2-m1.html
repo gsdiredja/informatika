@@ -108,16 +108,38 @@
     <h2>Analogi dalam Kehidupan Sehari-hari</h2>
     
     <h3>1. Antrean Panjang di Bioskop / Supermarket</h3>
-    <p>Ibarat Anda berdiri di dalam antrean yang sangat panjang dan ingin tahu Anda berada di baris ke berapa. Daripada berjalan ke depan untuk menghitung satu per satu, Anda menggunakan prinsip rekursi:</p>
-    <ul>
-        <li>Anda bertanya kepada orang di depan Anda: <em>"Kamu baris ke berapa?"</em></li>
-        <li>Orang tersebut juga tidak tahu, lalu bertanya kepada orang di depannya lagi, dan seterusnya.</li>
-        <li>Pertanyaan merambat ke depan hingga sampai pada <strong>Orang Pertama</strong> di paling depan.</li>
-        <li>Orang Pertama tahu dia berada di baris ke-1 (<strong>Base Case</strong>).</li>
-        <li>Orang Pertama memberi tahu orang di belakangnya: <em>"Saya baris 1"</em>.</li>
-        <li>Orang ke-2 menambahkan 1 (1 + 1 = 2) lalu memberi tahu orang di belakangnya.</li>
-        <li>Proses balasan berlanjut ke belakang (<strong>Recursive Step</strong>) hingga kembali ke Anda dengan jawaban yang akurat.</li>
-    </ul>
+    <div style="overflow-x: auto; margin: 16px 0;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px; color: #374151; border: 1px solid #d1d5db;">
+        <thead>
+            <tr style="background-color: #f3f4f6; text-align: left; border-bottom: 1px solid #d1d5db;">
+                <th style="padding: 10px 14px; color: #0b3a7a; font-weight: 700; width: 30%; border: 1px solid #d1d5db;">Tahapan / Istilah</th>
+                <th style="padding: 10px 14px; color: #0b3a7a; font-weight: 700; border: 1px solid #d1d5db;">Proses / Aksi Nyata</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="border-bottom: 1px solid #e5e7eb;">
+                <td style="padding: 10px 14px; font-weight: 600; border: 1px solid #d1d5db;">1. Inisiasi Masalah</td>
+                <td style="padding: 10px 14px; border: 1px solid #d1d5db;">Anda ingin tahu berada di barisan ke berapa tanpa harus berjalan ke depan untuk menghitung satu per satu.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                <td style="padding: 10px 14px; font-weight: 600; border: 1px solid #d1d5db;">2. Perambatan Pertanyaan</td>
+                <td style="padding: 10px 14px; border: 1px solid #d1d5db;">Anda bertanya ke orang di depan: <em>"Kamu baris ke berapa?"</em>. Karena dia tidak tahu, dia bertanya ke orang di depannya lagi, dan seterusnya hingga merambat ke paling depan.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e5e7eb;">
+                <td style="padding: 10px 14px; font-weight: 600; color: #10b981; border: 1px solid #d1d5db;">3. Base Case (Kondisi Berhenti)</td>
+                <td style="padding: 10px 14px; border: 1px solid #d1d5db;">Pertanyaan sampai pada <strong>Orang Pertama</strong> di paling depan. Dia tahu secara pasti bahwa dirinya berada di baris ke-1.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                <td style="padding: 10px 14px; font-weight: 600; color: #3b82f6; border: 1px solid #d1d5db;">4. Recursive Step (Proses Balasan)</td>
+                <td style="padding: 10px 14px; border: 1px solid #d1d5db;">Orang pertama memberi tahu orang di belakangnya: <em>"Saya baris 1"</em>. Orang ke-2 menambahkan nilai 1 (1 + 1 = 2) lalu menjawab ke orang belakangnya lagi.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e5e7eb;">
+                <td style="padding: 10px 14px; font-weight: 600; border: 1px solid #d1d5db;">5. Penyelesaian Akhir</td>
+                <td style="padding: 10px 14px; border: 1px solid #d1d5db;">Proses penjumlahan bertahap berlanjut ke belakang hingga jawaban akurat sampai kembali kepada Anda.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
     <h3>2. Struktur Folder dan File di Komputer</h3>
     <p>Saat Anda membuka folder di komputer, di dalam folder tersebut bisa terdapat folder lain (<em>sub-folder</em>), dan di dalamnya terdapat sub-folder lagi.</p>
