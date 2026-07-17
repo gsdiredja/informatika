@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 2: Algoritma Greedy - Informatika</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fdfdfd;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #d35400;
+            margin-top: 30px;
+            border-left: 4px solid #e67e22;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #34495e;
+        }
+        code {
+            background-color: #f8f9fa;
+            border: 1px solid #eaecf0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #2d3748;
+            color: #f7fafc;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+        }
+        .box-info {
+            background-color: #fff9db;
+            border-left: 4px solid #f59f00;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .box-success {
+            background-color: #ebfbee;
+            border-left: 4px solid #40c057;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .box-danger {
+            background-color: #fff5f5;
+            border-left: 4px solid #fa5252;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Algoritma Greedy</h1>
+    
+    <p>Kata <strong>"Greedy"</strong> secara harfiah berarti <em>serakah</em> atau <em>rakus</em>. Dalam ilmu komputer, <strong>Algoritma Greedy</strong> adalah pendekatan pemecahan masalah yang membuat keputusan terbaik di setiap langkah saat itu juga (disebut <strong>solusi lokal optimal</strong>), tanpa memikirkan konsekuensi jangka panjangnya. Harapan utamanya adalah bahwa rangkaian pilihan jangka pendek tersebut akan menuntun kita ke hasil akhir yang terbaik secara keseluruhan (disebut <strong>solusi global optimal</strong>).</p>
+
+    <div class="box-info">
+        <strong>Prinsip Utama:</strong> <em>"Ambil apa yang bisa kamu dapatkan sekarang yang terlihat paling menguntungkan, jangan pernah menyesali atau mengubah keputusan yang sudah dibuat."</em>
+    </div>
+
+    <h2>Karakteristik Algoritma Greedy</h2>
+    <p>Sebuah algoritma dapat dikategorikan sebagai Greedy jika menerapkan elemen-elemen berikut:</p>
+    <ul>
+        <li><strong>Himpunan Kandidat:</strong> Berisi elemen-elemen yang membentuk solusi (pilihan-pilihan yang tersedia).</li>
+        <li><strong>Fungsi Seleksi:</strong> Memilih kandidat terbaik pada setiap langkah (misalnya: memilih yang paling besar, paling murah, atau paling cepat).</li>
+        <li><strong>Fungsi Kelayakan (<em>Feasibility</em>):</strong> Memeriksa apakah kandidat yang dipilih melanggar batasan masalah (misal: apakah barangnya muat di dalam tas?).</li>
+        <li><strong>Fungsi Tujuan:</strong> Memaksimalkan keuntungan atau meminimalkan biaya.</li>
+    </ul>
+
+    <h2>Contoh Algoritma Greedy dalam Kehidupan Sehari-hari</h2>
+
+    <h3>1. Memberikan Kembalian Uang Kasir (<em>Coin Change Problem</em>)</h3>
+    <p>Ini adalah contoh paling populer. Bayangkan Anda seorang kasir toko yang harus memberikan uang kembalian sebesar <strong>Rp7.500</strong> kepada pelanggan. Di laci kasir, Anda memiliki pecahan uang Rp5.000, Rp2.000, Rp1.000, dan Rp500. Bagaimana cara memberikan lembaran koin/uang sesedikit mungkin?</p>
+    <p><strong>Cara Berpikir Greedy:</strong></p>
+    <ol>
+        <li>Cari uang pecahan terbesar yang nilainya <em>kurang dari atau sama dengan</em> Rp7.500. Pilihan jatuh pada <strong>Rp5.000</strong> (Sisa kembalian: Rp2.500).</li>
+        <li>Cari pecahan terbesar berikutnya yang &le; Rp2.500. Pilihan jatuh pada <strong>Rp2.000</strong> (Sisa kembalian: Rp500).</li>
+        <li>Cari pecahan terbesar berikutnya yang &le; Rp500. Pilihan jatuh pada <strong>Rp500</strong> (Sisa kembalian: Habis!).</li>
+    </ol>
+    <p><em>Hasil:</em> Anda memberikan 3 lembar/koin uang (5.000 + 2.000 + 500). Ini adalah solusi paling efisien.</p>
+
+    <h3>2. Memilih Rute Perjalanan Terpendek (<em>Navigasi GPS</em>)</h3>
+    <p>Saat Anda ingin pergi dari Rumah ke Sekolah menggunakan peta digital, algoritma di dalamnya sering kali menggunakan prinsip Greedy untuk menemukan rute tercepat. Pada setiap persimpangan jalan, GPS akan mengarahkan Anda ke jalan yang jaraknya terpendek atau yang paling lancar saat itu juga, tanpa memprediksi apakah 5 km di depan jalan tersebut ditutup total.</p>
+
+    <h3>3. Berbelanja Menggunakan Anggaran Terbatas</h3>
+    <p>Anda pergi ke toko buku membawa uang Rp100.000 dan ingin membawa pulang buku <strong>sebanyak-banyaknya</strong>. Strategi Greedy yang paling logis adalah menyortir harga buku dari yang paling murah ke yang paling mahal, lalu membelinya satu per satu mulai dari yang termurah sampai uang Anda habis.</p>
+
+    <h2>Kelemahan Algoritma Greedy: Tidak Selalu Berhasil!</h2>
+    <p>Meskipun cepat dan sederhana, kelemahan terbesar algoritma ini adalah <strong>sifatnya yang berpandangan pendek (short-sighted)</strong>. Pilihan terbaik di awal belum tentu menghasilkan hasil akhir terbaik.</p>
+
+    <h3>Studi Kasus Kegagalan: Masalah Kembalian Uang Pecahan Langka</h3>
+    <p>Bayangkan Anda harus memberikan kembalian senilai <strong>12</strong> rupiah, dan pecahan koin yang tersedia di negara tersebut adalah <strong>[10, 8, 1]</strong>.</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Metode</th>
+                <th>Langkah yang Diambil</th>
+                <th>Total Koin</th>
+                <th>Status Solusi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Pendekatan Greedy</strong></td>
+                <td>Pilih 10 (sisa 2) &rarr; Pilih 1 &rarr; Pilih 1. <br>Koin: (10, 1, 1)</td>
+                <td>3 Koin</td>
+                <td style="color: red; font-weight: bold;">Tidak Optimal</td>
+            </tr>
+            <tr>
+                <td><strong>Pendekatan Terbaik (Global)</strong></td>
+                <td>Pilih 8 (sisa 4) &rarr; Pilih 1 &rarr; Pilih 1 &rarr; Masih tidak optimal. <br>Tunggu, solusi terbaik sebenarnya adalah menggunakan pecahan <strong>[8]</strong> lalu sisa 4 dicari dari kombinasi lain? Tidak ada. <br>Mari evaluasi: Jika langsung memilih pecahan <strong>(8 + 1 + 1 + 1 + 1)</strong> = 5 koin. <br>Bagaimana jika target kembaliannya <strong>16</strong>? <br>Greedy: 10 + 1 + 1 + 1 + 1 + 1 + 1 (7 koin). <br>Solusi Terbaik: 8 + 8 (2 koin).</td>
+                <td>2 Koin</td>
+                <td style="color: green; font-weight: bold;">Optimal</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Implementasi Kode Sederhana (Python)</h2>
+    <p>Berikut contoh implementasi penyelesaian masalah koin kembalian (Coin Change) secara Greedy:</p>
+
+    <pre><code>def hitung_kembalian_greedy(target, pecahan):
+    # Urutkan pecahan dari terbesar ke terkecil
+    pecahan.sort(reverse=True)
+    
+    hasil_kembalian = []
+    
+    for koin in pecahan:
+        while target >= koin:
+            target -= koin
+            hasil_kembalian.append(koin)
+            
+    return hasil_kembalian
+
+# Uji coba
+koin_tersedia = [1000, 5000, 2000, 500]
+uang_kembali = 7500
+
+solusi = hitung_kembalian_greedy(uang_kembali, koin_tersedia)
+print("Koin yang diberikan:", solusi) 
+# Output: [5000, 2000, 500]</code></pre>
+
+    <h2>Kesimpulan Kapan Harus Menggunakan Greedy</h2>
+    
+    <div class="box-success">
+        <strong>Kelebihan:</strong> Sangat cepat berjalan (efisien dari segi waktu komputasi) dan mudah untuk ditulis dalam bentuk kode program. Sangat cocok jika masalahnya menjamin bahwa solusi lokal selalu menghasilkan solusi global (seperti sistem mata uang resmi kita).
+    </div>
+
+    <div class="box-danger">
+        <strong>Kekurangan:</strong> Tidak ada jaminan menghasilkan solusi yang benar-benar terbaik jika aturan masalahnya memiliki kombinasi yang rumit dan saling tumpang tindih (untuk itu, kita akan butuh metode selanjutnya: <em>Pemrograman Dinamis</em>).
+    </div>
+
+</body>
+</html>
