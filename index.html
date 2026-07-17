@@ -356,15 +356,15 @@
 
                 content.innerHTML = `<em>Memuat...</em>`;
                 
-                // Panggil file dari folder materi/
-                fetch(`materi/t${topikAktif}-m${modulAktif}-materi${noMateri}.html`)
+                // DISESUAIKAN DENGAN STRUKTUR GITHUB: materi/materi-m{modul}-{noMateri}.html
+                fetch(`materi/materi-m${modulAktif}-${noMateri}.html`)
                     .then(res => res.text())
                     .then(data => {
                         content.innerHTML = data;
                         bukaKunciBerikutnya(noMateri);
                     })
                     .catch(() => {
-                        content.innerHTML = `<div style="color:red; padding:10px;">Gagal memuat berkas materi (materi/t${topikAktif}-m${modulAktif}-materi${noMateri}.html)</div>`;
+                        content.innerHTML = `<div style="color:red; padding:10px;">Gagal memuat berkas materi (materi/materi-m${modulAktif}-${noMateri}.html)</div>`;
                     });
             } else {
                 item.classList.remove('expanded');
@@ -403,8 +403,8 @@
             const wrapperSoal = document.getElementById('slideQuestionsWrapper');
             wrapperSoal.innerHTML = `<div style="text-align:center; padding: 20px;"><em>Memuat Lembar Kuis...</em></div>`;
 
-            // Panggil file dari folder posttest/
-            fetch(`posttest/t${topikAktif}-m${modulAktif}-posttest.html`)
+            // DISESUAIKAN DENGAN STRUKTUR GITHUB: posttest/posttest-m{modul}.html
+            fetch(`posttest/posttest-m${modulAktif}.html`)
                 .then(res => res.text())
                 .then(data => {
                     const parser = new DOMParser();
@@ -433,7 +433,7 @@
                     }
                 })
                 .catch(() => {
-                    wrapperSoal.innerHTML = `<div style="color:red; padding:20px;">Gagal memuat berkas post test (posttest/t${topikAktif}-m${modulAktif}-posttest.html)</div>`;
+                    wrapperSoal.innerHTML = `<div style="color:red; padding:20px;">Gagal memuat berkas post test (posttest/posttest-m${modulAktif}.html)</div>`;
                 });
         }
 
