@@ -3,20 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Satuan Pendidikan Aman Bencana</title>
+    <title>Sistem Modul Pembelajaran Informatika</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: #f3f4f6; color: #333333; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
-        /* Sticky Header Atas (Disesuaikan dengan Tombol Back) */
         .global-student-header { width: 100%; background-color: #1e293b; color: #f8fafc; padding: 12px 20px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 99; }
         .header-left-side { display: flex; align-items: center; gap: 16px; }
-        
-        /* STYLING BARU: Tombol Tanda Panah Kembali ke Topik */
         .btn-back-to-topik { background: transparent; border: none; color: #f8fafc; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: 50%; transition: background 0.2s; }
         .btn-back-to-topik:hover { background: rgba(255, 255, 255, 0.1); }
-        
         .student-info-text { font-weight: 500; }
         .btn-logout { background: #ef4444; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
 
@@ -27,38 +23,28 @@
         .section-subtitle { font-size: 14px; color: #6b7280; margin-bottom: 20px; }
         
         .modules-list { display: flex; flex-direction: column; gap: 16px; width: 100%; }
-        
-        /* State Kartu Modul */
         .module-card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px; display: flex; gap: 20px; cursor: pointer; transition: all 0.2s; position: relative; }
-        
-        /* Modul Terkunci (Tanda Merah) */
         .module-card.locked { background-color: #fef2f2; border-color: #fca5a5; cursor: not-allowed; opacity: 0.8; }
         .module-card.locked .module-name { color: #991b1b; }
         .module-card.locked .module-number { background-color: #ef4444; }
         .module-card.locked .btn-study { background-color: #fee2e2; color: #991b1b; cursor: not-allowed; }
-        
-        /* Modul Selesai (Centang Hijau) */
         .module-card.completed { border-color: #10b981; }
         .module-card.completed::after { content: "✓ Tuntas"; position: absolute; top: 15px; right: 20px; background: #10b981; color: white; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
-
         .module-card:not(.locked):hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.08); }
         .module-number { background-color: #3b82f6; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; }
         .module-name { font-size: 17px; font-weight: 700; color: #111827; margin: 4px 0 6px 0; }
         .module-meta { font-size: 13px; color: #6b7280; margin-bottom: 12px; }
         .btn-study { background-color: #a5f3fc; color: #0369a1; border: none; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; }
 
-        /* --- STYLING MODAL FULL VIEW --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f4f6; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 1000; overflow-y: auto; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-container { max-width: 650px; width: 100%; margin: 0 auto; background-color: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
-        
         .pmm-header { background-color: #0b3a7a; color: white; padding: 30px 24px; }
         .btn-back { background: transparent; border: none; color: white; cursor: pointer; display: flex; align-items: center; margin-bottom: 20px; }
         .pmm-header h2 { font-size: 20px; font-weight: 700; line-height: 1.4; }
         .pmm-body { padding: 24px; }
         .section-label { font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 16px; }
 
-        /* Accordion List */
         .materi-item { background-color: white; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
         .materi-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
         .materi-header-left { display: flex; align-items: center; gap: 14px; }
@@ -76,16 +62,12 @@
 
         .post-test-card { background-color: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: not-allowed; opacity: 0.6; }
         .post-test-card.ready { pointer-events: auto; cursor: pointer; opacity: 1; }
-        
-        /* State Terblokir Khusus Saat Remedial */
         .post-test-card.remedial-locked { pointer-events: none !important; cursor: not-allowed !important; opacity: 0.4 !important; background-color: #f3f4f6 !important; }
 
-        /* --- STYLING HALAMAN POST TEST MANDIRI --- */
         .post-test-container-page { display: none; background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-top: 10px; }
         .kuis-step { display: none; }
         .kuis-step.active { display: block; }
         .step-navigation { display: flex; justify-content: space-between; margin-top: 24px; align-items: center; }
-        
         .btn-nav-kuis { background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; }
         .btn-nav-kuis.disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
         .btn-remedial-action { background-color: #991b1b; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 14px; margin-top: 15px; display: block; width: 100%; text-align: center; text-decoration: none; }
@@ -93,10 +75,8 @@
 </head>
 <body>
 
-    <!-- Bar Header Siswa (Dengan Tanda Panah Kembali) -->
     <div class="global-student-header">
         <div class="header-left-side">
-            <!-- ELEMEN PERBAIKAN: Tombol Kembali ke topik.html dengan type="button" dan stopPropagation -->
             <button type="button" class="btn-back-to-topik" onclick="event.stopPropagation(); kembaliKeDaftarTopik();" title="Kembali ke Daftar Topik">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -107,32 +87,26 @@
                 👤 Siswa: <span id="hdrNamaSiswa">-</span> | Kelas: <span id="hdrKelasSiswa">-</span>
             </div>
         </div>
-        <!-- ELEMEN PERBAIKAN: Tombol Logout dengan type="button" dan stopPropagation -->
         <button type="button" class="btn-logout" onclick="event.stopPropagation(); logoutSiswa();">Keluar</button>
     </div>
 
-    <!-- DAFTAR MODUL UTAMA -->
     <div class="app-content" style="display: flex; width: 100%; flex-direction: column; align-items: center;">
         <div class="container">
-            <h1>STRATEGI ALGORITMIK DAN PEMROGRAMAN</h1>
-            <div class="description-card">
-                <ul><li>Strategi Algoritmik dan Pemrograman adalah dua pilar utama dalam computer science dan pengembangan perangkat lunak.</li></ul>
-                <ul><li> Sederhananya: strategi algoritmik adalah cara kita berpikir dan merancang langkah pemecahan masalah, sedangkan pemrograman adalah cara kita menerjemahkan rancangan tersebut ke dalam bahasa yang dipahami oleh komputer</li></ul>
+            <h1 id="txtJudulTopik">Judul Topik</h1>
+            <div class="description-card" id="txtDeskripsiTopik">
+                Deskripsi topik dimuat di sini...
             </div>
             <div class="section-title">Daftar Modul Pelatihan</div>
             <div class="section-subtitle">Selesaikan modul secara berurutan untuk membuka akses selanjutnya</div>
 
-            <div class="modules-list">
-                <div class="module-card" id="card-modul-1" onclick="bukaModul(1)"><div class="module-number">1</div><div class="module-info"><div class="module-name">Modul 1: PROSES PEMROGRAMAN</div><div class="module-meta">📖 3 materi + Post Test</div><button class="btn-study">Pelajari Materi</button></div></div>
-                <div class="module-card locked" id="card-modul-2" onclick="bukaModul(2)"><div class="module-number">2</div><div class="module-info"><div class="module-name">Modul 2: BERPIKIR KOMPUTASINAL</div><div class="module-meta">📖 3 materi + Post Test</div><button class="btn-study">Pelajari Materi</button></div></div>
-                <div class="module-card locked" id="card-modul-3" onclick="bukaModul(3)"><div class="module-number">3</div><div class="module-info"><div class="module-name">Modul 3: ALGORITMA DAN PEMROGRAMAN</div><div class="module-meta">📖 3 materi + Post Test</div><button class="btn-study">Pelajari Materi</button></div></div>
-                <div class="module-card locked" id="card-modul-4" onclick="bukaModul(4)"><div class="module-number">4</div><div class="module-info"><div class="module-name">Modul 4: LATIHAN STRATEGI ALGORITMIK DAN PRAKTIK LINTAS BIDANG</div><div class="module-meta">📖 3 materi + Post Test</div><button class="btn-study">Pelajari Materi</button></div></div>
-                <div class="module-card locked" id="card-modul-5" onclick="bukaModul(5)"><div class="module-number">5</div><div class="module-info"><div class="module-name">Modul 5: PROYEK PRAKTEK LINTAS BIDANG</div><div class="module-meta">📖 3 materi + Post Test</div><button class="btn-study">Pelajari Materi</button></div></div>
+            <!-- CONTAINER MODUL DINAMIS -->
+            <div class="modules-list" id="modulesListWrapper">
+                <!-- Modul akan dirender lewat JavaScript sesuai data-topik.js -->
             </div>
         </div>
     </div>
 
-    <!-- WINDOW MODAL KONTEN ACCORDION -->
+    <!-- MODAL POPUP MATERI -->
     <div class="modal-overlay" id="moduleModal">
         <div class="modal-container">
             <div class="pmm-header">
@@ -144,12 +118,11 @@
             </div>
 
             <div class="pmm-body">
-                <!-- PANEL 1: AREA DAFTAR MATERI ACCORDION -->
                 <div id="materiSectionArea">
                     <div class="section-label">Daftar Materi</div>
-                    <div class="materi-item" id="item-1"><div class="materi-header" onclick="toggleMateri(1)"><div class="materi-header-left"><div class="status-circle ready" id="circle-1"></div><div class="materi-title" id="title-materi-1">Materi 1</div></div><svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="materi-content" id="content-1"></div></div>
-                    <div class="materi-item locked" id="item-2"><div class="materi-header" onclick="toggleMateri(2)"><div class="materi-header-left"><div class="status-circle" id="circle-2">🔒</div><div class="materi-title" id="title-materi-2">Materi 2</div></div><svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="materi-content" id="content-2"></div></div>
-                    <div class="materi-item locked" id="item-3"><div class="materi-header" onclick="toggleMateri(3)"><div class="materi-header-left"><div class="status-circle" id="circle-3">🔒</div><div class="materi-title" id="title-materi-3">Materi 3</div></div><svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="materi-content" id="content-3"></div></div>
+                    <div id="materiListContainer">
+                        <!-- Item materi dinamis -->
+                    </div>
 
                     <div class="section-label" style="margin-top: 24px;">Post Test</div>
                     <div class="post-test-card" id="postTestBox" onclick="bukaHalamanPostTest()">
@@ -158,23 +131,16 @@
                     </div>
                 </div>
 
-                <!-- PANEL 2: HALAMAN POST TEST MANDIRI -->
                 <div class="post-test-container-page" id="postTestPageArea">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; border-bottom: 1px solid #e5e7eb; padding-bottom: 12px;">
                         <h3 style="font-size:16px; font-weight:700; color:#0b3a7a;">Lembar Post Test</h3>
                         <span id="labelStepIndicator" style="font-size:13px; font-weight:600; color:#6b7280;">Soal 1 dari 1</span>
                     </div>
                     
-                    <!-- Kotak Hasil/Skor Kelulusan -->
                     <div id="skorResultContainer"></div>
 
-                    <!-- Form Kuis Utama -->
                     <form id="formKuisSlide" onsubmit="periksaKuis(event)">
-                        <div id="slideQuestionsWrapper">
-                            <!-- Soal dinamis dimuat di sini -->
-                        </div>
-
-                        <!-- Navigasi Ganti Halaman Soal -->
+                        <div id="slideQuestionsWrapper"></div>
                         <div class="step-navigation" id="kuisNavRow">
                             <button type="button" class="btn-nav-kuis disabled" id="btnPrevKuis" onclick="geserHalamanKuis(-1)">Kembali</button>
                             <button type="button" class="btn-nav-kuis" id="btnNextKuis" onclick="geserHalamanKuis(1)">Selanjutnya</button>
@@ -186,24 +152,20 @@
         </div>
     </div>
 
-    <!-- Berkas eksternal NISN siswa -->
     <script src="datasiswa.js"></script>
+    <script src="data-topik.js"></script>
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec"; 
 
-        const dataModul = {
-            1: { title: "Modul 1: STRATEGI ALGORITMIK DAN PEMROGRAMAN", materi: ["4 Pilar Stategi Algoritmik", "Pemrograman C++", "Pemahaman Problem Solving"] },
-            2: { title: "Modul 2: BERPIKIR KRITIS DAN DAMPAK SOSIAL INFORMATIKA", materi: [""] },
-            3: { title: "Modul 3: JARINGAN KOMPUTER DAN INTERNET", materi: [""] },
-            4: { title: "Modul 4: ", materi: [""] },
-            5: { title: "Modul 5: ", materi: [""] }
-        };
+        const urlParams = new URLSearchParams(window.location.search);
+        const topikAktif = parseInt(urlParams.get('topik')) || 1;
 
         let sessionUser = null; 
         let dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
-        let internalAkses = { 1: true, 2: false, 3: false, pt: false };
-        let internalDibuka = { 1: false, 2: false, 3: false };
+        let internalAkses = {};
+        let internalDibuka = {};
         let modulAktif = 1;
+        let totalMateriModulSaatIni = 0;
 
         let currentKuisIndex = 0;
         let totalSoalAktif = 0;
@@ -217,21 +179,20 @@
                 document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById('hdrNamaSiswa').innerText = sessionUser.nama;
                     document.getElementById('hdrKelasSiswa').innerText = sessionUser.kelas;
+                    loadTopikHeader();
                     loadProgresDatabase();
                 });
             }
         })();
 
-        // FUNGSI PERBAIKAN: Navigasi Kembali ke topik.html
-        function kembaliKeDaftarTopik() {
-            window.location.replace("topik.html");
+        function loadTopikHeader() {
+            const dataTopikSaatIni = DATA_TOPIK[topikAktif] || DATA_TOPIK[1];
+            document.getElementById('txtJudulTopik').innerText = dataTopikSaatIni.judulTopik;
+            document.getElementById('txtDeskripsiTopik').innerText = dataTopikSaatIni.deskripsi;
         }
 
-        // FUNGSI PERBAIKAN: Navigasi Logout Ke login.html
-        function logoutSiswa() {
-            localStorage.removeItem('loggedSiswa');
-            window.location.replace("login.html");
-        }
+        function kembaliKeDaftarTopik() { window.location.replace("topik.html"); }
+        function logoutSiswa() { localStorage.removeItem('loggedSiswa'); window.location.replace("login.html"); }
 
         function loadProgresDatabase() {
             if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
@@ -252,53 +213,83 @@
                         renderDaftarHalamanUtama();
                     }
                 }).catch(() => {
-                    dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
                     renderDaftarHalamanUtama();
                 });
         }
 
         function renderDaftarHalamanUtama() {
-            for (let i = 1; i <= 5; i++) {
-                const card = document.getElementById(`card-modul-${i}`);
-                if (!card) continue;
-                
-                card.classList.remove('locked', 'completed');
+            const dataTopikSaatIni = DATA_TOPIK[topikAktif] || DATA_TOPIK[1];
+            const wrapper = document.getElementById('modulesListWrapper');
+            wrapper.innerHTML = "";
 
-                const isAktif = (dbStatusModul[i] === true || dbStatusModul[i] === "true" || dbStatusModul[i] === "TRUE");
+            const modulKeys = Object.keys(dataTopikSaatIni.modul);
 
-                if (isAktif) {
-                    card.classList.remove('locked');
-                    const nextAktif = (dbStatusModul[i+1] === true || dbStatusModul[i+1] === "true" || dbStatusModul[i+1] === "TRUE");
-                    if (i < 5 && nextAktif) {
-                        card.classList.add('completed');
-                    }
-                } else {
-                    card.classList.add('locked');
-                }
-            }
+            modulKeys.forEach((noModulStr) => {
+                const noModul = parseInt(noModulStr);
+                const modulInfo = dataTopikSaatIni.modul[noModul];
+                const isAktif = (dbStatusModul[noModul] === true);
+                const nextAktif = (dbStatusModul[noModul + 1] === true);
+
+                let classStatus = "";
+                if (!isAktif) classStatus = "locked";
+                else if (nextAktif) classStatus = "completed";
+
+                wrapper.innerHTML += `
+                    <div class="module-card ${classStatus}" id="card-modul-${noModul}" onclick="bukaModul(${noModul})">
+                        <div class="module-number">${noModul}</div>
+                        <div class="module-info">
+                            <div class="module-name">${modulInfo.title}</div>
+                            <div class="module-meta">📖 ${modulInfo.materi.length} materi + Post Test</div>
+                            <button class="btn-study">Pelajari Materi</button>
+                        </div>
+                    </div>
+                `;
+            });
         }
 
         function bukaModul(noModul) {
-            const statusAkses = (dbStatusModul[noModul] === true || dbStatusModul[noModul] === "true" || dbStatusModul[noModul] === "TRUE");
-
+            const statusAkses = (dbStatusModul[noModul] === true);
             if (!statusAkses) {
                 alert("Modul terblokir! Selesaikan modul sebelumnya terlebih dahulu.");
                 return;
             }
+
             modulAktif = noModul;
-            let isAlreadyDone = (noModul < 5 && dbStatusModul[noModul+1] === true);
+            const dataModul = DATA_TOPIK[topikAktif].modul[noModul];
+            totalMateriModulSaatIni = dataModul.materi.length;
 
-            internalAkses = { 1: true, 2: isAlreadyDone, 3: isAlreadyDone, pt: isAlreadyDone };
-            internalDibuka = { 1: isAlreadyDone, 2: isAlreadyDone, 3: isAlreadyDone };
+            let isAlreadyDone = (dbStatusModul[noModul+1] === true);
 
-            document.getElementById('modalTag').innerText = `Modul ${noModul}`;
-            document.getElementById('modalTitle').innerText = dataModul[noModul].title;
-            for(let i=1; i<=3; i++) {
-                const elTitle = document.getElementById(`title-materi-${i}`);
-                if (elTitle && dataModul[noModul].materi[i-1]) {
-                    elTitle.innerText = dataModul[noModul].materi[i-1];
-                }
+            internalAkses = { 1: true, pt: isAlreadyDone };
+            internalDibuka = { 1: isAlreadyDone };
+
+            for(let m=2; m<=totalMateriModulSaatIni; m++) {
+                internalAkses[m] = isAlreadyDone;
+                internalDibuka[m] = isAlreadyDone;
             }
+
+            document.getElementById('modalTag').innerText = `Topik ${topikAktif} - Modul ${noModul}`;
+            document.getElementById('modalTitle').innerText = dataModul.title;
+
+            // Render Materi Accordion
+            const materiContainer = document.getElementById('materiListContainer');
+            materiContainer.innerHTML = "";
+
+            dataModul.materi.forEach((materiJudul, idx) => {
+                const mNo = idx + 1;
+                materiContainer.innerHTML += `
+                    <div class="materi-item ${mNo > 1 && !isAlreadyDone ? 'locked' : ''}" id="item-${mNo}">
+                        <div class="materi-header" onclick="toggleMateri(${mNo})">
+                            <div class="materi-header-left">
+                                <div class="status-circle ${mNo === 1 || isAlreadyDone ? 'ready' : ''}" id="circle-${mNo}">${mNo > 1 && !isAlreadyDone ? '🔒' : ''}</div>
+                                <div class="materi-title">${materiJudul}</div>
+                            </div>
+                            <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="materi-content" id="content-${mNo}"></div>
+                    </div>
+                `;
+            });
 
             document.getElementById('materiSectionArea').style.display = 'block';
             document.getElementById('postTestPageArea').style.display = 'none';
@@ -309,9 +300,11 @@
         }
 
         function renderAccordionVisual() {
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= totalMateriModulSaatIni; i++) {
                 const item = document.getElementById(`item-${i}`);
                 const circle = document.getElementById(`circle-${i}`);
+                if(!item || !circle) continue;
+
                 item.classList.remove('expanded');
                 document.getElementById(`content-${i}`).style.display = 'none';
                 
@@ -362,14 +355,16 @@
                 }
 
                 content.innerHTML = `<em>Memuat...</em>`;
-                fetch(`materi-m${modulAktif}-${noMateri}.html`)
+                
+                // Panggil file dari folder materi/
+                fetch(`materi/t${topikAktif}-m${modulAktif}-materi${noMateri}.html`)
                     .then(res => res.text())
                     .then(data => {
                         content.innerHTML = data;
                         bukaKunciBerikutnya(noMateri);
                     })
                     .catch(() => {
-                        content.innerHTML = `<div style="color:red; padding:10px;">Gagal memuat berkas materi.</div>`;
+                        content.innerHTML = `<div style="color:red; padding:10px;">Gagal memuat berkas materi (materi/t${topikAktif}-m${modulAktif}-materi${noMateri}.html)</div>`;
                     });
             } else {
                 item.classList.remove('expanded');
@@ -379,7 +374,7 @@
 
         function bukaKunciBerikutnya(currentMateri) {
             let next = currentMateri + 1;
-            if (next <= 3) {
+            if (next <= totalMateriModulSaatIni) {
                 if (!internalAkses[next]) {
                     internalAkses[next] = true;
                     document.getElementById(`item-${next}`).classList.remove('locked');
@@ -408,7 +403,8 @@
             const wrapperSoal = document.getElementById('slideQuestionsWrapper');
             wrapperSoal.innerHTML = `<div style="text-align:center; padding: 20px;"><em>Memuat Lembar Kuis...</em></div>`;
 
-            fetch(`posttest-m${modulAktif}.html`)
+            // Panggil file dari folder posttest/
+            fetch(`posttest/t${topikAktif}-m${modulAktif}-posttest.html`)
                 .then(res => res.text())
                 .then(data => {
                     const parser = new DOMParser();
@@ -437,7 +433,7 @@
                     }
                 })
                 .catch(() => {
-                    wrapperSoal.innerHTML = `<div style="color:red; padding:20px;">Gagal memuat berkas post test.</div>`;
+                    wrapperSoal.innerHTML = `<div style="color:red; padding:20px;">Gagal memuat berkas post test (posttest/t${topikAktif}-m${modulAktif}-posttest.html)</div>`;
                 });
         }
 
@@ -448,7 +444,6 @@
             if (activeStep) activeStep.classList.add('active');
 
             document.getElementById('labelStepIndicator').innerText = `Soal ${currentKuisIndex} dari ${totalSoalAktif}`;
-
             document.getElementById('btnPrevKuis').className = (currentKuisIndex === 1) ? "btn-nav-kuis disabled" : "btn-nav-kuis";
             
             if (currentKuisIndex === totalSoalAktif) {
@@ -496,9 +491,6 @@
             let skorAkhir = totalSoalPilihanGanda > 0 ? Math.round((jawabanBenar / totalSoalPilihanGanda) * 100) : 100;
             let lulus = (skorAkhir === 100);
 
-            const strJawabanPG = listJawabanPG.join(" | ");
-            const strJawabanEssay = listJawabanEssay.join(" | ");
-
             const resultWrapper = document.getElementById('skorResultContainer');
             resultWrapper.innerHTML = `<div style="text-align:center; padding: 20px;"><em>Menyimpan lembar jawaban ke server...</em></div>`;
 
@@ -512,8 +504,8 @@
             dataKirim.append('modulSelesai', modulAktif);
             dataKirim.append('skor', skorAkhir);
             dataKirim.append('status', lulus ? "TUNTAS" : "REMEDIAL");
-            dataKirim.append('jawabanPG', strJawabanPG);
-            dataKirim.append('jawabanEssay', strJawabanEssay);
+            dataKirim.append('jawabanPG', listJawabanPG.join(" | "));
+            dataKirim.append('jawabanEssay', listJawabanEssay.join(" | "));
 
             fetch(API_URL, {
                 method: "POST",
@@ -538,7 +530,7 @@
 
                     setTimeout(() => {
                         let nextModul = modulAktif + 1;
-                        if(nextModul <= 5) dbStatusModul[nextModul] = true;
+                        dbStatusModul[nextModul] = true;
 
                         renderDaftarHalamanUtama();
                         tutupModul();
@@ -568,13 +560,13 @@
             document.getElementById('materiSectionArea').style.display = 'block';
             document.getElementById('postTestPageArea').style.display = 'none';
 
-            internalAkses = { 1: true, 2: false, 3: false, pt: false };
-            internalDibuka = { 1: true, 2: false, 3: false }; 
+            internalAkses = { 1: true };
+            internalDibuka = { 1: true }; 
 
             renderAccordionVisual();
             tutupModul();
 
-            alert("Post Test tidak tuntas! Anda dikembalikan ke halaman utama. Silakan masuk kembali ke Modul " + modulAktif + " untuk mempelajari ulang Materi 1, Materi 2, dan Materi 3 secara berurutan!");
+            alert("Post Test tidak tuntas! Anda dikembalikan ke halaman utama. Silakan masuk kembali untuk mempelajari ulang materi secara berurutan!");
         }
     </script>
 </body>
