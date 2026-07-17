@@ -59,16 +59,15 @@
 <body>
 
     <!-- Navbar Biru Utama di topik.html -->
-<div class="pmm-navbar">
-    <div class="nav-left">
-        <!-- Logo Gambar (Opsi 2) -->
-        <div class="nav-logo" style="background: white; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px;">
-            <img src="logo-sekolah.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.src='https://via.placeholder.com/40?text=INF'">
+    <div class="pmm-navbar">
+        <div class="nav-left">
+            <div class="nav-logo" style="background: white; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px;">
+                <img src="logo-sekolah.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.src='https://via.placeholder.com/40?text=INF'">
+            </div>
+            <div class="nav-title">KELAS DIGITAL INFORMATIKA</div>
         </div>
-        <div class="nav-title">KELAS DIGITAL INFORMATIKA</div>
+        <button class="nav-right-btn" onclick="logoutAkses()">Keluar</button>
     </div>
-    <button class="nav-right-btn" onclick="logoutAkses()">Keluar</button>
-</div>
 
     <div class="breadcrumb-bar">
         Beranda &gt; <span id="breadcrumbActiveText">Daftar Topik</span>
@@ -134,9 +133,19 @@
                 window.location.replace("login.html");
             } else {
                 sessionUser = JSON.parse(token);
+                
+                // CEK REKAYASA ADMIN DI AWAL
+                if (sessionUser && sessionUser.username === "admin") {
+                    statusTopik = { 1: true, 2: true, 3: true, 4: true, 5: true };
+                }
+
                 document.addEventListener("DOMContentLoaded", () => {
                     renderKartuTopik();
                     loadStatusTopikDariCloud();
+                    // Jika admin, sesuaikan visual UI Sumatif secara instan saat dimuat
+                    if (sessionUser && sessionUser.username === "admin") {
+                        bukaVisualSumatifAdmin();
+                    }
                 });
             }
         })();
@@ -144,13 +153,17 @@
         function renderKartuTopik() {
             const container = document.getElementById('topikContainerGrid');
             container.innerHTML = "";
+            const isAdmin = (sessionUser && sessionUser.username === "admin");
 
             Object.keys(DATA_TOPIK).forEach(idTopik => {
                 const t = DATA_TOPIK[idTopik];
                 const jmlModul = Object.keys(t.modul).length;
+                
+                // Jika admin, hilangkan kelas 'locked' dan hilangkan tanda gembok
+                const isLocked = !isAdmin && (idTopik > 1);
 
                 container.innerHTML += `
-                    <div class="topik-card ${idTopik > 1 ? 'locked' : ''}" id="topik-${idTopik}" onclick="bukaTopik(${idTopik})">
+                    <div class="topik-card ${isLocked ? 'locked' : ''}" id="topik-${idTopik}" onclick="bukaTopik(${idTopik})">
                         <div>
                             <div class="card-top-info">
                                 <h4 class="topik-title">${t.judulTopik}</h4>
@@ -160,7 +173,7 @@
                         </div>
                         <div>
                             <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
-                            <div class="card-bottom-info"><span id="lock-icon-${idTopik}">${idTopik > 1 ? '🔒 ' : ''}</span>${jmlModul} modul</div>
+                            <div class="card-bottom-info"><span id="lock-icon-${idTopik}">${isLocked ? '🔒 ' : ''}</span>${jmlModul} modul</div>
                         </div>
                     </div>
                 `;
@@ -190,6 +203,13 @@
         }
 
         function loadStatusTopikDariCloud() {
+            // BYPASS CLOUD JIKA USER ADALAH ADMIN
+            if (sessionUser && sessionUser.username === "admin") {
+                statusTopik = { 1: true, 2: true, 3: true, 4: true, 5: true };
+                renderGembokVisualTopik();
+                return;
+            }
+
             if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) return;
 
             fetch(`${API_URL}?userId=${encodeURIComponent(sessionUser.username)}`)
@@ -213,16 +233,18 @@
         }
 
         function renderGembokVisualTopik() {
+            const isAdmin = (sessionUser && sessionUser.username === "admin");
+
             Object.keys(DATA_TOPIK).forEach(i => {
                 const card = document.getElementById(`topik-${i}`);
                 if (!card) return;
 
-                if (statusTopik[i]) {
+                if (statusTopik[i] || isAdmin) {
                     card.classList.remove('locked');
                     const lockIcon = document.getElementById(`lock-icon-${i}`);
                     if(lockIcon) lockIcon.style.display = 'none';
 
-                    if (i == 1 && statusTopik[2] === true) {
+                    if (i == 1 && statusTopik[2] === true && !isAdmin) {
                         card.classList.add('completed');
                     }
                 } else {
@@ -231,8 +253,20 @@
             });
         }
 
+        // Fungsi pembantu khusus admin untuk membuka visual gembok pada halaman Sumatif
+        function bukaVisualSumatifAdmin() {
+            const soal2 = document.getElementById('soal-sumatif-2');
+            const tag2 = document.getElementById('tag-soal-2');
+            if(soal2) soal2.classList.remove('locked');
+            if(tag2) {
+                tag2.innerText = "Siap Dikerjakan";
+                tag2.className = "soal-tag-status terbuka";
+            }
+        }
+
         function bukaTopik(idTopik) {
-            if (!statusTopik[idTopik]) {
+            const isAdmin = (sessionUser && sessionUser.username === "admin");
+            if (!statusTopik[idTopik] && !isAdmin) {
                 alert("Topik ini masih terkunci! Selesaikan seluruh modul pada topik sebelumnya terlebih dahulu.");
                 return;
             }
@@ -240,7 +274,8 @@
         }
 
         function bukaSoalSumatif(idSoal) {
-            if (idSoal === 2 && !statusTopik[2]) {
+            const isAdmin = (sessionUser && sessionUser.username === "admin");
+            if (idSoal === 2 && !statusTopik[2] && !isAdmin) {
                 alert("Soal Sumatif 2 masih terkunci!");
                 return;
             }
