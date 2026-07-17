@@ -19,9 +19,9 @@ const DATA_TOPIK = {
             2: {
                 title: "Modul 2: Berpikir Komputasional",
                 materi: [
-                    "Dekomposisi & Pengenalan Pola",
-                    "Abstraksi Masalah",
-                    "Perancangan Algoritma Efisien"
+                    "Rekursi",
+                    "Algoritma Greedy",
+                    "Pemrograman Dinamis"
                 ]
             },
             3: {
