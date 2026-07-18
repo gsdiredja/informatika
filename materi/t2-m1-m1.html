@@ -128,3 +128,59 @@
     </div>
 
 </div>
+<script>
+function kirimKeSpreadsheet() {
+    // 1. Ganti URL di bawah ini dengan URL Web App dari Google Apps Script Anda!
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec";
+
+    // 2. Ambil elemen input dari form halaman
+    const inputQ1 = document.getElementsByName('m1_aktivitas_q1')[0];
+    const inputQ2 = document.getElementsByName('m1_aktivitas_q2')[0];
+    const inputQ3 = document.getElementsByName('m1_aktivitas_q3')[0];
+    
+    // 3. Ambil data nilai teks yang diketik siswa
+    const dataJawaban = {
+        pertanyaan_1: inputQ1 ? inputQ1.value : '',
+        pertanyaan_2: inputQ2 ? inputQ2.value : '',
+        pertanyaan_3: inputQ3 ? inputQ3.value : ''
+    };
+
+    // Validasi sederhana: Pastikan semua kolom sudah diisi
+    if (!dataJawaban.pertanyaan_1 || !dataJawaban.pertanyaan_2 || !dataJawaban.pertanyaan_3) {
+        alert("Harap lengkapi semua jawaban sebelum mengirim!");
+        return;
+    }
+
+    // Mengubah teks tombol saat proses pengiriman sedang berjalan
+    const tombol = event.target;
+    const teksAsli = tombol.innerText;
+    tombol.disabled = true;
+    tombol.innerText = "Mengirim...";
+
+    // 4. Proses pengiriman data ke Google Apps Script menggunakan fetch API
+    fetch(WEB_APP_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Digunakan untuk menghindari masalah CORS lintas domain
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataJawaban)
+    })
+    .then(() => {
+        alert("Jawaban pengamatan mandiri berhasil dikirim!");
+        // Opsional: Kosongkan kembali kolom form setelah berhasil dikirim
+        if(inputQ1) inputQ1.value = '';
+        if(inputQ2) inputQ2.value = '';
+        if(inputQ3) inputQ3.value = '';
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert("Terjadi kesalahan saat mengirim jawaban.");
+    })
+    .finally(() => {
+        // Mengembalikan tombol ke keadaan semula
+        tombol.disabled = false;
+        tombol.innerText = teksAsli;
+    });
+}
+</script>
