@@ -62,7 +62,7 @@ const DATA_TOPIK = {
                 title: "Modul 1: Pengantar Berpikir Kritis",
                 materi: [
                     "Pengertian dan Dunia Sekitarku",
-                    "Berpikir ritis dan Pengambilan Keputsan",
+                    "Berpikir Kritis dan Pengambilan Keputsan",
                     "Elemen Berpikir, Standar dan Karakter Intelektual"
                 ]
             },
