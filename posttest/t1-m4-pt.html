@@ -1,4 +1,4 @@
-<form onsubmit="periksaKuis(event)" style="display: flex; flex-direction: column; gap: 20px; padding: 5px 0; font-family: Arial, sans-serif;">
+<form id="formKuisModul4" onsubmit="periksaKuis(event)" style="display: flex; flex-direction: column; gap: 20px; padding: 5px 0; font-family: Arial, sans-serif;">
     
     <h3 style="margin-bottom: 10px; color: #0b3a7a; font-size: 18px; font-weight: 700; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
         POST TEST: LATIHAN STRATEGI ALGORITMIK DAN PEMROGRAMAN LINTAS BIDANG
@@ -276,7 +276,7 @@
             <input type="radio" name="soal16" value="A" style="margin-right: 8px;"> Menghapus pustaka penhitung matematika math
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal16" value="B" data-correct style="margin-right: 8px;"> Memberikan kondisi if y < 0: y = 0.0 di dalam perulangan waktu
+            <input type="radio" name="soal16" value="B" data-correct style="margin-right: 8px;"> Memberikan kondisi if y &lt; 0: y = 0.0 di dalam perulangan waktu
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
             <input type="radio" name="soal16" value="C" style="margin-right: 8px;"> Mengubah nilai gravitasi g menjadi bilangan negatif
@@ -410,7 +410,7 @@
             Soal Essay 4 (Analisis Dampak Bug Logis):
         </p>
         <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
-            Berikan analisis kalian mengenai jenis keanehan perilaku visual kurva lintasan yang akan terjadi pada grafik simulasi apabila seorang siswa melakukan kesalahan mengetik tanda tambah (+) yang menggantikan tanda kurang (-) pada porsi komponen gravitasi rumus sumbu Y!
+            Berikan analisis kalian mengenai jenis keanehan perilaku visual kurva lintasan yang akan terjadi pada grafik simulasi apabila seorang siswa melakukan kesalahan mengetik tanda tambah (+) yang menggantikan tanda kurang (-) pada porsi komponen gravitasi rumus sumu Y!
         </p>
         <textarea required rows="4" name="soal24" placeholder="Tuliskan jawaban essay Anda di sini..." 
             style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
@@ -447,8 +447,64 @@
     </div>
 
     <!-- TOMBOL SUBMIT KUIS -->
-    <button type="submit" 
-        style="background-color: #0b3a7a; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; width: fit-content; align-self: flex-end; margin-top: 10px;">
+    <button type="submit" id="btnSubmitKuis" disabled
+        style="background-color: #9ca3af; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: not-allowed; font-size: 14px; width: fit-content; align-self: flex-end; margin-top: 10px; transition: all 0.3s ease;">
         Kirim Jawaban Post Test
     </button>
 </form>
+
+<!-- ======================================================= -->
+<!-- JAVASCRIPT VALIDATOR (KUNCI TOMBOL)                     -->
+<!-- ======================================================= -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("formKuisModul4");
+        const submitBtn = document.getElementById("btnSubmitKuis");
+
+        function validasiKuis() {
+            let semuaTerjawab = true;
+
+            // 1. Cek semua soal Pilihan Ganda dan Benar/Salah (Soal 1 sampai 20)
+            for (let i = 1; i <= 20; i++) {
+                const radios = document.getElementsByName("soal" + i);
+                let satuGrupTerpilih = false;
+                for (let j = 0; j < radios.length; j++) {
+                    if (radios[j].checked) {
+                        satuGrupTerpilih = true;
+                        break;
+                    }
+                }
+                if (!satuGrupTerpilih) {
+                    semuaTerjawab = false;
+                    break;
+                }
+            }
+
+            // 2. Cek semua teks Esai & Refleksi (Soal 21 sampai 26) jika bagian PG sudah aman
+            if (semuaTerjawab) {
+                for (let i = 21; i <= 26; i++) {
+                    const textarea = document.getElementsByName("soal" + i)[0];
+                    if (!textarea || textarea.value.trim() === "") {
+                        semuaTerjawab = false;
+                        break;
+                    }
+                }
+            }
+
+            // 3. Ubah status dan tampilan tombol berdasarkan validasi
+            if (semuaTerjawab) {
+                submitBtn.disabled = false;
+                submitBtn.style.backgroundColor = "#0b3a7a";
+                submitBtn.style.cursor = "pointer";
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.style.backgroundColor = "#9ca3af";
+                submitBtn.style.cursor = "not-allowed";
+            }
+        }
+
+        // Daftarkan event listener untuk mendeteksi setiap klik perubahan input
+        form.addEventListener("change", validasiKuis);
+        form.addEventListener("input", validasiKuis);
+    });
+</script>
