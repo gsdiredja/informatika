@@ -1,531 +1,216 @@
-<!-- KONTEN FORM POST TEST DENGAN FITUR ACAK TANPA NOMOR -->
-<form onsubmit="periksaKuis(event)" id="postTestForm" style="display: flex; flex-direction: column; gap: 20px; padding: 5px 0;">
+<form onsubmit="periksaKuis(event)" style="display: flex; flex-direction: column; gap: 20px; padding: 5px 0;">
     
     <h3 style="margin-bottom: 10px; color: #0b3a7a; font-size: 18px; font-weight: 700; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
         POST TEST: BERPIKIR KOMPUTASIONAL (REKURSI, GREEDY, &amp; DYNAMIC PROGRAMMING)
     </h3>
 
-    <!-- ======================================================= -->
-    <!-- BAGIAN 1: BENAR / SALAH (5 SOAL)                        -->
-    <!-- ======================================================= -->
-    <div id="wrapper-benar-salah" style="display: flex; flex-direction: column; gap: 20px;">
-        <!-- SOAL 1 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Sebuah fungsi rekursif yang tidak memiliki base case akan terus berjalan tanpa henti hingga menyebabkan error memori berupa Stack Overflow.
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal1" value="A" data-correct style="margin-right: 8px;"> Benar
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal1" value="B" style="margin-right: 8px;"> Salah
-                </label>
-            </div>
-        </div>
+    <!-- SOAL 1 (BENAR / SALAH) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            1. Sebuah fungsi rekursif yang tidak memiliki base case akan terus berjalan tanpa henti hingga menyebabkan error memori berupa Stack Overflow.
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal1" value="A" data-correct style="margin-right: 8px;"> A. Benar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal1" value="B" style="margin-right: 8px;"> B. Salah
+        </label>
+    </div>
 
-        <!-- SOAL 2 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Algoritma Greedy selalu menjamin penemuan solusi yang benar-benar terbaik (optimal global) untuk semua jenis permasalahan optimasi.
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal2" value="A" style="margin-right: 8px;"> Benar
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal2" value="B" data-correct style="margin-right: 8px;"> Salah
-                </label>
-            </div>
-        </div>
+    <!-- SOAL 2 (BENAR / SALAH) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            2. Algoritma Greedy selalu menjamin penemuan solusi yang benar-benar terbaik (optimal global) untuk semua jenis permasalahan optimasi kombinatorial.
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal2" value="A" style="margin-right: 8px;"> A. Benar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal2" value="B" data-correct style="margin-right: 8px;"> B. Salah
+        </label>
+    </div>
 
-        <!-- SOAL 3 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Teknik Memoization dalam Pemrograman Dinamis berfungsi untuk menyimpan hasil dari sub-masalah yang sudah dihitung agar tidak perlu dihitung kembali.
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal3" value="A" data-correct style="margin-right: 8px;"> Benar
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal3" value="B" style="margin-right: 8px;"> Salah
-                </label>
-            </div>
-        </div>
+    <!-- SOAL 3 (PILIHAN GANDA) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            3. Apa komponen utama pada fungsi rekursif yang bertindak sebagai titik akhir atau kondisi henti dari proses pemanggilan berulang?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal3" value="A" style="margin-right: 8px;"> A. Recursive Step
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal3" value="B" data-correct style="margin-right: 8px;"> B. Base Case
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal3" value="C" style="margin-right: 8px;"> C. Core Function
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal3" value="D" style="margin-right: 8px;"> D. Loop Iteration
+        </label>
+    </div>
 
-        <!-- SOAL 4 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Masalah deret Fibonacci hanya bisa diselesaikan dengan metode perulangan (iteratif) dan tidak bisa diselesaikan menggunakan metode rekursi murni.
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal4" value="A" style="margin-right: 8px;"> Benar
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal4" value="B" data-correct style="margin-right: 8px;"> Salah
-                </label>
-            </div>
-        </div>
+    <!-- SOAL 4 (PILIHAN GANDA) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            4. Struktur data internal pada memori RAM yang digunakan komputer untuk melacak tumpukan pemanggilan fungsi rekursi adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal4" value="A" style="margin-right: 8px;"> A. Queue
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal4" value="B" data-correct style="margin-right: 8px;"> B. Stack
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal4" value="C" style="margin-right: 8px;"> C. Vector
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal4" value="D" style="margin-right: 8px;"> D. Tree
+        </label>
+    </div>
 
-        <!-- SOAL 5 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Pendekatan Bottom-Up pada Pemrograman Dinamis menyelesaikan masalah mulai dari sub-masalah terkecil terlebih dahulu, lalu menyusunnya ke atas.
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal5" value="A" data-correct style="margin-right: 8px;"> Benar
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal5" value="B" style="margin-right: 8px;"> Salah
-                </label>
-            </div>
-        </div>
+    <!-- SOAL 5 (PILIHAN GANDA) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            5. Berdasarkan karakteristiknya, bagaimanakah cara kerja mendasar dari sebuah Algoritma Greedy?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal5" value="A" style="margin-right: 8px;"> A. Mengevaluasi seluruh kemungkinan kombinasi di awal sebelum memilih
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal5" value="B" style="margin-right: 8px;"> B. Mengubah keputusan langkah sebelumnya jika dirasa kurang efisien
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal5" value="C" data-correct style="margin-right: 8px;"> C. Mengambil keputusan terbaik secara lokal pada setiap langkah tanpa memikirkan dampak ke depan
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal5" value="D" style="margin-right: 8px;"> D. Menyimpan riwayat pencarian sub-masalah ke dalam tabel memori khusus
+        </label>
+    </div>
+
+    <!-- SOAL 6 (PILIHAN GANDA) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            6. Jika koin yang tersedia adalah [10, 8, 1] dan kita ingin mencari kembalian senilai 16 menggunakan taktik Greedy, apa hasil akhir yang dikeluarkan program?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal6" value="A" style="margin-right: 8px;"> A. 2 Koin (8, 8)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal6" value="B" style="margin-right: 8px;"> B. 5 Koin (10, 5, 1)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal6" value="C" data-correct style="margin-right: 8px;"> C. 7 Koin (10, 1, 1, 1, 1, 1, 1)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal6" value="D" style="margin-right: 8px;"> D. Eror karena tidak ada kombinasi yang cocok
+        </label>
+    </div>
+
+    <!-- SOAL 7 (PILIHAN GANDA) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            7. Apa kelemahan utama dari Algoritma Greedy saat digunakan untuk memecahkan masalah optimasi yang rumit?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal7" value="A" style="margin-right: 8px;"> A. Kode algoritmanya selalu membutuhkan memori penyimpanan RAM terbesar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal7" value="B" data-correct style="margin-right: 8px;"> B. Sifatnya yang "short-sighted" (berpandangan pendek) membuat keputusan lokal awal berisiko menjebak ke solusi non-optimal global
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal7" value="C" style="margin-right: 8px;"> C. Tidak dapat dikonversi ke dalam bahasa pemrograman tingkat tinggi seperti C++ atau Python
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal7" value="D" style="margin-right: 8px;"> D. Proses pemotongannya memakan waktu eksekusi CPU yang sangat lambat dibanding Brute Force
+        </label>
+    </div>
+
+    <!-- SOAL 8 (PILIHAN GANDA) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            8. Apa fitur utama Pemrograman Dinamis (Dynamic Programming) yang membedakannya dengan pendekatan rekursi biasa?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal8" value="A" style="margin-right: 8px;"> A. Tidak memakai fungsi perulangan matematika sama sekali
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal8" value="B" data-correct style="margin-right: 8px;"> B. Menyimpan hasil kalkulasi dari sub-masalah terdahulu agar tidak perlu dihitung ulang di masa depan
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal8" value="C" style="margin-right: 8px;"> C. Menghapus data histori variabel setiap kali program berpindah baris kode
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal8" value="D" style="margin-right: 8px;"> D. Menggunakan percabangan bersarang dalam jumlah jutaan baris data
+        </label>
+    </div>
+
+    <!-- SOAL 9 (PILIHAN GANDA) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            9. Pendekatan Pemrograman Dinamis yang memproses masalah secara rekursif dari atas ke bawah dan menggunakan kamus memori ("buku catatan") dinamakan...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal9" value="A" style="margin-right: 8px;"> A. Tabulation (Bottom-Up)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal9" value="B" style="margin-right: 8px;"> B. Sorting Method
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal9" value="C" data-correct style="margin-right: 8px;"> C. Memoization (Top-Down)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal9" value="D" style="margin-right: 8px;"> D. Iterative Loop
+        </label>
+    </div>
+
+    <!-- SOAL 10 (PILIHAN GANDA) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            10. Manakah aktivitas harian di bawah ini yang paling mencerminkan prinsip pemanfaatan tabulasi/rekam jejak data seperti pada Pemrograman Dinamis?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal10" value="A" style="margin-right: 8px;"> A. Menghitung jumlah koin kembalian kasir dari nominal pecahan terbesar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal10" value="B" data-correct style="margin-right: 8px;"> B. Menulis laporan/data administrasi bulanan dengan memanfaatkan templat digital yang sudah ada sebelumnya
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal10" value="C" style="margin-right: 8px;"> C. Mengupas kulit bawang merah lapis demi lapis sampai ke titik terkecil
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal10" value="D" style="margin-right: 8px;"> D. Memilih antrean loket paling pendek saat di stasiun kereta
+        </label>
     </div>
 
     <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
 
-    <!-- ======================================================= -->
-    <!-- BAGIAN 2: PILIHAN GANDA (15 SOAL)                       -->
-    <!-- ======================================================= -->
-    <div id="wrapper-pilihan-ganda" style="display: flex; flex-direction: column; gap: 20px;">
-        <!-- SOAL 6 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Apa definisi yang paling tepat dari rekursi dalam pemrograman?
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal6" value="A" style="margin-right: 8px;"> Proses mengulang kode menggunakan perintah while atau for.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal6" value="B" data-correct style="margin-right: 8px;"> Sebuah fungsi atau prosedur yang memanggil dirinya sendiri.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal6" value="C" style="margin-right: 8px;"> Teknik menyimpan data ke dalam array dua dimensi.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal6" value="D" style="margin-right: 8px;"> Algoritma mencari rute terpendek secara langsung.
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 7 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Manakah dari berikut ini yang merupakan komponen wajib yang harus ada pada fungsi rekursif?
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal7" value="A" style="margin-right: 8px;"> Loop dan Array
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal7" value="B" style="margin-right: 8px;"> Pointer dan Reference
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal7" value="C" data-correct style="margin-right: 8px;"> Base Case dan Recursive Step
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal7" value="D" style="margin-right: 8px;"> Input user dan Print data
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 8 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Struktur data di dalam sistem komputer yang digunakan untuk melacak dan memproses pemanggilan fungsi rekursif adalah...
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal8" value="A" style="margin-right: 8px;"> Queue (Antrean)
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal8" value="B" data-correct style="margin-right: 8px;"> Stack (Tumpukan)
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal8" value="C" style="margin-right: 8px;"> Tree (Pohon)
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal8" value="D" style="margin-right: 8px;"> Graph (Graf)
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 9 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Contoh fenomena atau objek di kehidupan nyata yang menerapkan prinsip visual mirip rekursi adalah...
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal9" value="A" data-correct style="margin-right: 8px;"> Dua cermin yang diletakkan saling berhadapan.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal9" value="B" style="margin-right: 8px;"> Menimbang beras menggunakan timbangan digital.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal9" value="C" style="margin-right: 8px;"> Mengantre lurus di kasir supermarket.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal9" value="D" style="margin-right: 8px;"> Mengisi air ke dalam ember hingga penuh.
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 10 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Apa karakteristik utama dari Algoritma Greedy?
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal10" value="A" style="margin-right: 8px;"> Mencari semua kemungkinan solusi lalu memilih yang terbaik.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal10" value="B" data-correct style="margin-right: 8px;"> Mengambil keputusan terbaik di setiap langkah lokal saat itu juga.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal10" value="C" style="margin-right: 8px;"> Mengingat keputusan masa lalu untuk memperbaiki langkah berikutnya.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal10" value="D" style="margin-right: 8px;"> Memecah masalah menjadi bagian yang tidak saling tumpang tindih.
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 11 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Kasus klasik manakah di bawah ini yang paling efektif dan umum diselesaikan dengan Algoritma Greedy?
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal11" value="A" style="margin-right: 8px;"> Pencarian kata di kamus menggunakan Binary Search.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal11" value="B" data-correct style="margin-right: 8px;"> Penentuan koin kembalian minimal (Coin Change) dengan mata uang resmi.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal11" value="C" style="margin-right: 8px;"> Penghitungan deret suku Fibonacci ke-100.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal11" value="D" style="margin-right: 8px;"> Pengurutan data angka yang acak secara terbalik.
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 12 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Apa kelemahan utama dari strategi Algoritma Greedy?
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal12" value="A" style="margin-right: 8px;"> Membutuhkan konsumsi memori yang sangat besar.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal12" value="B" style="margin-right: 8px;"> Kodenya sangat rumit dan sulit dipahami.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal12" value="C" data-correct style="margin-right: 8px;"> Bersifat berpandangan pendek (short-sighted) sehingga bisa melewatkan solusi optimal global.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal12" value="D" style="margin-right: 8px;"> Proses komputasinya jauh lebih lambat dibanding rekursi murni.
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 13 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Jika kita memiliki pecahan koin [10, 8, 1] dan ingin memberikan kembalian bernilai 16, berapa jumlah koin jika menggunakan strategi Greedy?
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal13" value="A" style="margin-right: 8px;"> 2 koin
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal13" value="B" style="margin-right: 8px;"> 5 koin
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal13" value="C" style="margin-right: 8px;"> 6 koin
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal13" value="D" data-correct style="margin-right: 8px;"> 7 koin
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 14 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Berdasarkan pertanyaan nomor 13, berapakah jumlah koin yang sebenarnya paling optimal secara global?
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal14" value="A" data-correct style="margin-right: 8px;"> 2 koin (8 + 8)
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal14" value="B" style="margin-right: 8px;"> 3 koin (10 + 5 + 1)
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal14" value="C" style="margin-right: 8px;"> 4 koin (4 + 4 + 4 + 4)
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal14" value="D" style="margin-right: 8px;"> 5 koin (10 + 1 + 1 + 1 + 1)
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 15 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Apa perbedaan utama antara Pemrograman Dinamis (DP) dengan Rekursi biasa?
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal15" value="A" style="margin-right: 8px;"> DP tidak menggunakan fungsi sama sekali.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal15" value="B" style="margin-right: 8px;"> Rekursi selalu lebih cepat daripada DP.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal15" value="C" data-correct style="margin-right: 8px;"> DP menyimpan hasil perhitungan sub-masalah agar tidak terjadi hitung ulang.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal15" value="D" style="margin-right: 8px;"> Rekursi tidak membutuhkan kondisi henti (base case).
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 16 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Dua syarat utama suatu masalah dapat diselesaikan secara optimal dengan Pemrograman Dinamis adalah...
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal16" value="A" style="margin-right: 8px;"> Array linear dan Sorting teratur
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal16" value="B" data-correct style="margin-right: 8px;"> Overlapping subproblems dan Optimal substructure
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal16" value="C" style="margin-right: 8px;"> Infinite loop dan Stack overflow
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal16" value="D" style="margin-right: 8px;"> Himpunan kandidat dan Fungsi kelayakan
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 17 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Pendekatan Pemrograman Dinamis yang bekerja dengan cara menyelesaikan sub-masalah secara rekursif dari atas lalu menyimpannya di memori disebut...
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal17" value="A" style="margin-right: 8px;"> Tabulation (Bottom-Up)
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal17" value="B" style="margin-right: 8px;"> Selection (Greedy)
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal17" value="C" data-correct style="margin-right: 8px;"> Memoization (Top-Down)
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal17" value="D" style="margin-right: 8px;"> Iteration (Looping)
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 18 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Mengapa Pemrograman Dinamis sangat efektif untuk menyelesaikan masalah deret Fibonacci suku besar dibanding rekursi murni?
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal18" value="A" style="margin-right: 8px;"> Karena DP menghapus memori setiap kali loop berjalan.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal18" value="B" data-correct style="margin-right: 8px;"> Karena DP menghindari kalkulasi berulang pada suku-suku kecil yang sama.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal18" value="C" style="margin-right: 8px;"> Karena DP mengubah struktur kode menjadi bahasa mesin.
-                </label>
-                <label style="display: block; margin-radius: 6px; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal18" value="D" style="margin-right: 8px;"> Karena DP hanya bisa dijalankan di komputer super.
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 19 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Penerapan prinsip Pemrograman Dinamis dalam aktivitas nyata sehari-hari tercermin pada...
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal19" value="A" style="margin-right: 8px;"> Menghitung jumlah pakaian satu per satu saat mencuci.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal19" value="B" data-correct style="margin-right: 8px;"> Menggunakan fitur copy-paste atau templat dokumen laporan bulanan yang sudah ada.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal19" value="C" style="margin-right: 8px;"> Memilih kasir terpendek saat antre di supermarket.
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal19" value="D" style="margin-right: 8px;"> Berjalan kaki menyusuri jalan pintas secara acak.
-                </label>
-            </div>
-        </div>
-
-        <!-- SOAL 20 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Jika kita ingin membuat program mencari solusi instan tanpa perlu hasil akhir yang 100% sempurna di segala kondisi pecahan uang acak, metode terbaik adalah...
-            </p>
-            <div class="opsi-container">
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal20" value="A" style="margin-right: 8px;"> Rekursi Murni
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal20" value="B" style="margin-right: 8px;"> Pemrograman Dinamis
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal20" value="C" data-correct style="margin-right: 8px;"> Algoritma Greedy
-                </label>
-                <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-                    <input type="radio" name="soal20" value="D" style="margin-right: 8px;"> Brute Force
-                </label>
-            </div>
-        </div>
+    <!-- SOAL 11 (ESSAY) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            11. Soal Essay (Analisis Logika):
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Dalam kasus pencarian suku Fibonacci besar (misal suku ke-50), penggunaan <strong>Rekursi Biasa</strong> dinilai sangat lambat bahkan bisa membuat komputer hang, sementara metode <strong>Pemrograman Dinamis</strong> mampu menyelesaikannya secara instan. Jelaskan apa yang menyebabkan perbedaan performa yang sangat ekstrem tersebut berdasarkan cara kerja internal kedua metode!
+        </p>
+        <textarea required rows="4" placeholder="Tuliskan jawaban essay Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
     </div>
 
-    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
-
-    <!-- ======================================================= -->
-    <!-- BAGIAN 3: SOAL ESSAY (5 SOAL)                           -->
-    <!-- ======================================================= -->
-    <div id="wrapper-essay" style="display: flex; flex-direction: column; gap: 20px;">
-        <!-- SOAL 21 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Soal Essay 1 (Fungsi Rekursi):
-            </p>
-            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
-                Jelaskan apa yang akan terjadi jika sebuah fungsi rekursif tidak memiliki <em>base case</em>, dan mengapa hal tersebut dapat memicu terjadinya galat <em>Stack Overflow</em> pada memori komputer!
-            </p>
-            <textarea required rows="4" name="soal21" placeholder="Tuliskan jawaban essay Anda di sini..." 
-                style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
-        </div>
-
-        <!-- SOAL 22 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Soal Essay 2 (Kasus Greedy):
-            </p>
-            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
-                Berikan satu contoh aktivitas dalam kehidupan sehari-hari (selain koin kembalian kasir toko) yang menerapkan prinsip pola pikir Algoritma Greedy! Jelaskan letak sifat ke-greedy-annya.
-            </p>
-            <textarea required rows="4" name="soal22" placeholder="Tuliskan jawaban essay Anda di sini..." 
-                style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
-        </div>
-
-        <!-- SOAL 23 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Soal Essay 3 (Analisis Rute GPS):
-            </p>
-            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
-                Jelaskan secara logis mengapa penentuan rute peta digital (GPS) terkadang mengalami kegagalan (misal dialihkan ke jalan buntu atau macet parah di ujung depan) jika murni menggunakan pendekatan Greedy!
-            </p>
-            <textarea required rows="4" name="soal23" placeholder="Tuliskan jawaban essay Anda di sini..." 
-                style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
-        </div>
-
-        <!-- SOAL 24 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Soal Essay 4 (Overlapping Subproblems):
-            </p>
-            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
-                Apa yang dimaksud dengan konsep <em>Overlapping Subproblems</em> dalam materi Pemrograman Dinamis? Berikan gambaran singkatnya pada kalkulasi deret matematika suku berulang!
-            </p>
-            <textarea required rows="4" name="soal24" placeholder="Tuliskan jawaban essay Anda di sini..." 
-                style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
-        </div>
-
-        <!-- SOAL 25 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Soal Essay 5 (DP Memoization vs Tabulation):
-            </p>
-            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
-                Bandingkan dan jelaskan perbedaan mendasar antara taktik <em>Memoization</em> (Top-Down) dengan <em>Tabulation</em> (Bottom-Up) saat menyelesaikan masalah komputasi teroptimasi!
-            </p>
-            <textarea required rows="4" name="soal25" placeholder="Tuliskan jawaban essay Anda di sini..." 
-                style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
-        </div>
+    <!-- SOAL 12 (REFLEKSI) -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            12. Soal Refleksi:
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Dari tiga materi strategi berpikir komputasional yang telah dipelajari pada Modul 2 (Rekursi, Algoritma Greedy, Pemrograman Dinamis), pendekatan mana yang menurut Anda memiliki logika yang paling menantang untuk dituangkan ke dalam baris kode pemrograman? Bagaimanakah Anda melatih pola pikir Anda untuk membedakan kapan suatu masalah harus menggunakan taktik Greedy dan kapan harus menggunakan Pemrograman Dinamis?
+        </p>
+        <textarea required rows="4" placeholder="Tuliskan refleksi Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
     </div>
 
-    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
-
-    <!-- ======================================================= -->
-    <!-- BAGIAN 4: REFLEKSI KEGIATAN                             -->
-    <!-- ======================================================= -->
-    <div id="wrapper-refleksi">
-        <!-- SOAL 26 -->
-        <div class="soal-item">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-                Soal Lembar Refleksi Mandiri:
-            </p>
-            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
-                Dari ketiga strategi berpikir komputasional yang telah dipelajari pada Modul 2 ini, strategi manakah yang menurut Anda paling menantang untuk diterapkan ke dalam logika kode? Langkah konkret apa yang akan Anda lakukan untuk melatih kepekaan logika dalam memilih strategi pemecahan masalah yang efisien di kemudian hari?
-            </p>
-            <textarea required rows="5" name="soal26" placeholder="Tuliskan hasil refleksi pembelajaran Anda di sini..." 
-                style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
-        </div>
-    </div>
-
-    <!-- TOMBOL SUBMIT KUIS -->
+    <!-- TOMBOL SUBMIT -->
     <button type="submit" 
         style="background-color: #0b3a7a; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; width: fit-content; align-self: flex-end; margin-top: 10px;">
         Kirim Jawaban Post Test
     </button>
 </form>
-
-<!-- SCRIPT UNTUK MENGACAK ELEMEN SAAT HALAMAN DIMUAT -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Fungsi algoritma pengacak item (Fisher-Yates Shuffle)
-    function acakElemen(parent) {
-        for (let i = parent.children.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            parent.appendChild(parent.children[j]);
-        }
-    }
-
-    // 1. Acak Soal Benar/Salah (Bagian 1)
-    const containerBS = document.getElementById("wrapper-benar-salah");
-    if(containerBS) acakElemen(containerBS);
-
-    // 2. Acak Soal Pilihan Ganda & Opsi Jawabannya (Bagian 2)
-    const containerPG = document.getElementById("wrapper-pilihan-ganda");
-    if(containerPG) {
-        acakElemen(containerPG);
-        // Mengacak opsi pilihan jawaban di dalam masing-masing soal PG
-        const listOpsi = containerPG.querySelectorAll(".opsi-container");
-        listOpsi.forEach(opsiParent => acakElemen(opsiParent));
-    }
-
-    // 3. Acak Soal Essay (Bagian 3)
-    const containerEssay = document.getElementById("wrapper-essay");
-    if(containerEssay) acakElemen(containerEssay);
-});
-</script>
