@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 2: Pemrograman Dinamis - Informatika</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fdfdfd;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #9b59b6;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #8e44ad;
+            margin-top: 30px;
+            border-left: 4px solid #9b59b6;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #34495e;
+        }
+        
+        /* FIX KONFLIK CSS KODE GITHUB PAGES */
+        pre {
+            background-color: #2d3748 !important;
+            color: #f7fafc !important;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            margin: 20px 0;
+        }
+        pre code {
+            background-color: transparent !important;
+            color: #f7fafc !important;
+            padding: 0 !important;
+            border: none !important;
+            display: block;
+            font-family: "Courier New", Courier, monospace;
+        }
+        p code, li code {
+            background-color: #f8f9fa !important;
+            color: #8e44ad !important;
+            border: 1px solid #eaecf0 !important;
+            padding: 2px 6px !important;
+            border-radius: 4px !important;
+            font-family: "Courier New", Courier, monospace;
+        }
+
+        .box-info {
+            background-color: #f3e5f5;
+            border-left: 4px solid #8e44ad;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .box-light {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        blockquote {
+            margin: 20px 0;
+            padding-left: 15px;
+            border-left: 4px solid #ccc;
+            color: #555;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Modul 2: Berpikir Komputasional - Pemrograman Dinamis</h1>
+    
+    <p><strong>Pemrograman Dinamis (<em>Dynamic Programming</em> atau DP)</strong> adalah teknik optimasi dalam berpikir komputasional dan pemrograman untuk menyelesaikan masalah kompleks dengan cara memecahkannya menjadi sub-masalah yang lebih kecil. Perbedaan mendasar DP dengan teknik lain adalah: <strong>DP menyimpan hasil penyelesaian setiap sub-masalah yang telah dihitung, sehingga kita tidak perlu menghitung ulang hal yang sama di kemudian hari.</strong></p>
+
+    <div class="box-info">
+        <strong>Analogi Mengingat:</strong><br>
+        Jika seseorang bertanya kepada Anda: <em>"Berapa 1 + 1 + 1 + 1 + 1?"</em> Anda menghitungnya lalu menjawab <strong>5</strong>.<br>
+        Jika orang itu menambahkan satu angka "+ 1" di ujungnya dan bertanya lagi, Anda akan langsung menjawab <strong>6</strong> tanpa menghitung dari awal karena otak Anda telah <strong>mengingat</strong> bahwa total perhitungan sebelumnya adalah 5. Itulah esensi Pemrograman Dinamis!
+    </div>
+
+    <h2>Dua Karakteristik Utama Masalah DP</h2>
+    <p>Sebuah masalah hanya bisa diselesaikan secara optimal menggunakan Pemrograman Dinamis jika memenuhi dua syarat berikut:</p>
+    <ol>
+        <li><strong>Overlapping Subproblems (Sub-masalah yang Tumpang Tindih):</strong><br>
+        Saat memecahkan masalah besar, kita menemukan bahwa sub-masalah yang sama dihitung berulang-ulang secara berlebihan jika menggunakan rekursi biasa.</li>
+        <li><strong>Optimal Substructure (Substruktur Optimal):</strong><br>
+        Solusi optimal dari masalah utama dapat dibentuk dari gabungan solusi-solusi optimal sub-masalahnya.</li>
+    </ol>
+
+    <h2>Dua Pendekatan dalam Pemrograman Dinamis</h2>
+    <ul>
+        <li><strong>Top-Down dengan Memoization (Mengingat dari Atas):</strong> Kita mulai dari masalah besar, memecahnya secara rekursif, dan sebelum menghitung sub-masalah baru, kita memeriksa "buku catatan" (tabel memori) apakah kita sudah pernah menghitungnya.</li>
+        <li><strong>Bottom-Up dengan Tabulation (Membangun dari Bawah):</strong> Kita mulai menyelesaikan masalah dari yang paling kecil/dasar terlebih dahulu, mengisi hasilnya ke dalam tabel (array), lalu maju selangkah demi selangkah hingga menyelesaikan masalah utama di puncak.</li>
+    </ul>
+
+    <h2>Contoh Pemrograman Dinamis dalam Kehidupan Sehari-hari</h2>
+
+    <h3>1. Menulis Laporan Menggunakan Fitur Copy-Paste / Template</h3>
+    <p>Saat Anda membuat laporan bulanan atau rapot siswa, Anda tidak menulis seluruh format dokumen dari nol setiap bulannya. Anda menggunakan template yang sudah ada dan tinggal mengubah data intinya saja. Menggunakan template adalah bentuk menyimpan hasil kerja masa lalu (DP) untuk mempercepat proses di masa sekarang.</p>
+
+    <h3>2. Sistem Rekomendasi Rute dan Tarif Ojek Online</h3>
+    <p>Aplikasi ojek online menghitung tarif perjalanan berdasarkan kombinasi jarak, kemacetan, dan permintaan. Server mereka tidak menghitung rute dari titik koordinat A ke B secara murni dari nol setiap kali ada yang memesan. Mereka memanfaatkan data rute dan segmentasi jalan yang sudah dihitung dan disimpan sebelumnya pada database mereka untuk menyajikan harga instan kepada Anda.</p>
+
+    <h3>3. Strategi Belajar untuk Ujian Semesta</h3>
+    <p>Jika Anda harus menghadapi ujian yang bahannya mencakup bab 1 sampai bab 5, Anda tidak akan belajar ulang bab 1 dari halaman pertama setiap kali berpindah hari. Anda membuat ringkasan/catatan kecil di hari pertama (Memoization), sehingga di hari kelima Anda cukup membaca ringkasan tersebut untuk mengombinasikannya dengan materi baru.</p>
+
+    <h2>Studi Kasus Matematika: Deret Fibonacci</h2>
+    <p>Deret Fibonacci adalah deret angka di mana suku berikutnya adalah jumlah dari dua suku sebelumnya: <code>1, 1, 2, 3, 5, 8, 13, ...</code></p>
+    
+    <p>Jika kita menggunakan <strong>Rekursi Biasa</strong> untuk mencari suku ke-5, komputer akan menghitung suku ke-3 sebanyak dua kali secara terpisah. Jika mencari suku ke-50, komputer bisa macet (<em>hang</em>) karena mengulang triliunan perhitungan yang sama.</p>
+    
+    <p>Dengan <strong>Pemrograman Dinamis</strong>, komputer hanya menghitung setiap suku tepat satu kali, lalu menyimpannya ke memori.</p>
+
+    <h3>Implementasi Kode Dinamis (Python) dengan Input Interaktif</h3>
+    <p>Di bawah ini adalah kode Python siap pakai yang menerima input dari pengguna untuk mencari nilai Fibonacci secara instan menggunakan metode DP:</p>
+
+    <pre><code>def fibonacci_dp(n):
+    # Membuat tabel untuk menyimpan hasil perhitungan
+    tabel_fib = [0] * (n + 1)
+    
+    # Base case / Kondisi dasar
+    tabel_fib[1] = 1
+    if n > 1:
+        tabel_fib[2] = 1
+        
+    # Mengisi tabel dari bawah ke atas (Bottom-Up)
+    for i in range(3, n + 1):
+        tabel_fib[i] = tabel_fib[i - 1] + tabel_fib[i - 2]
+        
+    return tabel_fib[n]
+
+# --- BAGIAN INPUT DINAMIS ---
+try:
+    suku_ke = int(input("Masukkan suku Fibonacci yang ingin dicari (contoh: 40): "))
+    if suku_ke <= 0:
+        print("Masukkan angka yang lebih besar dari 0!")
+    else:
+        hasil = fibonacci_dp(suku_ke)
+        print(f"\n--- HASIL PEMROGRAMAN DINAMIS ---")
+        print(f"Nilai suku Fibonacci ke-{suku_ke} adalah: {hasil}")
+except ValueError:
+    print("Eror: Silakan masukkan angka bulat positif saja!")</code></pre>
+
+    <h2>Perbandingan Singkat: Kapan Menggunakan Apa?</h2>
+    <div class="box-light">
+        <ul>
+            <li><strong>Gunakan Rekursi:</strong> Jika masalahnya bersifat bercabang murni tanpa ada sub-masalah yang berulang (misal: penelusuran struktur folder).</li>
+            <li><strong>Gunakan Greedy:</strong> Jika Anda butuh solusi super cepat dan pilihan jangka pendek saat itu juga dijamin menghasilkan hasil akhir terbaik (misal: kembalian mata uang rupiah).</li>
+            <li><strong>Gunakan Pemrograman Dinamis:</strong> Jika pilihan di awal memengaruhi pilihan di masa depan, serta ada banyak sub-masalah yang terus berulang sehingga butuh efisiensi ingatan memori.</li>
+        </ul>
+    </div>
+
+</body>
+</html>
