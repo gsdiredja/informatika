@@ -1,258 +1,454 @@
-<section id="post-test" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px;">
+<form onsubmit="periksaKuis(event)" style="display: flex; flex-direction: column; gap: 20px; padding: 5px 0; font-family: Arial, sans-serif;">
     
-    <h2 style="color: #2b6cb0; border-left: 4px solid #3182ce; padding-left: 10px; margin-top: 25px; margin-bottom: 15px;">
-        📝 Evaluasi Akhir: Post-Test &amp; Refleksi Modul 4
-    </h2>
-    <p style="margin-bottom: 20px; font-style: italic; color: #4a5568;">
-        Jawablah pertanyaan-pertanyaan di bawah ini untuk menguji pemahaman Anda mengenai Strategi Algoritmik dan Pemrograman Lintas Bidang.
-    </p>
+    <h3 style="margin-bottom: 10px; color: #0b3a7a; font-size: 18px; font-weight: 700; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
+        POST TEST: LATIHAN STRATEGI ALGORITMIK DAN PEMROGRAMAN LINTAS BIDANG
+    </h3>
 
-    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-
-    <!-- ================= BAGIAN 1: BENAR / SALAH ================= -->
-    <h3 style="color: #2d3748; margin-top: 20px;">Bagian 1: Benar atau Salah</h3>
-    <p style="font-size: 0.95em; color: #718096; margin-bottom: 15px;">Tentukan apakah pernyataan di bawah ini Benar atau Salah!</p>
-
-    <div style="background-color: #f7fafc; padding: 15px; margin-bottom: 15px; border-radius: 6px; border-left: 3px solid #cbd5e0;">
-        <p>Gerak burung pada sumbu mendatar (Sumbu X) dipengaruhi oleh gaya gravitasi bumi sehingga kecepatannya terus berubah.</p>
-        <strong>Pilihan:</strong> Benar | Salah
-    </div>
-
-    <div style="background-color: #f7fafc; padding: 15px; margin-bottom: 15px; border-radius: 6px; border-left: 3px solid #cbd5e0;">
-        <p>Bahasa pemrograman seperti Python secara bawaan menghitung fungsi trigonometri (sin dan cos) menggunakan satuan derajat.</p>
-        <strong>Pilihan:</strong> Benar | Salah
-    </div>
-
-    <div style="background-color: #f7fafc; padding: 15px; margin-bottom: 15px; border-radius: 6px; border-left: 3px solid #cbd5e0;">
-        <p>Toleransi jarak diperlukan dalam program deteksi target karena perhitungan desimal komputer jarang menghasilkan angka yang sama persis 100%.</p>
-        <strong>Pilihan:</strong> Benar | Salah
-    </div>
-
-    <div style="background-color: #f7fafc; padding: 15px; margin-bottom: 15px; border-radius: 6px; border-left: 3px solid #cbd5e0;">
-        <p>Eror logis (logical error) adalah jenis kesalahan yang langsung membuat program berhenti mendadak dan memunculkan teks error berwarna merah.</p>
-        <strong>Pilihan:</strong> Benar | Salah
-    </div>
-
-    <div style="background-color: #f7fafc; padding: 15px; margin-bottom: 15px; border-radius: 6px; border-left: 3px solid #cbd5e0;">
-        <p>Teknik Vectorization menggunakan pustaka NumPy membuat program simulasi berjalan lebih cepat dibanding menggunakan perulangan while biasa.</p>
-        <strong>Pilihan:</strong> Benar | Salah
-    </div>
-
-    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
-
-    <!-- ================= BAGIAN 2: PILIHAN GANDA ================= -->
-    <h3 style="color: #2d3748; margin-top: 20px;">Bagian 2: Pilihan Ganda</h3>
-    <p style="font-size: 0.95em; color: #718096; margin-bottom: 15px;">Pilihlah satu jawaban yang paling tepat!</p>
-
-    <!-- Soal 1 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Jenis gerakan yang terjadi pada burung saat terbang mendatar (Sumbu X) dengan mengabaikan gesekan udara adalah...</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Gerak Lurus Berubah Beraturan</li>
-            <li>Gerak Lurus Beraturan</li>
-            <li>Gerak Jatuh Bebas</li>
-            <li>Gerak Melingkar Beraturan</li>
-        </ul>
-    </div>
-
-    <!-- Soal 2 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Faktor utama yang menyebabkan kecepatan burung pada sumbu vertikal (Sumbu Y) melambat saat naik dan mempercepat saat turun adalah...</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Kecepatan awal peluncuran</li>
-            <li>Sudut ketapel yang terlalu besar</li>
-            <li>Gaya gravitasi bumi</li>
-            <li>Gesekan udara yang diabaikan</li>
-        </ul>
-    </div>
-
-    <!-- Soal 3 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Jika sudut ketapel diberikan dalam bentuk derajat, rumus manakah yang benar untuk mengubahnya ke dalam satuan radian di Python?</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>sudut * (180 / pi)</li>
-            <li>sudut * (pi / 180)</li>
-            <li>sudut / (pi * 180)</li>
-            <li>sudut + (pi / 180)</li>
-        </ul>
-    </div>
-
-    <!-- Soal 4 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Manakah dari rumus berikut yang digunakan komputer untuk melacak posisi vertikal (Y) burung pada setiap detiknya?</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>v0 * cos(sudut) * t</li>
-            <li>v0 * sin(sudut) * t</li>
-            <li>(v0 * sin(sudut) * t) - (0.5 * g * t^2)</li>
-            <li>(v0 * cos(sudut) * t) + (0.5 * g * t^2)</li>
-        </ul>
-    </div>
-
-    <!-- Soal 5 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Dalam merancang simulasi, aktivitas memecah masalah gerak parabola menjadi komponen sumbu X dan sumbu Y merupakan penerapan prinsip Computational Thinking yaitu...</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Abstraksi</li>
-            <li>Pengenalan Pola</li>
-            <li>Dekomposisi</li>
-            <li>Algoritma</li>
-        </ul>
-    </div>
-
-    <!-- Soal 6 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Struktur pemrograman yang paling cocok digunakan untuk menghitung posisi koordinat burung secara bertahap dari detik awal hingga jatuh ke tanah adalah...</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Percabangan if-else</li>
-            <li>Perulangan (Looping)</li>
-            <li>Fungsi rekursif</li>
-            <li>Struktur data Stack</li>
-        </ul>
-    </div>
-
-    <!-- Soal 7 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Fungsi dari kode np.linspace(0, t_total, 100) pada pustaka NumPy adalah...</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Membuat grafik lintasan acak</li>
-            <li>Membagi rentang waktu menjadi 100 titik data yang sama besar</li>
-            <li>Menghitung kecepatan maksimal burung secara otomatis</li>
-            <li>Mengubah sudut derajat menjadi koordinat kartesius</li>
-        </ul>
-    </div>
-
-    <!-- Soal 8 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Jika selisih absolut jarak pendaratan burung dan posisi target bernilai lebih kecil dari parameter toleransi, maka program akan menyimpulkan...</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Burung meleset jauh dari target</li>
-            <li>Burung menembus tanah</li>
-            <li>Burung berhasil mengenai target</li>
-            <li>Program mengalami eror matematis</li>
-        </ul>
-    </div>
-
-    <!-- Soal 9 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Pustaka (library) Python yang kita gunakan di Google Colab khusus untuk menggambar lintasan melengkung burung ke dalam bentuk grafik visual adalah...</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>math</li>
-            <li>numpy</li>
-            <li>matplotlib.pyplot</li>
-            <li>random</li>
-        </ul>
-    </div>
-
-    <!-- Soal 10 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Sebuah program simulasi burung berjalan tanpa memunculkan pesan error, namun menampilkan grafik di mana burung terbang menembus ke bawah lantai (ketinggian bernilai minus). Masalah ini disebut...</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Syntax Error</li>
-            <li>Runtime Error</li>
-            <li>Logical Error (Bug)</li>
-            <li>Memory Overflow</li>
-        </ul>
-    </div>
-
-    <!-- Soal 11 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Bagaimana cara melakukan debugging yang benar untuk mengatasi bug burung yang meluncur menembus tanah (nilai Y menjadi minus)?</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Menghapus variabel waktu</li>
-            <li>Menambahkan kondisi: jika nilai Y kurang dari nol, paksa nilainya menjadi nol</li>
-            <li>Mengubah nilai gravitasi menjadi bilangan negatif</li>
-            <li>Mengganti rumus fungsi cosinus dengan fungsi tangen</li>
-        </ul>
-    </div>
-
-    <!-- Soal 12 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Mengapa teknik Vectorization pada NumPy dikatakan dapat melakukan optimasi kinerja program?</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Karena menyembunyikan rumus matematika agar tidak dibaca pengguna</li>
-            <li>Karena menghapus seluruh fungsi grafik sehingga beban komputer berkurang</li>
-            <li>Karena memproses seluruh data dalam array secara serentak tanpa perlu perulangan baris demi baris</li>
-            <li>Karena otomatis mengubah bahasa Python menjadi bahasa mesin C++</li>
-        </ul>
-    </div>
-
-    <!-- Soal 13 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Pada tingkat kecepatan awal yang sama, sudut peluncuran ketapel manakah yang secara teori fisika dan simulasi komputer akan menghasilkan jarak horizontal terjauh?</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Sudut tiga puluh derajat</li>
-            <li>Sudut empat puluh lima derajat</li>
-            <li>Sudut enam puluh derajat</li>
-            <li>Sudut sembilan puluh derajat</li>
-        </ul>
-    </div>
-
-    <!-- Soal 14 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Fungsi matematika abs() yang digunakan dalam logika deteksi tabrakan di Materi 2 bertujuan untuk...</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Mencari nilai sinus sudut radian</li>
-            <li>Memastikan selisih jarak target selalu bernilai positif (nilai mutlak)</li>
-            <li>Membulatkan angka pecahan menjadi bilangan bulat terdekat</li>
-            <li>Menghentikan perulangan waktu secara paksa</li>
-        </ul>
-    </div>
-
-    <!-- Soal 15 -->
-    <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0;">
-        <p style="font-weight: bold;">Apa dampak yang terjadi jika kita tidak melakukan optimasi kode saat membuat program simulasi berskala besar dengan ribuan objek?</p>
-        <ul style="list-style-type: none; padding-left: 10px;">
-            <li>Hasil simulasi akan menjadi tidak akurat secara matematika</li>
-            <li>Program akan mengalami lag, lemot, atau patah-patah karena beban komputasi perulangan terlalu berat</li>
-            <li>Pustaka grafik tidak akan bisa menampilkan warna</li>
-            <li>Komputer akan otomatis menghapus kode program yang dianggap lambat</li>
-        </ul>
-    </div>
-
-    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
-
-    <!-- ================= BAGIAN 3: ESSAY ================= -->
-    <h3 style="color: #2d3748; margin-top: 20px;">Bagian 3: Soal Esai</h3>
-    <p style="font-size: 0.95em; color: #718096; margin-bottom: 15px;">Berikan jawaban penjelasan secara singkat dan jelas!</p>
-
-    <div style="margin-bottom: 25px;">
-        <p style="font-weight: bold;">Jelaskan apa yang dimaksud dengan integrasi lintas bidang antara informatika dan fisika berdasarkan studi kasus simulasi gerak burung yang telah kalian pelajari!</p>
-        <div style="border: 1px solid #cbd5e0; height: 80px; border-radius: 4px; background-color: #fff;"></div>
-    </div>
-
-    <div style="margin-bottom: 25px;">
-        <p style="font-weight: bold;">Mengapa komputer memerlukan konversi satuan dari derajat ke radian sebelum mengeksekusi rumus fungsi matematika sin atau cos di dalam kode program?</p>
-        <div style="border: 1px solid #cbd5e0; height: 80px; border-radius: 4px; background-color: #fff;"></div>
-    </div>
-
-    <div style="margin-bottom: 25px;">
-        <p style="font-weight: bold;">Tuliskan logika kondisional (if-else) sederhana yang digunakan untuk menentukan status apakah burung berhasil mendapatkan label "HIT!" atau "MISS!" berdasarkan variabel jarak akhir, koordinat target, dan nilai toleransi!</p>
-        <div style="border: 1px solid #cbd5e0; height: 100px; border-radius: 4px; background-color: #fff; font-family: monospace; padding: 5px;"></div>
-    </div>
-
-    <div style="margin-bottom: 25px;">
-        <p style="font-weight: bold;">Berikan contoh bug atau eror logis (logical error) yang bisa terjadi pada simulasi gerak burung apabila kita salah memformulasikan tanda minus (-) menjadi tanda plus (+) pada rumus komponen sumbu Y!</p>
-        <div style="border: 1px solid #cbd5e0; height: 80px; border-radius: 4px; background-color: #fff;"></div>
-    </div>
-
-    <div style="margin-bottom: 25px;">
-        <p style="font-weight: bold;">Jelaskan perbedaan mendasar mengenai cara kerja sistem komputer saat memproses data simulasi menggunakan metode perulangan biasa (while loop) dibandingkan dengan metode operasi array serentak (Vectorization)!</p>
-        <div style="border: 1px solid #cbd5e0; height: 80px; border-radius: 4px; background-color: #fff;"></div>
-    </div>
-
-    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
-
-    <!-- ================= BAGIAN 4: REFLEKSI ================= -->
-    <h3 style="color: #2b6cb0; margin-top: 20px;">Bagian 4: Lembar Refleksi Siswa</h3>
+    <!-- ======================================================= -->
+    <!-- BAGIAN 1: BENAR / SALAH (5 SOAL)                        -->
+    <!-- ======================================================= -->
     
-    <div style="background-color: #ebf8ff; padding: 20px; border-radius: 6px; border-left: 4px solid #3182ce;">
-        <p style="font-style: italic; margin-bottom: 15px;">
-            Setelah mempelajari Materi 1 (Model Fisika), Materi 2 (Penulisan Kode Python), hingga Materi 3 (Debugging &amp; Optimasi), renungkan pengalaman belajar kalian dengan mengisi panduan refleksi berikut:
+    <!-- SOAL BENAR SALAH 1 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Gerak burung pada sumbu mendatar (Sumbu X) dipengaruhi oleh gaya gravitasi bumi sehingga kecepatannya terus melambat seiring berjalannya waktu.
         </p>
-        <p style="font-weight: bold; margin-bottom: 5px;">
-            Tuliskan pandangan kalian mengenai bagaimana keahlian pemrograman (Informatika) dapat membantu para ilmuwan atau pembuat game menyelesaikan serta memvisualisasikan masalah-masalah di dunia nyata. Bagian materi mana yang paling menantang bagi kalian, dan strategi apa yang kalian lakukan untuk mengatasinya?
-        </p>
-        <div style="border: 1px solid #cbd5e0; height: 150px; border-radius: 4px; background-color: #fff; margin-top: 10px;"></div>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal1" value="A" style="margin-right: 8px;"> Benar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal1" value="B" data-correct style="margin-right: 8px;"> Salah
+        </label>
     </div>
 
-</section>
+    <!-- SOAL BENAR SALAH 2 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Bahasa pemrograman seperti Python secara bawaan menghitung fungsi trigonometri math.sin() dan math.cos() menggunakan satuan Radian, bukan Derajat.
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal2" value="A" data-correct style="margin-right: 8px;"> Benar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal2" value="B" style="margin-right: 8px;"> Salah
+        </label>
+    </div>
+
+    <!-- SOAL BENAR SALAH 3 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Toleransi jarak diperlukan dalam program deteksi target karena kalkulasi angka desimal komputer jarang menghasilkan ketepatan 100% yang sama persis secara mutlak.
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal3" value="A" data-correct style="margin-right: 8px;"> Benar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal3" value="B" style="margin-right: 8px;"> Salah
+        </label>
+    </div>
+
+    <!-- SOAL BENAR SALAH 4 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Eror logis (logical error) adalah jenis kesalahan kode yang langsung membuat program berhenti mendadak dan memunculkan teks error berwarna merah di Google Colab.
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal4" value="A" style="margin-right: 8px;"> Benar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal4" value="B" data-correct style="margin-right: 8px;"> Salah
+        </label>
+    </div>
+
+    <!-- SOAL BENAR SALAH 5 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Teknik Vectorization menggunakan pustaka NumPy mempercepat simulasi berskala besar karena memproses seluruh array data secara serentak tanpa loop manual satu per satu.
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal5" value="A" data-correct style="margin-right: 8px;"> Benar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal5" value="B" style="margin-right: 8px;"> Salah
+        </label>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- BAGIAN 2: PILIHAN GANDA (15 SOAL)                       -->
+    <!-- ======================================================= -->
+
+    <!-- SOAL PG 1 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Jenis gerakan yang terjadi pada burung saat meluncur secara mendatar (Sumbu X) dengan mengabaikan gesekan udara adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal6" value="A" style="margin-right: 8px;"> Gerak Lurus Berubah Beraturan
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal6" value="B" data-correct style="margin-right: 8px;"> Gerak Lurus Beraturan
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal6" value="C" style="margin-right: 8px;"> Gerak Jatuh Bebas
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal6" value="D" style="margin-right: 8px;"> Gerak Melingkar Beraturan
+        </label>
+    </div>
+
+    <!-- SOAL PG 2 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Faktor utama yang menyebabkan kecepatan burung pada sumbu vertikal (Sumbu Y) melambat saat terbang naik dan mempercepat saat turun kembali adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal7" value="A" style="margin-right: 8px;"> Kecepatan awal peluncuran ketapel
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal7" value="B" style="margin-right: 8px;"> Sudut ketapel yang terlalu besar
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal7" value="C" data-correct style="margin-right: 8px;"> Pengaruh gaya gravitasi bumi
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal7" value="D" style="margin-right: 8px;"> Hambatan arah mata angin
+        </label>
+    </div>
+
+    <!-- SOAL PG 3 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Jika sudut ketapel diberikan oleh pengguna dalam satuan derajat, operasi manakah yang benar untuk mengubahnya ke dalam satuan radian di program Python?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal8" value="A" style="margin-right: 8px;"> sudut * (180 / math.pi)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal8" value="B" data-correct style="margin-right: 8px;"> sudut * (math.pi / 180)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal8" value="C" style="margin-right: 8px;"> sudut / (math.pi * 180)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal8" value="D" style="margin-right: 8px;"> sudut + (math.pi / 180)
+        </label>
+    </div>
+
+    <!-- SOAL PG 4 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Manakah dari persamaan berikut yang merepresentasikan kode untuk melacak ketinggian (Sumbu Y) burung pada setiap detik ke-t di program komputer?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal9" value="A" style="margin-right: 8px;"> v0 * math.cos(sudut) * t
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal9" value="B" style="margin-right: 8px;"> v0 * math.sin(sudut) * t
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal9" value="C" data-correct style="margin-right: 8px;"> (v0_y * t) - (0.5 * g * t**2)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal9" value="D" style="margin-right: 8px;"> (v0_x * t) + (0.5 * g * t**2)
+        </label>
+    </div>
+
+    <!-- SOAL PG 5 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Aktivitas memecah masalah gerak parabola burung menjadi komponen sumbu horizontal (X) dan sumbu vertikal (Y) secara terpisah menerapkan pilar berpikir komputasional yaitu...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal10" value="A" style="margin-right: 8px;"> Abstraksi
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal10" value="B" style="margin-right: 8px;"> Pengenalan Pola
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal10" value="C" data-correct style="margin-right: 8px;"> Dekomposisi
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal10" value="D" style="margin-right: 8px;"> Perancangan Algoritma
+        </label>
+    </div>
+
+    <!-- SOAL PG 6 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Struktur kendali pemrograman yang paling tepat digunakan untuk menghitung koordinat posisi burung dari detik awal hingga melewati batas waktu terbang adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal11" value="A" style="margin-right: 8px;"> Percabangan switch-case
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal11" value="B" data-correct style="margin-right: 8px;"> Perulangan (Looping) while
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal11" value="C" style="margin-right: 8px;"> Struktur data antrean (Queue)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal11" value="D" style="margin-right: 8px;"> Logika kondisional tunggal
+        </label>
+    </div>
+
+    <!-- SOAL PG 7 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Apa fungsi dari perintah np.linspace(0, t_total, 100) yang kita manfaatkan dari pustaka NumPy?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal12" value="A" style="margin-right: 8px;"> Menggambar sumbu koordinat kartesius secara otomatis
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal12" value="B" data-correct style="margin-right: 8px;"> Membuat rentang 100 titik waktu secara merata dari nol hingga batas waktu total
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal12" value="C" style="margin-right: 8px;"> Mengubah fungsi grafik menjadi mode animasi interaktif
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal12" value="D" style="margin-right: 8px;"> Menghitung perkiraan nilai mutlak toleransi jarak
+        </label>
+    </div>
+
+    <!-- SOAL PG 8 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Jika selisih jarak pendaratan akhir dengan koordinat letak target bernilai lebih kecil atau sama dengan toleransi, program menyimpulkan bahwa...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal13" value="A" style="margin-right: 8px;"> Jalur burung meleset dari lintasan seharusnya
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal13" value="B" style="margin-right: 8px;"> Burung terbang terlalu tinggi menembus batas maksimal grafik
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal13" value="C" data-correct style="margin-right: 8px;"> Target berhasil dikenai (HIT!) oleh burung
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal13" value="D" style="margin-right: 8px;"> Program mendeteksi adanya bug pembagian dengan nol
+        </label>
+    </div>
+
+    <!-- SOAL PG 9 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Pustaka (library) Python utama yang dipanggil untuk memplot titik-titik array koordinat menjadi gambar kurva grafik berwarna adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal14" value="A" style="margin-right: 8px;"> math
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal14" value="B" style="margin-right: 8px;"> numpy
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal14" value="C" data-correct style="margin-right: 8px;"> matplotlib.pyplot
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal14" value="D" style="margin-right: 8px;"> sys
+        </label>
+    </div>
+
+    <!-- SOAL PG 10 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Program simulasi berjalan mulus tanpa memunculkan baris pesan eror merah, tetapi grafik menampilkan burung menembus ke bawah lantai (Y bernilai negatif). Kasus ini disebut...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal15" value="A" style="margin-right: 8px;"> Syntax Error
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal15" value="B" style="margin-right: 8px;"> Runtime Error
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal15" value="C" data-correct style="margin-right: 8px;"> Logical Error (Bug)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal15" value="D" style="margin-right: 8px;"> Indentation Error
+        </label>
+    </div>
+
+    <!-- SOAL PG 11 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Tindakan debugging yang paling rasional untuk menghentikan agar koordinat burung tidak kebablasan menembus angka minus di bawah tanah adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal16" value="A" style="margin-right: 8px;"> Menghapus pustaka penhitung matematika math
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal16" value="B" data-correct style="margin-right: 8px;"> Memberikan kondisi if y < 0: y = 0.0 di dalam perulangan waktu
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal16" value="C" style="margin-right: 8px;"> Mengubah nilai gravitasi g menjadi bilangan negatif
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal16" value="D" style="margin-right: 8px;"> Mengganti variabel total waktu terbang secara paksa menjadi konstan
+        </label>
+    </div>
+
+    <!-- SOAL PG 12 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Mengapa pendekatan Vectorization pada pustaka NumPy dianggap sebagai wujud nyata tindakan optimasi pemrograman?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal17" value="A" style="margin-right: 8px;"> Karena menyembunyikan rumus rumit fisika dari jangkauan pengguna biasa
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal17" value="B" style="margin-right: 8px;"> Karena otomatis mengecilkan ukuran dimensi file keluaran grafik
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal17" value="C" data-correct style="margin-right: 8px;"> Karena memproses operasi aritmatika seluruh elemen data array serentak tanpa loop baris demi baris
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal17" value="D" style="margin-right: 8px;"> Karena memaksa interpreter Python berubah menjadi kompilator bahasa C++
+        </label>
+    </div>
+
+    <!-- SOAL PG 13 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Pada tingkat besar kecepatan awal meluncur yang bernilai sama, besar sudut peluncuran manakah yang menghasilkan jarak horizontal terjauh?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal18" value="A" style="margin-right: 8px;"> Sudut tiga puluh derajat
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal18" value="B" data-correct style="margin-right: 8px;"> Sudut empat puluh lima derajat
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal18" value="C" style="margin-right: 8px;"> Sudut enam puluh derajat
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal18" value="D" style="margin-right: 8px;"> Sudut sembilan puluh derajat
+        </label>
+    </div>
+
+    <!-- SOAL PG 14 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Fungsi dari pemanggilan kode matematika abs() dalam menghitung selisih jarak pendaratan dengan target adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal19" value="A" style="margin-right: 8px;"> Mencari nilai sisa bagi dari pembagian jarak
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal19" value="B" data-correct style="margin-right: 8px;"> Memastikan selisih hitungan jarak selalu bernilai mutlak positif
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal19" value="C" style="margin-right: 8px;"> Membulatkan koordinat pecahan desimal ke bawah
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal19" value="D" style="margin-right: 8px;"> Menghitung perkiraan nilai tinggi puncak secara konstan
+        </label>
+    </div>
+
+    <!-- SOAL PG 15 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Apa konsekuensi negatif utama apabila program simulasi berskala besar dikembangkan tanpa memperhatikan efisiensi dan optimasi kode?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal20" value="A" style="margin-right: 8px;"> Tingkat akurasi perhitungan fisika akan menjadi salah total
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal20" value="B" data-correct style="margin-right: 8px;"> Program mengalami penurunan kinerja (lag/lemot) karena beban komputasi loop terlalu berat
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal20" value="C" style="margin-right: 8px;"> Pustaka grafik tidak akan mampu merender warna kurva lintasan
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal20" value="D" style="margin-right: 8px;"> Komputer akan otomatis menghapus kode program secara sepihak
+        </label>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+
+    <!-- ======================================================= -->
+    <!-- BAGIAN 3: SOAL ESSAY (5 SOAL)                           -->
+    <!-- ======================================================= -->
+
+    <!-- SOAL ESSAY 1 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Soal Essay 1 (Konsep Pemrograman Lintas Bidang):
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Jelaskan apa yang dimaksud dengan integrasi lintas bidang antara ilmu informatika dan fisika berdasarkan studi kasus pemodelan simulasi gerak burung yang telah kalian pelajari!
+        </p>
+        <textarea required rows="4" name="soal21" placeholder="Tuliskan jawaban essay Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
+    </div>
+
+    <!-- SOAL ESSAY 2 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Soal Essay 2 (Satuan Sudut Komputer):
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Mengapa sistem kompiler atau interpreter bahasa pemrograman memerlukan transformasi konversi nilai sudut dari bentuk derajat ke satuan radian sebelum memproses fungsi math.sin() atau math.cos()?
+        </p>
+        <textarea required rows="4" name="soal22" placeholder="Tuliskan jawaban essay Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
+    </div>
+
+    <!-- SOAL ESSAY 3 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Soal Essay 3 (Logika Pendeteksi Tabrakan):
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Tuliskan susunan logika kondisional (if-else) sederhana dalam kode Python untuk menetapkan pencetakan teks status "HIT!" atau "MISS!" dengan membandingkan parameter selisih jarak absolut terhadap ambang batas toleransi!
+        </p>
+        <textarea required rows="4" name="soal23" placeholder="Tuliskan jawaban essay Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; font-family: monospace;"></textarea>
+    </div>
+
+    <!-- SOAL ESSAY 4 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Soal Essay 4 (Analisis Dampak Bug Logis):
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Berikan analisis kalian mengenai jenis keanehan perilaku visual kurva lintasan yang akan terjadi pada grafik simulasi apabila seorang siswa melakukan kesalahan mengetik tanda tambah (+) yang menggantikan tanda kurang (-) pada porsi komponen gravitasi rumus sumbu Y!
+        </p>
+        <textarea required rows="4" name="soal24" placeholder="Tuliskan jawaban essay Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
+    </div>
+
+    <!-- SOAL ESSAY 5 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Soal Essay 5 (Looping Manual vs Perhitungan Array):
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Uraikan aspek perbedaan mendasar ditinjau dari cara kerja alokasi pemrosesan prosesor komputer sewaktu mengeksekusi data lintasan menggunakan skema perulangan manual (while loop) dibandingkan memanfaatkan operasi array serentak (Vectorization NumPy)!
+        </p>
+        <textarea required rows="4" name="soal25" placeholder="Tuliskan jawaban essay Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+
+    <!-- ======================================================= -->
+    <!-- BAGIAN 4: REFLEKSI KEGIATAN (1 SOAL)                    -->
+    <!-- ======================================================= -->
+
+    <!-- SOAL REFLEKSI -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            Soal Lembar Refleksi Mandiri Lintas Bidang:
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Melalui rangkaian pengalaman pemodelan dari konsep fisika kinematika ke struktur baris pemrograman komputer di Modul 4 ini, tuliskan opini refleksi kalian mengenai peran krusial keterampilan informatika dalam memecahkan ataupun memvisualisasikan problem riil di dunia nyata! Bagian submateri mana yang dirasa paling sulit dikuasai, dan apa tindakan konkret kalian berikutnya untuk melatih ketajaman logika pemrograman tersebut?
+        </p>
+        <textarea required rows="5" name="soal26" placeholder="Tuliskan hasil refleksi pembelajaran Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
+    </div>
+
+    <!-- TOMBOL SUBMIT KUIS -->
+    <button type="submit" 
+        style="background-color: #0b3a7a; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; width: fit-content; align-self: flex-end; margin-top: 10px;">
+        Kirim Jawaban Post Test
+    </button>
+</form>
