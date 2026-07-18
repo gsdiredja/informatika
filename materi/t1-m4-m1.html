@@ -22,8 +22,8 @@
     </ul>
 
     <!-- Media Pembelajaran: Video Embed -->
-    <div style="text-align: center; margin: 20px 0; background-color: #f8fafc; padding: 15px; border: 1px dashed #cbd5e0; border-radius: 6px;">
-        <iframe 
+    <div class="video-container">
+  <iframe 
     src="https://www.youtube.com/embed/Qe6tWnm5ivk?autoplay=1&mute=1" 
     title="Gerak Parabola • Part 1: Konsep, Skema, dan Rumus Gerak Parabola" 
     frameborder="0" 
@@ -31,8 +31,24 @@
     referrerpolicy="strict-origin-when-cross-origin" 
     allowfullscreen>
   </iframe>
-        <p style="font-style: italic; color: #718096; font-size: 0.9em; margin-top: 8px;">Video 1.1: Penjelasan Seru Gerak Parabola</p>
-    </div>
+</div>
+
+<style>
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* Rasio 16:9 */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
 
     <blockquote style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 12px; margin: 15px 0; border-radius: 4px; font-size: 0.95em;">
         <strong>💡 Fakta Menarik:</strong> Garis putus-putus putih yang muncul saat kalian menarik ketapel di dalam game itu adalah hasil hitungan rumus fisika yang dikerjakan oleh komputer secara kilat!
