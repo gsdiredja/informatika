@@ -4,11 +4,20 @@
         Materi 1: Struktur Kontrol dan Percabangan (Logika Pengambil Keputusan)
     </h2>
 
+    <!-- PEMBUKA & SEMATAN VIDEO UTAMA DI AWAL MATERI -->
     <p style="font-size: 15px; margin-bottom: 15px;">
         Halo! Selamat datang di dunia pemrograman. Pernahkah kamu berpikir bagaimana sebuah aplikasi atau game bisa mengambil keputusan? 
-        Misalnya, jika *score* game kamu mencapai 100, kamu naik level. Jika tidak, kamu tetap di level yang sama. Di dalam pemrograman, 
+        Misalnya, jika <em>score</em> game kamu mencapai 100, kamu naik level. Jika tidak, kamu tetap di level yang sama. Di dalam pemrograman, 
         kemampuan komputer untuk memilih jalur tindakan ini disebut dengan <strong>Struktur Kontrol Percabangan</strong>.
     </p>
+
+    <p style="font-size: 15px; margin-bottom: 12px; font-weight: 600; color: #0b3a7a;">
+        🎬 Sebelum membaca pembahasan di bawah, yuk tonton video penjelasan seru tentang konsep dasar logika percabangan berikut ini:
+    </p>
+
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 25px;">
+        <iframe src="https://www.youtube-nocookie.com/embed/KmrVYIfcJ74" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
 
     <div style="background-color: #f3f4f6; border-left: 4px solid #0b3a7a; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0;">
         <strong style="color: #0b3a7a;">Konsep Dasar:</strong> Komputer itu sebenarnya patuh tapi polos. Secara bawaan, komputer akan membaca kode dari atas ke bawah baris demi baris (sekuensial). Percabangan hadir seperti persimpangan jalan di peta digital (GPS) yang mengarahkan komputer ke jalur berbeda berdasarkan kondisi tertentu.
@@ -111,37 +120,24 @@ usia = <span style="color: #b5cea8;">15</span>
     </p>
 
     <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto; line-height: 1.5; margin-bottom: 20px;">
-<span style="color: #6a9955;"># Program Menentukan Grade Nilai Ujian Siswa</span>
-<span style="color: #6a9955;"># Menerima input interaktif dari pengguna</span>
-nilai_str = <span style="color: #dcdcaa;">input</span>(<span style="color: #ce9178;">"Masukkan nilai ujian Anda (0-100): "</span>)
-nilai = <span style="color: #dcdcaa;">float</span>(nilai_str) <span style="color: #6a9955;"># Mengubah teks input menjadi angka desimal</span>
+# Program Menentukan Grade Nilai Ujian Siswa
+# Menerima input interaktif dari pengguna
+nilai_str = input("Masukkan nilai ujian Anda (0-100): ")
+nilai = float(nilai_str) # Mengubah teks input menjadi angka desimal
 
-<span style="color: #569cd6;">if</span> nilai &gt;= <span style="color: #b5cea8;">90</span>:
-    grade = <span style="color: #ce9178;">"A (Sangat Baik)"</span>
-<span style="color: #569cd6;">elif</span> nilai &gt;= <span style="color: #b5cea8;">80</span>:
-    grade = <span style="color: #ce9178;">"B (Baik)"</span>
-<span style="color: #569cd6;">elif</span> nilai &gt;= <span style="color: #b5cea8;">70</span>:
-    grade = <span style="color: #ce9178;">"C (Cukup)"</span>
-<span style="color: #569cd6;">elif</span> nilai &gt;= <span style="color: #b5cea8;">60</span>:
-    grade = <span style="color: #ce9178;">"D (Kurang)"</span>
-<span style="color: #569cd6;">else</span>:
-    grade = <span style="color: #ce9178;">"E (Gagal)"</span>
+if nilai >= 90:
+    grade = "A (Sangat Baik)"
+elif nilai >= 80:
+    grade = "B (Baik)"
+elif nilai >= 70:
+    grade = "C (Cukup)"
+elif nilai >= 60:
+    grade = "D (Kurang)"
+else:
+    grade = "E (Gagal)"
 
-<span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">"-----------------------------------"</span>)
-<span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">f"Hasil Akhir Grade Anda adalah: {grade}"</span>)
-<span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">"-----------------------------------"</span>)</pre>
+print("-----------------------------------")
+print(f"Hasil Akhir Grade Anda adalah: {grade}")
+print("-----------------------------------")</pre>
 
-    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
-
-    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
-        Video Pendukung Pembelajaran
-    </h3>
-    <p style="font-size: 15px; margin-bottom: 15px;">
-        Bagi kamu yang ingin melihat penjelasan visual dan contoh simulasi pengetikan kodenya secara langsung, tonton video tutorial berikut ini:
-    </p>
-
-    <!-- PENGATURAN EMBED YOUTUBE INTERAKTIF -->
-    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 10px;">
-        <iframe src="https://www.youtube.com/embed/7xWhdZdfc9s" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
-    </div>
 </div>
