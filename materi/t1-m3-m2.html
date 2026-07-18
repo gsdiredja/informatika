@@ -1,0 +1,92 @@
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937; max-width: 800px; margin: 0 auto; padding: 10px;">
+    
+    <h2 style="color: #0b3a7a; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; font-size: 22px; font-weight: 700;">
+        Materi 2: Perulangan / Looping (Melakukan Tugas Berulang Tanpa Lelah)
+    </h2>
+
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Bayangkan guru penjas memintamu untuk berlari mengelilingi lapangan sebanyak 10 kali, atau menulis kalimat <em>"Saya tidak akan terlambat lagi"</em> sebanyak 100 kali di buku tulis. Pegal dan melelahkan, bukan? 
+        Untungnya, komputer tidak punya rasa lelah! Di dalam pemrograman, kemampuan untuk mengeksekusi blok kode yang sama berulang kali disebut <strong>Perulangan (Looping)</strong>.
+    </p>
+
+    <div style="background-color: #f3f4f6; border-left: 4px solid #0b3a7a; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0;">
+        <strong style="color: #0b3a7a;">Mengapa Looping Penting?</strong> Tanpa perulangan, jika kamu ingin mencetak teks "Halo" sebanyak 5 kali, kamu harus menulis perintah <code>print("Halo")</code> sebanyak 5 baris. Bagaimana jika 1.000 kali? Di sinilah *looping* menyelamatkan harimu hanya dengan 2 baris kode!
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        1. Dua Jenis Perulangan di Python
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Python menyediakan dua senjata utama untuk melakukan perulangan berdasarkan kejelasan jumlah putarannya:
+    </p>
+
+    <!-- KARTU PERULANGAN FOR -->
+    <div style="border: 1px solid #d1d5db; border-radius: 6px; padding: 15px; margin-bottom: 15px; background-color: #f9fafb;">
+        <h4 style="color: #0b3a7a; font-size: 16px; font-weight: 600; margin-top: 0; margin-bottom: 5px;">A. Perulangan Counted Loop (for)</h4>
+        <p style="font-size: 14px; margin-bottom: 10px; color: #4b5563;">
+            Digunakan ketika kita <strong>sudah tahu pasti</strong> berapa kali kode harus diulang. Biasanya dipadukan dengan fungsi <code>range()</code> untuk menentukan batas awal dan akhir.
+        </p>
+        <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto; margin-bottom: 0;">
+<span style="color: #6a9955;"># Mengulang sebanyak 5 kali (dari 0 sampai 4)</span>
+<span style="color: #569cd6;">for</span> i <span style="color: #569cd6;">in</span> <span style="color: #dcdcaa;">range</span>(<span style="color: #b5cea8;">5</span>):
+    <span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">f"Putaran ke-{i}"</span>)</pre>
+    </div>
+
+    <!-- KARTU PERULANGAN WHILE -->
+    <div style="border: 1px solid #d1d5db; border-radius: 6px; padding: 15px; margin-bottom: 20px; background-color: #f9fafb;">
+        <h4 style="color: #b45309; font-size: 16px; font-weight: 600; margin-top: 0; margin-bottom: 5px;">B. Perulangan Uncounted Loop (while)</h4>
+        <p style="font-size: 14px; margin-bottom: 10px; color: #4b5563;">
+            Digunakan ketika jumlah perulangannya <strong>belum pasti</strong>. Loop ini akan terus berputar <em>selama kondisi syaratnya bernilai Benar (True)</em>.
+        </p>
+        <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto; margin-bottom: 0;">
+energi = <span style="color: #b5cea8;">3</span>
+<span style="color: #569cd6;">while</span> energi &gt; <span style="color: #b5cea8;">0</span>:
+    <span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">"Burung sedang terbang..."</span>)
+    energi = energi - <span style="color: #b5cea8;">1</span> <span style="color: #6a9955;"># Mengurangi energi agar tidak loop selamanya</span></pre>
+    </div>
+
+    <div style="background-color: #fffbeb; border-left: 4px solid #d97706; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0; font-size: 14px;">
+        <strong style="color: #b45309;">🚨 Bahaya Infinite Loop!</strong> 
+        Pada perulangan <code>while</code>, pastikan ada kode yang mengubah kondisi (seperti <code>energi = energi - 1</code>). Jika tidak, kondisinya akan selalu <em>True</em>, dan komputer akan terus berputar selamanya sampai hang atau macet!
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        2. Pengendali Loop: break dan continue
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 12px;">
+        Kadang kita ingin menghentikan perulangan di tengah jalan sebelum waktunya habis, atau melewati putaran tertentu. Kita bisa menggunakan:
+    </p>
+    <ul style="font-size: 14px; margin-bottom: 20px; padding-left: 20px;">
+        <li style="margin-bottom: 8px;"><strong><code>break</code></strong>: Hentikan dan keluar dari perulangan secara paksa detik itu juga.</li>
+        <li style="margin-bottom: 8px;"><strong><code>continue</code></strong>: Lewati sisa kode di putaran saat ini, lalu langsung loncat ke putaran berikutnya.</li>
+    </ul>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        3. Lembar Kerja Praktik Siswa (Google Colab)
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 12px;">
+        Salin kode simulasi hitung mundur peluncuran roket di bawah ini ke Google Colab milikmu, lalu jalankan untuk melihat kekuatan perulangan digabungkan dengan struktur percabangan!
+    </p>
+
+    <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto; line-height: 1.5; margin-bottom: 20px;">
+<span style="color: #569cd6;">import</span> time <span style="color: #6a9955;"># Memanggil pustaka waktu untuk jeda detik</span>
+
+hitung_mundur = <span style="color: #b5cea8;">5</span>
+
+<span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">"--- MEMULAI HITUNG MUNDUR PELUNCURAN ---"</span>)
+
+<span style="color: #569cd6;">while</span> hitung_mundur &gt; <span style="color: #b5cea8;">0</span>:
+    <span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">f"Roket meluncur dalam: {hitung_mundur}..."</span>)
+    time.sleep(<span style="color: #b5cea8;">1</span>) <span style="color: #6a9955;"># Memberikan jeda waktu 1 detik agar dramatis</span>
+    hitung_mundur -= <span style="color: #b5cea8;">1</span> <span style="color: #6a9955;"># Sama dengan hitung_mundur = hitung_mundur - 1</span>
+
+<span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">"🚀 WOOOSH! Roket berhasil meluncur ke angkasa!"</span>)
+<span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">"----------------------------------------"</span>)</pre>
+
+</div>
