@@ -1,0 +1,84 @@
+<section id="materi-2" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px;">
+    
+    <h2 style="color: #2b6cb0; border-left: 4px solid #3182ce; padding-left: 10px; margin-top: 25px; margin-bottom: 15px;">
+        💻 Materi 2: Membuat Program Simulasi dengan Python
+    </h2>
+    
+    <h3>1. Bagaimana Komputer Menggambar Lintasan Burung?</h3>
+    <p style="text-align: justify; margin-bottom: 12px;">
+        Di Materi 1, kita sudah memegang rumus fisikanya. Sekarang, bagaimana cara membuat komputer menggambar gerakan burung tersebut? Caranya adalah dengan menggunakan <strong>Algoritma Perulangan (Looping)</strong>.
+    </p>
+    <p style="text-align: justify; margin-bottom: 12px;">
+        Bayangkan seperti kita membuat animasi kartun. Kita menyuruh komputer menghitung posisi burung di detik 0.0, lalu maju sedikit ke detik 0.2, detik 0.4, dan seterusnya menggunakan perintah <code>while</code> sampai burungnya menyentuh tanah kembali. 
+    </p>
+    
+    <h3>2. Konsep Deteksi Target (Collision Detection)</h3>
+    <p style="text-align: justify; margin-bottom: 12px;">
+        Tantangan seru lainnya adalah menentukan apakah burung kita berhasil mengenai target (babi) atau tidak. Komputer akan mengecek koordinat pendaratan terakhir burung dengan posisi target menggunakan logika <code>if-else</code>.
+    </p>
+    <blockquote style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 12px; margin: 15px 0; border-radius: 4px; font-size: 0.95em;">
+        <strong>Batas Toleransi Jarak:</strong> Angka desimal di komputer sangat detail dan jarang menghasilkan angka yang sama persis 100% (misalnya burung mendarat di 39.98 meter, padahal target berada di 40.00 meter). Oleh karena itu, kita memberikan ruang toleransi (misal sebesar 2 meter). Jika selisihnya dekat, target dianggap tetap hancur!
+    </blockquote>
+
+    <h3>3. Kode Program (Salin dan Jalankan di Google Colab)</h3>
+    <p style="margin-bottom: 12px;">
+        Buka Google Colab kalian, lalu salin kode Python di bawah ini untuk melihat simulasinya secara langsung dalam bentuk grafik:
+    </p>
+
+    <pre style="background-color: #f7fafc; border: 1px solid #e2e8f0; padding: 15px; font-family: monospace; font-size: 0.95em; overflow-x: auto; border-radius: 4px; color: #2d3748; line-height: 1.4;">
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+
+def visualisasi_dan_cek_target(v0, sudut_derajat, x_target, toleransi=2.0, g=9.8):
+    # 1. Memasukkan rumus dari Materi 1
+    sudut_rad = math.radians(sudut_derajat)
+    v0_x = v0 * math.cos(sudut_rad)
+    v0_y = v0 * math.sin(sudut_rad)
+    t_total = (2 * v0_y) / g
+    
+    # 2. Membuat deretan waktu dari 0 sampai burung jatuh (100 titik data)
+    t_array = np.linspace(0, t_total, 100)
+    
+    # 3. Menghitung semua koordinat lintasan burung
+    x_lintasan = v0_x * t_array
+    y_lintasan = (v0_y * t_array) - (0.5 * g * (t_array**2))
+    
+    # 4. Ambil jarak pendaratan paling ujung
+    jarak_akhir = x_lintasan[-1]
+    selisih = abs(jarak_akhir - x_target) # Mencari jarak absolut burung ke target
+    
+    # 5. Membuat grafik visual lintasan
+    plt.figure(figsize=(10, 5))
+    plt.plot(x_lintasan, y_lintasan, label='Lintasan Burung', color='blue')
+    plt.scatter(x_target, 0, color='red', s=200, label='Target (Babi)', zorder=5)
+    
+    plt.title('Grafik Simulasi Pemrograman Lintas Bidang: Gerak Burung')
+    plt.xlabel('Jarak Horizontal (meter)')
+    plt.ylabel('Ketinggian Vertikal (meter)')
+    plt.axhline(0, color='black', linewidth=1)
+    plt.grid(True)
+    
+    # 6. Logika Kondisional (If-Else) untuk status kemenangan
+    if selisih <= toleransi:
+        print(f"🎯 TARGET TERKENA! Burung mendarat di {jarak_akhir:.2f}m.")
+        plt.text(jarak_akhir/3, max(y_lintasan)/2, "💥 HIT!", fontsize=24, color='orange', weight='bold')
+    else:
+        print(f"❌ MELESET! Burung mendarat di {jarak_akhir:.2f}m. Target berada di {x_target}m.")
+        plt.text(jarak_akhir/3, max(y_lintasan)/2, "⚪ MISS!", fontsize=24, color='purple', weight='bold')
+        
+    plt.legend()
+    plt.show()
+
+# COBA JALANKAN: Kecepatan awal 20 m/s, sudut 45 derajat, target di jarak 38 meter
+visualisasi_dan_cek_target(v0=20, sudut_derajat=45, x_target=38)
+    </pre>
+
+    <p style="text-align: justify; margin-top: 15px;">
+        Cobalah ubah angka <code>v0</code> (kecepatan awal) atau <code>sudut_derajat</code> pada baris paling bawah program kalian. Apakah burung kalian berhasil memunculkan tulisan <strong>💥 HIT!</strong>?
+    </p>
+    <p style="text-align: justify;">
+        Namun, bagaimana jika kode di atas mengalami error atau aplikasinya menjadi lemot saat datanya diperbanyak? Kita akan pelajari cara membetulkan dan mempercepatnya di <strong>Materi 3: Optimasi & Debugging Kode</strong>!
+    </p>
+
+</section>
