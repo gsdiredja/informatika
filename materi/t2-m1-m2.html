@@ -13,7 +13,7 @@
     </p>
 
     <div style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0; font-size: 14px;">
-        <strong>💡 Fakta Menarik:</strong> Berpikir kritis bukan berarti kita harus selalu mendebat atau mencurigai semua orang. Berpikir kritis artinya kita mencari bukti yang valid, logis, dan objektif sebelum menyimpulkan sesuatu sebagai kebenaran.
+        <strong>💡 Fakta Menarik:</strong> Berpikir kritis bukan berarti kita harus selalu mendebat atau mencurarai semua orang. Berpikir kritis artinya kita mencari bukti yang valid, logis, dan objektif sebelum menyimpulkan sesuatu sebagai kebenaran.
     </div>
 
     <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
@@ -85,9 +85,77 @@
     <p style="font-size: 15px; margin-bottom: 12px;">
         Diskusikan dengan teman sebangkumu skenario berikut:
     </p>
-    <div style="background-color: #fffbeb; border: 1px solid #fef3c7; padding: 15px; border-radius: 6px; font-size: 14px; line-height: 1.7;">
-        Kamu melihat video viral di TikTok yang merekomendasikan sebuah aplikasi pembersih memori ponsel gratis yang diklaim bisa mempercepat performa HP hingga 200%. Namun, saat dipasang, aplikasi tersebut meminta izin akses ke kontak, kamera, dan galeri foto pribadimu. <br><br>
-        Berdasarkan materi pengambilan keputusan di atas, tuliskan di lembar kerjamu: <strong>Apakah kamu akan mengizinkan akses tersebut atau langsung menghapus aplikasinya? Berikan alasan logismu!</strong>
+    
+    <div style="background-color: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 6px; font-size: 14px; line-height: 1.7;">
+        <div style="margin-bottom: 15px;">
+            Kamu melihat video viral di TikTok yang merekomendasikan sebuah aplikasi pembersih memori ponsel gratis yang diklaim bisa mempercepat performa HP hingga 200%. Namun, saat dipasang, aplikasi tersebut meminta izin akses ke kontak, kamera, dan galeri foto pribadimu.
+        </div>
+        
+        <!-- Kolom Input Jawaban Diskusi -->
+        <div style="margin-top: 10px;">
+            <div style="margin-bottom: 6px; font-weight: bold; color: #0b3a7a;">
+                Berdasarkan materi pengambilan keputusan di atas, apakah kamu akan mengizinkan akses tersebut atau langsung menghapus aplikasinya? Berikan alasan logismu!
+            </div>
+            <textarea name="m5_t2_m2_jawaban" rows="4" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px; font-size: 14px; box-sizing: border-box; resize: vertical; background-color: #ffffff; font-family: Arial, sans-serif;" placeholder="Tuliskan keputusan beserta alasan logismu di sini..."></textarea>
+        </div>
+    </div>
+
+    <!-- Tombol Kirim -->
+    <div style="text-align: right; margin-top: 15px; margin-bottom: 20px;">
+        <button type="button" onclick="kirimKeSpreadsheet(event)" style="background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px; cursor: pointer;">
+            Kirim Jawaban Pengamatan
+        </button>
     </div>
 
 </div>
+
+<!-- Script Penyambung ke Google Apps Script -->
+<script>
+function kirimKeSpreadsheet(event) {
+    // URL Web App dari Google Apps Script milik pengguna
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec";
+
+    // Ambil elemen input textarea
+    const inputJawaban = document.getElementsByName('m5_t2_m2_jawaban')[0];
+    
+    const dataJawaban = {
+        // Mengirim data berupa teks jawaban modul 5 topik 2 materi 2
+        jawaban_diskusi: inputJawaban ? inputJawaban.value.trim() : ''
+    };
+
+    // Validasi sederhana jika form kosong
+    if (!dataJawaban.jawaban_diskusi) {
+        alert("Harap tuliskan jawaban diskusi kamu sebelum mengirim!");
+        return;
+    }
+
+    // Mengubah status tombol saat loading pengiriman
+    const tombol = event.target;
+    const teksAsli = tombol.innerText;
+    tombol.disabled = true;
+    tombol.innerText = "Mengirim...";
+
+    // Mengirim data menggunakan API fetch
+    fetch(WEB_APP_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataJawaban)
+    })
+    .then(() => {
+        alert("Jawaban tantangan diskusi berhasil dikirim ke Spreadsheet!");
+        if(inputJawaban) inputJawaban.value = ''; // Kosongkan form setelah sukses
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert("Terjadi kesalahan saat mengirim jawaban. Hubungi guru pengampu.");
+    })
+    .finally(() => {
+        // Mengembalikan tombol ke keadaan semula
+        tombol.disabled = false;
+        tombol.innerText = teksAsli;
+    });
+}
+</script>
