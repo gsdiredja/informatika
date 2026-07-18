@@ -59,23 +59,23 @@ const DATA_TOPIK = {
         deskripsi: "Menganalisis penerapan Informatika di kehidupan sehari-hari dan membangun kemampuan berpikir kritis.",
         modul: {
             1: {
-                title: "Modul 1: [Tulis Judul Modul 1 Topik 2]",
+                title: "Modul 1: Pengantar Berpikir Kritis",
                 materi: [
-                    "[Materi 1 Modul 1]",
-                    "[Materi 2 Modul 1]",
-                    "[Materi 3 Modul 1]"
+                    "Pengertian dan Dunia Sekitarku",
+                    "Berpikir ritis dan Pengambilan Keputsan",
+                    "Elemen Berpikir, Standar dan Karakter Intelektual"
                 ]
             },
             2: {
-                title: "Modul 2: [Tulis Judul Modul 2 Topik 2]",
+                title: "Modul 2: Kajian Kritis Penerapan Informasi Bidang Pertanian",
                 materi: [
-                    "[Materi 1 Modul 2]",
+                    "Studi Kasus",
                     "[Materi 2 Modul 2]",
                     "[Materi 3 Modul 2]"
                 ]
             },
             3: {
-                title: "Modul 3: [Tulis Judul Modul 3 Topik 2]",
+                title: "Modul 3: Kajian Kritis Penerapan Informasi Bidang Kesehatan",
                 materi: [
                     "[Materi 1 Modul 3]",
                     "[Materi 2 Modul 3]",
