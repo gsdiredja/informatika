@@ -1,35 +1,32 @@
 <section id="materi-1" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px;">
     
-    <h2 style="color: #2b6cb0; border-left: 4px solid #3182ce; padding-left: 10px; margin-top: 25px; margin-bottom: 15px;">
-        📘 Materi 1: Analisis Studi Kasus Lintas Bidang (Simulasi Burung)
-    </h2>
-    
+   
     <h3>1. Pengantar Teori & Konsep Lintas Bidang</h3>
     <p style="text-align: justify; margin-bottom: 12px;">
-        Ketika seekor burung dilontarkan ke udara dengan kecepatan dan sudut tertentu, ia tidak bergerak lurus melainkan membentuk lintasan melengkung[cite: 2]. Fenomena ini disebut <strong>Gerak Parabola</strong> atau <strong>Gerak Peluru</strong> (<em>Projectile Motion</em>)[cite: 2]. Dalam Fisika, gerak ini merupakan perpaduan dua jenis gerak sekaligus yang terjadi secara bersamaan[cite: 2]:
+        Ketika seekor burung dilontarkan ke udara dengan kecepatan dan sudut tertentu, ia tidak bergerak lurus melainkan membentuk lintasan melengkung. Fenomena ini disebut <strong>Gerak Parabola</strong> atau <strong>Gerak Peluru</strong> (<em>Projectile Motion</em>). Dalam Fisika, gerak ini merupakan perpaduan dua jenis gerak sekaligus yang terjadi secara bersamaan:
     </p>
     
     <ul style="margin-bottom: 12px; padding-left: 20px;">
         <li style="margin-bottom: 6px;">
-            <strong>Gerak di Sumbu Horizontal (Sumbu X):</strong> Tidak ada gaya luar yang memengaruhi objek (kita mengabaikan gesekan udara/abstraksi)[cite: 2]. Oleh karena itu, kecepatannya selalu konstan[cite: 2]. Ini disebut <strong>Gerak Lurus Beraturan (GLB)</strong>[cite: 2].
+            <strong>Gerak di Sumbu Horizontal (Sumbu X):</strong> Tidak ada gaya luar yang memengaruhi objek (kita mengabaikan gesekan udara/abstraksi). Oleh karena itu, kecepatannya selalu konstan. Ini disebut <strong>Gerak Lurus Beraturan (GLB)</strong>.
         </li>
         <li style="margin-bottom: 6px;">
-            <strong>Gerak di Sumbu Vertikal (Sumbu Y):</strong> Objek dipengaruhi oleh gaya tarik bumi[cite: 2]. Kecepatannya melambat saat naik dan mempercepat saat turun[cite: 2]. Ini disebut <strong>Gerak Lurus Berubah Beraturan (GLBB)</strong> akibat <strong>Percepatan Gravitasi (g)</strong>[cite: 2].
+            <strong>Gerak di Sumbu Vertikal (Sumbu Y):</strong> Objek dipengaruhi oleh gaya tarik bumi. Kecepatannya melambat saat naik dan mempercepat saat turun. Ini disebut <strong>Gerak Lurus Berubah Beraturan (GLBB)</strong> akibat <strong>Percepatan Gravitasi (g)</strong>.
         </li>
     </ul>
 
-    <!-- Media Pembelajaran: Video Embed -->
+    <!-- Media Pembelajaran: Video Embed (Sudah Diperbaiki) -->
     <div style="text-align: center; margin: 20px 0; background-color: #f8fafc; padding: 15px; border: 1px dashed #cbd5e0; border-radius: 6px;">
-        <iframe width="100%" height="400" src="https://www.youtube.com/embed/7xWhdZdfc9s" frameborder="0" allowfullscreen style="max-width: 700px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></iframe>
+        <iframe width="100%" height="400" src="https://www.youtube-nocookie.com/embed/7xWhdZdfc9s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="max-width: 700px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></iframe>
         <p style="font-style: italic; color: #718096; font-size: 0.9em; margin-top: 8px;">Video 1.1: Analisis Kinematika Gerak Parabola dan Implementasi Komputer</p>
     </div>
 
     <blockquote style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 12px; margin: 15px 0; border-radius: 4px; font-size: 0.95em;">
-        <strong>💡 Rekomendasi Aset Gambar:</strong> Anda disarankan mengunggah gambar tangkapan layar lintasan ketapel <em>Angry Birds</em> dengan garis putus-putus putih[cite: 2]. Garis tersebut merepresentasikan <strong>prediksi lintasan algoritma</strong> yang dihitung secara <em>real-time</em> oleh komputer sebelum burung dilepaskan[cite: 2].
+        <strong>💡 Rekomendasi Aset Gambar:</strong> Anda disarankan mengunggah gambar tangkapan layar lintasan ketapel <em>Angry Birds</em> dengan garis putus-putus putih. Garis tersebut merepresentasikan <strong>prediksi lintasan algoritma</strong> yang dihitung secara <em>real-time</em> oleh komputer sebelum burung dilepaskan.
     </blockquote>
 
     <p style="text-align: justify; margin-bottom: 12px;">
-        Sebelum komputer bisa membuat simulasi, kita harus melakukan <strong>Dekomposisi</strong> (memecah masalah menjadi komponen matematis)[cite: 2]. Komputer tidak paham fenomena fisik secara intuitif; ia hanya mengenali koordinat <span style="font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold;">(x, y)</span> yang berubah seiring berjalannya waktu <span style="font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold;">t</span>[cite: 2].
+        Sebelum komputer bisa membuat simulasi, kita harus melakukan <strong>Dekomposisi</strong> (memecah masalah menjadi komponen matematis). Komputer tidak paham fenomena fisik secara intuitif; ia hanya mengenali koordinat <span style="font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold;">(x, y)</span> yang berubah seiring berjalannya waktu <span style="font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold;">t</span>.
     </p>
 
     <h3>2. Rumus Matematis Utama (Model Komputasi)</h3>
@@ -38,7 +35,7 @@
     </p>
     
     <div style="text-align: center; margin: 15px 0; font-size: 1.1em; font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold; color: #b7791f;">
-        &theta;<sub>rad</sub> = &theta; &times; (&pi; / 180) <span style="font-style: normal; font-size: 0.8em; color: #718096; font-weight: normal;">[cite: 2]</span>
+        &theta;<sub>rad</sub> = &theta; &times; (&pi; / 180)
     </div>
     
     <p style="margin-bottom: 12px;">
@@ -46,7 +43,7 @@
     </p>
     
     <div style="text-align: center; margin: 15px 0; font-size: 1.1em; font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold; color: #b7791f;">
-        t<sub>total</sub> = (2 &times; v<sub>0</sub> &times; sin(&theta;<sub>rad</sub>)) / g <span style="font-style: normal; font-size: 0.8em; color: #718096; font-weight: normal;">[cite: 2]</span>
+        t<sub>total</sub> = (2 &times; v<sub>0</sub> &times; sin(&theta;<sub>rad</sub>)) / g
     </div>
     
     <p style="margin-bottom: 12px;">
@@ -54,10 +51,10 @@
     </p>
     
     <div style="text-align: center; margin: 10px 0; font-size: 1.1em; font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold; color: #b7791f;">
-        x(t) = v<sub>0</sub> &times; cos(&theta;<sub>rad</sub>) &times; t <span style="font-style: normal; font-size: 0.8em; color: #718096; font-weight: normal;">[cite: 2]</span>
+        x(t) = v<sub>0</sub> &times; cos(&theta;<sub>rad</sub>) &times; t
     </div>
     <div style="text-align: center; margin: 10px 0; font-size: 1.1em; font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold; color: #b7791f;">
-        y(t) = (v<sub>0</sub> &times; sin(&theta;<sub>rad</sub>) &times; t) - (&frac12; &times; g &times; t<sup>2</sup>) <span style="font-style: normal; font-size: 0.8em; color: #718096; font-weight: normal;">[cite: 2]</span>
+        y(t) = (v<sub>0</sub> &times; sin(&theta;<sub>rad</sub>) &times; t) - (&frac12; &times; g &times; t<sup>2</sup>)
     </div>
 
 </section>
