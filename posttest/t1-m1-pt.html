@@ -1,4 +1,4 @@
-<!-- WIDGET POST TEST: INTEGRASI TOMBOL BAWAAN TEMPLATE -->
+<!-- WIDGET POST TEST: INTEGRASI TOTAL DENGAN NAVIGASI TEMPLATE BAWAAN SITUS -->
 <div style="max-width: 800px; margin: 0 auto; padding: 10px 0; font-family: sans-serif;">
     
     <!-- Header Kuis -->
@@ -11,7 +11,7 @@
         <div id="progress-bar-kuis" style="background-color: #0b3a7a; height: 100%; width: 3.8%; transition: width 0.3s ease;"></div>
     </div>
 
-    <!-- Teks Info Nomor Soal (Ditaruh di atas agar terpisah dari area tombol template) -->
+    <!-- Teks Info Nomor Soal (Diletakkan di bagian atas agar tidak merusak visual area bawah) -->
     <div style="text-align: right; margin-bottom: 15px;">
         <span id="info-halaman" style="font-size: 14px; font-weight: 600; color: #6b7280; background-color: #f3f4f6; padding: 4px 10px; border-radius: 4px;">
             Soal 1 dari 26
@@ -466,7 +466,7 @@
                 <p style="margin-bottom: 15px; font-size: 14px; color: #4b5563; line-height: 1.5;">
                     Perhatikan kondisi penentuan bukan segitiga berikut pada C++: <br>
                     <code style="background-color: #f3f4f6; padding: 2px 4px; border-radius: 3px;">if ((a &gt;= b + c) || (b &gt;= a + c) || (c &gt;= a + b)) printf("Bukan Segitiga");</code><br><br>
-                    Jelaskan secara logis mengapa digunakan operator <strong>&gt;=</strong> (lebih besar dari atau sama dengan) and bukan hanya <strong>&gt;</strong> untuk menyatakan bahwa tiga bilangan tersebut bukanlah segitiga!
+                    Jelaskan secara logis mengapa digunakan operator <strong>&gt;=</strong> (lebih besar dari atau sama dengan) dan bukan hanya <strong>&gt;</strong> untuk menyatakan bahwa tiga bilangan tersebut bukanlah segitiga!
                 </p>
                 <textarea rows="5" name="soal22" placeholder="Tuliskan jawaban essay Anda di sini..." 
                     style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 12px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
@@ -529,13 +529,13 @@
     </form>
 </div>
 
-<!-- LOGIKA SINKRONISASI TOMBOL TEMPLATE SITUS -->
+<!-- DATA UTAMA LOGIKA JAVASCRIPT: KONTROL TOTAL DAN AUDIO MAPPING -->
 <script>
 let totalKoleksiSoal = [];
 let indeksAktif = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
-    // 1. Fungsi pengacak elemen
+    // 1. Fungsi acak dengan metode algoritma Fisher-Yates
     function acakElemen(parent) {
         for (let i = parent.children.length - 1; i > 0; i--) {
             let j = Math.floor(Math.random() * (i + 1));
@@ -543,13 +543,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // 2. Eksekusi pengacakan konten kuis
+    // 2. Jalankan sistem pengacakan bawaan per kelompok kategori besar
     const containerBS = document.getElementById("wrapper-benar-salah");
     if(containerBS) acakElemen(containerBS);
 
     const containerPG = document.getElementById("wrapper-pilihan-ganda");
     if(containerPG) {
         acakElemen(containerPG);
+        // Acak urutan pilihan (opsi A, B, C, D) di dalam tiap butir soal PG
         const listOpsi = containerPG.querySelectorAll(".opsi-container");
         listOpsi.forEach(opsiParent => acakElemen(opsiParent));
     }
@@ -557,18 +558,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const containerEssay = document.getElementById("wrapper-essay");
     if(containerEssay) acakElemen(containerEssay);
 
-    // 3. Kumpulkan item soal teracak
+    // 3. Gabungkan seluruh soal teracak ke dalam sebuah array global 
     totalKoleksiSoal = Array.from(document.querySelectorAll(".soal-item-page"));
 
-    // 4. Ambil dan hubungkan tombol bawaan template GitHub Pages Anda
-    // Mencari tombol berdasarkan teks di dalamnya karena tidak punya ID khusus
+    // 4. Proses Membajak Tombol Bawaan Tema / Template Situs Anda
     const semuaTombolSitus = Array.from(document.querySelectorAll("button, a"));
     let btnSitusPrev = semuaTombolSitus.find(b => b.textContent.trim().toLowerCase() === "kembali");
     let btnSitusNext = semuaTombolSitus.find(b => b.textContent.trim().toLowerCase() === "selanjutnya");
 
-    // Bajak fungsi klik tombol template untuk mengendalikan kuis satu halaman kita
     if (btnSitusNext) {
-        // Ubah tipenya menjadi button agar tidak langsung submit form bawaan tema
+        // Ganti tipe data elemen agar mencegah aksi reload halaman otomatis
         btnSitusNext.setAttribute("type", "button");
         btnSitusNext.addEventListener("click", function(e) {
             e.preventDefault();
@@ -576,7 +575,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 indeksAktif++;
                 updateTampilanKuis(btnSitusPrev, btnSitusNext);
             } else {
-                // Jika sudah di nomor paling akhir, tombol "Selanjutnya" bertindak mengirimkan data formulir
+                // Di halaman akhir ke-26, tombol Selanjutnya otomatis berubah menjadi tombol kirim
                 document.getElementById("postTestForm").requestSubmit();
             }
         });
@@ -593,26 +592,28 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Inisialisasi tampilan awal
+    // Panggil fungsi inisialisasi awal UI layar kuis saat pertama kali dimuat
     updateTampilanKuis(btnSitusPrev, btnSitusNext);
 });
 
-// Fungsi pembaruan layar kuis terpadu
+// Fungsi Render Pembaruan Sinkronisasi Tampilan Layar Kuis
 function updateTampilanKuis(btnPrev, btnNext) {
+    // Sembunyikan semua lembaran halaman soal kuis
     totalKoleksiSoal.forEach(soal => soal.style.display = "none");
     
+    // Tampilkan hanya satu soal yang saat ini sedang aktif dipilih siswa
     if (totalKoleksiSoal[indeksAktif]) {
         totalKoleksiSoal[indeksAktif].style.display = "block";
     }
 
-    // Perbarui teks info nomor soal atas
+    // Sinkronisasi teks status info halaman kuis (Bagian Atas)
     document.getElementById("info-halaman").textContent = `Soal ${indeksAktif + 1} dari ${totalKoleksiSoal.length}`;
 
-    // Perbarui Progress Bar
+    // Sinkronisasi panjang indikator kemajuan (Progress Bar)
     const persentaseProgres = ((indeksAktif + 1) / totalKoleksiSoal.length) * 100;
     document.getElementById("progress-bar-kuis").style.width = `${persentaseProgres}%`;
 
-    // Sembunyikan/tampilkan tombol "Kembali" bawaan template situs
+    // Pengaturan Visual untuk Tombol "Kembali" bawaan Template
     if (btnPrev) {
         if (indeksAktif === 0) {
             btnPrev.style.opacity = "0.4";
@@ -623,18 +624,20 @@ function updateTampilanKuis(btnPrev, btnNext) {
         }
     }
 
-    // Ubah label text tombol kanan bawaan template saat di soal nomor terakhir
+    // Pengaturan Label Teks dan Warna untuk Tombol Kanan bawaan Template
     if (btnNext) {
         if (indeksAktif === totalKoleksiSoal.length - 1) {
             btnNext.textContent = "Kirim Post Test";
-            btnNext.style.backgroundColor = "#10b981"; // Ganti warna hijau sukses di akhir halaman
+            btnNext.style.backgroundColor = "#10b981"; // Hijau saat siap kirim data
+            btnNext.style.color = "#ffffff";
         } else {
             btnNext.textContent = "Selanjutnya";
-            btnNext.style.backgroundColor = ""; // Kembalikan ke warna biru bawaan template
+            btnNext.style.backgroundColor = ""; // Kembalikan ke tema default situs
+            btnNext.style.color = "";
         }
     }
 
-    // Auto scroll ke atas area kuis saat berganti nomor
+    // Fokus Otomatis: Mengembalikan scroll layar ke posisi atas form kuis saat ganti nomor
     document.getElementById("postTestForm").scrollIntoView({ behavior: 'smooth' });
 }
 </script>
