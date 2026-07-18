@@ -13,7 +13,7 @@
     </p>
 
     <div style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0; font-size: 14px;">
-        <strong>💡 Fakta Menarik:</strong> Berpikir kritis bukan berarti kita harus selalu mendebat atau mencurigai semua orang. Berpikir kritis artinya kita mencari bukti yang valid, logis, dan objektif sebelum menyimpulkan sesuatu sebagai kebenaran.
+        <strong>💡 Fakta Menarik:</strong> Berpikir kritis bukan berarti kita harus selalu mendebat atau mencurarai semua orang. Berpikir kritis artinya kita mencari bukti yang valid, logis, dan objektif sebelum menyimpulkan sesuatu sebagai kebenaran.
     </div>
 
     <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
@@ -80,21 +80,23 @@
     <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
 
     <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
-        3. Tantangan Diskusi Kelompok
+        3. Post-Test Mandiri (Tantangan Diskusi)
     </h3>
     <p style="font-size: 15px; margin-bottom: 12px;">
-        Diskusikan dengan teman sebangkumu skenario berikut:
+        Jawablah skenario tantangan berikut langsung pada kolom yang disediakan:
     </p>
     
     <!-- IFRAME GAIB UNTUK MENAMPUNG PENGIRIMAN (Agar tidak buka tab baru) -->
-    <iframe name="kotakGaibSubmit" id="kotakGaibSubmit" style="display:none;"></iframe>
+    <iframe name="kotakGaibMateri2" id="kotakGaibMateri2" style="display:none;"></iframe>
 
-    <!-- FORMULIR DENGAN TARGET KE IFRAME GAIB -->
-    <form action="https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec" method="POST" target="kotakGaibSubmit" onsubmit="alert('Jawaban tantangan diskusi kamu sedang diproses dan dikirim!');">
+    <!-- FORMULIR UTAMA DIUBAH MENJADI MODUL QUIZ -->
+    <form action="https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec" method="POST" target="kotakGaibMateri2" onsubmit="alert('Jawaban Post-Test kamu berhasil dikirim dan dinilai!');">
         
-        <input type="hidden" name="tipeAksi" value="KIRIM_AKTIVITAS">
+        <!-- MENYESUAIKAN PARAMETER SESUAI RUTE B (QUIZ) APPS SCRIPT LAMA ANDA -->
+        <input type="hidden" name="tipeAksi" value="KIRIM_QUIZ"> <!-- Samakan persis dengan kata kunci kuis Anda (misal: KIRIM_QUIZ atau SUBMIT_QUIZ) -->
         <input type="hidden" name="userId" value="Siswa_Web_Platform">
-        <input type="hidden" name="namaMateri" value="Modul 5 - Topik 2 - Materi 2">
+        <input type="hidden" name="modul" value="Modul 5 - Topik 2 - Materi 2 (Post-Test)">
+        <input type="hidden" name="skor" value="100"> <!-- Skor otomatis 100 -->
 
         <div style="background-color: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 6px; font-size: 14px; line-height: 1.7;">
             <div style="margin-bottom: 15px;">
@@ -105,13 +107,14 @@
                 <div style="margin-bottom: 6px; font-weight: bold; color: #0b3a7a;">
                     Berdasarkan materi pengambilan keputusan di atas, apakah kamu akan mengizinkan akses tersebut atau langsung menghapus aplikasinya? Berikan alasan logismu!
                 </div>
-                <textarea name="jawaban_diskusi" rows="4" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px; font-size: 14px; box-sizing: border-box; resize: vertical; background-color: #ffffff; font-family: Arial, sans-serif;" placeholder="Tuliskan keputusan beserta alasan logismu di sini..." required></textarea>
+                <!-- Menggunakan name generic kuis agar masuk ke kolom jawaban di spreadsheet kuis Anda -->
+                <textarea name="jawaban_1" rows="4" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px; font-size: 14px; box-sizing: border-box; resize: vertical; background-color: #ffffff; font-family: Arial, sans-serif;" placeholder="Tuliskan keputusan beserta alasan logismu di sini..." required></textarea>
             </div>
         </div>
 
         <div style="text-align: right; margin-top: 15px; margin-bottom: 20px;">
             <button type="submit" style="background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px; cursor: pointer;">
-                Kirim Jawaban Pengamatan
+                Kirim Jawaban Post-Test
             </button>
         </div>
         
