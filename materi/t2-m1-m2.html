@@ -86,10 +86,12 @@
         Diskusikan dengan teman sebangkumu skenario berikut:
     </p>
     
-    <!-- FORMULIR MURNI MULAI DI SINI -->
-    <form action="https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec" method="POST" target="_blank">
+    <!-- IFRAME GAIB UNTUK MENAMPUNG PENGIRIMAN (Agar tidak buka tab baru) -->
+    <iframe name="kotakGaibSubmit" id="kotakGaibSubmit" style="display:none;"></iframe>
+
+    <!-- FORMULIR DENGAN TARGET KE IFRAME GAIB -->
+    <form action="https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec" method="POST" target="kotakGaibSubmit" onsubmit="alert('Jawaban tantangan diskusi kamu sedang diproses dan dikirim!');">
         
-        <!-- Data tersembunyi yang otomatis dikirim ke Rute C Apps Script -->
         <input type="hidden" name="tipeAksi" value="KIRIM_AKTIVITAS">
         <input type="hidden" name="userId" value="Siswa_Web_Platform">
         <input type="hidden" name="namaMateri" value="Modul 5 - Topik 2 - Materi 2">
@@ -99,17 +101,14 @@
                 Kamu melihat video viral di TikTok yang merekomendasikan sebuah aplikasi pembersih memori ponsel gratis yang diklaim bisa mempercepat performa HP hingga 200%. Namun, saat dipasang, aplikasi tersebut meminta izin akses ke kontak, kamera, dan galeri foto pribadimu.
             </div>
             
-            <!-- Kolom Input Jawaban Diskusi -->
             <div style="margin-top: 10px;">
                 <div style="margin-bottom: 6px; font-weight: bold; color: #0b3a7a;">
                     Berdasarkan materi pengambilan keputusan di atas, apakah kamu akan mengizinkan akses tersebut atau langsung menghapus aplikasinya? Berikan alasan logismu!
                 </div>
-                <!-- Menggunakan atribut name agar terbaca langsung oleh Apps Script -->
                 <textarea name="jawaban_diskusi" rows="4" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px; font-size: 14px; box-sizing: border-box; resize: vertical; background-color: #ffffff; font-family: Arial, sans-serif;" placeholder="Tuliskan keputusan beserta alasan logismu di sini..." required></textarea>
             </div>
         </div>
 
-        <!-- Tombol Kirim tipe submit -->
         <div style="text-align: right; margin-top: 15px; margin-bottom: 20px;">
             <button type="submit" style="background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px; cursor: pointer;">
                 Kirim Jawaban Pengamatan
@@ -117,6 +116,5 @@
         </div>
         
     </form>
-    <!-- FORMULIR MURNI SELESAI -->
 
 </div>
