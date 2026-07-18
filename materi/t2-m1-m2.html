@@ -86,80 +86,37 @@
         Diskusikan dengan teman sebangkumu skenario berikut:
     </p>
     
-    <div style="background-color: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 6px; font-size: 14px; line-height: 1.7;">
-        <div style="margin-bottom: 15px;">
-            Kamu melihat video viral di TikTok yang merekomendasikan sebuah aplikasi pembersih memori ponsel gratis yang diklaim bisa mempercepat performa HP hingga 200%. Namun, saat dipasang, aplikasi tersebut meminta izin akses ke kontak, kamera, dan galeri foto pribadimu.
+    <!-- FORMULIR MURNI MULAI DI SINI -->
+    <form action="https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec" method="POST" target="_blank">
+        
+        <!-- Data tersembunyi yang otomatis dikirim ke Rute C Apps Script -->
+        <input type="hidden" name="tipeAksi" value="KIRIM_AKTIVITAS">
+        <input type="hidden" name="userId" value="Siswa_Web_Platform">
+        <input type="hidden" name="namaMateri" value="Modul 5 - Topik 2 - Materi 2">
+
+        <div style="background-color: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 6px; font-size: 14px; line-height: 1.7;">
+            <div style="margin-bottom: 15px;">
+                Kamu melihat video viral di TikTok yang merekomendasikan sebuah aplikasi pembersih memori ponsel gratis yang diklaim bisa mempercepat performa HP hingga 200%. Namun, saat dipasang, aplikasi tersebut meminta izin akses ke kontak, kamera, dan galeri foto pribadimu.
+            </div>
+            
+            <!-- Kolom Input Jawaban Diskusi -->
+            <div style="margin-top: 10px;">
+                <div style="margin-bottom: 6px; font-weight: bold; color: #0b3a7a;">
+                    Berdasarkan materi pengambilan keputusan di atas, apakah kamu akan mengizinkan akses tersebut atau langsung menghapus aplikasinya? Berikan alasan logismu!
+                </div>
+                <!-- Menggunakan atribut name agar terbaca langsung oleh Apps Script -->
+                <textarea name="jawaban_diskusi" rows="4" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px; font-size: 14px; box-sizing: border-box; resize: vertical; background-color: #ffffff; font-family: Arial, sans-serif;" placeholder="Tuliskan keputusan beserta alasan logismu di sini..." required></textarea>
+            </div>
+        </div>
+
+        <!-- Tombol Kirim tipe submit -->
+        <div style="text-align: right; margin-top: 15px; margin-bottom: 20px;">
+            <button type="submit" style="background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px; cursor: pointer;">
+                Kirim Jawaban Pengamatan
+            </button>
         </div>
         
-        <!-- Kolom Input Jawaban Diskusi -->
-        <div style="margin-top: 10px;">
-            <div style="margin-bottom: 6px; font-weight: bold; color: #0b3a7a;">
-                Berdasarkan materi pengambilan keputusan di atas, apakah kamu akan mengizinkan akses tersebut atau langsung menghapus aplikasinya? Berikan alasan logismu!
-            </div>
-            <textarea id="txtJawabanM5T2M2" rows="4" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px; font-size: 14px; box-sizing: border-box; resize: vertical; background-color: #ffffff; font-family: Arial, sans-serif;" placeholder="Tuliskan keputusan beserta alasan logismu di sini..."></textarea>
-        </div>
-    </div>
-
-    <!-- Tombol Kirim -->
-    <div style="text-align: right; margin-top: 15px; margin-bottom: 20px;">
-        <button type="button" id="btnKirimAktivitas" style="background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px; cursor: pointer;">
-            Kirim Jawaban Pengamatan
-        </button>
-    </div>
+    </form>
+    <!-- FORMULIR MURNI SELESAI -->
 
 </div>
-
-<!-- Script Global (Anti Gagal Muat Konten Konten Dinamis) -->
-<script>
-// Menangkap semua klik di dokumen agar tidak kehilangan element
-document.addEventListener('click', function(event) {
-    // Pastikan yang diklik benar-benar tombol pengiriman kita
-    if (event.target && event.target.id === 'btnKirimAktivitas') {
-        const tombol = event.target;
-        
-        // URL Apps Script Anda
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec";
-
-        const inputJawaban = document.getElementById('txtJawabanM5T2M2');
-        
-        if (!inputJawaban || !inputJawaban.value.trim()) {
-            alert("Harap tuliskan jawaban diskusi kamu sebelum mengirim!");
-            return;
-        }
-
-        const activeUser = localStorage.getItem('userId') || 'Siswa_Uji_Coba';
-
-        const dataJawaban = {
-            tipeAksi: "KIRIM_AKTIVITAS",
-            userId: activeUser,                                  
-            namaMateri: "Modul 5 - Topik 2 - Materi 2", 
-            jawaban_diskusi: inputJawaban.value.trim()           
-        };
-
-        // Ubah UI tombol saat memproses
-        tombol.disabled = true;
-        tombol.innerText = "Mengirim...";
-
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(dataJawaban)
-        })
-        .then(() => {
-            alert("Jawaban tantangan diskusi berhasil dikirim!");
-            inputJawaban.value = ''; // Mengosongkan form
-        })
-        .catch((error) => {
-            console.error('Error pengiriman:', error);
-            alert("Terjadi gangguan koneksi saat mengirim jawaban.");
-        })
-        .finally(() => {
-            tombol.disabled = false;
-            tombol.innerText = "Kirim Jawaban Pengamatan";
-        });
-    }
-});
-</script>
