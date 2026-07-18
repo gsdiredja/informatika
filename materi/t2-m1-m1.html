@@ -13,7 +13,7 @@
     </p>
 
     <div style="background-color: #f3f4f6; border-left: 4px solid #0b3a7a; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0;">
-        <strong style="color: #0b3a7a;">Dua Sisi Mata Uang:</strong> Setiap inovasi teknologi selalu membawa dua dampak sekaligus. Di satu sisi memberikan kemudahan luar biasa (dampak positif), namun di sisi lain berpotensi memunculkan masalah sosial baru jika tidak disikapi dengan bijak (dampak negatif).
+        <strong style="color: #0b3a7a;">Dua Sisi Mata Uang:</strong> Setiap inovasi teknologi selalu membawa dua dampak sekaligus. Di satu sisi memberikan kemudahan luar biasa (dampak positif), namun di satu sisi berpotensi memunculkan masalah sosial baru jika tidak disikapi dengan bijak (dampak negatif).
     </div>
 
     <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
@@ -94,93 +94,53 @@
         Luangkan waktu 5 menit untuk mengamati ruang kelasmu atau mengingat kondisi di rumahmu, lalu jawablah pertanyaan berikut langsung pada kolom yang disediakan:
     </p>
 
-    <div style="background-color: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 6px; font-size: 14px; line-height: 1.8;">
-        <!-- Pertanyaan & Jawaban 1 -->
-        <div style="margin-bottom: 18px;">
-            <div style="margin-bottom: 6px;">
-                1. Sebutkan <strong>satu aplikasi atau gawai (gadget)</strong> yang paling sering kamu gunakan dalam seminggu terakhir!
+    <!-- IFRAME GAIB UNTUK MENERIMA RESPONSE SECARA SENYAP -->
+    <iframe name="kotakGaibMateri1" id="kotakGaibMateri1" style="display:none;"></iframe>
+
+    <!-- FORMULIR UTAMA MATERI 1 -->
+    <form action="https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec" method="POST" target="kotakGaibMateri1" onsubmit="alert('Jawaban pengamatan mandiri sedang diproses dan dikirim!');">
+        
+        <!-- Parameter tersembunyi yang disesuaikan untuk Materi 1 -->
+        <input type="hidden" name="tipeAksi" value="KIRIM_AKTIVITAS">
+        <input type="hidden" name="userId" value="Siswa_Web_Platform">
+        <input type="hidden" name="namaMateri" value="Modul 5 - Topik 2 - Materi 1">
+
+        <div style="background-color: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 6px; font-size: 14px; line-height: 1.8;">
+            <!-- Pertanyaan & Jawaban 1 -->
+            <div style="margin-bottom: 18px;">
+                <div style="margin-bottom: 6px;">
+                    1. Sebutkan <strong>satu aplikasi atau gawai (gadget)</strong> yang paling sering kamu gunakan dalam seminggu terakhir!
+                </div>
+                <!-- Menambahkan atribut name agar dibaca Apps Script -->
+                <input type="text" name="m1_aktivitas_q1" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-size: 14px; box-sizing: border-box; background-color: #ffffff;" placeholder="Ketik jawabanmu di sini..." required>
             </div>
-            <input type="text" name="m1_aktivitas_q1" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-size: 14px; box-sizing: border-box; background-color: #ffffff;" placeholder="Ketik jawabanmu di sini...">
+
+            <!-- Pertanyaan & Jawaban 2 -->
+            <div style="margin-bottom: 18px;">
+                <div style="margin-bottom: 6px;">
+                    2. Tuliskan bagaimana aplikasi tersebut membantu mempermudah tugas sekolahmu!
+                </div>
+                <!-- Menambahkan atribut name agar dibaca Apps Script -->
+                <textarea name="m1_aktivitas_q2" rows="3" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-size: 14px; box-sizing: border-box; resize: vertical; background-color: #ffffff;" placeholder="Tuliskan manfaat yang kamu rasakan..." required></textarea>
+            </div>
+
+            <!-- Pertanyaan & Jawaban 3 -->
+            <div style="margin-bottom: 5px;">
+                <div style="margin-bottom: 6px;">
+                    3. Apakah ada dampak kurang baik (misalnya waktu tidur berkurang atau mata lelah) yang kamu rasakan akibat terlalu lama menggunakan aplikasi tersebut?
+                </div>
+                <!-- Menambahkan atribut name agar dibaca Apps Script -->
+                <textarea name="m1_aktivitas_q3" rows="3" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-size: 14px; box-sizing: border-box; resize: vertical; background-color: #ffffff;" placeholder="Ceritakan dampak negatif atau keluhan yang kamu alami..." required></textarea>
+            </div>
         </div>
 
-        <!-- Pertanyaan & Jawaban 2 -->
-        <div style="margin-bottom: 18px;">
-            <div style="margin-bottom: 6px;">
-                2. Tuliskan bagaimana aplikasi tersebut membantu mempermudah tugas sekolahmu!
-            </div>
-            <textarea name="m1_aktivitas_q2" rows="3" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-size: 14px; box-sizing: border-box; resize: vertical; background-color: #ffffff;" placeholder="Tuliskan manfaat yang kamu rasakan..."></textarea>
+        <!-- Tombol Kirim bertipe submit -->
+        <div style="text-align: right; margin-top: 15px; margin-bottom: 20px;">
+            <button type="submit" style="background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px; cursor: pointer;">
+                Kirim Jawaban Pengamatan
+            </button>
         </div>
-
-        <!-- Pertanyaan & Jawaban 3 -->
-        <div style="margin-bottom: 5px;">
-            <div style="margin-bottom: 6px;">
-                3. Apakah ada dampak kurang baik (misalnya waktu tidur berkurang atau mata lelah) yang kamu rasakan akibat terlalu lama menggunakan aplikasi tersebut?
-            </div>
-            <textarea name="m1_aktivitas_q3" rows="3" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-size: 14px; box-sizing: border-box; resize: vertical; background-color: #ffffff;" placeholder="Ceritakan dampak negatif atau keluhan yang kamu alami..."></textarea>
-        </div>
-    </div>
-
-    <!-- Tombol Kirim -->
-    <div style="text-align: right; margin-top: 15px; margin-bottom: 20px;">
-        <button type="button" onclick="kirimKeSpreadsheet()" style="background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px; cursor: pointer;">
-            Kirim Jawaban Pengamatan
-        </button>
-    </div>
+        
+    </form>
 
 </div>
-<script>
-function kirimKeSpreadsheet() {
-    // 1. Ganti URL di bawah ini dengan URL Web App dari Google Apps Script Anda!
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec";
-
-    // 2. Ambil elemen input dari form halaman
-    const inputQ1 = document.getElementsByName('m1_aktivitas_q1')[0];
-    const inputQ2 = document.getElementsByName('m1_aktivitas_q2')[0];
-    const inputQ3 = document.getElementsByName('m1_aktivitas_q3')[0];
-    
-    // 3. Ambil data nilai teks yang diketik siswa
-    const dataJawaban = {
-        pertanyaan_1: inputQ1 ? inputQ1.value : '',
-        pertanyaan_2: inputQ2 ? inputQ2.value : '',
-        pertanyaan_3: inputQ3 ? inputQ3.value : ''
-    };
-
-    // Validasi sederhana: Pastikan semua kolom sudah diisi
-    if (!dataJawaban.pertanyaan_1 || !dataJawaban.pertanyaan_2 || !dataJawaban.pertanyaan_3) {
-        alert("Harap lengkapi semua jawaban sebelum mengirim!");
-        return;
-    }
-
-    // Mengubah teks tombol saat proses pengiriman sedang berjalan
-    const tombol = event.target;
-    const teksAsli = tombol.innerText;
-    tombol.disabled = true;
-    tombol.innerText = "Mengirim...";
-
-    // 4. Proses pengiriman data ke Google Apps Script menggunakan fetch API
-    fetch(WEB_APP_URL, {
-        method: 'POST',
-        mode: 'no-cors', // Digunakan untuk menghindari masalah CORS lintas domain
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataJawaban)
-    })
-    .then(() => {
-        alert("Jawaban pengamatan mandiri berhasil dikirim!");
-        // Opsional: Kosongkan kembali kolom form setelah berhasil dikirim
-        if(inputQ1) inputQ1.value = '';
-        if(inputQ2) inputQ2.value = '';
-        if(inputQ3) inputQ3.value = '';
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        alert("Terjadi kesalahan saat mengirim jawaban.");
-    })
-    .finally(() => {
-        // Mengembalikan tombol ke keadaan semula
-        tombol.disabled = false;
-        tombol.innerText = teksAsli;
-    });
-}
-</script>
