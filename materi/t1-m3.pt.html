@@ -1,0 +1,333 @@
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937; max-width: 800px; margin: 0 auto; padding: 10px;">
+
+    <h2 style="color: #0b3a7a; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; font-size: 22px; font-weight: 700; text-align: center;">
+        POST-TEST MODUL 3: ALGORITMA & PEMROGRAMAN
+    </h2>
+    <p style="font-size: 14px; text-align: center; color: #4b5563; margin-bottom: 30px;">
+        Silakan jawab pertanyaan di bawah ini secara berurutan untuk menguji pemahaman Anda.
+    </p>
+
+    <form onsubmit="periksaKuis(event)">
+
+        <!-- ========================================== -->
+        <!-- BAGIAN 1: BENAR / SALAH (5 SOAL)           -->
+        <!-- ========================================== -->
+        <h3 style="color: #0b3a7a; font-size: 16px; font-weight: 600; margin-top: 25px; border-bottom: 1px dashed #d1d5db; padding-bottom: 5px;">
+            Bagian I: Benar atau Salah
+        </h3>
+
+        <!-- Soal BS 1 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Di dalam bahasa Python, penulisan spasi awal atau geseran kode ke dalam (indentasi) hanya berfungsi agar kode terlihat rapi dan tidak memengaruhi jalannya program.
+            </p>
+            <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                <input type="radio" name="bs1" data-correct="false" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; cursor: pointer;">
+                <input type="radio" name="bs1" data-correct="true" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- Soal BS 2 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Operator relasional <code>!=</code> digunakan dalam ekspresi logika untuk memeriksa apakah dua buah nilai bernilai tidak sama dengan.
+            </p>
+            <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                <input type="radio" name="bs2" data-correct="true" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; cursor: pointer;">
+                <input type="radio" name="bs2" data-correct="false" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- Soal BS 3 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Perulangan menggunakan kata kunci <code>while</code> digolongkan sebagai <em>counted loop</em> karena jumlah putarannya sudah pasti diketahui sejak awal.
+            </p>
+            <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                <input type="radio" name="bs3" data-correct="false" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; cursor: pointer;">
+                <input type="radio" name="bs3" data-correct="true" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- Soal BS 4 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Perintah <code>break</code> di dalam blok perulangan berfungsi untuk menghentikan putaran loop saat itu juga dan langsung keluar dari struktur perulangan.
+            </p>
+            <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                <input type="radio" name="bs4" data-correct="true" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; cursor: pointer;">
+                <input type="radio" name="bs4" data-correct="false" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- Soal BS 5 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Di dalam sebuah Array atau List pada bahasa Python, elemen data urutan pertama diakses menggunakan indeks bernilai 1.
+            </p>
+            <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                <input type="radio" name="bs5" data-correct="false" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; cursor: pointer;">
+                <input type="radio" name="bs5" data-correct="true" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- BAGIAN 2: PILIHAN GANDA (15 SOAL)          -->
+        <!-- ========================================== -->
+        <h3 style="color: #0b3a7a; font-size: 16px; font-weight: 600; margin-top: 25px; border-bottom: 1px dashed #d1d5db; padding-bottom: 5px;">
+            Bagian II: Pilihan Ganda
+        </h3>
+
+        <!-- Soal PG 1 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Struktur algoritma yang digunakan untuk mengarahkan jalannya program ke cabang tertentu berdasarkan kondisi atau syarat matematika disebut...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg1" data-correct="false"> Struktur Sekuensial</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg1" data-correct="true"> Struktur Percabangan</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg1" data-correct="false"> Struktur Perulangan</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg1" data-correct="false"> Struktur Enkapsulasi</label>
+        </div>
+
+        <!-- Soal PG 2 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Jika kita ingin mengevaluasi kondisi alternatif kedua apabila kondisi pertama pada perintah <code>if</code> bernilai salah, kata kunci yang digunakan di Python adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg2" data-correct="false"> else if</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg2" data-correct="true"> elif</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg2" data-correct="false"> switch</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg2" data-correct="false"> otherwise</label>
+        </div>
+
+        <!-- Soal PG 3 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Perhatikan potongan kode berikut:<br>
+                <code>x = 12</code><br>
+                <code>if x > 15: print("A")</code><br>
+                <code>else: print("B")</code><br>
+                Output yang akan muncul di layar saat kode dijalankan adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg3" data-correct="false"> A</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg3" data-correct="true"> B</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg3" data-correct="false"> Error</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg3" data-correct="false"> Tidak keluar output apapun</label>
+        </div>
+
+        <!-- Soal PG 4 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Simbol operator relasional yang tepat untuk menguji apakah suatu nilai "lebih besar atau sama dengan" nilai lainnya adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg4" data-correct="false"> =&gt;</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg4" data-correct="false"> &gt;</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg4" data-correct="true"> &gt;=</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg4" data-correct="false"> ==</label>
+        </div>
+
+        <!-- Soal PG 5 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Masalah utama yang terjadi apabila kondisi batas pada perulangan <code>while</code> selalu bernilai benar (True) dan tidak pernah diubah menjadi salah adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg5" data-correct="false"> Syntax Error</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg5" data-correct="true"> Infinite Loop (perulangan macet selamanya)</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg5" data-correct="false"> Program langsung terhenti</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg5" data-correct="false"> Memori otomatis terhapus</label>
+        </div>
+
+        <!-- Soal PG 6 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Fungsi bawaan Python yang paling sering digunakan bersama struktur <code>for</code> untuk menghasilkan barisan angka urut dengan batas tertentu adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg6" data-correct="false"> len()</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg6" data-correct="true"> range()</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg6" data-correct="false"> print()</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg6" data-correct="false"> input()</label>
+        </div>
+
+        <!-- Soal PG 7 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Berapa kali perintah mencetak teks akan dijalankan pada kode berikut?<br>
+                <code>for i in range(5): print("Informatika")</code>
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg7" data-correct="false"> 4 kali</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg7" data-correct="true"> 5 kali</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg7" data-correct="false"> 6 kali</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg7" data-correct="false"> Tidak berputar sama sekali</label>
+        </div>
+
+        <!-- Soal PG 8 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Apa perbedaan utama kata kunci <code>continue</code> dibandingkan dengan <code>break</code> pada struktur kontrol perulangan?
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg8" data-correct="false"> Continue menghentikan seluruh perulangan paksa</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg8" data-correct="true"> Continue melewatkan sisa kode di putaran aktif saat ini dan langsung meloncat ke putaran berikutnya</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg8" data-correct="false"> Continue digunakan untuk menghapus data array</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg8" data-correct="false"> Tidak ada perbedaan di antara keduanya</label>
+        </div>
+
+        <!-- Soal PG 9 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Kata kunci standar yang wajib ditulis di awal deklarasi pembuatan blok fungsi baru pada Python adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg9" data-correct="false"> function</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg9" data-correct="true"> def</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg9" data-correct="false"> void</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg9" data-correct="false"> array</label>
+        </div>
+
+        <!-- Soal PG 10 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Untuk mengembalikan sebuah nilai hasil perhitungan keluar dari dalam fungsi agar bisa disimpan dalam variabel luar, kita menggunakan perintah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg10" data-correct="false"> send</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg10" data-correct="false"> give</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg10" data-correct="true"> return</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg10" data-correct="false"> output</label>
+        </div>
+
+        <!-- Soal PG 11 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Diberikan sebuah list data: <code>buah = ["Apel", "Pisang", "Jeruk"]</code>. Cara mengeksekusi perintah untuk mengambil kata "Apel" berdasarkan indeksnya yang benar adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg11" data-correct="true"> buah[0]</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg11" data-correct="false"> buah[1]</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg11" data-correct="false"> buah(0)</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg11" data-correct="false"> buah["Apel"]</label>
+        </div>
+
+        <!-- Soal PG 12 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Fungsi bawaan list Python yang dipakai untuk menambahkan satu data baru ke posisi urutan paling akhir dari barisan elemen array adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg12" data-correct="false"> add()</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg12" data-correct="false"> insert()</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg12" data-correct="true"> append()</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg12" data-correct="false"> push()</label>
+        </div>
+
+        <!-- Soal PG 13 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Untuk menghitung total jumlah item (panjang ukuran data) yang tertampung di dalam sebuah list/array, kita bisa memanfaatkan fungsi...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg13" data-correct="true"> len()</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg13" data-correct="false"> sum()</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg13" data-correct="false"> count()</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg13" data-correct="false"> size()</label>
+        </div>
+
+        <!-- Soal PG 14 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Prinsip desain pemrograman "Don't Repeat Yourself" (DRY) paling efektif diwujudkan secara konkret melalui pemanfaatan struktur kontrol...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg14" data-correct="false"> Percabangan nested if</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg14" data-correct="true"> Pembuatan Fungsi (Function)</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg14" data-correct="false"> Operator relasional saja</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg14" data-correct="false"> Variabel tipe data konstan</label>
+        </div>
+
+        <!-- Soal PG 15 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Tanda pembungkus karakter yang menjadi ciri khas penulisan variabel berjenis koleksi data List/Array di Python adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg15" data-correct="false"> Tanda kurung lengkung ( )</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg15" data-correct="false"> Tanda kurung kurawal { }</label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="pg15" data-correct="true"> Tanda kurung siku [ ]</label>
+            <label style="display: block; cursor: pointer;"><input type="radio" name="pg15" data-correct="false"> Tanda petik ganda " "</label>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- BAGIAN 3: ESSAY (5 SOAL)                   -->
+        <!-- ========================================== -->
+        <h3 style="color: #0b3a7a; font-size: 16px; font-weight: 600; margin-top: 25px; border-bottom: 1px dashed #d1d5db; padding-bottom: 5px;">
+            Bagian III: Jawablah Pertanyaan dengan Singkat dan Jelas
+        </h3>
+
+        <!-- Soal Essay 1 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Jelaskan apa yang dimaksud dengan aturan indentasi di Python serta dampaknya apabila seorang pemrogram melakukan kesalahan penulisan indentasi pada struktur percabangan!
+            </p>
+            <textarea rows="3" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-family: sans-serif;" placeholder="Tulis jawaban Anda di sini..."></textarea>
+        </div>
+
+        <!-- Soal Essay 2 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Kapan seorang programmer sebaiknya memilih menggunakan perulangan <code>for</code> dibandingkan dengan perulangan <code>while</code>? Berikan penjelasan logisnya!
+            </p>
+            <textarea rows="3" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-family: sans-serif;" placeholder="Tulis jawaban Anda di sini..."></textarea>
+        </div>
+
+        <!-- Soal Essay 3 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Sebuah perulangan <code>while</code> mengalami eror berputar selamanya tanpa henti (infinite loop). Menurut analisis Anda, apa yang menyebabkan hal tersebut bisa terjadi di dalam kode?
+            </p>
+            <textarea rows="3" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-family: sans-serif;" placeholder="Tulis jawaban Anda di sini..."></textarea>
+        </div>
+
+        <!-- Soal Essay 4 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Mengapa konsep Fungsi (Function) sangat penting digunakan saat membangun program berskala besar yang memiliki banyak baris kode instruksi?
+            </p>
+            <textarea rows="3" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-family: sans-serif;" placeholder="Tulis jawaban Anda di sini..."></textarea>
+        </div>
+
+        <!-- Soal Essay 5 -->
+        <div class="question-step" style="margin-bottom: 20px; background-color: #f9fafb; padding: 15px; border-radius: 6px; border: 1px solid #e5e7eb;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0;">
+                Jika Anda memiliki list bernama <code>skor = [70, 85, 90]</code>, tuliskan perintah atau cara Python untuk mengubah nilai elemen pertama (70) menjadi nilai baru sebesar 75!
+            </p>
+            <textarea rows="3" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-family: monospace;" placeholder="Tulis jawaban Anda di sini..."></textarea>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- BAGIAN 4: REFLEKSI                         -->
+        <!-- ========================================== -->
+        <h3 style="color: #0b3a7a; font-size: 16px; font-weight: 600; margin-top: 25px; border-bottom: 1px dashed #d1d5db; padding-bottom: 5px;">
+            Bagian IV: Refleksi Diri
+        </h3>
+
+        <div class="question-step" style="margin-bottom: 25px; background-color: #fffbeb; padding: 15px; border-radius: 6px; border: 1px solid #fef3c7;">
+            <p style="font-size: 15px; font-weight: 600; margin-top: 0; color: #b45309;">
+                Ceritakan bagian materi mana dari seluruh rangkaian Modul 3 ini (Percabangan, Perulangan, Fungsi & Array) yang menurut Anda paling menantang untuk dipahami, serta bagaimana rencana Anda mengatasi kendala tersebut saat sesi praktik mandiri nanti?
+            </p>
+            <textarea rows="4" style="width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px; font-family: sans-serif;" placeholder="Tulis refleksi jujur Anda di sini..."></textarea>
+        </div>
+
+        <!-- TOMBOL SUBMIT KUIS -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button type="submit" style="background-color: #0b3a7a; color: white; border: none; padding: 12px 30px; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); transition: background-color 0.2s;">
+                Kirim Jawaban Akhir
+            </button>
+        </div>
+
+    </form>
+</div>
