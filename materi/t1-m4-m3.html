@@ -1,33 +1,33 @@
 <section id="materi-3" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px;">
     
     <h2 style="color: #2b6cb0; border-left: 4px solid #3182ce; padding-left: 10px; margin-top: 25px; margin-bottom: 15px;">
-        Menemukan Eror (Debugging) & Mempercepat Program (Optimasi)
+        🛠️ Menemukan Eror (Debugging) & Mempercepat Program (Optimasi)
     </h2>
     
     <h3>1. Apa itu Debugging dan Kenapa Penting?</h3>
     <p style="text-align: justify; margin-bottom: 12px;">
-        Setelah berhasil membuat program di Materi 2, tugas seorang programmer belum selesai[cite: 2]. Terkadang, kode yang kita tulis tidak memunculkan pesan error berwarna merah, tetapi hasilnya aneh atau tidak masuk akal. Ini disebut <strong>Logical Error (Bug)</strong>[cite: 2]. 
+        Setelah berhasil membuat program di Materi 2, tugas seorang programmer belum selesai. Terkadang, kode yang kita tulis tidak memunculkan pesan error berwarna merah, tetapi hasilnya aneh atau tidak masuk akal. Ini disebut <strong>Logical Error (Bug)</strong>. 
     </p>
     <p style="text-align: justify; margin-bottom: 12px;">
-        Proses mencari dan memperbaiki bug ini dinamakan <strong>Debugging</strong>[cite: 2]. Mari kita bedah salah satu bug yang sering terjadi pada simulasi burung kita.
+        Proses mencari dan memperbaiki bug ini dinamakan <strong>Debugging</strong>. Mari kita bedah salah satu bug yang sering terjadi pada simulasi burung kita.
     </p>
 
     <div style="background-color: #fffaf0; border-left: 4px solid #dd6b20; padding: 12px; margin: 15px 0; border-radius: 4px;">
         <strong>🪲 Studi Kasus Bug: Burung Menembus Tanah!</strong><br>
-        Jika kita membuat simulasi dengan perulangan waktu manual, komputer sering kali kebablasan menghitung. Hasil akhirnya, ketinggian burung (variabel <code>y</code>) bisa bernilai minus (misalnya <code>-1.5 meter</code>)[cite: 2]. Secara logika fisika ini salah, karena burung tidak bisa menembus bumi!
+        Jika kita membuat simulasi dengan perulangan waktu manual, komputer sering kali kebablasan menghitung. Hasil akhirnya, ketinggian burung (variabel <code>y</code>) bisa bernilai minus (misalnya <code>-1.5 meter</code>). Secara logika fisika ini salah, karena burung tidak bisa menembus bumi!
         <br><br>
-        <strong>Cara Debugging-nya:</strong> Kita harus mengunci nilainya menggunakan logika <code>if</code>. Jika nilainya di bawah 0, paksa menjadi 0[cite: 2].
+        <strong>Cara Debugging-nya:</strong> Kita harus mengunci nilainya menggunakan logika <code>if</code>. Jika nilainya di bawah 0, paksa menjadi 0.
         <pre style="background-color: #edf2f7; padding: 5px 10px; font-family: monospace; font-size: 0.9em; margin-top: 5px; border-radius: 4px;">
 if y < 0:
-    y = 0.0  # Burung berhenti di permukaan tanah![cite: 2]</pre>
+    y = 0.0  # Burung berhenti di permukaan tanah!</pre>
     </div>
     
     <h3>2. Mengoptimasi Kode (Biar Program Nggak Lemot)</h3>
     <p style="text-align: justify; margin-bottom: 12px;">
-        Bayangkan jika kita ingin membuat game Angry Birds sungguhan yang menghitung lintasan untuk 1.000 burung sekaligus. Jika kita menggunakan perulangan manual (seperti perintah <code>while</code> yang menghitung detiknya satu per satu), komputer akan bekerja sangat keras dan game bisa menjadi patah-patah (lag)[cite: 2].
+        Bayangkan jika kita ingin membuat game Angry Birds sungguhan yang menghitung lintasan untuk 1.000 burung sekaligus. Jika kita menggunakan perulangan manual (seperti perintah <code>while</code> yang menghitung detiknya satu per satu), komputer akan bekerja sangat keras dan game bisa menjadi patah-patah (lag).
     </p>
     <p style="text-align: justify; margin-bottom: 12px;">
-        Solusi optimasinya adalah menggunakan teknik <strong>Vectorization</strong> dengan bantuan pustaka <code>numpy</code>[cite: 2]. 
+        Solusi optimasinya adalah menggunakan teknik <strong>Vectorization</strong> dengan bantuan pustaka <code>numpy</code>. 
     </p>
     
     <table style="width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.95em;">
@@ -40,21 +40,21 @@ if y < 0:
         <tbody>
             <tr>
                 <td style="padding: 10px; border: 1px solid #cbd5e0; vertical-align: top; background-color: #f7fafc;">
-                    Menggunakan perulangan <code>while</code>. Komputer harus menghitung detik 0.2, lalu simpan, lalu putar lagi ke detik 0.4, dan seterusnya[cite: 2]. Berulang-ulang.
+                    Menggunakan perulangan <code>while</code>. Komputer harus menghitung detik 0.2, lalu simpan, lalu putar lagi ke detik 0.4, dan seterusnya. Berulang-ulang.
                 </td>
                 <td style="padding: 10px; border: 1px solid #cbd5e0; vertical-align: top; background-color: #f0fff4;">
-                    Menggunakan <code>np.linspace()</code>[cite: 2]. Komputer langsung membuat 100 titik waktu sekaligus dalam satu kali perintah, lalu rumusnya dihitung serentak oleh prosesor[cite: 2].
+                    Menggunakan <code>np.linspace()</code>. Komputer langsung membuat 100 titik waktu sekaligus dalam satu kali perintah, lalu rumusnya dihitung serentak oleh prosesor.
                 </td>
             </tr>
         </tbody>
     </table>
 
     <blockquote style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 12px; margin: 15px 0; border-radius: 4px; font-size: 0.95em;">
-        <strong>💡 Kesimpulan Lintas Bidang:</strong> Di Materi 1 kita belajar fisika gerak[cite: 2], di Materi 2 kita buat kodenya[cite: 2], dan di Materi 3 ini kita belajar bahwa kode yang benar saja tidak cukup, melainkan harus efisien dan masuk akal secara riil[cite: 2]!
+        <strong>💡 Kesimpulan Lintas Bidang:</strong> Di Materi 1 kita belajar fisika gerak, di Materi 2 kita buat kodenya, dan di Materi 3 ini kita belajar bahwa kode yang benar saja tidak cukup, melainkan harus efisien dan masuk akal secara riil!
     </blockquote>
 
     <p style="text-align: justify; margin-top: 15px;">
-        Hebat! Kalian sudah menyelesaikan seluruh rangkaian materi pemrograman lintas bidang ini[cite: 2]. Sekarang, yuk uji kemampuan kalian di bagian <strong>Post-Test</strong> untuk melihat seberapa jauh pemahaman kalian!
+        Hebat! Kalian sudah menyelesaikan seluruh rangkaian materi pemrograman lintas bidang ini. Sekarang, yuk uji kemampuan kalian di bagian <strong>Post-Test</strong> untuk melihat seberapa jauh pemahaman kalian!
     </p>
 
 </section>
