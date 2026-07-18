@@ -13,7 +13,7 @@
     </p>
 
     <div style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0; font-size: 14px;">
-        <strong>💡 Fakta Menarik:</strong> Berpikir kritis bukan berarti kita harus selalu mendebat atau mencurarai semua orang. Berpikir kritis artinya kita mencari bukti yang valid, logis, dan objektif sebelum menyimpulkan sesuatu sebagai kebenaran.
+        <strong>💡 Fakta Menarik:</strong> Berpikir kritis bukan berarti kita harus selalu mendebat atau mencurigai semua orang. Berpikir kritis artinya kita mencari bukti yang valid, logis, dan objektif sebelum menyimpulkan sesuatu sebagai kebenaran.
     </div>
 
     <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
@@ -112,30 +112,30 @@
 <!-- Script Penyambung ke Google Apps Script -->
 <script>
 function kirimKeSpreadsheet(event) {
-    // URL Web App dari Google Apps Script milik pengguna
+    // URL Web App dari Google Apps Script
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec";
 
-    // Ambil elemen input textarea
     const inputJawaban = document.getElementsByName('m5_t2_m2_jawaban')[0];
     
-    const dataJawaban = {
-        // Mengirim data berupa teks jawaban modul 5 topik 2 materi 2
-        jawaban_diskusi: inputJawaban ? inputJawaban.value.trim() : ''
-    };
-
-    // Validasi sederhana jika form kosong
-    if (!dataJawaban.jawaban_diskusi) {
+    if (!inputJawaban || !inputJawaban.value.trim()) {
         alert("Harap tuliskan jawaban diskusi kamu sebelum mengirim!");
         return;
     }
 
-    // Mengubah status tombol saat loading pengiriman
+    // Mengambil userId dari localStorage sistem login web (jika ada)
+    const activeUser = localStorage.getItem('userId') || 'Siswa_Uji_Coba';
+
+    const dataJawaban = {
+        tipeAksi: "KIRIM_AKTIVITAS",                         // Menembak Rute C di Apps Script baru Anda
+        userId: activeUser,                                  
+        namaMateri: "Modul 5 - Topik 2 - Materi 2", 
+        jawaban_diskusi: inputJawaban.value.trim()           
+    };
+
     const tombol = event.target;
-    const teksAsli = tombol.innerText;
     tombol.disabled = true;
     tombol.innerText = "Mengirim...";
 
-    // Mengirim data menggunakan API fetch
     fetch(WEB_APP_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -145,17 +145,16 @@ function kirimKeSpreadsheet(event) {
         body: JSON.stringify(dataJawaban)
     })
     .then(() => {
-        alert("Jawaban tantangan diskusi berhasil dikirim ke Spreadsheet!");
-        if(inputJawaban) inputJawaban.value = ''; // Kosongkan form setelah sukses
+        alert("Jawaban tantangan diskusi berhasil dikirim!");
+        inputJawaban.value = ''; // Mengosongkan form input setelah sukses
     })
     .catch((error) => {
         console.error('Error:', error);
-        alert("Terjadi kesalahan saat mengirim jawaban. Hubungi guru pengampu.");
+        alert("Terjadi gangguan koneksi saat mengirim jawaban.");
     })
     .finally(() => {
-        // Mengembalikan tombol ke keadaan semula
         tombol.disabled = false;
-        tombol.innerText = teksAsli;
+        tombol.innerText = "Kirim Jawaban Pengamatan";
     });
 }
 </script>
