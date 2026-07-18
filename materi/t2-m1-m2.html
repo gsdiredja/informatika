@@ -100,61 +100,64 @@
         </div>
     </div>
 
-    <!-- Tombol Kirim -->
+    <!-- Tombol Kirim (onclick dihapus, diganti id untuk mengamankan script) -->
     <div style="text-align: right; margin-top: 15px; margin-bottom: 20px;">
-        <button type="button" onclick="kirimKeSpreadsheet(event)" style="background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px; cursor: pointer;">
+        <button type="button" id="btnKirimAktivitas" style="background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px; cursor: pointer;">
             Kirim Jawaban Pengamatan
         </button>
     </div>
 
 </div>
 
-<!-- Script Penyambung ke Google Apps Script -->
+<!-- Script Penyambung yang Dimodifikasi agar Kebal terhadap Error 'Not Defined' -->
 <script>
-function kirimKeSpreadsheet(event) {
-    // URL Web App dari Google Apps Script
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec";
+(function() {
+    const tombol = document.getElementById('btnKirimAktivitas');
+    if (!tombol) return;
 
-    const inputJawaban = document.getElementsByName('m5_t2_m2_jawaban')[0];
-    
-    if (!inputJawaban || !inputJawaban.value.trim()) {
-        alert("Harap tuliskan jawaban diskusi kamu sebelum mengirim!");
-        return;
-    }
+    tombol.addEventListener('click', function(event) {
+        // Ganti URL ini dengan URL Web App hasil Deploy Ulang Apps Script Anda (jika berubah)
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec";
 
-    // Mengambil userId dari localStorage sistem login web (jika ada)
-    const activeUser = localStorage.getItem('userId') || 'Siswa_Uji_Coba';
+        const inputJawaban = document.getElementsByName('m5_t2_m2_jawaban')[0];
+        
+        if (!inputJawaban || !inputJawaban.value.trim()) {
+            alert("Harap tuliskan jawaban diskusi kamu sebelum mengirim!");
+            return;
+        }
 
-    const dataJawaban = {
-        tipeAksi: "KIRIM_AKTIVITAS",                         // Menembak Rute C di Apps Script baru Anda
-        userId: activeUser,                                  
-        namaMateri: "Modul 5 - Topik 2 - Materi 2", 
-        jawaban_diskusi: inputJawaban.value.trim()           
-    };
+        const activeUser = localStorage.getItem('userId') || 'Siswa_Uji_Coba';
 
-    const tombol = event.target;
-    tombol.disabled = true;
-    tombol.innerText = "Mengirim...";
+        const dataJawaban = {
+            tipeAksi: "KIRIM_AKTIVITAS",
+            userId: activeUser,                                  
+            namaMateri: "Modul 5 - Topik 2 - Materi 2", 
+            jawaban_diskusi: inputJawaban.value.trim()           
+        };
 
-    fetch(WEB_APP_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataJawaban)
-    })
-    .then(() => {
-        alert("Jawaban tantangan diskusi berhasil dikirim!");
-        inputJawaban.value = ''; // Mengosongkan form input setelah sukses
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        alert("Terjadi gangguan koneksi saat mengirim jawaban.");
-    })
-    .finally(() => {
-        tombol.disabled = false;
-        tombol.innerText = "Kirim Jawaban Pengamatan";
+        tombol.disabled = true;
+        tombol.innerText = "Mengirim...";
+
+        fetch(WEB_APP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataJawaban)
+        })
+        .then(() => {
+            alert("Jawaban tantangan diskusi berhasil dikirim!");
+            inputJawaban.value = '';
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert("Terjadi gangguan koneksi saat mengirim jawaban.");
+        })
+        .finally(() => {
+            tombol.disabled = false;
+            tombol.innerText = "Kirim Jawaban Pengamatan";
+        });
     });
-}
+})();
 </script>
