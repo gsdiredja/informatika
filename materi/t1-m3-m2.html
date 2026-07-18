@@ -9,6 +9,15 @@
         Untungnya, komputer tidak punya rasa lelah! Di dalam pemrograman, kemampuan untuk mengeksekusi blok kode yang sama berulang kali disebut <strong>Perulangan (Looping)</strong>.
     </p>
 
+    <!-- VIDEO SEMATAN UTAMA DI AWAL MATERI -->
+    <p style="font-size: 15px; margin-bottom: 12px; font-weight: 600; color: #0b3a7a;">
+        🎬 Yuk, tonton video animasi seru di bawah ini untuk memahami analogi bagaimana perulangan bekerja di dalam algoritma komputer:
+    </p>
+
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 25px;">
+        <iframe src="https://www.youtube-nocookie.com/embed/d7xfJYuRRAo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+
     <div style="background-color: #f3f4f6; border-left: 4px solid #0b3a7a; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0;">
         <strong style="color: #0b3a7a;">Mengapa Looping Penting?</strong> Tanpa perulangan, jika kamu ingin mencetak teks "Halo" sebanyak 5 kali, kamu harus menulis perintah <code>print("Halo")</code> sebanyak 5 baris. Bagaimana jika 1.000 kali? Di sinilah *looping* menyelamatkan harimu hanya dengan 2 baris kode!
     </div>
@@ -75,18 +84,18 @@ energi = <span style="color: #b5cea8;">3</span>
     </p>
 
     <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto; line-height: 1.5; margin-bottom: 20px;">
-<span style="color: #569cd6;">import</span> time <span style="color: #6a9955;"># Memanggil pustaka waktu untuk jeda detik</span>
+import time # Memanggil pustaka waktu untuk jeda detik
 
-hitung_mundur = <span style="color: #b5cea8;">5</span>
+hitung_mundur = 5
 
-<span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">"--- MEMULAI HITUNG MUNDUR PELUNCURAN ---"</span>)
+print("--- MEMULAI HITUNG MUNDUR PELUNCURAN ---")
 
-<span style="color: #569cd6;">while</span> hitung_mundur &gt; <span style="color: #b5cea8;">0</span>:
-    <span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">f"Roket meluncur dalam: {hitung_mundur}..."</span>)
-    time.sleep(<span style="color: #b5cea8;">1</span>) <span style="color: #6a9955;"># Memberikan jeda waktu 1 detik agar dramatis</span>
-    hitung_mundur -= <span style="color: #b5cea8;">1</span> <span style="color: #6a9955;"># Sama dengan hitung_mundur = hitung_mundur - 1</span>
+while hitung_mundur > 0:
+    print(f"Roket meluncur dalam: {hitung_mundur}...")
+    time.sleep(1) # Memberikan jeda waktu 1 detik agar dramatis
+    hitung_mundur -= 1 # Sama dengan hitung_mundur = hitung_mundur - 1
 
-<span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">"🚀 WOOOSH! Roket berhasil meluncur ke angkasa!"</span>)
-<span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">"----------------------------------------"</span>)</pre>
+print("🚀 WOOOSH! Roket berhasil meluncur ke angkasa!")
+print("----------------------------------------")</pre>
 
 </div>
