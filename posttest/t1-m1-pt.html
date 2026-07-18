@@ -1,228 +1,454 @@
 <form onsubmit="periksaKuis(event)" style="display: flex; flex-direction: column; gap: 20px; padding: 5px 0;">
     
     <h3 style="margin-bottom: 10px; color: #0b3a7a; font-size: 18px; font-weight: 700; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
-        POST TEST: STRATEGI ALGORITMIK DAN PEMROGRAMAN C++
+        POST TEST TOPIK 1: STRATEGI ALGORITMIK DAN PEMROGRAMAN C++
     </h3>
+
+    <!-- ======================================================= -->
+    <!-- BAGIAN 1: BENAR / SALAH (5 SOAL)                        -->
+    <!-- ======================================================= -->
 
     <!-- SOAL 1 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            1. Tahapan awal dalam strategi algoritmik di mana kita mengidentifikasi input, output, dan batasan (constraint) masalah dinamakan...
+            1. Tahap awal dalam pembuatan program komputer adalah langsung menuliskan baris kode program tanpa perlu menganalisis masalah terlebih dahulu.
         </p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal1" value="A" data-correct style="margin-right: 8px;"> A. Problem Analysis (Menganalisis Masalah)
+            <input type="radio" name="soal1" value="A" style="margin-right: 8px;"> A. Benar
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal1" value="B" style="margin-right: 8px;"> B. Algorithm Design (Merancang Algoritma)
-        </label>
-        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal1" value="C" style="margin-right: 8px;"> C. Implementation (Implementasi Kode)
-        </label>
-        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal1" value="D" style="margin-right: 8px;"> D. Testing & Debugging (Pengujian Program)
+            <input type="radio" name="soal1" value="B" data-correct style="margin-right: 8px;"> B. Salah
         </label>
     </div>
 
     <!-- SOAL 2 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            2. Pada C++, file pustaka utama yang digunakan untuk komunikasi proses masukan dan keluaran standar (input-output) adalah...
+            2. File pustaka &lt;iostream&gt; wajib disertakan jika kita ingin menggunakan fungsi standar input-output seperti cin dan cout pada C++.
         </p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal2" value="A" style="margin-right: 8px;"> A. stdlib.h
+            <input type="radio" name="soal2" value="A" data-correct style="margin-right: 8px;"> A. Benar
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal2" value="B" style="margin-right: 8px;"> B. math.h
-        </label>
-        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal2" value="C" data-correct style="margin-right: 8px;"> C. stdio.h atau iostream
-        </label>
-        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal2" value="D" style="margin-right: 8px;"> D. string.h
+            <input type="radio" name="soal2" value="B" style="margin-right: 8px;"> B. Salah
         </label>
     </div>
 
     <!-- SOAL 3 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            3. Titik awal (entry point) tempat di mana eksekusi program C/C++ selalu pertama kali dimulai adalah...
+            3. Fungsi int main() bertindak sebagai entry point, yaitu titik awal tempat di mana eksekusi program C++ selalu dimulai pertama kali.
         </p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal3" value="A" style="margin-right: 8px;"> A. Header File
+            <input type="radio" name="soal3" value="A" data-correct style="margin-right: 8px;"> A. Benar
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal3" value="B" data-correct style="margin-right: 8px;"> B. Fungsi int main()
-        </label>
-        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal3" value="C" style="margin-right: 8px;"> C. Compiler
-        </label>
-        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal3" value="D" style="margin-right: 8px;"> D. Namespace std
+            <input type="radio" name="soal3" value="B" style="margin-right: 8px;"> B. Salah
         </label>
     </div>
 
     <!-- SOAL 4 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            4. Format Specifier (penentu format) %d atau %i pada fungsi printf/scanf digunakan untuk tipe data...
+            4. Tiga buah panjang lidi bernilai 2 cm, 3 cm, dan 7 cm dapat dirangkai menjadi sebuah segitiga yang sah.
         </p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal4" value="A" style="margin-right: 8px;"> A. Float (Pecahan)
+            <input type="radio" name="soal4" value="A" style="margin-right: 8px;"> A. Benar
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal4" value="B" style="margin-right: 8px;"> B. Char (Karakter)
-        </label>
-        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal4" value="C" data-correct style="margin-right: 8px;"> C. Integer (Bilangan Bulat)
-        </label>
-        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal4" value="D" style="margin-right: 8px;"> D. String (Kumpulan Teks)
+            <input type="radio" name="soal4" value="B" data-correct style="margin-right: 8px;"> B. Salah
         </label>
     </div>
 
     <!-- SOAL 5 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            5. Karakter lepas (escape sequence) \n dalam pemrograman C/C++ berfungsi untuk...
+            5. Operator logika && (AND) akan menghasilkan nilai benar (True) hanya jika semua kondisi yang diuji bernilai benar.
         </p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal5" value="A" style="margin-right: 8px;"> A. Memberikan spasi tab horizontal
+            <input type="radio" name="soal5" value="A" data-correct style="margin-right: 8px;"> A. Benar
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal5" value="B" data-correct style="margin-right: 8px;"> B. Membuat baris baru (New Line)
-        </label>
-        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal5" value="C" style="margin-right: 8px;"> C. Menandai akhir perintah
-        </label>
-        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal5" value="D" style="margin-right: 8px;"> D. Menampilkan tanda petik ganda
+            <input type="radio" name="soal5" value="B" style="margin-right: 8px;"> B. Salah
         </label>
     </div>
+
+    <!-- ======================================================= -->
+    <!-- BAGIAN 2: PILIHAN GANDA (15 SOAL)                       -->
+    <!-- ======================================================= -->
 
     <!-- SOAL 6 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            6. Manakah syarat utama (ketaksamaan segitiga) agar 3 buah panjang sisi a, b, dan c dapat membentuk sebuah segitiga?
+            6. Tahapan awal dalam strategi algoritmik di mana kita mengidentifikasi input, output, dan batasan (constraint) masalah dinamakan...
         </p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal6" value="A" style="margin-right: 8px;"> A. a + b < c
+            <input type="radio" name="soal6" value="A" data-correct style="margin-right: 8px;"> A. Problem Analysis (Menganalisis Masalah)
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal6" value="B" style="margin-right: 8px;"> B. a + b == c
+            <input type="radio" name="soal6" value="B" style="margin-right: 8px;"> B. Algorithm Design (Merancang Algoritma)
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal6" value="C" style="margin-right: 8px;"> C. a + b <= c
+            <input type="radio" name="soal6" value="C" style="margin-right: 8px;"> C. Implementation (Implementasi Kode)
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal6" value="D" data-correct style="margin-right: 8px;"> D. Jumlah dua sisi selalu lebih besar dari sisi ketiga (a+b>c, a+c>b, b+c>a)
+            <input type="radio" name="soal6" value="D" style="margin-right: 8px;"> D. Testing & Debugging (Pengujian Program)
         </label>
     </div>
 
     <!-- SOAL 7 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            7. Jika diinputkan nilai sisi 1000, 1000, dan 500, maka keluaran program yang benar adalah...
+            7. Pada C++, file pustaka utama yang digunakan untuk komunikasi proses masukan dan keluaran standar (input-output) adalah...
         </p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal7" value="A" style="margin-right: 8px;"> A. Segitiga Sama Sisi
+            <input type="radio" name="soal7" value="A" style="margin-right: 8px;"> A. stdlib.h
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal7" value="B" data-correct style="margin-right: 8px;"> B. Segitiga Sama Kaki
+            <input type="radio" name="soal7" value="B" style="margin-right: 8px;"> B. math.h
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal7" value="C" style="margin-right: 8px;"> C. Segitiga Sembarang
+            <input type="radio" name="soal7" value="C" data-correct style="margin-right: 8px;"> C. stdio.h atau iostream
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal7" value="D" style="margin-right: 8px;"> D. Bukan Segitiga
+            <input type="radio" name="soal7" value="D" style="margin-right: 8px;"> D. string.h
         </label>
     </div>
 
     <!-- SOAL 8 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            8. Operator logika C++ yang bernilai True jika SALAH SATU kondisinya terpenuhi adalah...
+            8. Format Specifier (penentu format) %d atau %i pada fungsi printf/scanf digunakan untuk tipe data...
         </p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal8" value="A" style="margin-right: 8px;"> A. && (AND)
+            <input type="radio" name="soal8" value="A" style="margin-right: 8px;"> A. Float (Pecahan)
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal8" value="B" data-correct style="margin-right: 8px;"> B. || (OR)
+            <input type="radio" name="soal8" value="B" style="margin-right: 8px;"> B. Char (Karakter)
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal8" value="C" style="margin-right: 8px;"> C. ! (NOT)
+            <input type="radio" name="soal8" value="C" data-correct style="margin-right: 8px;"> C. Integer (Bilangan Bulat)
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal8" value="D" style="margin-right: 8px;"> D. == (EQUAL)
+            <input type="radio" name="soal8" value="D" style="margin-right: 8px;"> D. String (Kumpulan Teks)
         </label>
     </div>
 
     <!-- SOAL 9 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            9. Proses mencari dan memperbaiki kesalahan sintaksis, kesalahan logika, maupun kesalahan runtime pada program disebut...
+            9. Karakter lepas (escape sequence) \n dalam pemrograman C/C++ berfungsi untuk...
         </p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal9" value="A" style="margin-right: 8px;"> A. Testing
+            <input type="radio" name="soal9" value="A" style="margin-right: 8px;"> A. Memberikan spasi tab horizontal
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal9" value="B" data-correct style="margin-right: 8px;"> B. Debugging
+            <input type="radio" name="soal9" value="B" data-correct style="margin-right: 8px;"> B. Membuat baris baru (New Line)
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal9" value="C" style="margin-right: 8px;"> C. Compiling
+            <input type="radio" name="soal9" value="C" style="margin-right: 8px;"> C. Menandai akhir perintah
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal9" value="D" style="margin-right: 8px;"> D. Coding
+            <input type="radio" name="soal9" value="D" style="margin-right: 8px;"> D. Menampilkan tanda petik ganda
         </label>
     </div>
 
     <!-- SOAL 10 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            10. Mengapa 4 tahapan dalam strategi algoritmik dikatakan bersifat "iteratif"?
+            10. Manakah syarat utama (ketaksamaan segitiga) agar 3 buah panjang sisi a, b, dan c dapat membentuk sebuah segitiga?
         </p>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal10" value="A" style="margin-right: 8px;"> A. Karena harus dikerjakan sekali saja tanpa kesalahan
+            <input type="radio" name="soal10" value="A" style="margin-right: 8px;"> A. a + b &lt; c
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal10" value="B" style="margin-right: 8px;"> B. Karena hanya dapat diimplementasikan menggunakan bahasa C++
+            <input type="radio" name="soal10" value="B" style="margin-right: 8px;"> B. a + b == c
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal10" value="C" data-correct style="margin-right: 8px;"> C. Karena jika saat pengujian ditemukan hasil yang salah, proses dapat diulang kembali ke tahap analisis atau desain
+            <input type="radio" name="soal10" value="C" style="margin-right: 8px;"> C. a + b &lt;= c
         </label>
         <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
-            <input type="radio" name="soal10" value="D" style="margin-right: 8px;"> D. Karena urutan tahapannya boleh diacak
+            <input type="radio" name="soal10" value="D" data-correct style="margin-right: 8px;"> D. Jumlah dua sisi selalu lebih besar dari sisi ketiga (a+b&gt;c, a+c&gt;b, b+c&gt;a)
+        </label>
+    </div>
+
+    <!-- SOAL 11 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            11. Jika diinputkan nilai sisi 1000, 1000, dan 500, maka keluaran program yang benar adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal11" value="A" style="margin-right: 8px;"> A. Segitiga Sama Sisi
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal11" value="B" data-correct style="margin-right: 8px;"> B. Segitiga Sama Kaki
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal11" value="C" style="margin-right: 8px;"> C. Segitiga Sembarang
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal11" value="D" style="margin-right: 8px;"> D. Bukan Segitiga
+        </label>
+    </div>
+
+    <!-- SOAL 12 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            12. Operator logika C++ yang bernilai True jika SALAH SATU kondisinya terpenuhi adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal12" value="A" style="margin-right: 8px;"> A. &amp;&amp; (AND)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal12" value="B" data-correct style="margin-right: 8px;"> B. || (OR)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal12" value="C" style="margin-right: 8px;"> C. ! (NOT)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal12" value="D" style="margin-right: 8px;"> D. == (EQUAL)
+        </label>
+    </div>
+
+    <!-- SOAL 13 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            13. Proses mencari dan memperbaiki kesalahan sintaksis, kesalahan logika, maupun kesalahan runtime pada program disebut...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal13" value="A" style="margin-right: 8px;"> A. Testing
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal13" value="B" data-correct style="margin-right: 8px;"> B. Debugging
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal13" value="C" style="margin-right: 8px;"> C. Compiling
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal13" value="D" style="margin-right: 8px;"> D. Coding
+        </label>
+    </div>
+
+    <!-- SOAL 14 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            14. Mengapa 4 tahapan dalam strategi algoritmik dikatakan bersifat "iteratif"?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal14" value="A" style="margin-right: 8px;"> A. Karena harus dikerjakan sekali saja tanpa kesalahan
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal14" value="B" style="margin-right: 8px;"> B. Karena hanya dapat diimplementasikan menggunakan bahasa C++
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal14" value="C" data-correct style="margin-right: 8px;"> C. Karena jika saat pengujian ditemukan hasil yang salah, proses dapat diulang kembali ke tahap analisis atau desain
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal14" value="D" style="margin-right: 8px;"> D. Karena urutan tahapannya boleh diacak
+        </label>
+    </div>
+
+    <!-- SOAL 15 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            15. Sintaks C++ yang digunakan untuk meminta input data dari pengguna melalui papan ketik (keyboard) adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal15" value="A" data-correct style="margin-right: 8px;"> A. cin &gt;&gt; namaVariabel;
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal15" value="B" style="margin-right: 8px;"> B. cout &lt;&lt; namaVariabel;
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal15" value="C" style="margin-right: 8px;"> C. printf(namaVariabel);
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal15" value="D" style="margin-right: 8px;"> D. include &lt;iostream&gt;;
+        </label>
+    </div>
+
+    <!-- SOAL 16 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            16. Perintah pemrograman C++ ditutup menggunakan tanda baca khusus yang menandakan akhir dari sebuah ekspresi (statement terminator), yaitu...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal16" value="A" style="margin-right: 8px;"> A. Titik dua ( : )
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal16" value="B" data-correct style="margin-right: 8px;"> B. Titik koma ( ; )
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal16" value="C" style="margin-right: 8px;"> C. Koma ( , )
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal16" value="D" style="margin-right: 8px;"> D. Titik ( . )
+        </label>
+    </div>
+
+    <!-- SOAL 17 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            17. Tipe data yang paling tepat digunakan untuk menyimpan nilai panjang sisi segitiga yang memiliki angka desimal/pecahan adalah...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal17" value="A" style="margin-right: 8px;"> A. int
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal17" value="B" style="margin-right: 8px;"> B. char
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal17" value="C" data-correct style="margin-right: 8px;"> C. float atau double
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal17" value="D" style="margin-right: 8px;"> D. bool
+        </label>
+    </div>
+
+    <!-- SOAL 18 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            18. Apa fungsi dari klausa `using namespace std;` pada bagian awal program C++?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal18" value="A" data-correct style="margin-right: 8px;"> A. Agar kita tidak perlu menuliskan prefiks `std::` berulang kali di depan perintah bawaan seperti cin dan cout.
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal18" value="B" style="margin-right: 8px;"> B. Untuk mempercepat proses kompilasi kode program menjadi file binary.
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal18" value="C" style="margin-right: 8px;"> C. Menghapus bug otomatis saat program mendeteksi error runtime.
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal18" value="D" style="margin-right: 8px;"> D. Menyertakan pustaka matematika cmath secara otomatis.
+        </label>
+    </div>
+
+    <!-- SOAL 19 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            19. Kesalahan penulisan kode seperti lupa meletakkan tanda titik koma (;) di akhir baris perintah C++ dikelompokkan ke dalam jenis error...
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal19" value="A" data-correct style="margin-right: 8px;"> A. Syntax Error (Kesalahan Sintaksis)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal19" value="B" style="margin-right: 8px;"> B. Logical Error (Kesalahan Logika)
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal19" value="C" style="margin-right: 8px;"> C. Runtime Error
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal19" value="D" style="margin-right: 8px;"> D. Hardware Error
+        </label>
+    </div>
+
+    <!-- SOAL 20 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            20. Manakah struktur percabangan pada C++ yang paling tepat untuk menguji klasifikasi jenis segitiga berdasarkan kondisi tiga panjang sisinya?
+        </p>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal20" value="A" style="margin-right: 8px;"> A. switch-case bersarang
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal20" value="B" data-correct style="margin-right: 8px;"> B. Struktur if - else if - else berantai
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal20" value="C" style="margin-right: 8px;"> C. Loop perulangan do-while
+        </label>
+        <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+            <input type="radio" name="soal20" value="D" style="margin-right: 8px;"> D. Hanya menggunakan instruksi else
         </label>
     </div>
 
     <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
 
-    <!-- SOAL ESSAY -->
+    <!-- ======================================================= -->
+    <!-- BAGIAN 3: SOAL ESSAY (5 SOAL)                           -->
+    <!-- ======================================================= -->
+
+    <!-- SOAL 21 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            11. Soal Essay (Analisis Logika):
+            21. Soal Essay 1 (Tahapan Analisis Masalah):
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Jelaskan mengapa tahapan "Problem Analysis" sangat krusial dilakukan sebelum kita melangkah ke tahapan "Algorithm Design" dalam merancang sebuah program!
+        </p>
+        <textarea required rows="4" name="soal21" placeholder="Tuliskan jawaban essay Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
+    </div>
+
+    <!-- SOAL 22 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            22. Soal Essay 2 (Analisis Logika Segitiga):
         </p>
         <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
             Perhatikan kondisi penentuan bukan segitiga berikut pada C++: <br>
-            <code>if ((a >= b + c) || (b >= a + c) || (c >= a + b)) printf("Bukan Segitiga");</code><br>
+            <code>if ((a &gt;= b + c) || (b &gt;= a + c) || (c &gt;= a + b)) printf("Bukan Segitiga");</code><br>
             Jelaskan secara logis mengapa digunakan operator <strong>&gt;=</strong> (lebih besar dari atau sama dengan) dan bukan hanya <strong>&gt;</strong> untuk menyatakan bahwa tiga bilangan tersebut bukanlah segitiga!
         </p>
-        <textarea required rows="4" placeholder="Tuliskan jawaban essay Anda di sini..." 
+        <textarea required rows="4" name="soal22" placeholder="Tuliskan jawaban essay Anda di sini..." 
             style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
     </div>
 
-    <!-- SOAL REFLEKSI -->
+    <!-- SOAL 23 -->
     <div>
         <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
-            12. Soal Refleksi:
+            23. Soal Essay 3 (Perbedaan Pustaka):
         </p>
         <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
-            Dari 4 tahapan perancangan program (Analisis, Desain, Implementasi, Pengujian), tahapan mana yang menurut Anda paling menantang pada materi ini? Jelaskan alasannya dan strategi apa yang Anda gunakan untuk mengatasinya.
+            Jelaskan perbedaan mendasar antara cara penulisan perintah masukan/keluaran pada pustaka &lt;stdio.h&gt; (gaya bahasa C) dengan pustaka &lt;iostream&gt; (gaya bahasa C++)!
         </p>
-        <textarea required rows="4" placeholder="Tuliskan refleksi Anda di sini..." 
+        <textarea required rows="4" name="soal23" placeholder="Tuliskan jawaban essay Anda di sini..." 
             style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
     </div>
 
-    <!-- TOMBOL SUBMIT -->
+    <!-- SOAL 24 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            24. Soal Essay 4 (Jenis-Jenis Error):
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Uraikan perbedaan antara Syntax Error dengan Logical Error dalam proses pengembangan perangkat lunak, serta berikan masing-masing satu contohnya!
+        </p>
+        <textarea required rows="4" name="soal24" placeholder="Tuliskan jawaban essay Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
+    </div>
+
+    <!-- SOAL 25 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            25. Soal Essay 5 (Fungsi Operator Logika):
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Jelaskan peran penting operator logika kombinasional `&&` dan `||` saat mengevaluasi kondisi klasifikasi segitiga sama kaki dan segitiga sembarang pada struktur percabangan!
+        </p>
+        <textarea required rows="4" name="soal25" placeholder="Tuliskan jawaban essay Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+
+    <!-- ======================================================= -->
+    <!-- BAGIAN 4: REFLEKSI KEGIATAN (1 SOAL)                    -->
+    <!-- ======================================================= -->
+
+    <!-- SOAL 26 -->
+    <div>
+        <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+            26. Soal Lembar Refleksi Mandiri:
+        </p>
+        <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+            Dari 4 tahapan perancangan program (Analisis, Desain, Implementasi, Pengujian), tahapan mana yang menurut Anda paling menantang pada materi strategi algoritmik dan pemrograman C++ ini? Jelaskan alasannya dan strategi apa yang Anda gunakan untuk mengatasi kendala tersebut selama proses pembelajaran dijalankan.
+        </p>
+        <textarea required rows="5" name="soal26" placeholder="Tuliskan refleksi Anda di sini..." 
+            style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none;"></textarea>
+    </div>
+
+    <!-- TOMBOL SUBMIT KUIS -->
     <button type="submit" 
         style="background-color: #0b3a7a; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; width: fit-content; align-self: flex-end; margin-top: 10px;">
         Kirim Jawaban Post Test
