@@ -10,7 +10,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         
-        /* Background Utama Berwarna Menggunakan Gradasi Modern */
+        /* Background Utama Berwarna Gradasi Sesuai Permintaan Sebelumnya */
         body { 
             background: linear-gradient(135deg, #0b3a7a 0%, #1d74ed 50%, #a5f3fc 100%);
             background-attachment: fixed;
@@ -28,35 +28,45 @@
         .btn-trigger-login { background: #0b3a7a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.2s; }
         .btn-trigger-login:hover { background: #072652; transform: translateY(-1px); }
 
-        /* Konten Utama Statis */
-        .hero-container { max-width: 850px; width: 100%; margin: 60px auto; padding: 0 20px; flex: 1; display: flex; align-items: center; }
-        .hero-section { background: rgba(255, 255, 255, 0.96); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 45px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); }
-        .hero-badge { background-color: #e0f2fe; color: #0369a1; font-size: 12px; padding: 6px 14px; border-radius: 20px; font-weight: 600; width: fit-content; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .hero-section h1 { font-size: 34px; font-weight: 800; color: #1e293b; line-height: 1.3; margin-bottom: 18px; }
-        .hero-section h1 span { color: #1d74ed; }
-        .hero-desc { font-size: 16px; color: #475569; line-height: 1.8; margin-bottom: 35px; }
+        /* Konten Utama Modifikasi Mirip Gambar Referensi */
+        .hero-container { max-width: 1100px; width: 100%; margin: 50px auto; padding: 0 20px; flex: 1; }
         
-        .grid-fitur { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; border-top: 1px solid #e2e8f0; padding-top: 30px; }
+        /* Wrapper Putih Bersih di Bagian Konten Tengah */
+        .hero-section { background: rgba(255, 255, 255, 0.97); border-radius: 20px; padding: 60px 40px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); text-align: center; }
+        
+        .hero-section h1 { font-size: 36px; font-weight: 800; color: #0b3a7a; margin-bottom: 24px; }
+        .hero-desc { font-size: 15px; color: #475569; line-height: 1.8; max-width: 850px; margin: 0 auto 50px auto; }
+        
+        /* Grid 4 Kolom Horizontal Mirip Desain Gambar */
+        .grid-fitur { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        
+        .fitur-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; }
+        .fitur-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px rgba(0,0,0,0.06); border-color: #cbd5e1; }
+        
+        .fitur-icon-large { font-size: 48px; margin-bottom: 20px; display: inline-block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.06)); }
+        
+        .fitur-card h3 { font-size: 16px; font-weight: 700; color: #0b3a7a; margin-bottom: 12px; }
+        .fitur-card p { font-size: 13px; color: #64748b; line-height: 1.6; }
+
+        /* Responsif untuk Layar Tablet & HP */
+        @media (max-width: 992px) {
+            .grid-fitur { grid-template-columns: repeat(2, 1fr); }
+        }
         @media (max-width: 640px) { 
             .navbar { padding: 16px 20px; }
             .grid-fitur { grid-template-columns: 1fr; }
-            .hero-section { padding: 30px 20px; }
+            .hero-section { padding: 40px 20px; }
             .hero-section h1 { font-size: 26px; }
         }
-        .fitur-item { display: flex; gap: 14px; }
-        .fitur-icon { font-size: 26px; background: #f0fdf4; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 10px; flex-shrink: 0; }
-        .fitur-item:nth-child(2) .fitur-icon { background: #eff6ff; }
-        .fitur-text h3 { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
-        .fitur-text p { font-size: 13px; color: #64748b; line-height: 1.5; }
 
-        /* Pop-up Login Box */
+        /* Pop-up Box Login */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 200; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .login-card { background: white; border: 1px solid #e5e7eb; padding: 35px; border-radius: 16px; max-width: 400px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); transform: scale(0.95); transition: transform 0.2s ease; position: relative; }
         .modal-overlay.active .login-card { transform: scale(1); }
         .btn-close-modal { position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 22px; color: #94a3b8; cursor: pointer; }
-        .login-card h2 { margin-bottom: 6px; color: #0b3a7a; font-size: 22px; font-weight: 700; }
-        .login-subtitle { font-size: 13px; color: #64748b; margin-bottom: 24px; }
+        .login-card h2 { margin-bottom: 6px; color: #0b3a7a; font-size: 22px; font-weight: 700; text-align: left; }
+        .login-subtitle { font-size: 13px; color: #64748b; margin-bottom: 24px; text-align: left; }
         .form-group { margin-bottom: 18px; text-align: left; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #4b5563; }
         .form-group input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; outline: none; font-size: 14px; transition: border-color 0.2s; }
@@ -74,43 +84,57 @@
     <div class="navbar">
         <div class="nav-brand">
             <img class="nav-logo" src="logo-sekolah.png" alt="Logo SMAN 1 Muncar" onerror="this.src='https://via.placeholder.com/40?text=SMAN1'">
-            <!-- Text Header Diubah Sesuai Permintaan -->
             <div class="nav-title">KODI | Kelas Digital Informatika</div>
         </div>
         <button class="btn-trigger-login" onclick="bukaModalLogin()">Masuk Kelas</button>
     </div>
 
-    <!-- Halaman Narasi Pembuka -->
+    <!-- Halaman Narasi Pembuka Ala Gambar Referensi -->
     <div class="hero-container">
         <div class="hero-section">
-            <div class="hero-badge">Informatika SMAN 1 Muncar</div>
-            <h1>Selamat Datang di Portal Pembelajaran Mandiri <span>KODI</span></h1>
+            <h1>Kelas Digital Informatika SMAN 1 Muncar</h1>
             <p class="hero-desc">
-                Platform ekosistem pembelajaran digital mata pelajaran Informatika SMAN 1 Muncar. 
-                Dirancang khusus untuk membantu siswa meningkatkan keterampilan berpikir komputasional, menguasai koding pemrograman C++, 
-                memahami jaringan internet, hingga penyelesaian proyek analisis data secara interaktif.
+                Platform ekosistem pembelajaran mandiri mata pelajaran Informatika SMAN 1 Muncar (kodi.web.id). 
+                Dirancang khusus untuk membantu siswa meningkatkan keterampilan berpikir komputasional, menguasai strategi algoritmik, 
+                koding pemrograman dasar, hingga penyelesaian evaluasi secara komprehensif, aman, dan interaktif[cite: 5].
             </p>
 
+            <!-- Grid 4 Kartu Sejajar Horizontal -->
             <div class="grid-fitur">
-                <div class="fitur-item">
-                    <div class="fitur-icon">📚</div>
-                    <div class="fitur-text">
-                        <h3>Materi Ajar Terstruktur</h3>
-                        <p>Akses modul pembelajaran digital kurikulum merdeka yang disusun berurutan per bab topik kajian.</p>
-                    </div>
+                
+                <!-- KARTU 1 -->
+                <div class="fitur-card">
+                    <span class="fitur-icon-large">💻</span>
+                    <h3>Strategi Algoritmik</h3>
+                    <p>Mempelajari teknik pemrograman, berpikir komputasional, rekursi, hingga optimasi struktur data[cite: 3].</p>
                 </div>
-                <div class="fitur-item">
-                    <div class="fitur-icon">✏️</div>
-                    <div class="fitur-text">
-                        <h3>Lembar Ujian Sumatif</h3>
-                        <p>Uji pemahaman topik secara langsung lewat pengerjaan kuis digital pasca penyelesaian materi.</p>
-                    </div>
+                
+                <!-- KARTU 2 -->
+                <div class="fitur-card">
+                    <span class="fitur-icon-large">🌐</span>
+                    <h3>Jaringan & Internet</h3>
+                    <p>Memahami topologi infrastruktur jaringan komputer, protokol komunikasi data, dan keamanan internet[cite: 3].</p>
                 </div>
+                
+                <!-- KARTU 3 -->
+                <div class="fitur-card">
+                    <span class="fitur-icon-large">📱</span>
+                    <h3>Aplikasi Mobile</h3>
+                    <p>Merancang bangun aplikasi seluler berbasis Android secara visual interaktif menggunakan MIT App Inventor[cite: 3].</p>
+                </div>
+                
+                <!-- KARTU 4 -->
+                <div class="fitur-card">
+                    <span class="fitur-icon-large">📊</span>
+                    <h3>Analisis Data</h3>
+                    <p>Melakukan pengumpulan data riil, memproses, memvisualisasikan, hingga merumuskan simpulan data[cite: 3].</p>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <!-- Dialog Modal Login -->
+    <!-- Dialog Modal Portal Login -->
     <div class="modal-overlay" id="loginModalArea" onclick="tutupModalLoginEksternal(event)">
         <div class="login-card">
             <button class="btn-close-modal" onclick="tutupModalLogin()">&times;</button>
@@ -129,7 +153,7 @@
         </div>
     </div>
 
-    <!-- Text Footer Diubah Sesuai Permintaan -->
+    <!-- Footer -->
     <div class="footer">
         &copy; 2026 KODI | Kelas Digital Informatika - SMAN 1 Muncar.
     </div>
