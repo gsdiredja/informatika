@@ -93,18 +93,19 @@ const DATA_TOPIK = {
         deskripsi: "Merancang topologi jaringan dan memanfaatkan model serta protokol jaringan komputer.",
         modul: {
             1: {
-                title: "Modul 1: [Tulis Judul Modul 1 Topik 3]",
+                title: "Modul 1: Topologi Jaringan]",
                 materi: [
-                    "[Materi 1 Modul 1]",
-                    "[Materi 2 Modul 1]",
-                    "[Materi 3 Modul 1]"
+                    "Pengantar",
+                    "Topologi Jaringan",
+                    "Studi Kasus"
                 ]
             },
             2: {
-                title: "Modul 2: [Tulis Judul Modul 2 Topik 3]",
+                title: "Modul 2: Model Jaringan Komputer",
                 materi: [
-                    "[Materi 1 Modul 2]",
-                    "[Materi 2 Modul 2]"
+                    "Model Jaringan Komputer",
+                    "Transmisi Data"
+                    "Studi Kasus"
                 ]
             }
         }
