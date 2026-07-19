@@ -104,7 +104,7 @@ const DATA_TOPIK = {
                 title: "Modul 2: Model Jaringan Komputer",
                 materi: [
                     "Model Jaringan Komputer",
-                    "Transmisi Data"
+                    "Transmisi Data",
                     "Studi Kasus"
                 ]
             }
