@@ -3,40 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Kelas INFORMATIKA</title>
+    <title>Kelas Digital Informatika | SMAN 1 Muncar</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Memuat database siswa -->
+    <!-- Memuat database siswa lama Anda -->
     <script src="datasiswa.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: #f3f4f6; color: #333333; display: flex; align-items: center; justify-content: center; height: 100vh; padding: 20px; }
-        .login-card { background: white; border: 1px solid #e5e7eb; padding: 30px; border-radius: 12px; max-width: 400px; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .login-card h2 { margin-bottom: 20px; color: #0b3a7a; font-size: 20px; text-align: center; font-weight: 700; }
-        .form-group { margin-bottom: 16px; }
+        body { background-color: #f8fafc; color: #334155; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* Navbar Atas */
+        .navbar { background: white; border-bottom: 1px solid #e2e8f0; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-brand { display: flex; align-items: center; gap: 12px; }
+        .nav-logo { width: 40px; height: 40px; object-fit: contain; }
+        .nav-title { font-size: 16px; font-weight: 700; color: #0b3a7a; }
+        .btn-trigger-login { background: #0b3a7a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; transition: background 0.2s; }
+        .btn-trigger-login:hover { background: #072652; }
+
+        /* Konten Utama Statis */
+        .hero-container { max-width: 900px; width: 100%; margin: 60px auto; padding: 0 20px; flex: 1; }
+        .hero-section { background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .hero-badge { background-color: #e0f2fe; color: #0369a1; font-size: 12px; padding: 6px 14px; border-radius: 20px; font-weight: 600; width: fit-content; margin-bottom: 20px; text-transform: uppercase; }
+        .hero-section h1 { font-size: 32px; font-weight: 800; color: #1e293b; line-height: 1.3; margin-bottom: 16px; }
+        .hero-section h1 span { color: #0b3a7a; }
+        .hero-desc { font-size: 16px; color: #64748b; line-height: 1.7; margin-bottom: 30px; }
+        
+        .grid-fitur { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 30px; }
+        @media (max-width: 640px) { 
+            .navbar { padding: 16px 20px; }
+            .grid-fitur { grid-template-columns: 1fr; }
+            .hero-section { padding: 24px; }
+        }
+        .fitur-item { display: flex; gap: 14px; }
+        .fitur-icon { font-size: 24px; }
+        .fitur-text h3 { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+        .fitur-text p { font-size: 13px; color: #64748b; line-height: 1.5; }
+
+        /* Modal Overlay & Card Form Login Pop-up */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 200; padding: 20px; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .login-card { background: white; border: 1px solid #e5e7eb; padding: 32px; border-radius: 14px; max-width: 400px; width: 100%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); transform: scale(0.95); transition: transform 0.2s ease; position: relative; }
+        .modal-overlay.active .login-card { transform: scale(1); }
+        .btn-close-modal { position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 20px; color: #94a3b8; cursor: pointer; }
+        .login-card h2 { margin-bottom: 6px; color: #0b3a7a; font-size: 22px; font-weight: 700; }
+        .login-subtitle { font-size: 13px; color: #64748b; margin-bottom: 24px; }
+        .form-group { margin-bottom: 18px; text-align: left; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #4b5563; }
-        .form-group input { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; outline: none; font-size: 14px; }
-        .btn-login { width: 100%; background: #0b3a7a; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; margin-top: 10px; transition: background 0.2s; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; outline: none; font-size: 14px; transition: border-color 0.2s; }
+        .form-group input:focus { border-color: #0b3a7a; }
+        .btn-login { width: 100%; background: #0b3a7a; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; margin-top: 10px; transition: background 0.2s; }
         .btn-login:hover { background: #072652; }
+
+        /* Footer Pembuka */
+        .footer { text-align: center; padding: 24px; color: #94a3b8; font-size: 13px; border-top: 1px solid #e2e8f0; background: white; }
     </style>
 </head>
 <body>
 
-    <div class="login-card">
-        <h2>Login Kelas INFORMATIKA</h2>
-        <div class="form-group">
-            <label>Username / NISN</label>
-            <input type="text" id="inputUser" placeholder="Masukkan username Anda...">
+    <!-- Bar Navigasi Atas -->
+    <div class="navbar">
+        <div class="nav-brand">
+            <img class="nav-logo" src="logo-sekolah.png" alt="Logo SMAN 1 Muncar" onerror="this.src='https://via.placeholder.com/40?text=SMAN1'">
+            <div class="nav-title">KODI Kelas Digital</div>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="inputPass" placeholder="Masukkan password Anda...">
+        <!-- Menu Pojok Kanan Atas untuk Akses Masuk -->
+        <button class="btn-trigger-login" onclick="bukaModalLogin()">Masuk Kelas</button>
+    </div>
+
+    <!-- Halaman Statis / Landing Pembuka -->
+    <div class="hero-container">
+        <div class="hero-section">
+            <div class="hero-badge">Informatika XI</div>
+            <h1>Selamat Datang di <span>Kelas Digital Informatika</span> SMAN 1 Muncar</h1>
+            <p class="hero-desc">
+                Platform ekosistem pembelajaran mandiri mata pelajaran Informatika SMAN 1 Muncar (kodi.web.id). 
+                Dirancang khusus untuk membantu siswa menguasai kompetensi strategi algoritmik, koding pemrograman C++, 
+                jaringan komputer, hingga analisis data terintegrasi secara praktis dan interaktif.
+            </p>
+
+            <!-- Informasi Tambahan/Fasilitas Kelas -->
+            <div class="grid-fitur">
+                <div class="fitur-item">
+                    <div class="fitur-icon">📖</div>
+                    <div class="fitur-text">
+                        <h3>Modul & Ajar Terstruktur</h3>
+                        <p>Akses materi e-learning terstruktur dari dasar pilar computer science lintasan kurikulum merdeka.</p>
+                    </div>
+                </div>
+                <div class="fitur-item">
+                    <div class="fitur-icon">📝</div>
+                    <div class="fitur-text">
+                        <h3>Evaluasi & Post Test</h3>
+                        <p>Uji pemahaman topik secara langsung lewat pengerjaan lembar sumatif online tersinkronisasi database cloud.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button class="btn-login" onclick="prosesLogin()">Masuk Aplikasi</button>
+    </div>
+
+    <!-- Dialog Pop-Up Form Login (Siswa & Admin) -->
+    <div class="modal-overlay" id="loginModalArea" onclick="tutupModalLoginEksternal(event)">
+        <div class="login-card">
+            <button class="btn-close-modal" onclick="tutupModalLogin()">&times;</button>
+            <h2>Portal Masuk</h2>
+            <p class="login-subtitle">Gunakan akses akun Siswa atau Administrator Anda.</p>
+            
+            <div class="form-group">
+                <label>Username / NISN</label>
+                <input type="text" id="inputUser" placeholder="Masukkan nama pengguna...">
+            </div>
+            <div class="form-group">
+                <label>Kata Sandi (Password)</label>
+                <input type="password" id="inputPass" placeholder="Masukkan password...">
+            </div>
+            <button class="btn-login" onclick="prosesLogin()">Masuk Aplikasi</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 KODI Kelas Digital - SMAN 1 Muncar. All Rights Reserved.
     </div>
 
     <script>
-        // Bersihkan session lama saat masuk ke halaman login
+        // Bersihkan token lama saat mendarat di landing area
         localStorage.removeItem('loggedSiswa');
+
+        function bukaModalLogin() {
+            document.getElementById('loginModalArea').classList.add('active');
+        }
+
+        function tutupModalLogin() {
+            document.getElementById('loginModalArea').classList.remove('active');
+        }
+
+        function tutupModalLoginEksternal(event) {
+            if(event.target.id === "loginModalArea") {
+                tutupModalLogin();
+            }
+        }
 
         function prosesLogin() {
             const userIn = document.getElementById('inputUser').value.trim();
@@ -47,16 +150,16 @@
                 return;
             }
 
-            // Validasi data ke datasiswa.js
+            // Validasi data silang menggunakan array daftarSiswa dari datasiswa.js
             const ketemu = daftarSiswa.find(s => s.username === userIn && s.password === passIn);
 
             if(ketemu) {
-                // Simpan data siswa ke LocalStorage sebagai tiket masuk ke index.html
+                // Amankan tiket masuk di browser lokal
                 localStorage.setItem('loggedSiswa', JSON.stringify(ketemu));
-                // Pindah ke halaman modul utama
+                // Alihkan ke topik.html seperti skema bawaan Anda semula
                 window.location.href = "topik.html";
             } else {
-                alert("Username atau Password salah! Silakan coba lagi.");
+                alert("Username atau Password salah! Silakan periksa kembali berkas entri data Anda.");
             }
         }
     </script>
