@@ -1,0 +1,462 @@
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937; max-width: 800px; margin: 0 auto; padding: 10px;">
+
+    <!-- IFRAME GAIB UNTUK MENERIMA RESPONSE SECARA SENYAP -->
+    <iframe name="kotakGaibPostTest" id="kotakGaibPostTest" style="display:none;"></iframe>
+
+    <form action="https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec" method="POST" target="kotakGaibPostTest" onsubmit="alert('Seluruh jawaban Post-Test dan Refleksi kamu berhasil dikirim!');" style="display: flex; flex-direction: column; gap: 20px; padding: 5px 0;">
+        
+        <!-- HIDDEN LOG PARAMETERS -->
+        <input type="hidden" name="tipeAksi" value="KIRIM_QUIZ"> 
+        <input type="hidden" name="userId" value="Siswa_Web_Platform">
+        <input type="hidden" name="modul" value="Modul 2 - Topik 2 (Post-Test Pertanian Digital)">
+
+        <h3 style="margin-bottom: 10px; color: #0b3a7a; font-size: 18px; font-weight: 700; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
+            POST TEST GABUNGAN: TOPIK 2 KAJIAN KRITIS PENERAPAN INFORMASI BIDANG PERTANIAN
+        </h3>
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 1: BENAR / SALAH (5 SOAL)                        -->
+        <!-- ======================================================= -->
+        
+        <!-- SOAL BENAR SALAH 1 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Penyebab utama rendahnya adopsi aplikasi "Tani Cerdas IoT" di Desa Sukamaju adalah karena petani tidak memiliki modal untuk membeli alat sensor tanah.[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal1" value="A" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal1" value="B" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 2 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Salah satu pilar dalam kerangka evaluasi kritis pertanian digital adalah memastikan data cuaca atau informasi makro selalu akurat ketika diterapkan langsung di tingkat mikro sawah.[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal2" value="A" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal2" value="B" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 3 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Pendekatan top-down (pemaksaan teknologi dari atas) dalam digitalisasi pertanian sangat disarankan karena dapat mempercepat pemahaman literasi digital bagi petani senior.[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal3" value="A" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal3" value="B" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 4 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Teknologi drone penyemprot pupuk cair di Brebes menimbulkan dampak dilematis karena meningkatkan efisiensi waktu kerja sekaligus menghilangkan mata pencaharian buruh tani lokal.[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal4" value="A" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal4" value="B" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 5 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Dalam kajian kritis pertanian digital, teknologi tidak boleh memposisikan diri sebagai solusi tunggal melainkan harus membutuhkan peran human-ware (penyuluh) sebagai jembatan informasi.[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal5" value="A" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal5" value="B" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 2: PILIHAN GANDA (15 SOAL)                       -->
+        <!-- ======================================================= -->
+
+        <!-- SOAL PG 1 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Manakah di bawah ini yang merupakan salah satu dari empat pilar kerangka evaluasi kritis penerapan informasi pertanian?[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="A" style="margin-right: 8px;"> Ketersediaan modal investasi asing
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="B" style="margin-right: 8px;"> Aksesibilitas dan tingkat literasi digital pengguna[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="C" style="margin-right: 8px;"> Jumlah total produksi pupuk kimia nasional
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="D" style="margin-right: 8px;"> Luas kepemilikan lahan secara legal
+            </label>
+        </div>
+
+        <!-- SOAL PG 2 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Mengapa informasi cuaca skala kecamatan yang disediakan oleh aplikasi sering kali kurang efektif bagi petani tadah hujan di tingkat desa?[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="A" style="margin-right: 8px;"> Informasi tersebut terlalu rumit untuk dibaca oleh anak muda
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="B" style="margin-right: 8px;"> Desa memiliki kondisi iklim mikro yang berbeda akibat variasi topografi lokal[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="C" style="margin-right: 8px;"> Petani lebih memilih membayar aplikasi swasta yang mahal
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="D" style="margin-right: 8px;"> Aplikasi memerlukan spesifikasi kartu grafis handphone yang sangat tinggi
+            </label>
+        </div>
+
+        <!-- SOAL PG 3 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Berdasarkan kasus Proyek IoT di Desa Sukamaju, kendala mekanis apa yang menyebabkan alat sensor mati total selama berminggu-minggu?[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="A" style="margin-right: 8px;"> Alat dicuri oleh pihak luar yang tidak bertanggung jawab
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="B" style="margin-right: 8px;"> Kabel sensor terputus akibat gigitan tikus sawah
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="C" style="margin-right: 8px;"> Panel surya pengisi daya tertutup oleh kabut dan embun tebal pegunungan[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="D" style="margin-right: 8px;"> Sistem perangkat lunak terkena serangan virus digital
+            </label>
+        </div>
+
+        <!-- SOAL PG 4 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Istilah Relative Advantage (Kemanfaatan Relatif) dalam syarat adopsi teknologi pertanian berarti...[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="A" style="margin-right: 8px;"> Teknologi harus menggunakan bahasa asing agar terlihat modern
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="B" style="margin-right: 8px;"> Petani dapat melihat langsung keuntungan finansial atau efisiensi nyata dibanding metode lama[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="C" style="margin-right: 8px;"> Alat digital dapat dipindahkan dengan mudah ke sektor industri lain
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="D" style="margin-right: 8px;"> Teknologi sepenuhnya menggantikan peran seluruh buruh tani lokal
+            </label>
+        </div>
+
+        <!-- SOAL PG 5 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Platform e-commerce tani di Cianjur mengalami penolakan dari mayoritas petani lokal (85%) karena...[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="A" style="margin-right: 8px;"> Aplikasi tidak bisa diunduh di sistem operasi Android
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="B" style="margin-right: 8px;"> Petani diwajibkan membayar biaya pendaftaran akun yang sangat mahal
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="C" style="margin-right: 8px;"> Adanya prasyarat standarisasi fisik sayur yang sangat ketat dan beban ongkos kirim mandiri[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="D" style="margin-right: 8px;"> Tengkulak lokal meretas pangkalan data platform digital tersebut
+            </label>
+        </div>
+
+        <!-- SOAL PG 6 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Berapa rata-rata waktu yang dihabiskan petani senior (usia di atas 50 tahun) untuk melakukan sinkronisasi awal perangkat Bluetooth menurut data riset literasi digital?[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="A" style="margin-right: 8px;"> 2 menit
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="B" style="margin-right: 8px;"> 5 menit
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="C" style="margin-right: 8px;"> 10 menit
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="D" style="margin-right: 8px;"> 18 menit[cite: 2]
+            </label>
+        </div>
+
+        <!-- SOAL PG 7 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Hambatan utama dari aspek kebahasaan yang membuat sensor pH tanah digital terbengkalai di gudang kelompok tani adalah...[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="A" style="margin-right: 8px;"> Aplikasi tidak memiliki fitur suara otomatis
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="B" style="margin-right: 8px;"> Instruksi navigasi menggunakan istilah asing berbahasa Inggris yang membingungkan petani senior[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="C" style="margin-right: 8px;"> Nama aplikasi terlalu panjang untuk diketik di mesin pencari
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="D" style="margin-right: 8px;"> Warna tulisan di layar aplikasi terlalu mencolok
+            </label>
+        </div>
+
+        <!-- SOAL PG 8 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Pada kasus irigasi pintar yang mengalami kendala koneksi (blank spot), apa dampak fatal dari fluktuasi sinyal terhadap pengelolaan air waduk?[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="A" style="margin-right: 8px;"> Air waduk menjadi tercemar zat kimia beracun
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="B" style="margin-right: 8px;"> Katup air digital gagal menutup otomatis sehingga membuang puluhan ribu liter air[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="C" style="margin-right: 8px;"> Pipa irigasi pecah akibat tekanan air yang terlalu rendah
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="D" style="margin-right: 8px;"> Petani tidak bisa melihat grafik kelembapan tanah sama sekali
+            </label>
+        </div>
+
+        <!-- SOAL PG 9 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Analisis jaringan pada persawahan luar Jawa yang terisolasi menunjukkan kekuatan sinyal berada pada kategori poor connection dengan besaran...[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="A" style="margin-right: 8px;"> -30 dBm hingga -50 dBm
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="B" style="margin-right: 8px;"> -60 dBm hingga -80 dBm
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="C" style="margin-right: 8px;"> -90 dBm hingga -100 dBm
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="D" style="margin-right: 8px;"> -115 dBm hingga -125 dBm[cite: 2]
+            </label>
+        </div>
+
+        <!-- SOAL PG 10 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Penerapan mekanisasi drone penyemprot pupuk di Brebes secara sosial ekonomi berdampak negatif pada...[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="A" style="margin-right: 8px;"> Hilangnya mata pencaharian buruh tani semprot tradisional dan memperlebar kesenjangan sosial[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="B" style="margin-right: 8px;"> Menurunnya kualitas kesuburan tanah secara drastis
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="C" style="margin-right: 8px;"> Meningkatnya populasi hama wereng di area persawahan
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="D" style="margin-right: 8px;"> Terhambatnya pasokan air dari bendungan utama desa
+            </label>
+        </div>
+
+        <!-- SOAL PG 11 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Mengapa drone pemupukan otomatis dinilai kurang ramah dan sulit dijangkau oleh 90% petani gurem di pedesaan?[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="A" style="margin-right: 8px;"> Harga sewa drone murah namun pupuk cairnya langka
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="B" style="margin-right: 8px;"> Petak sawah mereka terfragmentasi (sempit) sehingga menyulitkan manuver jalur terbang otomatis drone[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="C" style="margin-right: 8px;"> Pemerintah melarang penerbangan drone di area dataran rendah
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="D" style="margin-right: 8px;"> Baterai drone tidak dapat diisi ulang menggunakan listrik rumahan
+            </label>
+        </div>
+
+        <!-- SOAL PG 12 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Dalam standar intelektual berpikir kritis, aspek Clarity (Kejelasan) menguji kita untuk...[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="A" style="margin-right: 8px;"> Memastikan data persentase kerugian petani sudah benar dan valid
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="B" style="margin-right: 8px;"> Merinci solusi hingga ke spesifikasi teknis terkecil yang presisi
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="C" style="margin-right: 8px;"> Mengidentifikasi apakah rumusan masalah sudah jelas atau masih memuat istilah teknologi yang membingungkan[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="D" style="margin-right: 8px;"> Melihat masalah secara berimbang dari kacamata petani dan pembuat aplikasi
+            </label>
+        </div>
+
+        <!-- SOAL PG 13 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Jika kita mengkaji suatu kegagalan sistem informasi pertanian hanya dari kendala sinyal internet tanpa melihat faktor budaya masyarakat, maka argumen kita lemah dalam aspek standar intelektual...[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="A" style="margin-right: 8px;"> Akurasi (Accuracy)
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="B" style="margin-right: 8px;"> Kedalaman (Depth)[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="C" style="margin-right: 8px;"> Keluasan (Breadth)
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="D" style="margin-right: 8px;"> Presisi (Precision)
+            </label>
+        </div>
+
+        <!-- SOAL PG 14 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Siapakah komponen Human-ware yang paling krusial untuk bertindak sebagai penerjemah data abstrak aplikasi menjadi bahasa tindakan praktis di sawah?[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="A" style="margin-right: 8px;"> Teknisi komputer dari kota besar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="B" style="margin-right: 8px;"> Penyuluh Pertanian Lapangan (PPL) atau ketua kelompok tani[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="C" style="margin-right: 8px;"> Direktur utama perusahaan startup agrotech
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="D" style="margin-right: 8px;"> Petani dari luar daerah yang memiliki modal besar
+            </label>
+        </div>
+
+        <!-- SOAL PG 15 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Apa gagasan pokok yang dapat ditarik dari kegagalan adopsi berbagai teknologi digital di pedesaan?[cite: 2]
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="A" style="margin-right: 8px;"> Petani pedesaan sama sekali tidak membutuhkan teknologi modern
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="B" style="margin-right: 8px;"> Teknologi pertanian akan kehilangan fungsinya jika tidak dirancang adaptif terhadap ekosistem riil lapangan[cite: 2]
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="C" style="margin-right: 8px;"> Seluruh anggaran digitalisasi pertanian sebaiknya dialihkan untuk bantuan tunai
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="D" style="margin-right: 8px;"> Pemerintah harus mengganti semua smartphone petani dengan perangkat berspesifikasi tinggi
+            </label>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 3: SOAL ESSAY (5 SOAL)                           -->
+        <!-- ======================================================= -->
+
+        <!-- SOAL ESSAY 1 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Essay 1 (Benturan Kultural):
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Jelaskan mengapa aspek Kultural (seperti metode tradisional atau intuisi lokal) sering kali bentrok dengan implementasi data digital dari aplikasi cuaca modern! Berikan analisis kritismu![cite: 2]
+            </p>
+            <textarea required rows="4" name="soal21" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 2 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Essay 2 (Sisi Regulasi E-Commerce):
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Uraikan dampak ekonomi dan logistik yang dialami petani sayur di Cianjur akibat aturan standarisasi fisik produk yang ketat pada platform e-commerce berdasarkan artikel diskusi yang telah dipelajari![cite: 2]
+            </p>
+            <textarea required rows="4" name="soal22" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 3 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Essay 3 (Inovasi Ramah Pengguna Senior):
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Jika kamu ditunjuk sebagai seorang perancang sistem aplikasi pertanian (developer UI/UX), langkah konkret apa yang akan kamu lakukan untuk mengatasi masalah rendahnya literasi digital pada kelompok tani senior?[cite: 2]
+            </p>
+            <textarea required rows="4" name="soal23" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 4 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Essay 4 (Risiko Infrastruktur Digital):
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Mengapa ketersediaan infrastruktur jaringan internet yang stabil menjadi prasyarat mutlak yang tidak bisa ditawar dalam implementasi sistem pertanian presisi (Smart Farming) berbasis IoT? Jelaskan risiko kegagalannya secara kuantitatif![cite: 2]
+            </p>
+            <textarea required rows="4" name="soal24" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 5 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Essay 5 (Analisis Kegagalan Investasi):
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Bedah secara kritis dengan metode 6W (fokus pada aspek Why dan How) mengapa proyek teknologi yang bernilai investasi besar di pedesaan kerap kali berakhir menjadi proyek yang sia-sia (white elephant project)![cite: 2]
+            </p>
+            <textarea required rows="4" name="soal25" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 4: REFLEKSI KEGIATAN                             -->
+        <!-- ======================================================= -->
+
+        <!-- SOAL REFLEKSI 1 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Lembar Refleksi Mandiri:
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Setelah mempelajari kerangka kajian kritis, membedah studi kasus IoT Desa Sukamaju, serta menganalisis lima artikel dilema teknologi pertanian di lapangan, bagaimana pemahamanmu berubah mengenai arti "kemajuan teknologi"? Apakah sebuah teknologi pertanian layak disebut "sukses" hanya karena ia memiliki spesifikasi yang canggih dan modern? Tuliskan pandangan pribadimu mengenai bagaimana seharusnya teknologi informasi dan kearifan lokal petani berjalan beriringan di masa depan![cite: 2]
+            </p>
+            <textarea required rows="5" name="soal26" placeholder="Tuliskan hasil refleksi mendalam Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- TOMBOL SUBMIT -->
+        <div style="text-align: center; margin-top: 15px; margin-bottom: 20px;">
+            <button type="submit" style="background-color: #0b3a7a; color: white; border: none; padding: 12px 35px; font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                Kirim Jawaban Post-Test & Refleksi Pertanian
+            </button>
+        </div>
+   
+    </form>
+
+</div>
