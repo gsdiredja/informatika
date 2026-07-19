@@ -77,9 +77,9 @@ const DATA_TOPIK = {
             3: {
                 title: "Modul 3: Kajian Kritis Penerapan Informasi Bidang Kesehatan",
                 materi: [
-                    "[Materi 1 Modul 3]",
-                    "[Materi 2 Modul 3]",
-                    "[Materi 3 Modul 3]"
+                    "Kajian Kritis",
+                    "Studi Kasus",
+                    "Diskusi dan Lembar Kerja"
                 ]
             }
         }
