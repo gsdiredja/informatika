@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penilaian Sumatif 1 | Kelas Digital</title>
+    <title>Penilaian Sumatif | Kelas Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -61,41 +61,48 @@
             
             <div id="quizFormWrapper">
                 <div class="top-meta-row">
-                    <span class="exam-title">Sumatif 1: Kebencanaan (Informatika)</span>
-                    <span id="labelTracker" class="step-label">Soal 1 dari 3</span>
+                    <!-- Judul Ujian Otomatis Diisi dari JS -->
+                    <span class="exam-title" id="displayExamTitle">Memuat Ujian...</span>
+                    <span id="labelTracker" class="step-label">Soal 1 dari 1</span>
                 </div>
 
                 <!-- Form Konten Utama -->
                 <form id="formSumatifUjian" onsubmit="selesaiKirimSumatif(event)">
                     <div id="questionsContainer">
                         
-                        <!-- SOAL 1: PILIHAN GANDA -->
+                        <!-- ============================================================= -->
+                        <!-- ✏️ TULISKAN SOAL-SOAL ANDA DI SINI -->
+                        <!-- ============================================================= -->
+
+                        <!-- SOAL 1 (PILIHAN GANDA) -->
                         <div class="soal-step active" id="soal-1">
-                            <p class="question-text">1. Komponen apa yang bertugas melakukan manajemen alur data pada sistem komputer?</p>
+                            <p class="question-text">1. Tuliskan teks pertanyaan nomor 1 di sini...</p>
                             <div class="options-list">
-                                <label class="option-item"><input type="radio" name="soal_pg_1" value="A"> <span>A. Storage Drive</span></label>
-                                <label class="option-item"><input type="radio" name="soal_pg_1" value="B" data-correct> <span>B. Central Processing Unit (CPU)</span></label>
-                                <label class="option-item"><input type="radio" name="soal_pg_1" value="C"> <span>C. RAM Internal</span></label>
-                                <label class="option-item"><input type="radio" name="soal_pg_1" value="D"> <span>D. Power Supply</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_1" value="A"> <span>A. Opsi Jawaban A</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_1" value="B" data-correct> <span>B. Opsi Jawaban B (Benar)</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_1" value="C"> <span>C. Opsi Jawaban C</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_1" value="D"> <span>D. Opsi Jawaban D</span></label>
                             </div>
                         </div>
 
-                        <!-- SOAL 2: PILIHAN GANDA -->
+                        <!-- SOAL 2 (PILIHAN GANDA) -->
                         <div class="soal-step" id="soal-2">
-                            <p class="question-text">2. Manakah di bawah ini yang merupakan tindakan mitigasi kebencanaan struktural di lingkungan sekolah?</p>
+                            <p class="question-text">2. Tuliskan teks pertanyaan nomor 2 di sini...</p>
                             <div class="options-list">
-                                <label class="option-item"><input type="radio" name="soal_pg_2" value="A"> <span>A. Mengadakan simulasi evakuasi berkala</span></label>
-                                <label class="option-item"><input type="radio" name="soal_pg_2" value="B"> <span>B. Membuat dokumen SOP kedaruratan</span></label>
-                                <label class="option-item"><input type="radio" name="soal_pg_2" value="C" data-correct> <span>C. Memperkuat struktur pilar bangunan tahan gempa</span></label>
-                                <label class="option-item"><input type="radio" name="soal_pg_2" value="D"> <span>D. Membentuk regu komite penyelamat</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_2" value="A"> <span>A. Opsi Jawaban A</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_2" value="B"> <span>B. Opsi Jawaban B</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_2" value="C" data-correct> <span>C. Opsi Jawaban C (Benar)</span></label>
+                                <label class="option-item"><input type="radio" name="soal_pg_2" value="D"> <span>D. Opsi Jawaban D</span></label>
                             </div>
                         </div>
 
-                        <!-- SOAL 3: ESSAY -->
+                        <!-- SOAL 3 (ESSAY) -->
                         <div class="soal-step" id="soal-3">
-                            <p class="question-text">3. Jelaskan pendapat Anda mengenai pentingnya pengintegrasian peta risiko kebencanaan ke dalam sistem lab komputer sekolah!</p>
+                            <p class="question-text">3. Tuliskan pertanyaan soal essay di sini...</p>
                             <textarea class="essay-textarea" name="soal_essay_1" placeholder="Tuliskan jawaban penjelasan esai Anda secara lengkap di sini..."></textarea>
                         </div>
+
+                        <!-- ============================================================= -->
 
                     </div>
 
@@ -121,12 +128,29 @@
     </div>
 
     <script>
-        // Sesuaikan dengan URL Web App Apps Script Anda yang aktif
+        // =========================================================================
+        // ⚙️ KONFIGURASI UJIAN (SESUAIKAN BAGIAN INI UNTUK SETIAP FILE BARU)
+        // =========================================================================
+        const KATEGORI_SUMATIF = "Sumatif-1"; // Ganti dengan Sumatif-2, Sumatif-3, dsb.
+        const JUDUL_EXAM_BANNER = "Sumatif 1: Uji Coba Ujian Sumatif"; // Judul yang tampil di atas
         const API_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec"; 
+        // =========================================================================
 
         let sessionUser = null;
         let urutanSoalAktif = 1;
-        let totalSoal = 3; 
+        let totalSoal = 0; 
+
+        // Inisialisasi Otomatis saat Halaman Di-load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Set Judul Banner
+            document.getElementById('displayExamTitle').innerText = JUDUL_EXAM_BANNER;
+            
+            // Hitung Total Soal Secara Otomatis Berdasarkan Jumlah div.soal-step
+            totalSoal = document.querySelectorAll('#questionsContainer .soal-step').length;
+            
+            // Update Label Tracker Awal
+            document.getElementById('labelTracker').innerText = `Soal 1 dari ${totalSoal}`;
+        });
 
         (function validasiMasuk() {
             const saved = localStorage.getItem('loggedSiswa');
@@ -140,16 +164,12 @@
         function geserSoal(arah) {
             let target = urutanSoalAktif + arah;
             if(target >= 1 && target <= totalSoal) {
-                // Sembunyikan langkah lama
                 document.getElementById(`soal-${urutanSoalAktif}`).classList.remove('active');
                 urutanSoalAktif = target;
-                // Munculkan langkah baru
                 document.getElementById(`soal-${urutanSoalAktif}`).classList.add('active');
                 
-                // Update teks pelacak atas
                 document.getElementById('labelTracker').innerText = `Soal ${urutanSoalAktif} dari ${totalSoal}`;
                 
-                // Kelola visibilitas tombol navigasi
                 document.getElementById('btnBack').className = (urutanSoalAktif === 1) ? "btn-nav disabled" : "btn-nav";
                 
                 if(urutanSoalAktif === totalSoal) {
@@ -195,7 +215,8 @@
 
             // 3. Paketkan Data Untuk Ditembak Ke Google Sheets
             const payload = new URLSearchParams();
-            payload.append('tipeAksi', 'KIRIM_SUMATIF'); // Penanda rute data baru
+            payload.append('tipeAksi', 'KIRIM_SUMATIF');
+            payload.append('kategoriSumatif', KATEGORI_SUMATIF); // Diambil dari variabel Konfigurasi
             payload.append('userId', sessionUser.username);
             payload.append('nama', sessionUser.nama);
             payload.append('kelas', sessionUser.kelas);
@@ -209,7 +230,6 @@
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: payload.toString()
             }).then(() => {
-                // Tampilkan panel sukses selesai
                 document.getElementById('quizFormWrapper').style.display = 'none';
                 document.getElementById('resultPanel').style.display = 'block';
             });
