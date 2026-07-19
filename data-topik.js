@@ -71,7 +71,7 @@ const DATA_TOPIK = {
                 materi: [
                     "Kajian Kritis",
                     "Studi Kasus",
-                    "[Materi 3 Modul 2]"
+                    "Diskusi dan Lembar Kerja"
                 ]
             },
             3: {
