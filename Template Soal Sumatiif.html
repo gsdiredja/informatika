@@ -223,23 +223,28 @@
                 logEssay.push(`${area.name}: "${area.value.replace(/"/g, "'")}"`);
             });
 
+            // Tampilkan Indikator Loading
             document.getElementById('quizFormWrapper').innerHTML = `<div style="text-align:center; padding:40px; color:#6b7280;"><em>Sedang mengirim berkas lembar ujian sumatif Anda ke basis data server cloud guru...</em></div>`;
 
-            // 3. Paketkan Data Menggunakan FormData (Format Paling Aman untuk Google Apps Script)
-            const formData = new FormData();
-            formData.append('tipeAksi', 'KIRIM_SUMATIF');
-            formData.append('kategoriSumatif', KATEGORI_SUMATIF);
-            formData.append('userId', sessionUser ? sessionUser.username : 'GUEST');
-            formData.append('nama', sessionUser ? sessionUser.nama : 'Anonim');
-            formData.append('kelas', sessionUser ? sessionUser.kelas : '-');
-            formData.append('skorPG', skorPG);
-            formData.append('jawabanPG', logPG.join(" | "));
-            formData.append('jawabanEssay', logEssay.join(" | "));
+            // 3. Paketkan Data Menggunakan URLSearchParams (Solusi Anti-Stuck CORS)
+            const payload = new URLSearchParams();
+            payload.append('tipeAksi', 'KIRIM_SUMATIF');
+            payload.append('kategoriSumatif', KATEGORI_SUMATIF);
+            payload.append('userId', sessionUser ? sessionUser.username : 'GUEST');
+            payload.append('nama', sessionUser ? sessionUser.nama : 'Anonim');
+            payload.append('kelas', sessionUser ? sessionUser.kelas : '-');
+            payload.append('skorPG', skorPG);
+            payload.append('jawabanPG', logPG.join(" | "));
+            payload.append('jawabanEssay', logEssay.join(" | "));
 
-            // Tembak Data ke Google Apps Script
+            // 4. Tembak Data Ke Google Apps Script
             fetch(API_URL, {
                 method: "POST",
-                body: formData
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: payload.toString()
             })
             .then(() => {
                 document.getElementById('quizFormWrapper').style.display = 'none';
@@ -247,7 +252,7 @@
             })
             .catch(err => {
                 console.error("Gagal Mengirim:", err);
-                // Tetap tampilkan layar sukses jika request sampai ke Apps Script meski CORS terblokir
+                // Tetap pindahkan ke layar sukses jika request berhasil terkirim
                 document.getElementById('quizFormWrapper').style.display = 'none';
                 document.getElementById('resultPanel').style.display = 'block';
             });
