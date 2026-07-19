@@ -67,8 +67,7 @@ const DATA_TOPIK = {
                 ]
             },
             2: {
-                title: "Modul 2:",
-                    "Kajian Kritis Penerapan Informasi Bidang Pertanian",
+                title: "Modul 2: Kajian Kritis Penerapan Informasi Bidang Pertanian",
                 materi: [
                     "Kajian Kritis",
                     "Studi Kasus",
