@@ -119,17 +119,19 @@ const DATA_TOPIK = {
         deskripsi: "Merancang dan membuat aplikasi berbasis Android secara visual menggunakan MIT App Inventor.",
         modul: {
             1: {
-                title: "Modul 1: [Tulis Judul Modul 1 Topik 4]",
+                title: "Modul 1: Applikasi Mobile dengan App Invertor",
                 materi: [
-                    "[Materi 1 Modul 1]",
-                    "[Materi 2 Modul 1]"
+                    "Desktop Apps",
+                    "Web Apps",
+                    "Mobile Apps",
+                    "App Invertor"
                 ]
             },
             2: {
-                title: "Modul 2: [Tulis Judul Modul 2 Topik 4]",
+                title: "Modul 2: Aplikasi Kecerdasan Artifisal dengan App Invertor",
                 materi: [
-                    "[Materi 1 Modul 2]",
-                    "[Materi 2 Modul 2]"
+                    "Kecerdasan Artifisial (Artificial Intelligent)",
+                    "Artifisial Neural Network"
                 ]
             }
         }
