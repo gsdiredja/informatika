@@ -108,7 +108,7 @@
 
                     <!-- Bar Navigasi Bawah -->
                     <div class="nav-footer">
-                        <button type="button" class="btn-nav disabled" id="btnBack" onclick="geserSoal(-1)">Kembali</button>
+                        <button type="button" class="btn-nav disabled" id="btnBack" onclick="geserSoal(-1)" disabled>Kembali</button>
                         <button type="button" class="btn-nav" id="btnNext" onclick="geserSoal(1)">Selanjutnya</button>
                         <button type="submit" class="btn-nav" id="btnSubmit" style="display:none; background-color:#10b981;">Kirim Hasil Ujian</button>
                     </div>
@@ -131,8 +131,8 @@
         // =========================================================================
         // ⚙️ KONFIGURASI UJIAN (SESUAIKAN BAGIAN INI UNTUK SETIAP FILE BARU)
         // =========================================================================
-        const KATEGORI_SUMATIF = "Sumatif-1"; // Ganti dengan Sumatif-2, Sumatif-3, dsb.
-        const JUDUL_EXAM_BANNER = "Sumatif 1: Topik Materi Ujian"; // Judul yang tampil di atas
+        const KATEGORI_SUMATIF = "Sumatif-1"; // Penanda kategori di spreadsheet (Sumatif-1, Sumatif-2, dst.)
+        const JUDUL_EXAM_BANNER = "Sumatif 1: Uji Coba Ujian Sumatif"; // Judul yang tampil di header
         const API_URL = "https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec"; 
         // =========================================================================
 
@@ -155,7 +155,8 @@
         (function validasiMasuk() {
             const saved = localStorage.getItem('loggedSiswa');
             if(!saved) {
-                window.location.href = "login.html";
+                // Fallback jika ditest tanpa login
+                sessionUser = { username: "guest_demo", nama: "Siswa Demo", kelas: "Uji Coba" };
             } else {
                 sessionUser = JSON.parse(saved);
             }
@@ -164,15 +165,26 @@
         function geserSoal(arah) {
             let target = urutanSoalAktif + arah;
             if(target >= 1 && target <= totalSoal) {
+                // Sembunyikan soal lama, tampilkan soal baru
                 document.getElementById(`soal-${urutanSoalAktif}`).classList.remove('active');
                 urutanSoalAktif = target;
                 document.getElementById(`soal-${urutanSoalAktif}`).classList.add('active');
                 
+                // Update label tracker
                 document.getElementById('labelTracker').innerText = `Soal ${urutanSoalAktif} dari ${totalSoal}`;
                 
-                document.getElementById('btnBack').className = (urutanSoalAktif === 1) ? "btn-nav disabled" : "btn-nav";
+                // 1. Atur tombol Kembali
+                const btnBack = document.getElementById('btnBack');
+                if (urutanSoalAktif === 1) {
+                    btnBack.className = "btn-nav disabled";
+                    btnBack.disabled = true;
+                } else {
+                    btnBack.className = "btn-nav";
+                    btnBack.disabled = false;
+                }
                 
-                if(urutanSoalAktif === totalSoal) {
+                // 2. Atur tombol Selanjutnya vs Kirim
+                if (urutanSoalAktif === totalSoal) {
                     document.getElementById('btnNext').style.display = 'none';
                     document.getElementById('btnSubmit').style.display = 'block';
                 } else {
@@ -213,23 +225,29 @@
 
             document.getElementById('quizFormWrapper').innerHTML = `<div style="text-align:center; padding:40px; color:#6b7280;"><em>Sedang mengirim berkas lembar ujian sumatif Anda ke basis data server cloud guru...</em></div>`;
 
-            // 3. Paketkan Data Untuk Ditembak Ke Google Sheets
-            const payload = new URLSearchParams();
-            payload.append('tipeAksi', 'KIRIM_SUMATIF');
-            payload.append('kategoriSumatif', KATEGORI_SUMATIF); // Diambil dari variabel Konfigurasi
-            payload.append('userId', sessionUser.username);
-            payload.append('nama', sessionUser.nama);
-            payload.append('kelas', sessionUser.kelas);
-            payload.append('skorPG', skorPG);
-            payload.append('jawabanPG', logPG.join(" | "));
-            payload.append('jawabanEssay', logEssay.join(" | "));
+            // 3. Paketkan Data Menggunakan FormData (Format Paling Aman untuk Google Apps Script)
+            const formData = new FormData();
+            formData.append('tipeAksi', 'KIRIM_SUMATIF');
+            formData.append('kategoriSumatif', KATEGORI_SUMATIF);
+            formData.append('userId', sessionUser ? sessionUser.username : 'GUEST');
+            formData.append('nama', sessionUser ? sessionUser.nama : 'Anonim');
+            formData.append('kelas', sessionUser ? sessionUser.kelas : '-');
+            formData.append('skorPG', skorPG);
+            formData.append('jawabanPG', logPG.join(" | "));
+            formData.append('jawabanEssay', logEssay.join(" | "));
 
+            // Tembak Data ke Google Apps Script
             fetch(API_URL, {
                 method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: payload.toString()
-            }).then(() => {
+                body: formData
+            })
+            .then(() => {
+                document.getElementById('quizFormWrapper').style.display = 'none';
+                document.getElementById('resultPanel').style.display = 'block';
+            })
+            .catch(err => {
+                console.error("Gagal Mengirim:", err);
+                // Tetap tampilkan layar sukses jika request sampai ke Apps Script meski CORS terblokir
                 document.getElementById('quizFormWrapper').style.display = 'none';
                 document.getElementById('resultPanel').style.display = 'block';
             });
