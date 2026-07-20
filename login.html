@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KODI | KELAS DIGITAL INFORMATIKA</title>
+    <title>KELAS DIGITAL INFORMATIKA</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Memuat database siswa -->
@@ -18,22 +18,38 @@
         }
 
         body {
-            background-color: #0b0f19;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 40%);
-            color: #f1f5f9;
+            /* Background Gradasi Biru Khas Portal SMAN 1 Muncar */
+            background: linear-gradient(135deg, #0d2238 0%, #1a426e 50%, #3e73ad 100%);
+            background-attachment: fixed;
+            color: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Header Minimalis */
+        /* Aksen Lingkaran Visual Halus di Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -150px;
+            right: -150px;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Header / Navbar */
         .navbar {
             padding: 24px 8%;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;
+            z-index: 10;
         }
 
         .nav-brand {
@@ -43,19 +59,30 @@
         }
 
         .nav-logo {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             object-fit: contain;
         }
 
+        .nav-title-group {
+            display: flex;
+            flex-direction: column;
+        }
+
         .nav-title {
-            font-size: 15px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 800;
             letter-spacing: 0.5px;
             color: #ffffff;
         }
 
-        /* Container Utama */
+        .nav-subtitle {
+            font-size: 11px;
+            color: #93c5fd;
+            font-weight: 500;
+        }
+
+        /* Container Utama Split */
         .container {
             max-width: 1140px;
             width: 100%;
@@ -63,34 +90,56 @@
             padding: 20px 24px 60px 24px;
             flex: 1;
             display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 60px;
+            grid-template-columns: 1fr 380px;
+            gap: 50px;
             align-items: center;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Area Informasi Kiri */
+        /* Badge Tahun / Status */
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #eab308; /* Warna kuning khas portal */
+            border-radius: 50%;
+        }
+
+        /* Hero Left Text */
         .hero h1 {
-            font-size: 40px;
+            font-size: 42px;
             font-weight: 800;
-            line-height: 1.25;
+            line-height: 1.2;
             margin-bottom: 16px;
             color: #ffffff;
             letter-spacing: -0.5px;
         }
 
-        .hero h1 span {
-            color: #38bdf8;
-        }
-
         .hero-desc {
             font-size: 15px;
-            color: #94a3b8;
+            color: #cbd5e1;
             line-height: 1.7;
-            margin-bottom: 40px;
-            max-width: 540px;
+            margin-bottom: 36px;
+            max-width: 520px;
         }
 
-        /* List Fitur Ringkas */
+        /* List Fitur */
         .features-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -101,48 +150,53 @@
             display: flex;
             align-items: flex-start;
             gap: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
         }
 
         .feature-icon {
-            color: #38bdf8;
+            color: #fef08a;
             font-size: 18px;
             line-height: 1;
-            margin-top: 2px;
         }
 
         .feature-text h4 {
             font-size: 14px;
-            font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 2px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 3px;
         }
 
         .feature-text p {
             font-size: 12px;
-            color: #64748b;
+            color: #94a3b8;
         }
 
-        /* Card Login Kanan */
+        /* Card Login Kanan (Clean Light Glass Style) */
         .login-card {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
-            padding: 36px;
+            padding: 36px 30px;
             border-radius: 20px;
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            color: #1e293b;
         }
 
         .login-card h2 {
             font-size: 22px;
-            font-weight: 700;
-            color: #ffffff;
+            font-weight: 800;
+            color: #0f2d4a;
             margin-bottom: 6px;
         }
 
         .login-card p.subtitle {
             font-size: 13px;
             color: #64748b;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .form-group {
@@ -152,8 +206,8 @@
         .form-group label {
             display: block;
             font-size: 12px;
-            font-weight: 600;
-            color: #cbd5e1;
+            font-weight: 700;
+            color: #334155;
             margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -161,27 +215,27 @@
 
         .form-group input {
             width: 100%;
-            padding: 12px 16px;
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 14px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
             border-radius: 10px;
-            color: #fff;
+            color: #0f172a;
             font-size: 14px;
             outline: none;
             transition: all 0.2s;
         }
 
         .form-group input:focus {
-            border-color: #38bdf8;
-            background: rgba(30, 41, 59, 0.8);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+            border-color: #1a426e;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(26, 66, 110, 0.15);
         }
 
         .btn-submit {
             width: 100%;
-            padding: 13px;
-            background: #38bdf8;
-            color: #0f172a;
+            padding: 14px;
+            background: #1a426e;
+            color: #ffffff;
             border: none;
             border-radius: 10px;
             font-size: 14px;
@@ -189,10 +243,11 @@
             cursor: pointer;
             transition: all 0.2s;
             margin-top: 8px;
+            box-shadow: 0 4px 12px rgba(26, 66, 110, 0.25);
         }
 
         .btn-submit:hover {
-            background: #7dd3fc;
+            background: #0d2238;
             transform: translateY(-1px);
         }
 
@@ -200,9 +255,11 @@
         .footer {
             padding: 24px;
             text-align: center;
-            font-size: 12px;
-            color: #475569;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+            color: #94a3b8;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 10;
         }
 
         /* Responsif HP & Tablet */
@@ -213,7 +270,7 @@
             }
 
             .login-card {
-                order: -1; /* Login tampil duluan di layar kecil */
+                order: -1;
             }
 
             .hero h1 {
@@ -225,6 +282,9 @@
             .features-list {
                 grid-template-columns: 1fr;
             }
+            .navbar {
+                padding: 20px 5%;
+            }
         }
     </style>
 </head>
@@ -233,60 +293,61 @@
     <!-- Header Navigasi -->
     <header class="navbar">
         <div class="nav-brand">
-            <img class="nav-logo" src="logo-sekolah.png" alt="Logo SMAN 1 Muncar" onerror="this.src='https://via.placeholder.com/36?text=SMAN1'">
-            <div class="nav-title">KODI | KELAS DIGITAL INFORMATIKA</div>
+            <img class="nav-logo" src="logo-sekolah.png" alt="Logo SMAN 1 Muncar" onerror="this.src='https://via.placeholder.com/38?text=SMAN1'">
+            <div class="nav-title-group">
+                <div class="nav-title">SMAN 1 MUNCAR</div>
+                <div class="nav-subtitle">Kelas Digital Informatika</div>
+            </div>
         </div>
     </header>
 
     <!-- Konten Utama -->
     <main class="container">
         
-        <!-- Sisi Kiri: Narasi & Fitur Singkat -->
-        <section class="hero">
-            <h1>Ruang Belajar Mandiri <span>Informatika.</span></h1>
+                    <h2>Kelas Digital Informatika SMAN 1 Muncar</h2>
             <p class="hero-desc">
-                Platform ekosistem pembelajaran digital SMAN 1 Muncar. Dirancang untuk mengasah kemampuan berpikir komputasional, strategi algoritmik, koding, dan analisis data.
+                Akses ruang belajar mandiri, strategi algoritmik, jaringan komputer, dan materi pemrograman Anda secara cepat, rapi, dan praktis.
             </p>
 
             <div class="features-list">
                 <div class="feature-item">
-                    <span class="feature-icon">✦</span>
+                    
                     <div class="feature-text">
                         <h4>Algoritma & Koding</h4>
-                        <p>Rekursi dan struktur data</p>
+                        <p>Berpikir komputasional & rekursi</p>
                     </div>
                 </div>
 
                 <div class="feature-item">
-                    <span class="feature-icon">✦</span>
+                    
                     <div class="feature-text">
                         <h4>Jaringan Komputer</h4>
-                        <p>Internet & keamanan cyber</p>
+                        <p>Topologi & keamanan cyber</p>
                     </div>
                 </div>
 
                 <div class="feature-item">
-                    <span class="feature-icon">✦</span>
+                    
                     <div class="feature-text">
                         <h4>Aplikasi Mobile</h4>
-                        <p>MIT App Inventor</p>
+                        <p>Pengembangan App Inventor</p>
                     </div>
                 </div>
 
                 <div class="feature-item">
-                    <span class="feature-icon">✦</span>
+                    
                     <div class="feature-text">
                         <h4>Analisis Data</h4>
-                        <p>Pengolahan & visualisasi</p>
+                        <p>Pemrosesan & visualisasi data</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sisi Kanan: Form Login -->
+        <!-- Sisi Kanan: Portal Masuk Login -->
         <section class="login-card">
             <h2>Portal Masuk</h2>
-            <p class="subtitle">Silakan masuk dengan akun Anda</p>
+            <p class="subtitle">Silakan gunakan akun Siswa atau Admin Anda.</p>
 
             <div class="form-group">
                 <label for="inputUser">Username / NISN</label>
@@ -298,7 +359,7 @@
                 <input type="password" id="inputPass" placeholder="••••••••">
             </div>
 
-            <button class="btn-submit" onclick="prosesLogin()">Masuk Kelas</button>
+            <button class="btn-submit" onclick="prosesLogin()">Masuk Aplikasi</button>
         </section>
 
     </main>
@@ -309,7 +370,6 @@
     </footer>
 
     <script>
-        // Bersihkan riwayat login sebelumnya
         localStorage.removeItem('loggedSiswa');
 
         function prosesLogin() {
@@ -321,7 +381,6 @@
                 return;
             }
 
-            // Pengecekan keamanan variabel daftarSiswa dari datasiswa.js
             if (typeof daftarSiswa === 'undefined') {
                 alert("Gagal memuat database siswa. Silakan tekan Ctrl+F5 untuk memuat ulang halaman.");
                 return;
