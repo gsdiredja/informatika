@@ -117,7 +117,7 @@
         .badge-dot {
             width: 8px;
             height: 8px;
-            background-color: #eab308; /* Warna kuning khas portal */
+            background-color: #eab308;
             border-radius: 50%;
         }
 
@@ -175,7 +175,7 @@
             color: #94a3b8;
         }
 
-        /* Card Login Kanan (Clean Light Glass Style) */
+        /* Card Login Kanan */
         .login-card {
             background: rgba(255, 255, 255, 0.96);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -213,6 +213,13 @@
             letter-spacing: 0.5px;
         }
 
+        /* Wrapper Input khusus untuk Tombol Toggle Password */
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
         .form-group input {
             width: 100%;
             padding: 12px 14px;
@@ -225,10 +232,35 @@
             transition: all 0.2s;
         }
 
+        .password-wrapper input {
+            padding-right: 42px; /* Ruang untuk ikon mata */
+        }
+
         .form-group input:focus {
             border-color: #1a426e;
             background: #ffffff;
             box-shadow: 0 0 0 3px rgba(26, 66, 110, 0.15);
+        }
+
+        /* Tombol Mata (Show/Hide Password) */
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #64748b;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+            user-select: none;
+        }
+
+        .toggle-password:hover {
+            color: #1a426e;
         }
 
         .btn-submit {
@@ -304,14 +336,21 @@
     <!-- Konten Utama -->
     <main class="container">
         
-                    <h2>Kelas Digital Informatika SMAN 1 Muncar</h2>
+        <!-- Sisi Kiri: Informasi Pembelajaran -->
+        <section class="hero">
+            <div class="badge-status">
+                <span class="badge-dot"></span>
+                TAHUN PELAJARAN 2026/2027
+            </div>
+
+            <h1>Kelas Digital Informatika SMAN 1 Muncar</h1>
             <p class="hero-desc">
                 Akses ruang belajar mandiri, strategi algoritmik, jaringan komputer, dan materi pemrograman Anda secara cepat, rapi, dan praktis.
             </p>
 
             <div class="features-list">
                 <div class="feature-item">
-                    
+                    <span class="feature-icon">✦</span>
                     <div class="feature-text">
                         <h4>Algoritma & Koding</h4>
                         <p>Berpikir komputasional & rekursi</p>
@@ -319,7 +358,7 @@
                 </div>
 
                 <div class="feature-item">
-                    
+                    <span class="feature-icon">✦</span>
                     <div class="feature-text">
                         <h4>Jaringan Komputer</h4>
                         <p>Topologi & keamanan cyber</p>
@@ -327,7 +366,7 @@
                 </div>
 
                 <div class="feature-item">
-                    
+                    <span class="feature-icon">✦</span>
                     <div class="feature-text">
                         <h4>Aplikasi Mobile</h4>
                         <p>Pengembangan App Inventor</p>
@@ -335,7 +374,7 @@
                 </div>
 
                 <div class="feature-item">
-                    
+                    <span class="feature-icon">✦</span>
                     <div class="feature-text">
                         <h4>Analisis Data</h4>
                         <p>Pemrosesan & visualisasi data</p>
@@ -356,7 +395,12 @@
 
             <div class="form-group">
                 <label for="inputPass">Kata Sandi</label>
-                <input type="password" id="inputPass" placeholder="••••••••">
+                <div class="password-wrapper">
+                    <input type="password" id="inputPass" placeholder="••••••••">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility()" title="Tampilkan/Sembunyikan Kata Sandi">
+                        <span id="eyeIcon">👁️</span>
+                    </button>
+                </div>
             </div>
 
             <button class="btn-submit" onclick="prosesLogin()">Masuk Aplikasi</button>
@@ -371,6 +415,20 @@
 
     <script>
         localStorage.removeItem('loggedSiswa');
+
+        // Fungsi untuk Mengubah Visibilitas Password (Show/Hide)
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('inputPass');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                eyeIcon.textContent = '🙈'; // Ikon tertutup saat password terlihat
+            } else {
+                passInput.type = 'password';
+                eyeIcon.textContent = '👁️'; // Ikon mata saat password tersembunyi
+            }
+        }
 
         function prosesLogin() {
             const userIn = document.getElementById('inputUser').value.trim();
