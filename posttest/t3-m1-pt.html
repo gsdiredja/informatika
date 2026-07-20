@@ -1,0 +1,454 @@
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937; max-width: 800px; margin: 0 auto; padding: 10px;">
+
+    <!-- IFRAME GAIB UNTUK MENERIMA RESPONSE SECARA SENYAP -->
+    <iframe name="kotakGaibPostTest" id="kotakGaibPostTest" style="display:none;"></iframe>
+
+    <form action="https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec" method="POST" target="kotakGaibPostTest" onsubmit="alert('Seluruh jawaban Post-Test dan Refleksi Topologi Jaringan kamu berhasil dikirim!');" style="display: flex; flex-direction: column; gap: 20px; padding: 5px 0;">
+        
+        <!-- HIDDEN LOG PARAMETERS -->
+        <input type="hidden" name="tipeAksi" value="KIRIM_QUIZ"> 
+        <input type="hidden" name="userId" value="Siswa_Web_Platform">
+        <input type="hidden" name="modul" value="Modul 3 - Topik 3 (Post-Test Topologi Jaringan)">
+
+        <h3 style="margin-bottom: 10px; color: #0b3a7a; font-size: 18px; font-weight: 700; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
+            POST TEST GABUNGAN: TOPIK 3 TOPOLOGI JARINGAN KOMPUTER
+        </h3>
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 1: BENAR / SALAH (5 SOAL)                        -->
+        <!-- ======================================================= -->
+        <h4 style="color: #0b3a7a; font-size: 15px; font-weight: 700; margin-bottom: -10px;">
+            BAGIAN 1: PERNYATAAN BENAR / SALAH
+        </h4>
+        
+        <!-- SOAL BENAR SALAH 1 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Topologi Star menggunakan perangkat pusat seperti Switch atau Hub untuk menghubungkan setiap komputer.
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal1" value="Benar" style="margin-right: 8px;" required> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal1" value="Salah" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 2 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Pada topologi Bus, jika salah satu kabel komputer pengguna putus, maka seluruh jaringan komputer di dalam ruangan akan otomatis mati total.
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal2" value="Benar" style="margin-right: 8px;" required> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal2" value="Salah" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 3 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Topologi Mesh membutuhkan jumlah kabel yang sangat sedikit sehingga merupakan pilihan terbaik untuk menghemat anggaran.
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal3" value="Benar" style="margin-right: 8px;" required> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal3" value="Salah" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 4 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Sistem pengiriman data pada topologi Ring menggunakan metode <em>Token Passing</em> untuk mencegah terjadinya bentrokan data (<em>collision</em>).
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal4" value="Benar" style="margin-right: 8px;" required> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal4" value="Salah" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 5 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Jaringan internet global yang menghubungkan komputer antar negara dan benua dikategorikan sebagai <em>Local Area Network</em> (LAN).
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal5" value="Benar" style="margin-right: 8px;" required> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal5" value="Salah" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 2: PILIHAN GANDA (15 SOAL)                       -->
+        <!-- ======================================================= -->
+        <h4 style="color: #0b3a7a; font-size: 15px; font-weight: 700; margin-bottom: -10px; margin-top: 10px;">
+            BAGIAN 2: PILIHAN GANDA
+        </h4>
+
+        <!-- SOAL PG 1 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Perangkat perantara yang berfungsi untuk menghubungkan beberapa komputer dalam satu jaringan lokal (LAN) adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="Switch" style="margin-right: 8px;" required> Switch
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="Printer" style="margin-right: 8px;"> Printer
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="Monitor" style="margin-right: 8px;"> Monitor
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="Modem USB" style="margin-right: 8px;"> Modem USB
+            </label>
+        </div>
+
+        <!-- SOAL PG 2 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Topologi jaringan yang setiap komputernya terhubung secara <em>point-to-point</em> langsung ke seluruh komputer lainnya adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="Topologi Bus" style="margin-right: 8px;" required> Topologi Bus
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="Topologi Star" style="margin-right: 8px;"> Topologi Star
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="Topologi Mesh" style="margin-right: 8px;"> Topologi Mesh
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="Topologi Ring" style="margin-right: 8px;"> Topologi Ring
+            </label>
+        </div>
+
+        <!-- SOAL PG 3 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Kelemahan utama dari topologi Bus adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="Membutuhkan perangkat Switch yang sangat mahal" style="margin-right: 8px;" required> Membutuhkan perangkat Switch yang sangat mahal
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="Jika kabel utama (backbone) putus, seluruh jaringan mati" style="margin-right: 8px;"> Jika kabel utama (<em>backbone</em>) putus, seluruh jaringan mati
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="Sangat boros penggunaan kabel UTP" style="margin-right: 8px;"> Sangat boros penggunaan kabel UTP
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="Pengaturan konfigurasi jaringan terlalu rumit" style="margin-right: 8px;"> Pengaturan konfigurasi jaringan terlalu rumit
+            </label>
+        </div>
+
+        <!-- SOAL PG 4 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Jenis jaringan berdasarkan jangkauan geografis yang hanya mencakup area sangat terbatas seperti koneksi Bluetooth antar <em>smartphone</em> adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="WAN" style="margin-right: 8px;" required> WAN
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="MAN" style="margin-right: 8px;"> MAN
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="LAN" style="margin-right: 8px;"> LAN
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="PAN" style="margin-right: 8px;"> PAN
+            </label>
+        </div>
+
+        <!-- SOAL PG 5 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Jika sebuah sekolah ingin merancang laboratorium komputer baru yang andal, di mana kerusakan pada satu kabel PC siswa tidak mengganggu PC lainnya, topologi terbaik yang disarankan adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="Topologi Bus" style="margin-right: 8px;" required> Topologi Bus
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="Topologi Ring" style="margin-right: 8px;"> Topologi Ring
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="Topologi Star" style="margin-right: 8px;"> Topologi Star
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="Topologi Linear" style="margin-right: 8px;"> Topologi Linear
+            </label>
+        </div>
+
+        <!-- SOAL PG 6 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Aturan baku yang mengatur tata cara komunikasi dan pengiriman data antar perangkat dalam jaringan komputer disebut...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="Topologi" style="margin-right: 8px;" required> Topologi
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="Protokol" style="margin-right: 8px;"> Protokol
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="Hardware" style="margin-right: 8px;"> Hardware
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="Server" style="margin-right: 8px;"> Server
+            </label>
+        </div>
+
+        <!-- SOAL PG 7 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Komputer atau perangkat yang digunakan langsung oleh pengguna untuk mengirim dan menerima data dalam jaringan disebut...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="Intermediate Device" style="margin-right: 8px;" required> Intermediate Device
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="End Device" style="margin-right: 8px;"> End Device
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="Backbone" style="margin-right: 8px;"> Backbone
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="Terminator" style="margin-right: 8px;"> Terminator
+            </label>
+        </div>
+
+        <!-- SOAL PG 8 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Topologi jaringan yang merupakan hasil gabungan antara topologi Bus dan topologi Star adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="Topologi Mesh" style="margin-right: 8px;" required> Topologi Mesh
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="Topologi Ring" style="margin-right: 8px;"> Topologi Ring
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="Topologi Tree" style="margin-right: 8px;"> Topologi Tree
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="Topologi Peer-to-Peer" style="margin-right: 8px;"> Topologi Peer-to-Peer
+            </label>
+        </div>
+
+        <!-- SOAL PG 9 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Komponen yang dipasang pada kedua ujung kabel utama pada topologi Bus untuk mencegah pemantulan sinyal adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="Switch" style="margin-right: 8px;" required> Switch
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="Terminator" style="margin-right: 8px;"> Terminator
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="Router" style="margin-right: 8px;"> Router
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="Connector RJ45" style="margin-right: 8px;"> Connector RJ45
+            </label>
+        </div>
+
+        <!-- SOAL PG 10 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Karakteristik utama dari topologi Ring dalam proses transmisi data adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="Data dikirimkan secara acak ke semua komputer" style="margin-right: 8px;" required> Data dikirimkan secara acak ke semua komputer
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="Data mengalir satu arah mengelilingi lingkaran menggunakan giliran token" style="margin-right: 8px;"> Data mengalir satu arah mengelilingi lingkaran menggunakan giliran token
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="Data diproses secara terpusat di satu server utama" style="margin-right: 8px;"> Data diproses secara terpusat di satu server utama
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="Data dikirim melalui gelombang radio nirkabel" style="margin-right: 8px;"> Data dikirim melalui gelombang radio nirkabel
+            </label>
+        </div>
+
+        <!-- SOAL PG 11 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Jenis jaringan yang menghubungkan beberapa kantor cabang bank di dalam satu kota yang sama dinamakan...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="PAN" style="margin-right: 8px;" required> PAN
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="LAN" style="margin-right: 8px;"> LAN
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="MAN" style="margin-right: 8px;"> MAN
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="WAN" style="margin-right: 8px;"> WAN
+            </label>
+        </div>
+
+        <!-- SOAL PG 12 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Alasan utama mengapa topologi Mesh jarang digunakan pada jaringan komputer skala besar seperti laboratorium sekolah adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="Tingkat keamanannya sangat rendah" style="margin-right: 8px;" required> Tingkat keamanannya sangat rendah
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="Tidak bisa terhubung ke internet" style="margin-right: 8px;"> Tidak bisa terhubung ke internet
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="Biaya sangat mahal dan pemasangan kabel sangat rumit" style="margin-right: 8px;"> Biaya sangat mahal dan pemasangan kabel sangat rumit
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="Kecepatan transfer datanya paling lambat" style="margin-right: 8px;"> Kecepatan transfer datanya paling lambat
+            </label>
+        </div>
+
+        <!-- SOAL PG 13 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Jika sebuah kantor memiliki gedung bertingkat 4 dan ingin mengelompokkan jaringan tiap lantai di bawah satu kontrol pusat, topologi yang paling efisien adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="Topologi Bus" style="margin-right: 8px;" required> Topologi Bus
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="Topologi Tree" style="margin-right: 8px;"> Topologi Tree
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="Topologi Ring" style="margin-right: 8px;"> Topologi Ring
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="Topologi Peer-to-Peer" style="margin-right: 8px;"> Topologi Peer-to-Peer
+            </label>
+        </div>
+
+        <!-- SOAL PG 14 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Kabel UTP dan Fiber Optic dalam komponen jaringan komputer berperan sebagai...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="Perangkat Ujung (End Device)" style="margin-right: 8px;" required> Perangkat Ujung (<em>End Device</em>)
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="Perangkat Perantara (Intermediate Device)" style="margin-right: 8px;"> Perangkat Perantara (<em>Intermediate Device</em>)
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="Media Transmisi" style="margin-right: 8px;"> Media Transmisi
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="Protokol Jaringan" style="margin-right: 8px;"> Protokol Jaringan
+            </label>
+        </div>
+
+        <!-- SOAL PG 15 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Keuntungan utama dari penggunaan topologi Star dibandingkan topologi Bus adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="Menghemat penggunaan kabel" style="margin-right: 8px;" required> Menghemat penggunaan kabel
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="Tidak membutuhkan Switch atau Hub" style="margin-right: 8px;"> Tidak membutuhkan Switch atau Hub
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="Mudah mengisolasi kerusakan saat terjadi gangguan koneksi" style="margin-right: 8px;"> Mudah mengisolasi kerusakan saat terjadi gangguan koneksi
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="Biaya pemasangan lebih murah" style="margin-right: 8px;"> Biaya pemasangan lebih murah
+            </label>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 3: SOAL ESSAY (5 SOAL)                           -->
+        <!-- ======================================================= -->
+        <h4 style="color: #0b3a7a; font-size: 15px; font-weight: 700; margin-bottom: -10px; margin-top: 10px;">
+            BAGIAN 3: SOAL ESSAY
+        </h4>
+
+        <!-- SOAL ESSAY 1 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Jelaskan perbedaan utama antara Topologi Fisik (<em>Physical Topology</em>) dan Topologi Logis (<em>Logical Topology</em>) dalam jaringan komputer!
+            </p>
+            <textarea required rows="4" name="soal21" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 2 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Mengapa topologi Star menjadi pilihan yang paling populer dan paling banyak digunakan pada jaringan LAN saat ini? Berikan dua alasan utamanya!
+            </p>
+            <textarea required rows="4" name="soal22" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 3 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Sebuah minimarket memiliki 3 PC Kasir yang terhubung ke 1 Switch pusat. Suatu hari, kabel LAN pada PC Kasir 2 terputus akibat tersenggol. Jelaskan apa yang terjadi pada PC Kasir 1 dan PC Kasir 3!
+            </p>
+            <textarea required rows="4" name="soal23" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 4 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Dalam kondisi seperti apa sebuah perusahaan direkomendasikan untuk menggunakan Topologi Mesh? Sebutkan kelebihan dan kekurangan utama dari topologi tersebut!
+            </p>
+            <textarea required rows="4" name="soal24" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 5 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Jika kamu diminta merancang jaringan untuk gedung sekolah 2 lantai dengan total 40 PC, jelaskan kombinasi topologi dan perangkat keras utama apa saja yang akan kamu gunakan!
+            </p>
+            <textarea required rows="4" name="soal25" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 4: REFLEKSI KEGIATAN                             -->
+        <!-- ======================================================= -->
+        <h4 style="color: #0b3a7a; font-size: 15px; font-weight: 700; margin-bottom: -10px; margin-top: 10px;">
+            BAGIAN 4: LEMBAR REFLEKSI SISWA
+        </h4>
+
+        <!-- SOAL REFLEKSI -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Silakan tuliskan refleksi pembelajaranmu:
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Tuliskan satu hal paling menarik yang kamu pelajari, bagian mana yang menurutmu paling sulit dipahami beserta alasannya, serta langkah awal apa yang akan kamu lakukan jika menghadapi gangguan jaringan internet di sekitarmu berdasarkan pemahaman komponen jaringan yang telah dipelajari!
+            </p>
+            <textarea required rows="5" name="soal26" placeholder="Tuliskan hasil refleksi Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+       
+
+    </form>
+
+</div>
