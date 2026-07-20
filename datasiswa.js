@@ -1,7 +1,7 @@
 // datasiswa.js
 const daftarSiswa = [
 
-    { username: "admin", password: "admin12345", nama: "ADMINISTRATOR", kelas: "ADMIN" },
+    { username: "admin", password: "gsdiredja", nama: "ADMINISTRATOR", kelas: "ADMIN" },
 
     // KELAS XI-1
     { username: "ais754", password: "12345", nama: "AISYAH OKTA LIVINA LAURENZ", kelas: "XI-1" },
