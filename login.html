@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KODI | Kelas Digital Informatika SMAN 1 Muncar</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Memuat database siswa -->
-    <script src="datasiswa.js"></script>
+    
+    <!-- Memuat database siswa dengan parameter versi agar tidak tersangkut cache browser -->
+    <script src="datasiswa.js?v=1.1"></script>
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         
-        /* Background Utama Berwarna Gradasi Sesuai Permintaan Sebelumnya */
+        /* Background Utama Berwarna Gradasi Modern */
         body { 
             background: linear-gradient(135deg, #0b3a7a 0%, #1d74ed 50%, #a5f3fc 100%);
             background-attachment: fixed;
@@ -28,7 +30,7 @@
         .btn-trigger-login { background: #0b3a7a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.2s; }
         .btn-trigger-login:hover { background: #072652; transform: translateY(-1px); }
 
-        /* Konten Utama Modifikasi Mirip Gambar Referensi */
+        /* Konten Utama Tampilan Referensi */
         .hero-container { max-width: 1100px; width: 100%; margin: 50px auto; padding: 0 20px; flex: 1; }
         
         /* Wrapper Putih Bersih di Bagian Konten Tengah */
@@ -37,7 +39,7 @@
         .hero-section h1 { font-size: 36px; font-weight: 800; color: #0b3a7a; margin-bottom: 24px; }
         .hero-desc { font-size: 15px; color: #475569; line-height: 1.8; max-width: 850px; margin: 0 auto 50px auto; }
         
-        /* Grid 4 Kolom Horizontal Mirip Desain Gambar */
+        /* Grid 4 Kolom Horizontal */
         .grid-fitur { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
         
         .fitur-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; }
@@ -75,7 +77,7 @@
         .btn-login:hover { background: #072652; }
 
         /* Footer */
-        .footer { text-align: center; padding: 20px; color: #475569; font-size: 13px; background: rgba(255, 255, 255, 0.9); border-top: 1px solid rgba(226, 232, 240, 0.8); font-weight: 500; }
+        .footer { text-align: center; padding: 20px; color: #475569; font-size: 13px; background: rgba(255, 255, 255, 0.9); border-top: 1px solid rgba(226, 232, 240, 0.8); font-weight: 500; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -89,7 +91,7 @@
         <button class="btn-trigger-login" onclick="bukaModalLogin()">Masuk Kelas</button>
     </div>
 
-    <!-- Halaman Narasi Pembuka Ala Gambar Referensi -->
+    <!-- Halaman Narasi Pembuka -->
     <div class="hero-container">
         <div class="hero-section">
             <h1>Kelas Digital Informatika SMAN 1 Muncar</h1>
@@ -155,10 +157,11 @@
 
     <!-- Footer -->
     <div class="footer">
-        &copy; 2026 KODI | Kelas Digital Informatika</br>SMAN 1 Muncar.
+        &copy; 2026 KODI | Kelas Digital Informatika<br>SMAN 1 Muncar.
     </div>
 
     <script>
+        // Bersihkan riwayat login sebelumnya
         localStorage.removeItem('loggedSiswa');
 
         function bukaModalLogin() {
@@ -181,6 +184,12 @@
 
             if(!userIn || !passIn) {
                 alert("Username dan Password wajib diisi!");
+                return;
+            }
+
+            // Pengecekan keamanan variabel daftarSiswa dari datasiswa.js
+            if (typeof daftarSiswa === 'undefined') {
+                alert("Gagal memuat database siswa. Silakan tekan Ctrl+F5 untuk memuat ulang halaman.");
                 return;
             }
 
