@@ -1,0 +1,146 @@
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937; max-width: 800px; margin: 0 auto; padding: 10px;">
+
+    <h2 style="color: #0b3a7a; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; font-size: 22px; font-weight: 700;">
+        Topologi Jaringan (Mengenal Arsitektur dan Bentuk Fisik Jaringan)
+    </h2>
+
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Setelah memahami komponen dasar jaringan pada Materi 1, pertanyaan penting berikutnya adalah: <strong>Bagaimana cara kita merangkai dan mengatur tata letak perangkat-perangkat tersebut?</strong>
+    </p>
+
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Apakah semua komputer dihubungkan secara melingkar, memusat ke satu titik, atau sejajar pada satu kabel? Cara kita merancang susunan hubungan antar komputer inilah yang disebut sebagai <strong>Topologi Jaringan</strong>. Pemilihan topologi akan sangat menentukan biaya, kecepatan, hingga kemudahan perbaikan jaringan saat terjadi gangguan.
+    </p>
+
+    <div style="background-color: #f3f4f6; border-left: 4px solid #0b3a7a; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0;">
+        <strong style="color: #0b3a7a;">Konsep Utama:</strong> Topologi Jaringan adalah peta atau struktur geometris yang menggambarkan bagaimana perangkat-perangkat (node) dalam suatu jaringan komputer saling terhubung dan berkomunikasi satu sama lain.
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        1. Mengenal Jenis-Jenis Topologi Utama
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Berikut adalah 4 bentuk topologi jaringan dasar yang paling umum digunakan dalam arsitektur komputer:
+    </p>
+
+    <!-- TOPOLOGI STAR -->
+    <div style="border: 1px solid #d1d5db; border-radius: 6px; padding: 15px; margin-bottom: 15px; background-color: #f9fafb;">
+        <h4 style="color: #0b3a7a; font-size: 16px; font-weight: 600; margin-top: 0; margin-bottom: 10px;">A. Topologi Star (Bintang)</h4>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <img src="image/star_topology.webp" alt="Topologi Star" style="max-width: 250px; width: 100%; height: auto; border-radius: 4px; border: 1px solid #e5e7eb;" />
+        </div>
+        <p style="font-size: 14px; margin-bottom: 0; color: #4b5563;">
+            Setiap komputer terhubung langsung ke satu perangkat pusat (seperti <em>Switch</em> atau <em>Hub</em>). Merupakan topologi yang paling populer saat ini karena jika satu kabel komputer rusak, komputer lain tidak akan terganggu.
+        </p>
+    </div>
+
+    <!-- TOPOLOGI BUS -->
+    <div style="border: 1px solid #d1d5db; border-radius: 6px; padding: 15px; margin-bottom: 15px; background-color: #f9fafb;">
+        <h4 style="color: #0b3a7a; font-size: 16px; font-weight: 600; margin-top: 0; margin-bottom: 10px;">B. Topologi Bus</h4>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <img src="image/bus_topology.webp" alt="Topologi Bus" style="max-width: 250px; width: 100%; height: auto; border-radius: 4px; border: 1px solid #e5e7eb;" />
+        </div>
+        <p style="font-size: 14px; margin-bottom: 0; color: #4b5563;">
+            Menggunakan satu kabel tunggal utama (<em>backbone</em>) tempat semua komputer terhubung berderet. Sangat hemat kabel dan murah, namun jika kabel utama putus, seluruh jaringan akan mati total.
+        </p>
+    </div>
+
+    <!-- TOPOLOGI RING -->
+    <div style="border: 1px solid #d1d5db; border-radius: 6px; padding: 15px; margin-bottom: 15px; background-color: #f9fafb;">
+        <h4 style="color: #0b3a7a; font-size: 16px; font-weight: 600; margin-top: 0; margin-bottom: 10px;">C. Topologi Ring (Cincin)</h4>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <img src="image/ring_topology.webp" alt="Topologi Ring" style="max-width: 250px; width: 100%; height: auto; border-radius: 4px; border: 1px solid #e5e7eb;" />
+        </div>
+        <p style="font-size: 14px; margin-bottom: 0; color: #4b5563;">
+            Komputer terhubung secara melingkar membentuk rantai tertutup. Data mengalir satu arah menggunakan sistem giliran (<em>token</em>). Bebas bentrokan data, namun rentan karena kerusakan satu node mengganggu seluruh lingkaran.
+        </p>
+    </div>
+
+    <!-- TOPOLOGI MESH -->
+    <div style="border: 1px solid #d1d5db; border-radius: 6px; padding: 15px; margin-bottom: 20px; background-color: #f9fafb;">
+        <h4 style="color: #b45309; font-size: 16px; font-weight: 600; margin-top: 0; margin-bottom: 10px;">D. Topologi Mesh (Jala)</h4>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <img src="image/mesh_topology.webp" alt="Topologi Mesh" style="max-width: 250px; width: 100%; height: auto; border-radius: 4px; border: 1px solid #e5e7eb;" />
+        </div>
+        <p style="font-size: 14px; margin-bottom: 0; color: #4b5563;">
+            Setiap komputer terhubung secara langsung ke seluruh komputer lainnya. Memiliki tingkat keamanan dan keandalan paling tinggi karena banyak jalur cadangan, tetapi sangat boros kabel dan mahal.
+        </p>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        2. Perbandingan Karakteristik Topologi
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 12px;">
+        Berikut adalah ringkasan perbandingan antar topologi untuk membantu menentukan pilihan arsitektur jaringan yang tepat:
+    </p>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
+        <thead>
+            <tr style="background-color: #0b3a7a; color: white;">
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: left; width: 20%;">Topologi</th>
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: left; width: 25%;">Biaya Kabel</th>
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: left; width: 25%;">Tingkat Keandalan</th>
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: left;">Penggunaan Saat Ini</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-weight: bold;">Topologi Star</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #b45309;">Sedang</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #10b981;">Tinggi</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #10b981;"><strong>Sangat Dominan (Standar LAN)</strong></td>
+            </tr>
+            <tr style="background-color: #f9fafb;">
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-weight: bold;">Topologi Bus</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #10b981;">Sangat Murah</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #ef4444;">Sangat Rendah</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #6b7280;">Sangat Jarang</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-weight: bold;">Topologi Ring</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #10b981;">Murah</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #ef4444;">Rendah</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #6b7280;">Jarang</td>
+            </tr>
+            <tr style="background-color: #f9fafb;">
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-weight: bold;">Topologi Mesh</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #ef4444;">Sangat Mahal</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #10b981;">Sangat Tinggi</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; color: #4b5563;">Khusus (Jaringan Server Utama)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        3. Aktivitas Pengamatan Mandiri: Arsitek Jaringan! 🛠️
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Bayangkan kamu dipercaya menjadi seorang <strong>"Arsitek Jaringan"</strong> yang diminta merancang tata letak jaringan komputer untuk laboratorium sekolah baru. Pilih topologi yang paling tepat dan analisis kelebihan serta kekurangannya!
+    </p>
+
+    <!-- KOTAK TUGAS / LINK TALLY -->
+    <div style="background-color: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 6px; font-size: 14px; line-height: 1.8; text-align: center;">
+        <p style="font-size: 15px; font-weight: 600; color: #b45309; margin-top: 0; margin-bottom: 10px;">
+            Selesaikan Analisis Topologimu Secara Online!
+        </p>
+        <p style="margin-bottom: 15px; color: #4b5563;">
+            Isi lembar analisis rancangan jaringan dan tentukan solusi topologi terbaik melalui formulir interaktif di bawah ini:
+        </p>
+        
+        <!-- TOMBOL KE TALLY.SO -->
+        <a href="https://tally.so/r/YOUR_FORM_ID_MATERI2" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #0b3a7a; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; font-size: 14px; transition: background-color 0.2s;">
+            📝 Kerjakan Tugas Topologi di Tally.so
+        </a>
+
+        <p style="font-size: 12px; color: #6b7280; margin-top: 10px; margin-bottom: 0;">
+            *Klik tombol di atas untuk membuka formulir pengerjaan LKPD/Tugas Mandiri Materi 2.
+        </p>
+    </div>
+
+</div>
