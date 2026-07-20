@@ -3,180 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KODI | Kelas Digital Informatika SMAN 1 Muncar</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>KELAS DIGITAL INFORMATIKA SMAN 1 Muncar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Memuat database siswa dengan parameter versi agar tidak tersangkut cache browser -->
+    <!-- Memuat database siswa -->
     <script src="datasiswa.js?v=1.1"></script>
     
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        :root {
+            --bg-dark: #0f172a;
+            --brand-primary: #38bdf8;
+            --brand-secondary: #6366f1;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+        }
         
-        /* Background Utama Berwarna Gradasi Modern */
         body { 
-            background: linear-gradient(135deg, #0b3a7a 0%, #1d74ed 50%, #a5f3fc 100%);
+            background: #090d16;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.12) 0px, transparent 50%);
             background-attachment: fixed;
-            color: #334155; 
+            color: var(--text-main); 
             min-height: 100vh; 
             display: flex; 
             flex-direction: column; 
         }
         
-        /* Navbar Atas */
-        .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); }
-        .nav-brand { display: flex; align-items: center; gap: 12px; }
-        .nav-logo { width: 40px; height: 40px; object-fit: contain; }
-        .nav-title { font-size: 16px; font-weight: 700; color: #0b3a7a; }
-        .btn-trigger-login { background: #0b3a7a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.2s; }
-        .btn-trigger-login:hover { background: #072652; transform: translateY(-1px); }
+        /* Navbar */
+        .navbar { 
+            background: rgba(15, 23, 42, 0.8); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border); 
+            padding: 18px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
 
-        /* Konten Utama Tampilan Referensi */
-        .hero-container { max-width: 1100px; width: 100%; margin: 50px auto; padding: 0 20px; flex: 1; }
-        
-        /* Wrapper Putih Bersih di Bagian Konten Tengah */
-        .hero-section { background: rgba(255, 255, 255, 0.97); border-radius: 20px; padding: 60px 40px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); text-align: center; }
-        
-        .hero-section h1 { font-size: 36px; font-weight: 800; color: #0b3a7a; margin-bottom: 24px; }
-        .hero-desc { font-size: 15px; color: #475569; line-height: 1.8; max-width: 850px; margin: 0 auto 50px auto; }
-        
-        /* Grid 4 Kolom Horizontal */
-        .grid-fitur { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-        
-        .fitur-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; }
-        .fitur-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px rgba(0,0,0,0.06); border-color: #cbd5e1; }
-        
-        .fitur-icon-large { font-size: 48px; margin-bottom: 20px; display: inline-block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.06)); }
-        
-        .fitur-card h3 { font-size: 16px; font-weight: 700; color: #0b3a7a; margin-bottom: 12px; }
-        .fitur-card p { font-size: 13px; color: #64748b; line-height: 1.6; }
+        .nav-brand { 
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+        }
+
+        .nav-logo { 
+            width: 42px; 
+            height: 42px; 
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.3));
+        }
+
+        .nav-title { 
+            font-size: 18px; 
+            font-weight: 800; 
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 30%, var(--brand-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        /* Layout Utama Split (Kiri: Hero/Fitur, Kanan: Login) */
+        .main-wrapper {
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        /* Seksi Informasi Kiri */
+        .hero-info h1 {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 18px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-info h1 span {
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+
+        /* Grid Fitur */
+        .grid-fitur {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .fitur-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .fitur-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.2);
+        }
+
+        .fitur-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .fitur-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .fitur-card p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Form Login Kanan */
+        .login-section {
+            display: flex;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+        }
+
+        .login-header {
+            margin-bottom: 28px;
+        }
+
+        .login-card h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #e2e8f0;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+            color: #fff;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input::placeholder {
+            color: #64748b;
+        }
+
+        .form-group input:focus {
+            border-color: var(--brand-primary);
+            background: rgba(30, 41, 59, 0.9);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
+        }
+
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, var(--brand-primary), #0284c7);
+            color: #0f172a;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        .footer { 
+            text-align: center; 
+            padding: 24px; 
+            color: var(--text-muted); 
+            font-size: 13px; 
+            border-top: 1px solid var(--glass-border); 
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+        }
 
         /* Responsif untuk Layar Tablet & HP */
         @media (max-width: 992px) {
-            .grid-fitur { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 640px) { 
-            .navbar { padding: 16px 20px; }
-            .grid-fitur { grid-template-columns: 1fr; }
-            .hero-section { padding: 40px 20px; }
-            .hero-section h1 { font-size: 26px; }
+            .main-wrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                margin: 20px auto;
+            }
+
+            .login-section {
+                order: -1;
+            }
+
+            .hero-info h1 {
+                font-size: 32px;
+            }
         }
 
-        /* Pop-up Box Login */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 200; padding: 20px; }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .login-card { background: white; border: 1px solid #e5e7eb; padding: 35px; border-radius: 16px; max-width: 400px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); transform: scale(0.95); transition: transform 0.2s ease; position: relative; }
-        .modal-overlay.active .login-card { transform: scale(1); }
-        .btn-close-modal { position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 22px; color: #94a3b8; cursor: pointer; }
-        .login-card h2 { margin-bottom: 6px; color: #0b3a7a; font-size: 22px; font-weight: 700; text-align: left; }
-        .login-subtitle { font-size: 13px; color: #64748b; margin-bottom: 24px; text-align: left; }
-        .form-group { margin-bottom: 18px; text-align: left; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #4b5563; }
-        .form-group input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; outline: none; font-size: 14px; transition: border-color 0.2s; }
-        .form-group input:focus { border-color: #1d74ed; box-shadow: 0 0 0 3px rgba(29, 116, 237, 0.1); }
-        .btn-login { width: 100%; background: #0b3a7a; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; margin-top: 10px; transition: background 0.2s; }
-        .btn-login:hover { background: #072652; }
-
-        /* Footer */
-        .footer { text-align: center; padding: 20px; color: #475569; font-size: 13px; background: rgba(255, 255, 255, 0.9); border-top: 1px solid rgba(226, 232, 240, 0.8); font-weight: 500; line-height: 1.5; }
+        @media (max-width: 640px) {
+            .grid-fitur {
+                grid-template-columns: 1fr;
+            }
+            .login-card {
+                padding: 28px 20px;
+            }
+            .nav-title {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <!-- Bar Navigasi Atas -->
-    <div class="navbar">
+    <nav class="navbar">
         <div class="nav-brand">
             <img class="nav-logo" src="logo-sekolah.png" alt="Logo SMAN 1 Muncar" onerror="this.src='https://via.placeholder.com/40?text=SMAN1'">
-            <div class="nav-title">KODI | Kelas Digital Informatika</div>
+            <div class="nav-title">Kelas Digital Informatika</div>
         </div>
-        <button class="btn-trigger-login" onclick="bukaModalLogin()">Masuk Kelas</button>
-    </div>
+    </nav>
 
-    <!-- Halaman Narasi Pembuka -->
-    <div class="hero-container">
-        <div class="hero-section">
-            <h1>Kelas Digital Informatika SMAN 1 Muncar</h1>
+    <!-- Konten Utama Split Layout -->
+    <div class="main-wrapper">
+        
+        <!-- Sisi Kiri: Informasi & Fitur -->
+        <div class="hero-info">
+            <h2>Eksplorasi Pembelajaran <span>Informatika Digital</span></h2>
             <p class="hero-desc">
-                Platform ekosistem pembelajaran mandiri mata pelajaran Informatika SMAN 1 Muncar (kodi.web.id). 
-                Dirancang khusus untuk membantu siswa meningkatkan keterampilan berpikir komputasional, menguasai strategi algoritmik, 
-                koding pemrograman dasar, hingga penyelesaian evaluasi secara komprehensif, aman, dan interaktif.
+                Platform ekosistem pembelajaran mandiri SMAN 1 Muncar. 
+                Dirancang khusus untuk meningkatkan keterampilan berpikir komputasional, menguasai strategi algoritmik, 
+                pemrograman dasar, hingga evaluasi pembelajaran secara interaktif.
             </p>
 
-            <!-- Grid 4 Kartu Sejajar Horizontal -->
+            <!-- Grid 4 Fitur Utama -->
             <div class="grid-fitur">
-                
-                <!-- KARTU 1 -->
                 <div class="fitur-card">
-                    <span class="fitur-icon-large">💻</span>
+                    <span class="fitur-icon">⚡</span>
                     <h3>Strategi Algoritmik</h3>
-                    <p>Mempelajari teknik pemrograman, berpikir komputasional, rekursi, hingga optimasi struktur data.</p>
+                    <p>Pemrograman, berpikir komputasional, rekursi, dan optimasi data.</p>
                 </div>
                 
-                <!-- KARTU 2 -->
                 <div class="fitur-card">
-                    <span class="fitur-icon-large">🌐</span>
+                    <span class="fitur-icon">🌐</span>
                     <h3>Jaringan & Internet</h3>
-                    <p>Memahami topologi infrastruktur jaringan komputer, protokol komunikasi data, dan keamanan internet.</p>
+                    <p>Infrastruktur jaringan, protokol komunikasi, dan keamanan cyber.</p>
                 </div>
                 
-                <!-- KARTU 3 -->
                 <div class="fitur-card">
-                    <span class="fitur-icon-large">📱</span>
+                    <span class="fitur-icon">📱</span>
                     <h3>Aplikasi Mobile</h3>
-                    <p>Merancang bangun aplikasi seluler berbasis Android secara visual interaktif menggunakan MIT App Inventor.</p>
+                    <p>Rancang bangun aplikasi Android visual dengan MIT App Inventor.</p>
                 </div>
                 
-                <!-- KARTU 4 -->
                 <div class="fitur-card">
-                    <span class="fitur-icon-large">📊</span>
+                    <span class="fitur-icon">📊</span>
                     <h3>Analisis Data</h3>
-                    <p>Melakukan pengumpulan data riil, memproses, memvisualisasikan, hingga merumuskan simpulan data.</p>
+                    <p>Pengumpulan, pemrosesan, visualisasi, dan formulasi simpulan data.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sisi Kanan: Form Login Langsung -->
+        <div class="login-section">
+            <div class="login-card">
+                <div class="login-header">
+                    <h2>Portal Masuk</h2>
+                    <p class="login-subtitle">Akses akun Siswa atau Admin Kelas Anda.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="inputUser">Username / NISN</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="inputUser" placeholder="Masukkan ID pengguna..." autocomplete="off">
+                    </div>
                 </div>
 
-            </div>
-        </div>
-    </div>
+                <div class="form-group">
+                    <label for="inputPass">Kata Sandi</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="inputPass" placeholder="••••••••">
+                    </div>
+                </div>
 
-    <!-- Dialog Modal Portal Login -->
-    <div class="modal-overlay" id="loginModalArea" onclick="tutupModalLoginEksternal(event)">
-        <div class="login-card">
-            <button class="btn-close-modal" onclick="tutupModalLogin()">&times;</button>
-            <h2>Portal Masuk</h2>
-            <p class="login-subtitle">Silakan gunakan akun Siswa atau Admin Kelas Anda.</p>
-            
-            <div class="form-group">
-                <label>Username / NISN</label>
-                <input type="text" id="inputUser" placeholder="Masukkan nama pengguna...">
+                <button class="btn-login" onclick="prosesLogin()">Masuk Kelas →</button>
             </div>
-            <div class="form-group">
-                <label>Kata Sandi (Password)</label>
-                <input type="password" id="inputPass" placeholder="Masukkan password...">
-            </div>
-            <button class="btn-login" onclick="prosesLogin()">Masuk Aplikasi</button>
         </div>
+
     </div>
 
     <!-- Footer -->
-    <div class="footer">
-        &copy; 2026 KODI | Kelas Digital Informatika<br>SMAN 1 Muncar.
-    </div>
+    <footer class="footer">
+        &copy; 2026 Kelas Digital Informatika — SMAN 1 Muncar.
+    </footer>
 
     <script>
         // Bersihkan riwayat login sebelumnya
         localStorage.removeItem('loggedSiswa');
-
-        function bukaModalLogin() {
-            document.getElementById('loginModalArea').classList.add('active');
-        }
-
-        function tutupModalLogin() {
-            document.getElementById('loginModalArea').classList.remove('active');
-        }
-
-        function tutupModalLoginEksternal(event) {
-            if(event.target.id === "loginModalArea") {
-                tutupModalLogin();
-            }
-        }
 
         function prosesLogin() {
             const userIn = document.getElementById('inputUser').value.trim();
