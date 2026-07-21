@@ -27,7 +27,7 @@
         .btn-tab.inactive { background-color: #e2e8f0; color: #64748b; }
         .filter-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
         .form-grid { display: flex; flex-direction: column; gap: 12px; }
-        select, input[type="date"], input[type="number"], input[type="text"], input[type="month"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+        select, input[type="date"], input[type="number"], input[type="text"], input[type="month"], textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
         
         /* Tables */
         .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
@@ -45,7 +45,7 @@
         .radio-pill:has(input[value="I"]:checked) { background-color: #3b82f6; color: #fff; border-color: #3b82f6; }
         .radio-pill:has(input[value="A"]:checked) { background-color: #ef4444; color: #fff; border-color: #ef4444; }
 
-        /* Area Tanda Tangan (Hanya Tampil Saat Cetak) */
+        /* Area Tanda Tangan */
         .signature-container { display: none; justify-content: space-between; width: 100%; margin-top: 40px; padding: 10px; background: var(--white); }
         .sig-box { text-align: center; width: 240px; font-size: 14px; }
         .sig-space { height: 70px; }
@@ -64,9 +64,8 @@
             .form-grid { flex-direction: row; }
         }
 
-        /* KHUSUS CETAK/PRINT PDF */
         @media print {
-            .top-header, .filter-card, .sub-tabs, .btn-logout-top, .no-print, footer, .btn-print-action { display: none !important; }
+            .top-header, .filter-card, .sub-tabs, .btn-logout-top, .no-print, footer, .btn-print-action, .form-jurnal-box { display: none !important; }
             body, .main-wrapper, .content-area, .card { background: white !important; margin: 0 !important; padding: 0 !important; width: 100% !important; display: block !important; box-shadow: none !important; }
             table { border: 1px solid #000 !important; width: 100% !important; }
             table th, table td { border: 1px solid #000 !important; padding: 6px !important; color: #000 !important; font-size: 12px !important; }
@@ -85,6 +84,7 @@
         <div class="nav-bar">
             <a onclick="loadPage('beranda')" id="nav-beranda" class="active"><i class="fas fa-tachometer-alt"></i> Beranda</a>
             <a onclick="loadPage('presensi')" id="nav-presensi"><i class="fas fa-clipboard-user"></i> Presensi Siswa</a>
+            <a onclick="loadPage('jurnal')" id="nav-jurnal"><i class="fas fa-book-open"></i> Jurnal Mengajar</a>
             <a onclick="loadPage('nilai')" id="nav-nilai"><i class="fas fa-graduation-cap"></i> Input Nilai</a>
             <a onclick="loadPage('rekap')" id="nav-rekap"><i class="fas fa-file-invoice"></i> Rekapitulasi</a>
         </div>
@@ -130,7 +130,7 @@
             container.innerHTML = `
                 <div style="text-align: center; padding: 50px 20px;">
                     <h2>RUANG KERJA DIGITAL</h2>
-                    <p style="color: #64748b; margin-top:10px;">Selamat datang <strong>${userSession.nama}</strong>. Portal siap mengelola presensi, nilai, dan rekapitulasi siswa.</p>
+                    <p style="color: #64748b; margin-top:10px;">Selamat datang <strong>${userSession.nama}</strong>. Portal siap mengelola presensi, jurnal, nilai, dan rekapitulasi siswa.</p>
                 </div>`;
         } 
         else if (page === 'presensi') {
@@ -152,6 +152,40 @@
                 </div>
                 <div id="presensi-table-container">Memuat data siswa...</div>`;
             renderPresensi();
+        }
+        else if (page === 'jurnal') {
+            container.innerHTML = `
+                <h2>Jurnal Mengajar Guru — <span style="color:var(--accent-blue);">${userSession.mapel}</span></h2>
+                <div class="filter-card form-jurnal-box">
+                    <h3 style="margin-bottom: 12px; font-size: 16px; color: #1e293b;"><i class="fas fa-edit"></i> Isi Jurnal KBM</h3>
+                    <div class="form-grid" style="margin-bottom:12px;">
+                        <div style="flex:1;">
+                            <label style="font-weight:600; display:block; margin-bottom:5px;">Tanggal:</label>
+                            <input type="date" id="jurnal-tgl" value="${new Date().toISOString().split('T')[0]}">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Kelas:</label>
+                            <select id="jurnal-kelas">
+                                ${myKelas.map(k => `<option value="${k}">Kelas ${k}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="font-weight:600; display:block; margin-bottom:5px;">Materi / Pembahasan:</label>
+                        <textarea id="jurnal-materi" rows="3" placeholder="Tuliskan uraian materi KBM hari ini..."></textarea>
+                    </div>
+                    <div style="margin-bottom:15px;">
+                        <label style="font-weight:600; display:block; margin-bottom:5px;">Tugas / Catatan Tambahan:</label>
+                        <input type="text" id="jurnal-tugas" placeholder="Tugas siswa atau catatan khusus KBM...">
+                    </div>
+                    <button id="btn-save-jurnal" onclick="saveJurnal()" style="background:var(--accent-blue); color:#fff; border:none; padding:12px; border-radius:6px; width:100%; font-weight:bold; cursor:pointer;">
+                        <i class="fas fa-paper-plane"></i> Posting Jurnal KBM
+                    </button>
+                </div>
+                
+                <h3 style="margin:25px 0 15px; font-size:16px;"><i class="fas fa-history"></i> Riwayat Jurnal Mengajar</h3>
+                <div id="jurnal-table-container">Memuat riwayat jurnal...</div>`;
+            renderJurnal();
         }
         else if (page === 'nilai') {
             const labels = {
@@ -194,6 +228,90 @@
     function switchRekap(sub) {
         currentRekapSub = sub;
         loadPage('rekap');
+    }
+
+    /* JURNAL HANDLER */
+    async function renderJurnal() {
+        const container = document.getElementById('jurnal-table-container');
+        try {
+            const res = await fetch(`${API_URL}?action=getJurnal`).then(r => r.json());
+            const listJurnal = res.data || [];
+
+            if (listJurnal.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Belum ada riwayat jurnal mengajar tersimpan.</div>`;
+                return;
+            }
+
+            let html = `
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="40" class="txt-center">No</th>
+                                <th width="110" class="txt-center">Tanggal</th>
+                                <th width="90" class="txt-center">Kelas</th>
+                                <th>Materi KBM</th>
+                                <th>Tugas / Catatan</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            listJurnal.reverse().forEach((j, idx) => {
+                html += `
+                    <tr>
+                        <td class="txt-center">${idx + 1}</td>
+                        <td class="txt-center">${j.tanggal}</td>
+                        <td class="txt-center txt-bold">Kelas ${j.kelas}</td>
+                        <td>${j.materi || '-'}</td>
+                        <td>${j.tugas || '-'}</td>
+                    </tr>`;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        } catch (e) {
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat jurnal dari database.</div>`;
+        }
+    }
+
+    async function saveJurnal() {
+        const btn = document.getElementById('btn-save-jurnal');
+        const tgl = document.getElementById('jurnal-tgl').value;
+        const kls = document.getElementById('jurnal-kelas').value;
+        const materi = document.getElementById('jurnal-materi').value.trim();
+        const tugas = document.getElementById('jurnal-tugas').value.trim();
+
+        if (!materi) {
+            alert('Materi KBM wajib diisi!');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Memposting...`;
+
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'saveJurnal',
+                    tanggal: tgl,
+                    kelas: kls,
+                    mapel: userSession.mapel,
+                    materi: materi,
+                    tugas: tugas
+                })
+            });
+            const data = await res.json();
+            alert(data.message || 'Jurnal berhasil diposting!');
+            document.getElementById('jurnal-materi').value = '';
+            document.getElementById('jurnal-tugas').value = '';
+            renderJurnal();
+        } catch (e) {
+            alert('Terjadi kesalahan saat menyimpan jurnal.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fas fa-paper-plane"></i> Posting Jurnal KBM`;
+        }
     }
 
     /* PRESENSI HANDLER */
@@ -359,7 +477,7 @@
         }
     }
 
-    /* REKAP & PRINT HANDLER */
+    /* REKAP HANDLER */
     async function renderRekap() {
         const area = document.getElementById('rekap-content-area');
 
@@ -415,12 +533,6 @@
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;" class="no-print">
                 <h3>REKAP PRESENSI - KELAS ${kls} (${bulan})</h3>
                 <button onclick="window.print()" style="background:#2c3e50; color:#fff; border:none; padding:10px 18px; border-radius:6px; cursor:pointer; font-weight:bold;"><i class="fas fa-print"></i> Cetak PDF</button>
-            </div>
-            
-            <div style="text-align:center; margin-bottom:20px; display:none;" class="print-header">
-                <h2>REKAPITULASI PRESENSI SISWA</h2>
-                <p>Mata Pelajaran: <strong>${userSession.mapel}</strong> | Kelas: <strong>${kls}</strong> | Periode: <strong>${bulan}</strong></p>
-                <hr style="margin-top:10px; border:1px solid #000;">
             </div>
 
             <div class="table-responsive">
