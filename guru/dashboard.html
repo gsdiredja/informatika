@@ -677,7 +677,10 @@
 
     async function fetchRekapPresensi() {
         const kls = document.getElementById('rekap-presensi-kelas').value;
+        const tipe = document.getElementById('rekap-presensi-tipe').value;
         const container = document.getElementById('rekap-presensi-table');
+
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data rekap presensi...</div>`;
 
         const [resSiswa, resPres] = await Promise.all([
             fetch(`${API_URL}?action=getSiswa`).then(r => r.json()),
@@ -685,11 +688,26 @@
         ]);
 
         const siswaList = resSiswa.data ? resSiswa.data.filter(s => String(s.kelas).trim() === String(kls).trim()) : [];
-        const presData = resPres.data || {};
+        const presDataRaw = resPres.data || {};
+
+        let labelInfo = "";
+        let val1 = "", val2 = "";
+
+        if (tipe === 'harian') {
+            val1 = document.getElementById('rekap-presensi-val')?.value || new Date().toISOString().split('T')[0];
+            labelInfo = `Tanggal ${val1}`;
+        } else if (tipe === 'mingguan') {
+            val1 = document.getElementById('rekap-presensi-val1')?.value || new Date().toISOString().split('T')[0];
+            val2 = document.getElementById('rekap-presensi-val2')?.value || new Date().toISOString().split('T')[0];
+            labelInfo = `Periode ${val1} s.d. ${val2}`;
+        } else {
+            val1 = document.getElementById('rekap-presensi-val')?.value || new Date().toISOString().slice(0,7);
+            labelInfo = `Bulan ${val1}`;
+        }
 
         let html = `
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;" class="no-print">
-                <h3>REKAP PRESENSI - KELAS ${kls}</h3>
+                <h3>REKAP PRESENSI - KELAS ${kls} (${labelInfo})</h3>
                 <button onclick="window.print()" style="background:#2c3e50; color:#fff; border:none; padding:10px 18px; border-radius:6px; cursor:pointer; font-weight:bold;"><i class="fas fa-print"></i> Cetak PDF</button>
             </div>
 
@@ -710,20 +728,30 @@
 
         siswaList.forEach((s, idx) => {
             const namaClean = String(s.nama).trim();
-            const p = presData[namaClean] || { H: 0, S: 0, I: 0, A: 0 };
-            const h = typeof p === 'object' ? (p.H || 0) : (p === 'H' ? 1 : 0);
-            const sak = typeof p === 'object' ? (p.S || 0) : (p === 'S' ? 1 : 0);
-            const iz = typeof p === 'object' ? (p.I || 0) : (p === 'I' ? 1 : 0);
-            const alp = typeof p === 'object' ? (p.A || 0) : (p === 'A' ? 1 : 0);
+            const p = presDataRaw[namaClean] || { H: 0, S: 0, I: 0, A: 0 };
+            
+            let h = 0, sak = 0, iz = 0, alp = 0;
+
+            if (typeof p === 'object') {
+                h = p.H || 0;
+                sak = p.S || 0;
+                iz = p.I || 0;
+                alp = p.A || 0;
+            } else if (typeof p === 'string') {
+                if (p === 'H') h = 1;
+                if (p === 'S') sak = 1;
+                if (p === 'I') iz = 1;
+                if (p === 'A') alp = 1;
+            }
 
             html += `
                 <tr>
                     <td class="txt-center">${idx + 1}</td>
-                    <td class="txt-bold">${namaClean}</td>
-                    <td class="txt-center">${h}</td>
-                    <td class="txt-center">${sak}</td>
-                    <td class="txt-center">${iz}</td>
-                    <td class="txt-center">${alp}</td>
+                    <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
+                    <td class="txt-center txt-bold" style="color:#10b981;">${h}</td>
+                    <td class="txt-center txt-bold" style="color:#f59e0b;">${sak}</td>
+                    <td class="txt-center txt-bold" style="color:#3b82f6;">${iz}</td>
+                    <td class="txt-center txt-bold" style="color:#ef4444;">${alp}</td>
                     <td class="txt-center col-aksi">
                         <button onclick="loadPage('presensi')" class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
                     </td>
