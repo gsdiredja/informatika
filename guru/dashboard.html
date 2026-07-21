@@ -36,6 +36,10 @@
         table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
         .txt-center { text-align: center; } .txt-bold { font-weight: bold; }
         
+        /* Buttons */
+        .btn-edit { background: #f39c12; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-edit:hover { background: #d35400; }
+
         /* Presensi Radio Pill */
         .radio-group-horizontal { display: flex; justify-content: center; gap: 10px; align-items: center; }
         .radio-pill { display: inline-flex; align-items: center; justify-content: center; padding: 6px 14px; border-radius: 20px; border: 1.5px solid #cbd5e1; background: #fff; cursor: pointer; font-weight: 700; font-size: 13px; transition: all 0.2s ease; user-select: none; }
@@ -49,6 +53,10 @@
         .signature-container { display: none; justify-content: space-between; width: 100%; margin-top: 40px; padding: 10px; background: var(--white); }
         .sig-box { text-align: center; width: 240px; font-size: 14px; }
         .sig-space { height: 70px; }
+
+        /* Modal Box Edit */
+        .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-body { background: #fff; padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
 
         footer { background-color: var(--secondary-dark); color: #94a3b8; text-align: center; padding: 20px; font-size: 12px; margin-top: auto; }
 
@@ -65,7 +73,7 @@
         }
 
         @media print {
-            .top-header, .filter-card, .sub-tabs, .btn-logout-top, .no-print, footer, .btn-print-action, .form-jurnal-box { display: none !important; }
+            .top-header, .filter-card, .sub-tabs, .btn-logout-top, .no-print, footer, .btn-print-action, .form-jurnal-box, .col-aksi { display: none !important; }
             body, .main-wrapper, .content-area, .card { background: white !important; margin: 0 !important; padding: 0 !important; width: 100% !important; display: block !important; box-shadow: none !important; }
             table { border: 1px solid #000 !important; width: 100% !important; }
             table th, table td { border: 1px solid #000 !important; padding: 6px !important; color: #000 !important; font-size: 12px !important; }
@@ -94,6 +102,34 @@
     <div class="content-area">
         <div class="card" id="main-content">
             <!-- Konten Dinamis Dimuat di Sini -->
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDIT JURNAL -->
+<div id="modal-edit-jurnal" class="modal-bg">
+    <div class="modal-body">
+        <h3 style="margin-bottom:15px; font-size:16px;"><i class="fas fa-edit"></i> Edit Jurnal Mengajar</h3>
+        <input type="hidden" id="edit-jurnal-index">
+        <div style="margin-bottom:12px;">
+            <label style="font-weight:600; display:block; margin-bottom:5px;">Tanggal:</label>
+            <input type="date" id="edit-jurnal-tgl" readonly style="background:#eee;">
+        </div>
+        <div style="margin-bottom:12px;">
+            <label style="font-weight:600; display:block; margin-bottom:5px;">Kelas:</label>
+            <input type="text" id="edit-jurnal-kelas" readonly style="background:#eee;">
+        </div>
+        <div style="margin-bottom:12px;">
+            <label style="font-weight:600; display:block; margin-bottom:5px;">Materi / Pembahasan:</label>
+            <textarea id="edit-jurnal-materi" rows="3"></textarea>
+        </div>
+        <div style="margin-bottom:20px;">
+            <label style="font-weight:600; display:block; margin-bottom:5px;">Tugas / Catatan:</label>
+            <input type="text" id="edit-jurnal-tugas">
+        </div>
+        <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <button onclick="closeModalJurnal()" style="padding:10px 15px; border:none; background:#cbd5e1; border-radius:6px; cursor:pointer; font-weight:bold;">Batal</button>
+            <button onclick="submitUpdateJurnal()" style="padding:10px 15px; border:none; background:#2ecc71; color:#fff; border-radius:6px; cursor:pointer; font-weight:bold;">Simpan Perubahan</button>
         </div>
     </div>
 </div>
@@ -218,6 +254,7 @@
                 <h2>Rekapitulasi & Laporan — <span style="color:var(--accent-blue);">${userSession.mapel}</span></h2>
                 <div class="sub-tabs no-print">
                     <button class="btn-tab ${currentRekapSub === 'presensi' ? 'active' : 'inactive'}" onclick="switchRekap('presensi')">Rekap Presensi</button>
+                    <button class="btn-tab ${currentRekapSub === 'jurnal' ? 'active' : 'inactive'}" onclick="switchRekap('jurnal')">Rekap Jurnal</button>
                     <button class="btn-tab ${currentRekapSub === 'nilai' ? 'active' : 'inactive'}" onclick="switchRekap('nilai')">Rekap Nilai (Leger)</button>
                 </div>
                 <div id="rekap-content-area">Memuat rekapitulasi...</div>`;
@@ -228,90 +265,6 @@
     function switchRekap(sub) {
         currentRekapSub = sub;
         loadPage('rekap');
-    }
-
-    /* JURNAL HANDLER */
-    async function renderJurnal() {
-        const container = document.getElementById('jurnal-table-container');
-        try {
-            const res = await fetch(`${API_URL}?action=getJurnal`).then(r => r.json());
-            const listJurnal = res.data || [];
-
-            if (listJurnal.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Belum ada riwayat jurnal mengajar tersimpan.</div>`;
-                return;
-            }
-
-            let html = `
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th width="40" class="txt-center">No</th>
-                                <th width="110" class="txt-center">Tanggal</th>
-                                <th width="90" class="txt-center">Kelas</th>
-                                <th>Materi KBM</th>
-                                <th>Tugas / Catatan</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-
-            listJurnal.reverse().forEach((j, idx) => {
-                html += `
-                    <tr>
-                        <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-center">${j.tanggal}</td>
-                        <td class="txt-center txt-bold">Kelas ${j.kelas}</td>
-                        <td>${j.materi || '-'}</td>
-                        <td>${j.tugas || '-'}</td>
-                    </tr>`;
-            });
-
-            html += `</tbody></table></div>`;
-            container.innerHTML = html;
-        } catch (e) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat jurnal dari database.</div>`;
-        }
-    }
-
-    async function saveJurnal() {
-        const btn = document.getElementById('btn-save-jurnal');
-        const tgl = document.getElementById('jurnal-tgl').value;
-        const kls = document.getElementById('jurnal-kelas').value;
-        const materi = document.getElementById('jurnal-materi').value.trim();
-        const tugas = document.getElementById('jurnal-tugas').value.trim();
-
-        if (!materi) {
-            alert('Materi KBM wajib diisi!');
-            return;
-        }
-
-        btn.disabled = true;
-        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Memposting...`;
-
-        try {
-            const res = await fetch(API_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    action: 'saveJurnal',
-                    tanggal: tgl,
-                    kelas: kls,
-                    mapel: userSession.mapel,
-                    materi: materi,
-                    tugas: tugas
-                })
-            });
-            const data = await res.json();
-            alert(data.message || 'Jurnal berhasil diposting!');
-            document.getElementById('jurnal-materi').value = '';
-            document.getElementById('jurnal-tugas').value = '';
-            renderJurnal();
-        } catch (e) {
-            alert('Terjadi kesalahan saat menyimpan jurnal.');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = `<i class="fas fa-paper-plane"></i> Posting Jurnal KBM`;
-        }
     }
 
     /* PRESENSI HANDLER */
@@ -399,6 +352,137 @@
         } finally {
             btn.disabled = false;
             btn.innerHTML = `<i class="fas fa-save" style="margin-right:8px;"></i> Simpan Data Presensi`;
+        }
+    }
+
+    /* JURNAL HANDLER */
+    let cacheJurnalData = [];
+
+    async function renderJurnal() {
+        const container = document.getElementById('jurnal-table-container');
+        try {
+            const res = await fetch(`${API_URL}?action=getJurnal`).then(r => r.json());
+            cacheJurnalData = res.data || [];
+
+            if (cacheJurnalData.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Belum ada riwayat jurnal mengajar tersimpan.</div>`;
+                return;
+            }
+
+            let html = `
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="40" class="txt-center">No</th>
+                                <th width="110" class="txt-center">Tanggal</th>
+                                <th width="90" class="txt-center">Kelas</th>
+                                <th>Materi KBM</th>
+                                <th>Tugas / Catatan</th>
+                                <th width="70" class="txt-center col-aksi">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            cacheJurnalData.reverse().forEach((j, idx) => {
+                html += `
+                    <tr>
+                        <td class="txt-center">${idx + 1}</td>
+                        <td class="txt-center">${j.tanggal}</td>
+                        <td class="txt-center txt-bold">Kelas ${j.kelas}</td>
+                        <td>${j.materi || '-'}</td>
+                        <td>${j.tugas || '-'}</td>
+                        <td class="txt-center col-aksi">
+                            <button onclick="openModalEditJurnal(${idx})" class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
+                        </td>
+                    </tr>`;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        } catch (e) {
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat jurnal dari database.</div>`;
+        }
+    }
+
+    function openModalEditJurnal(idx) {
+        const item = cacheJurnalData[idx];
+        document.getElementById('edit-jurnal-index').value = idx;
+        document.getElementById('edit-jurnal-tgl').value = item.tanggal;
+        document.getElementById('edit-jurnal-kelas').value = item.kelas;
+        document.getElementById('edit-jurnal-materi').value = item.materi;
+        document.getElementById('edit-jurnal-tugas').value = item.tugas;
+        document.getElementById('modal-edit-jurnal').style.display = 'flex';
+    }
+
+    function closeModalJurnal() {
+        document.getElementById('modal-edit-jurnal').style.display = 'none';
+    }
+
+    async function submitUpdateJurnal() {
+        const tgl = document.getElementById('edit-jurnal-tgl').value;
+        const kls = document.getElementById('edit-jurnal-kelas').value;
+        const materi = document.getElementById('edit-jurnal-materi').value;
+        const tugas = document.getElementById('edit-jurnal-tugas').value;
+
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'saveJurnal',
+                    tanggal: tgl,
+                    kelas: kls,
+                    mapel: userSession.mapel,
+                    materi: materi,
+                    tugas: tugas
+                })
+            });
+            const data = await res.json();
+            alert(data.message || 'Jurnal berhasil diperbarui!');
+            closeModalJurnal();
+            renderJurnal();
+        } catch (e) {
+            alert('Gagal memperbarui jurnal.');
+        }
+    }
+
+    async function saveJurnal() {
+        const btn = document.getElementById('btn-save-jurnal');
+        const tgl = document.getElementById('jurnal-tgl').value;
+        const kls = document.getElementById('jurnal-kelas').value;
+        const materi = document.getElementById('jurnal-materi').value.trim();
+        const tugas = document.getElementById('jurnal-tugas').value.trim();
+
+        if (!materi) {
+            alert('Materi KBM wajib diisi!');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Memposting...`;
+
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'saveJurnal',
+                    tanggal: tgl,
+                    kelas: kls,
+                    mapel: userSession.mapel,
+                    materi: materi,
+                    tugas: tugas
+                })
+            });
+            const data = await res.json();
+            alert(data.message || 'Jurnal berhasil diposting!');
+            document.getElementById('jurnal-materi').value = '';
+            document.getElementById('jurnal-tugas').value = '';
+            renderJurnal();
+        } catch (e) {
+            alert('Terjadi kesalahan saat menyimpan jurnal.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fas fa-paper-plane"></i> Posting Jurnal KBM`;
         }
     }
 
@@ -492,14 +576,36 @@
                             </select>
                         </div>
                         <div>
-                            <label style="font-weight:600; display:block; margin-bottom:5px;">Opsi Bulan Cetak:</label>
-                            <input type="month" id="rekap-presensi-bulan" value="${new Date().toISOString().slice(0,7)}" onchange="fetchRekapPresensi()">
+                            <label style="font-weight:600; display:block; margin-bottom:5px;">Tipe Rentang Rekap:</label>
+                            <select id="rekap-presensi-tipe" onchange="toggleFilterRekapPresensi()">
+                                <option value="bulanan">Bulanan</option>
+                                <option value="mingguan">Mingguan</option>
+                                <option value="harian">Harian</option>
+                            </select>
+                        </div>
+                        <div id="box-filter-rekap-presensi" style="flex:1;">
+                            <!-- Filter Dinamis Dimuat Di Sini -->
                         </div>
                     </div>
                 </div>
                 <div id="rekap-presensi-table">Memuat data rekap presensi...</div>`;
-            fetchRekapPresensi();
+            toggleFilterRekapPresensi();
         } 
+        else if (currentRekapSub === 'jurnal') {
+            area.innerHTML = `
+                <div class="filter-card no-print">
+                    <div class="form-grid">
+                        <div>
+                            <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Kelas:</label>
+                            <select id="rekap-jurnal-kelas" onchange="fetchRekapJurnal()">
+                                ${myKelas.map(k => `<option value="${k}">Kelas ${k}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div id="rekap-jurnal-table">Memuat data rekap jurnal...</div>`;
+            fetchRekapJurnal();
+        }
         else if (currentRekapSub === 'nilai') {
             area.innerHTML = `
                 <div class="filter-card no-print">
@@ -517,9 +623,37 @@
         }
     }
 
+    function toggleFilterRekapPresensi() {
+        const tipe = document.getElementById('rekap-presensi-tipe').value;
+        const box = document.getElementById('box-filter-rekap-presensi');
+        const now = new Date().toISOString().split('T')[0];
+        
+        if (tipe === 'harian') {
+            box.innerHTML = `
+                <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Tanggal:</label>
+                <input type="date" id="rekap-presensi-val" value="${now}" onchange="fetchRekapPresensi()">`;
+        } else if (tipe === 'mingguan') {
+            box.innerHTML = `
+                <div style="display:flex; gap:10px;">
+                    <div style="flex:1;">
+                        <label style="font-weight:600; display:block; margin-bottom:5px;">Awal Minggu:</label>
+                        <input type="date" id="rekap-presensi-val1" value="${now}" onchange="fetchRekapPresensi()">
+                    </div>
+                    <div style="flex:1;">
+                        <label style="font-weight:600; display:block; margin-bottom:5px;">Akhir Minggu:</label>
+                        <input type="date" id="rekap-presensi-val2" value="${now}" onchange="fetchRekapPresensi()">
+                    </div>
+                </div>`;
+        } else {
+            box.innerHTML = `
+                <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Bulan:</label>
+                <input type="month" id="rekap-presensi-val" value="${now.slice(0,7)}" onchange="fetchRekapPresensi()">`;
+        }
+        fetchRekapPresensi();
+    }
+
     async function fetchRekapPresensi() {
         const kls = document.getElementById('rekap-presensi-kelas').value;
-        const bulan = document.getElementById('rekap-presensi-bulan').value;
         const container = document.getElementById('rekap-presensi-table');
 
         const [resSiswa, resPres] = await Promise.all([
@@ -528,10 +662,11 @@
         ]);
 
         const siswaList = resSiswa.data ? resSiswa.data.filter(s => s.kelas === kls) : [];
+        const presData = resPres.data || {};
 
         let html = `
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;" class="no-print">
-                <h3>REKAP PRESENSI - KELAS ${kls} (${bulan})</h3>
+                <h3>REKAP PRESENSI - KELAS ${kls}</h3>
                 <button onclick="window.print()" style="background:#2c3e50; color:#fff; border:none; padding:10px 18px; border-radius:6px; cursor:pointer; font-weight:bold;"><i class="fas fa-print"></i> Cetak PDF</button>
             </div>
 
@@ -545,21 +680,89 @@
                             <th width="60" class="txt-center" style="color:#f59e0b;">S</th>
                             <th width="60" class="txt-center" style="color:#3b82f6;">I</th>
                             <th width="60" class="txt-center" style="color:#ef4444;">A</th>
+                            <th width="80" class="txt-center col-aksi">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>`;
 
         siswaList.forEach((s, idx) => {
+            const p = presData[s.nama] || { H: 0, S: 0, I: 0, A: 0 };
+            const h = typeof p === 'object' ? (p.H || 0) : (p === 'H' ? 1 : 0);
+            const sak = typeof p === 'object' ? (p.S || 0) : (p === 'S' ? 1 : 0);
+            const iz = typeof p === 'object' ? (p.I || 0) : (p === 'I' ? 1 : 0);
+            const alp = typeof p === 'object' ? (p.A || 0) : (p === 'A' ? 1 : 0);
+
             html += `
                 <tr>
                     <td class="txt-center">${idx + 1}</td>
                     <td class="txt-bold">${s.nama}</td>
-                    <td class="txt-center">10</td>
-                    <td class="txt-center">0</td>
-                    <td class="txt-center">0</td>
-                    <td class="txt-center">0</td>
+                    <td class="txt-center">${h}</td>
+                    <td class="txt-center">${sak}</td>
+                    <td class="txt-center">${iz}</td>
+                    <td class="txt-center">${alp}</td>
+                    <td class="txt-center col-aksi">
+                        <button onclick="loadPage('presensi')" class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
+                    </td>
                 </tr>`;
         });
+
+        html += `</tbody></table></div>
+        
+        <div class="signature-container">
+            <div class="sig-box">
+                <p>Mengetahui,</p>
+                <p><strong>Kepala Sekolah</strong></p>
+                <div class="sig-space"></div>
+                <p>_______________________</p>
+            </div>
+            <div class="sig-box">
+                <p>Guru Mata Pelajaran,</p>
+                <br>
+                <div class="sig-space"></div>
+                <p><strong>${userSession.nama}</strong></p>
+            </div>
+        </div>`;
+        container.innerHTML = html;
+    }
+
+    async function fetchRekapJurnal() {
+        const kls = document.getElementById('rekap-jurnal-kelas').value;
+        const container = document.getElementById('rekap-jurnal-table');
+
+        const res = await fetch(`${API_URL}?action=getJurnal`).then(r => r.json());
+        const listJurnal = res.data ? res.data.filter(j => j.kelas === kls) : [];
+
+        let html = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;" class="no-print">
+                <h3>REKAP JURNAL KBM - KELAS ${kls}</h3>
+                <button onclick="window.print()" style="background:#2c3e50; color:#fff; border:none; padding:10px 18px; border-radius:6px; cursor:pointer; font-weight:bold;"><i class="fas fa-print"></i> Cetak PDF Jurnal</button>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="40" class="txt-center">No</th>
+                            <th width="110" class="txt-center">Tanggal</th>
+                            <th>Materi Pembahasan</th>
+                            <th>Tugas / Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+        if (listJurnal.length === 0) {
+            html += `<tr><td colspan="4" class="txt-center" style="color:#94a3b8; padding:20px;">Belum ada catatan jurnal mengajar untuk kelas ini.</td></tr>`;
+        } else {
+            listJurnal.forEach((j, idx) => {
+                html += `
+                    <tr>
+                        <td class="txt-center">${idx + 1}</td>
+                        <td class="txt-center">${j.tanggal}</td>
+                        <td>${j.materi || '-'}</td>
+                        <td>${j.tugas || '-'}</td>
+                    </tr>`;
+            });
+        }
 
         html += `</tbody></table></div>
         
@@ -605,6 +808,7 @@
                             <th width="70" class="txt-center">STS</th>
                             <th width="70" class="txt-center">SAS</th>
                             <th width="90" class="txt-center" style="background:#e2e8f0;">Rata-Rata</th>
+                            <th width="70" class="txt-center col-aksi">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>`;
@@ -614,12 +818,15 @@
                 <tr>
                     <td class="txt-center">${idx + 1}</td>
                     <td class="txt-bold">${s.nama}</td>
-                    <td class="txt-center">85</td>
-                    <td class="txt-center">80</td>
-                    <td class="txt-center">90</td>
-                    <td class="txt-center">88</td>
-                    <td class="txt-center">85</td>
-                    <td class="txt-center txt-bold" style="background:#f8fafc;">85.6</td>
+                    <td class="txt-center">0</td>
+                    <td class="txt-center">0</td>
+                    <td class="txt-center">0</td>
+                    <td class="txt-center">0</td>
+                    <td class="txt-center">0</td>
+                    <td class="txt-center txt-bold" style="background:#f8fafc;">0.0</td>
+                    <td class="txt-center col-aksi">
+                        <button onclick="loadPage('nilai')" class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
+                    </td>
                 </tr>`;
         });
 
