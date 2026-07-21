@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduAdaptif - Jurnal Mengajar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-dark: #1e293b; --nav-blue: #2c3e50; --accent-blue: #3498db; --bg-light: #f1f5f9; --white: #ffffff; --secondary-dark: #0f172a; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; color: #334155; }
+        .main-wrapper { display: flex; flex: 1; flex-direction: column; }
+        .top-header { background-color: var(--primary-dark); color: var(--white); text-align: center; padding: 15px 10px; z-index: 100; }
+        .profile-pic { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); margin: 0 auto 5px; display: block; }
+        .top-header h1 { font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-bar { background-color: var(--nav-blue); display: flex; flex-wrap: wrap; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav-bar a { flex: 1; text-align: center; color: #cbd5e1; padding: 12px 5px; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav-bar a.active { border-bottom: 3px solid var(--accent-blue); background-color: rgba(255,255,255,0.05); color: #fff; }
+        .btn-logout-top { width: 100%; background-color: #c0392b; text-align: center; color: var(--white); padding: 10px; text-decoration: none; font-size: 13px; font-weight: 600; display: block; border: none; cursor: pointer; }
+        .content-area { flex: 1; padding: 15px; width: 100%; }
+        .card { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        
+        .filter-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+        .form-grid { display: flex; flex-direction: column; gap: 12px; }
+        select, input[type="date"], input[type="text"], textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+        
+        .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
+        table { width: 100%; border-collapse: collapse; }
+        table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: left; padding: 12px; font-size: 13px; border-bottom: 2px solid #e2e8f0; }
+        table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+        .txt-center { text-align: center; } .txt-bold { font-weight: bold; }
+        
+        .btn-edit { background: #f39c12; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-edit:hover { background: #d35400; }
+
+        .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-body { background: #fff; padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+
+        footer { background-color: var(--secondary-dark); color: #94a3b8; text-align: center; padding: 20px; font-size: 12px; margin-top: auto; }
+
+        @media (min-width: 769px) {
+            .main-wrapper { flex-direction: row; }
+            .top-header { width: 260px; min-height: 100vh; position: sticky; top: 0; padding-top: 40px; }
+            .profile-pic { width: 90px; height: 90px; margin-bottom: 15px; }
+            .nav-bar { flex-direction: column; background: none; box-shadow: none; margin-top: 25px; }
+            .nav-bar a { width: 100%; text-align: left; padding: 15px 25px; flex-direction: row; gap: 12px; font-size: 15px; }
+            .nav-bar a.active { border-left: 4px solid var(--accent-blue); background-color: #34495e; border-bottom: none; }
+            .btn-logout-top { position: absolute; bottom: 0; left: 0; padding: 15px; }
+            .content-area { padding: 30px; max-width: calc(100% - 260px); }
+            .form-grid { flex-direction: row; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="top-header">
+        <img id="user-pic" src="photo-guru.png" class="profile-pic" alt="User">
+        <h1>EduAdaptif</h1>
+        <p id="user-name" style="font-size:12px; color:#cbd5e1; font-weight:600; margin-top:5px;">Loading...</p>
+        <br/>
+        <div class="nav-bar">
+            <a href="beranda.html"><i class="fas fa-tachometer-alt"></i> Beranda</a>
+            <a href="presensi.html"><i class="fas fa-clipboard-user"></i> Presensi Siswa</a>
+            <a href="jurnal.html" class="active"><i class="fas fa-book-open"></i> Jurnal Mengajar</a>
+            <a href="nilai.html"><i class="fas fa-graduation-cap"></i> Input Nilai</a>
+            <a href="rekap.html"><i class="fas fa-file-invoice"></i> Rekapitulasi</a>
+        </div>
+        <button onclick="logout()" class="btn-logout-top"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+    </div>
+
+    <div class="content-area">
+        <div class="card">
+            <h2>Jurnal Mengajar Guru — <span id="lbl-mapel" style="color:var(--accent-blue);"></span></h2>
+            
+            <!-- FORM INPUT JURNAL -->
+            <div class="filter-card" style="margin-top:15px;">
+                <h3 style="margin-bottom: 12px; font-size: 16px; color: #1e293b;"><i class="fas fa-edit"></i> Isi Jurnal KBM</h3>
+                <div class="form-grid" style="margin-bottom:12px;">
+                    <div style="flex:1;">
+                        <label style="font-weight:600; display:block; margin-bottom:5px;">Tanggal:</label>
+                        <input type="date" id="jurnal-tgl">
+                    </div>
+                    <div style="flex:1;">
+                        <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Kelas:</label>
+                        <select id="jurnal-kelas"></select>
+                    </div>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <label style="font-weight:600; display:block; margin-bottom:5px;">Materi / Pembahasan:</label>
+                    <textarea id="jurnal-materi" rows="3" placeholder="Tuliskan uraian materi KBM hari ini..."></textarea>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label style="font-weight:600; display:block; margin-bottom:5px;">Tugas / Catatan Tambahan:</label>
+                    <input type="text" id="jurnal-tugas" placeholder="Tugas siswa atau catatan khusus KBM...">
+                </div>
+                <button id="btn-save-jurnal" onclick="saveJurnal()" style="background:var(--accent-blue); color:#fff; border:none; padding:12px; border-radius:6px; width:100%; font-weight:bold; cursor:pointer;">
+                    <i class="fas fa-paper-plane"></i> Posting Jurnal KBM
+                </button>
+            </div>
+
+            <!-- TABEL RIWAYAT JURNAL -->
+            <h3 style="margin:25px 0 15px; font-size:16px;"><i class="fas fa-history"></i> Riwayat Jurnal Mengajar</h3>
+            <div id="jurnal-table-container">Memuat riwayat jurnal...</div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDIT JURNAL -->
+<div id="modal-edit-jurnal" class="modal-bg">
+    <div class="modal-body">
+        <h3 style="margin-bottom:15px; font-size:16px;"><i class="fas fa-edit"></i> Edit Jurnal Mengajar</h3>
+        <div style="margin-bottom:12px;">
+            <label style="font-weight:600; display:block; margin-bottom:5px;">Tanggal:</label>
+            <input type="date" id="edit-jurnal-tgl" readonly style="background:#eee;">
+        </div>
+        <div style="margin-bottom:12px;">
+            <label style="font-weight:600; display:block; margin-bottom:5px;">Kelas:</label>
+            <input type="text" id="edit-jurnal-kelas" readonly style="background:#eee;">
+        </div>
+        <div style="margin-bottom:12px;">
+            <label style="font-weight:600; display:block; margin-bottom:5px;">Materi / Pembahasan:</label>
+            <textarea id="edit-jurnal-materi" rows="3"></textarea>
+        </div>
+        <div style="margin-bottom:20px;">
+            <label style="font-weight:600; display:block; margin-bottom:5px;">Tugas / Catatan:</label>
+            <input type="text" id="edit-jurnal-tugas">
+        </div>
+        <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <button onclick="closeModalJurnal()" style="padding:10px 15px; border:none; background:#cbd5e1; border-radius:6px; cursor:pointer; font-weight:bold;">Batal</button>
+            <button onclick="submitUpdateJurnal()" style="padding:10px 15px; border:none; background:#2ecc71; color:#fff; border-radius:6px; cursor:pointer; font-weight:bold;">Simpan Perubahan</button>
+        </div>
+    </div>
+</div>
+
+<footer>&copy; 2026 <strong>EduAdaptif</strong> | Created by usudo.id</footer>
+
+<script src="config.js"></script>
+<script>
+    const userSession = JSON.parse(localStorage.getItem('user_session'));
+    if (!userSession) window.location.href = 'index.html';
+
+    document.getElementById('user-name').innerText = userSession.nama;
+    document.getElementById('lbl-mapel').innerText = userSession.mapel;
+    if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
+
+    const myKelas = userSession.ampu_kelas.split(',');
+    const selKelas = document.getElementById('jurnal-kelas');
+    selKelas.innerHTML = myKelas.map(k => `<option value="${k.trim()}">Kelas ${k.trim()}</option>`).join('');
+    
+    document.getElementById('jurnal-tgl').value = new Date().toISOString().split('T')[0];
+
+    let cacheJurnalData = [];
+
+    function logout() {
+        localStorage.removeItem('user_session');
+        window.location.href = 'index.html';
+    }
+
+    async function loadDataJurnal() {
+        const container = document.getElementById('jurnal-table-container');
+        try {
+            const res = await fetch(`${API_URL}?action=getJurnal`).then(r => r.json());
+            cacheJurnalData = res.data || [];
+
+            if (cacheJurnalData.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Belum ada riwayat jurnal mengajar tersimpan.</div>`;
+                return;
+            }
+
+            let html = `
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="40" class="txt-center">No</th>
+                                <th width="110" class="txt-center">Tanggal</th>
+                                <th width="90" class="txt-center">Kelas</th>
+                                <th>Materi KBM</th>
+                                <th>Tugas / Catatan</th>
+                                <th width="70" class="txt-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            // Tampilkan dari yang terbaru ke lama (Reverse)
+            const listReversed = [...cacheJurnalData].reverse();
+
+            listReversed.forEach((j, idx) => {
+                const cleanDate = String(j.tanggal).split("T")[0];
+                const cleanKelas = String(j.kelas).split("T")[0];
+                const originalIndex = cacheJurnalData.length - 1 - idx;
+
+                html += `
+                    <tr>
+                        <td class="txt-center">${idx + 1}</td>
+                        <td class="txt-center">${cleanDate}</td>
+                        <td class="txt-center txt-bold">Kelas ${cleanKelas}</td>
+                        <td>${j.materi || '-'}</td>
+                        <td>${j.tugas || '-'}</td>
+                        <td class="txt-center">
+                            <button onclick="openModalEditJurnal(${originalIndex})" class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
+                        </td>
+                    </tr>`;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        } catch (e) {
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat jurnal dari database Google Sheets.</div>`;
+        }
+    }
+
+    async function saveJurnal() {
+        const btn = document.getElementById('btn-save-jurnal');
+        const tgl = document.getElementById('jurnal-tgl').value;
+        const kls = selKelas.value;
+        const materi = document.getElementById('jurnal-materi').value.trim();
+        const tugas = document.getElementById('jurnal-tugas').value.trim();
+
+        if (!materi) {
+            alert('Materi KBM wajib diisi!');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Memposting...`;
+
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'saveJurnal',
+                    tanggal: tgl,
+                    kelas: kls,
+                    mapel: userSession.mapel,
+                    materi: materi,
+                    tugas: tugas
+                })
+            });
+            const data = await res.json();
+            alert(data.message || 'Jurnal berhasil diposting!');
+            document.getElementById('jurnal-materi').value = '';
+            document.getElementById('jurnal-tugas').value = '';
+            loadDataJurnal();
+        } catch (e) {
+            alert('Terjadi kesalahan saat menyimpan jurnal.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fas fa-paper-plane"></i> Posting Jurnal KBM`;
+        }
+    }
+
+    function openModalEditJurnal(idx) {
+        const item = cacheJurnalData[idx];
+        document.getElementById('edit-jurnal-tgl').value = String(item.tanggal).split("T")[0];
+        document.getElementById('edit-jurnal-kelas').value = String(item.kelas).split("T")[0];
+        document.getElementById('edit-jurnal-materi').value = item.materi;
+        document.getElementById('edit-jurnal-tugas').value = item.tugas;
+        document.getElementById('modal-edit-jurnal').style.display = 'flex';
+    }
+
+    function closeModalJurnal() {
+        document.getElementById('modal-edit-jurnal').style.display = 'none';
+    }
+
+    async function submitUpdateJurnal() {
+        const tgl = document.getElementById('edit-jurnal-tgl').value;
+        const kls = document.getElementById('edit-jurnal-kelas').value;
+        const materi = document.getElementById('edit-jurnal-materi').value;
+        const tugas = document.getElementById('edit-jurnal-tugas').value;
+
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'saveJurnal',
+                    tanggal: tgl,
+                    kelas: kls,
+                    mapel: userSession.mapel,
+                    materi: materi,
+                    tugas: tugas
+                })
+            });
+            const data = await res.json();
+            alert(data.message || 'Jurnal berhasil diperbarui!');
+            closeModalJurnal();
+            loadDataJurnal();
+        } catch (e) {
+            alert('Gagal memperbarui jurnal.');
+        }
+    }
+
+    // Load awal
+    loadDataJurnal();
+</script>
+</body>
+</html>
