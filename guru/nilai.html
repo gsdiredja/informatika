@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduAdaptif - Input Nilai</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-dark: #1e293b; --nav-blue: #2c3e50; --accent-blue: #3498db; --bg-light: #f1f5f9; --white: #ffffff; --secondary-dark: #0f172a; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; color: #334155; }
+        .main-wrapper { display: flex; flex: 1; flex-direction: column; }
+        .top-header { background-color: var(--primary-dark); color: var(--white); text-align: center; padding: 15px 10px; z-index: 100; }
+        .profile-pic { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); margin: 0 auto 5px; display: block; }
+        .top-header h1 { font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-bar { background-color: var(--nav-blue); display: flex; flex-wrap: wrap; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav-bar a { flex: 1; text-align: center; color: #cbd5e1; padding: 12px 5px; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav-bar a.active { border-bottom: 3px solid var(--accent-blue); background-color: rgba(255,255,255,0.05); color: #fff; }
+        .btn-logout-top { width: 100%; background-color: #c0392b; text-align: center; color: var(--white); padding: 10px; text-decoration: none; font-size: 13px; font-weight: 600; display: block; border: none; cursor: pointer; }
+        .content-area { flex: 1; padding: 15px; width: 100%; }
+        .card { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        
+        .filter-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+        .form-grid { display: flex; flex-direction: column; gap: 12px; }
+        select, input[type="number"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+        
+        .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
+        table { width: 100%; border-collapse: collapse; }
+        table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: left; padding: 12px; font-size: 13px; border-bottom: 2px solid #e2e8f0; }
+        table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+        .txt-center { text-align: center; } .txt-bold { font-weight: bold; }
+
+        footer { background-color: var(--secondary-dark); color: #94a3b8; text-align: center; padding: 20px; font-size: 12px; margin-top: auto; }
+
+        @media (min-width: 769px) {
+            .main-wrapper { flex-direction: row; }
+            .top-header { width: 260px; min-height: 100vh; position: sticky; top: 0; padding-top: 40px; }
+            .profile-pic { width: 90px; height: 90px; margin-bottom: 15px; }
+            .nav-bar { flex-direction: column; background: none; box-shadow: none; margin-top: 25px; }
+            .nav-bar a { width: 100%; text-align: left; padding: 15px 25px; flex-direction: row; gap: 12px; font-size: 15px; }
+            .nav-bar a.active { border-left: 4px solid var(--accent-blue); background-color: #34495e; border-bottom: none; }
+            .btn-logout-top { position: absolute; bottom: 0; left: 0; padding: 15px; }
+            .content-area { padding: 30px; max-width: calc(100% - 260px); }
+            .form-grid { flex-direction: row; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="top-header">
+        <img id="user-pic" src="photo-guru.png" class="profile-pic" alt="User">
+        <h1>EduAdaptif</h1>
+        <p id="user-name" style="font-size:12px; color:#cbd5e1; font-weight:600; margin-top:5px;">Loading...</p>
+        <br/>
+        <div class="nav-bar">
+            <a href="beranda.html"><i class="fas fa-tachometer-alt"></i> Beranda</a>
+            <a href="presensi.html"><i class="fas fa-clipboard-user"></i> Presensi Siswa</a>
+            <a href="jurnal.html"><i class="fas fa-book-open"></i> Jurnal Mengajar</a>
+            <a href="nilai.html" class="active"><i class="fas fa-graduation-cap"></i> Input Nilai</a>
+            <a href="rekap.html"><i class="fas fa-file-invoice"></i> Rekapitulasi</a>
+        </div>
+        <button onclick="logout()" class="btn-logout-top"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+    </div>
+
+    <div class="content-area">
+        <div class="card">
+            <h2>Daftar Penginputan Nilai — <span id="lbl-mapel" style="color:#2ecc71;"></span></h2>
+            
+            <div class="filter-card">
+                <div class="form-grid">
+                    <div>
+                        <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Kelas:</label>
+                        <select id="sel-kelas" onchange="loadDataNilai()"></select>
+                    </div>
+                    <div>
+                        <label style="font-weight:600; display:block; margin-bottom:5px;">Kategori Penilaian:</label>
+                        <select id="sel-jenis" onchange="loadDataNilai()">
+                            <option value="nh1">Nilai Harian 1 (NH1)</option>
+                            <option value="nh2">Nilai Harian 2 (NH2)</option>
+                            <option value="nh3">Nilai Harian 3 (NH3)</option>
+                            <option value="nh4">Nilai Harian 4 (NH4)</option>
+                            <option value="tugas1">Tugas 1</option>
+                            <option value="tugas2">Tugas 2</option>
+                            <option value="tugas3">Tugas 3</option>
+                            <option value="tugas4">Tugas 4</option>
+                            <option value="sts1">Sumatif Tengah Semester 1 (STS 1)</option>
+                            <option value="sts2">Sumatif Tengah Semester 2 (STS 2)</option>
+                            <option value="sas1">Sumatif Akhir Semester 1 (SAS 1)</option>
+                            <option value="sas2">Sumatif Akhir Semester 2 (SAS 2)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="nilai-table-container">Memuat data nilai...</div>
+        </div>
+    </div>
+</div>
+
+<footer>&copy; 2026 <strong>EduAdaptif</strong> | Created by usudo.id</footer>
+
+<script src="config.js"></script>
+<script>
+    const userSession = JSON.parse(localStorage.getItem('user_session'));
+    if (!userSession) window.location.href = 'index.html';
+
+    document.getElementById('user-name').innerText = userSession.nama;
+    document.getElementById('lbl-mapel').innerText = userSession.mapel;
+    if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
+
+    const myKelas = userSession.ampu_kelas.split(',');
+    const selKelas = document.getElementById('sel-kelas');
+    selKelas.innerHTML = myKelas.map(k => `<option value="${k.trim()}">Kelas ${k.trim()}</option>`).join('');
+
+    function logout() {
+        localStorage.removeItem('user_session');
+        window.location.href = 'index.html';
+    }
+
+    async function loadDataNilai() {
+        const kls = selKelas.value;
+        const jenis = document.getElementById('sel-jenis').value;
+        const container = document.getElementById('nilai-table-container');
+
+        container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data nilai dari Google Sheets...</div>`;
+
+        try {
+            const [resSiswa, resNilai] = await Promise.all([
+                fetch(`${API_URL}?action=getSiswa`).then(r => r.json()),
+                fetch(`${API_URL}?action=getNilai&kelas=${kls}&jenis=${jenis}&mapel=${userSession.mapel}`).then(r => r.json())
+            ]);
+
+            const siswaList = resSiswa.data ? resSiswa.data.filter(s => String(s.kelas).trim() === String(kls).trim()) : [];
+            const nilaiData = resNilai.data || {};
+
+            if (siswaList.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:30px; color:#94a3b8;">Tidak ada data siswa untuk kelas ini.</div>`;
+                return;
+            }
+
+            let html = `
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="50" class="txt-center">No</th>
+                                <th>Nama Lengkap Siswa</th>
+                                <th width="200" class="txt-center">Skor Capaian (0 - 100)</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            siswaList.forEach((s, idx) => {
+                const namaClean = String(s.nama).trim();
+                const skorTersimpan = (nilaiData[namaClean] !== undefined && nilaiData[namaClean] !== "") ? nilaiData[namaClean] : 0;
+
+                html += `
+                    <tr>
+                        <td class="txt-center">${idx + 1}</td>
+                        <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
+                        <td class="txt-center">
+                            <input type="number" 
+                                   class="skor-input" 
+                                   data-nama="${namaClean}" 
+                                   min="0" 
+                                   max="100" 
+                                   value="${skorTersimpan}" 
+                                   style="text-align:center; font-weight:bold; color:var(--primary-dark); font-size:15px; width:100%; padding:8px; border-radius:6px; border:1px solid #cbd5e1;">
+                        </td>
+                    </tr>`;
+            });
+
+            html += `</tbody></table></div>
+            <button id="btn-save-nilai" onclick="saveNilai()" style="background:#27ae60; color:#fff; border:none; padding:13px; border-radius:8px; width:100%; margin-top:20px; font-weight:bold; font-size:15px; cursor:pointer;">
+                <i class="fas fa-check-circle" style="margin-right:8px;"></i> Simpan & Kunci Nilai
+            </button>`;
+
+            container.innerHTML = html;
+        } catch (err) {
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat data nilai.</div>`;
+        }
+    }
+
+    async function saveNilai() {
+        const btn = document.getElementById('btn-save-nilai');
+        const kls = selKelas.value;
+        const jenis = document.getElementById('sel-jenis').value;
+        const inputs = document.querySelectorAll('.skor-input');
+
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Memproses...`;
+
+        const scores = [];
+        inputs.forEach(inp => {
+            scores.push({ nama: inp.getAttribute('data-nama'), skor: parseInt(inp.value) || 0 });
+        });
+
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'saveNilai', kelas: kls, jenis: jenis, mapel: userSession.mapel, scores: scores })
+            });
+            const data = await res.json();
+            alert(data.message || 'Nilai berhasil disimpan!');
+        } catch (e) {
+            alert('Terjadi kesalahan saat menyimpan nilai.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fas fa-check-circle" style="margin-right:8px;"></i> Simpan & Kunci Nilai`;
+        }
+    }
+
+    // Load awal
+    loadDataNilai();
+</script>
+</body>
+</html>
