@@ -20,7 +20,6 @@
         .content-area { flex: 1; padding: 15px; width: 100%; }
         .card { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
         
-        /* Filter & Subtabs */
         .sub-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
         .btn-tab { padding: 8px 18px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
         .btn-tab.active { background-color: var(--accent-blue); color: var(--white); }
@@ -29,18 +28,15 @@
         .form-grid { display: flex; flex-direction: column; gap: 12px; }
         select, input[type="date"], input[type="number"], input[type="text"], input[type="month"], textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
         
-        /* Tables */
         .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
         table { width: 100%; border-collapse: collapse; }
         table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: left; padding: 12px; font-size: 13px; border-bottom: 2px solid #e2e8f0; }
         table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
         .txt-center { text-align: center; } .txt-bold { font-weight: bold; }
         
-        /* Buttons */
         .btn-edit { background: #f39c12; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
         .btn-edit:hover { background: #d35400; }
 
-        /* Presensi Radio Pill */
         .radio-group-horizontal { display: flex; justify-content: center; gap: 10px; align-items: center; }
         .radio-pill { display: inline-flex; align-items: center; justify-content: center; padding: 6px 14px; border-radius: 20px; border: 1.5px solid #cbd5e1; background: #fff; cursor: pointer; font-weight: 700; font-size: 13px; transition: all 0.2s ease; user-select: none; }
         .radio-pill input[type="radio"] { display: none; }
@@ -49,12 +45,10 @@
         .radio-pill:has(input[value="I"]:checked) { background-color: #3b82f6; color: #fff; border-color: #3b82f6; }
         .radio-pill:has(input[value="A"]:checked) { background-color: #ef4444; color: #fff; border-color: #ef4444; }
 
-        /* Area Tanda Tangan */
         .signature-container { display: none; justify-content: space-between; width: 100%; margin-top: 40px; padding: 10px; background: var(--white); }
         .sig-box { text-align: center; width: 240px; font-size: 14px; }
         .sig-space { height: 70px; }
 
-        /* Modal Box Edit */
         .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
         .modal-body { background: #fff; padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
 
@@ -225,8 +219,18 @@
         }
         else if (page === 'nilai') {
             const labels = {
-                'nh1': 'Nilai Harian 1 (NH1)', 'nh2': 'Nilai Harian 2 (NH2)',
-                'tugas1': 'Tugas 1', 'sts1': 'Sumatif Tengah Semester 1', 'sas1': 'Sumatif Akhir Semester 1'
+                'nh1': 'Nilai Harian 1 (NH1)',
+                'nh2': 'Nilai Harian 2 (NH2)',
+                'nh3': 'Nilai Harian 3 (NH3)',
+                'nh4': 'Nilai Harian 4 (NH4)',
+                'tugas1': 'Tugas 1',
+                'tugas2': 'Tugas 2',
+                'tugas3': 'Tugas 3',
+                'tugas4': 'Tugas 4',
+                'sts1': 'Sumatif Tengah Semester 1 (STS 1)',
+                'sts2': 'Sumatif Tengah Semester 2 (STS 2)',
+                'sas1': 'Sumatif Akhir Semester 1 (SAS 1)',
+                'sas2': 'Sumatif Akhir Semester 2 (SAS 2)'
             };
             container.innerHTML = `
                 <h2>Daftar Penginputan Nilai — <span style="color:#2ecc71;">${userSession.mapel}</span></h2>
@@ -267,7 +271,7 @@
         loadPage('rekap');
     }
 
-    /* PRESENSI HANDLER (DENGAN AUTO-LOAD STATUS) */
+    /* PRESENSI HANDLER */
     async function renderPresensi() {
         const kls = document.getElementById('sel-kelas-presensi').value;
         const tgl = document.getElementById('sel-tgl-presensi').value;
@@ -490,7 +494,7 @@
         }
     }
 
-    /* NILAI HANDLER (DENGAN AUTO-LOAD VALUE) */
+    /* NILAI HANDLER */
     async function renderNilai() {
         const kls = document.getElementById('sel-kelas-nilai').value;
         const jenis = document.getElementById('sel-jenis-nilai').value;
