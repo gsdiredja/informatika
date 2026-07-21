@@ -146,7 +146,7 @@
 
     const myKelas = userSession.ampu_kelas.split(',');
     const selKelas = document.getElementById('jurnal-kelas');
-    selKelas.innerHTML = myKelas.map(k => `<option value="${k.trim()}">Kelas ${k.trim()}</option>`).join('');
+    selKelas.innerHTML = myKelas.map(k => `<option value="${k.trim()}">${k.trim()}</option>`).join('');
     
     document.getElementById('jurnal-tgl').value = new Date().toISOString().split('T')[0];
 
