@@ -3,72 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Guru - EduAdaptif</title>
+    <title>EduAdaptif - Ekosistem Digital Pembelajaran & Manajemen Sekolah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .login-card { background: #ffffff; padding: 40px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); width: 100%; max-width: 400px; text-align: center; }
-        .profile-photo-box { width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%; background-color: #f1f5f9; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-        .profile-photo-box img { width: 90%; height: 90%; object-fit: cover; border-radius: 50%; }
-        .login-card h2 { color: #1e293b; font-size: 24px; margin-bottom: 5px; }
-        .login-card p { color: #64748b; font-size: 14px; margin-bottom: 30px; }
-        .input-group { position: relative; margin-bottom: 20px; text-align: left; }
-        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
-        .input-group input { width: 100%; padding: 14px 15px 14px 45px; border: 1.5px solid #cbd5e1; border-radius: 10px; outline: none; background: #f8fafc; font-size: 15px; }
-        .btn-login { width: 100%; padding: 14px; background: #3498db; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; }
-        .error-msg { background: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 20px; display: none; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f8fafc; color: #334155; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+        /* HEADER GLOBAL */
+        .global-student-header { width: 100%; background-color: #1e293b; color: #f8fafc; padding: 14px 28px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); position: sticky; top: 0; z-index: 99; }
+        .header-left-side { display: flex; align-items: center; gap: 14px; }
+        .header-logo-box { width: 36px; height: 36px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px; flex-shrink: 0; }
+        .header-logo-box img { width: 100%; height: 100%; object-fit: contain; }
+        .header-title-text { font-size: 18px; font-weight: 800; letter-spacing: 0.5px; color: #ffffff; }
+        .portal-badge { background: #3498db; color: #ffffff; font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .btn-portal-access { background-color: #3b82f6; color: #ffffff; border: none; padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .btn-portal-access:hover { background-color: #2563eb; transform: translateY(-1px); }
+
+        /* HERO SECTION LANDING PAGE */
+        .hero-section { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; padding: 80px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+        .hero-badge { background: rgba(52, 152, 219, 0.15); border: 1px solid rgba(52, 152, 219, 0.4); color: #38bdf8; font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 20px; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; }
+        .hero-title { font-size: 38px; font-weight: 800; line-height: 1.2; max-width: 800px; margin-bottom: 16px; color: #f8fafc; }
+        .hero-subtitle { font-size: 16px; color: #94a3b8; max-width: 620px; line-height: 1.6; margin-bottom: 32px; }
+        .hero-cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn-hero-primary { background: #3498db; color: #ffffff; border: none; padding: 14px 28px; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 14px rgba(52, 152, 219, 0.3); }
+        .btn-hero-primary:hover { background: #2980b9; transform: translateY(-2px); }
+
+        /* FITUR & KEUNGGULAN SECTION */
+        .landing-container { max-width: 1100px; width: 100%; margin: 0 auto; padding: 60px 20px; }
+        .section-header { text-align: center; margin-bottom: 48px; }
+        .section-tag { color: #3b82f6; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+        .main-section-title { font-size: 28px; font-weight: 800; color: #0f172a; }
+
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+        .feature-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 28px 24px; transition: all 0.3s; display: flex; flex-direction: column; align-items: flex-start; }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 12px 20px -5px rgba(0,0,0,0.08); border-color: #cbd5e1; }
+        .feature-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 20px; }
+        .icon-blue { background: #eff6ff; color: #3b82f6; }
+        .icon-green { background: #f0fdf4; color: #10b981; }
+        .icon-amber { background: #fffbeb; color: #f59e0b; }
+        .icon-purple { background: #faf5ff; color: #8b5cf6; }
+
+        .feature-title { font-size: 17px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+        .feature-desc { font-size: 13px; color: #64748b; line-height: 1.5; }
+
+        /* MODAL LOGIN POPUP */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: all 0.25s ease; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .login-card { background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 36px 30px; width: 100%; max-width: 420px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); position: relative; transform: translateY(20px); transition: all 0.25s ease; }
+        .modal-overlay.active .login-card { transform: translateY(0); }
+
+        .btn-close-modal { position: absolute; top: 16px; right: 16px; background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #64748b; transition: background 0.2s; }
+        .btn-close-modal:hover { background: #e2e8f0; color: #0f172a; }
+
+        .brand-header { text-align: center; margin-bottom: 24px; }
+        .brand-header .avatar-guru { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid #3498db; margin-bottom: 12px; }
+        .brand-header h2 { font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+        .brand-header p { font-size: 13px; color: #64748b; line-height: 1.4; }
+
+        /* FORM STYLING */
+        .form-group { margin-bottom: 18px; text-align: left; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 6px; }
+        .input-box { width: 100%; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; color: #1e293b; outline: none; transition: all 0.2s; }
+        .input-box:focus { border-color: #3498db; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15); }
+        
+        .btn-login { width: 100%; background-color: #2c3e50; color: #ffffff; border: none; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-login:hover { background-color: #1e293b; }
+        .btn-login:disabled { background-color: #cbd5e1; cursor: not-allowed; }
+
+        .error-message { background-color: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; padding: 10px 14px; border-radius: 6px; font-size: 13px; margin-bottom: 18px; display: none; text-align: center; }
+        
+        /* FOOTER */
+        footer { width: 100%; background-color: #0f172a; color: #94a3b8; text-align: center; padding: 20px; font-size: 13px; margin-top: auto; }
     </style>
 </head>
 <body>
-<div class="login-card">
-    <div class="profile-photo-box">
-        <img src="photo-guru.png" alt="Foto Pak Agus">
-    </div>
-    <h2>Dashboard Guru</h2>
-    <p>Sistem Informasi Akademik Sekolah</p>
-    <div id="error-msg" class="error-msg"></div>
-    <form id="loginForm">
-        <div class="input-group">
-            <i class="fas fa-user"></i>
-            <input type="text" id="username" placeholder="Masukkan Username" required autocomplete="off">
-        </div>
-        <div class="input-group">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="password" placeholder="Masukkan Password" required>
-        </div>
-        <button type="submit" class="btn-login">Masuk <i class="fas fa-sign-out-alt"></i></button>
-    </form>
-</div>
 
-<script src="config.js"></script>
-<script>
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const user = document.getElementById('username').value;
-        const pass = document.getElementById('password').value;
-        const errorDiv = document.getElementById('error-msg');
-        
-        errorDiv.style.display = 'none';
-        
-        try {
-            const res = await fetch(API_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'login', username: user, password: pass })
-            });
-            const data = await res.json();
-            
-            if (data.status === 'success') {
-                localStorage.setItem('user_session', JSON.stringify(data.user));
-                window.location.href = 'dashboard.html';
-            } else {
-                errorDiv.innerText = data.message;
-                errorDiv.style.display = 'block';
+    <!-- GLOBAL HEADER EDUADAPTIF -->
+    <div class="global-student-header">
+        <div class="header-left-side">
+            <div class="header-logo-box">
+                <img src="photo-guru.png" alt="Logo EduAdaptif" onerror="this.src='https://via.placeholder.com/36?text=EDU'">
+            </div>
+            <span class="header-title-text">EduAdaptif</span>
+        </div>
+        <button type="button" class="btn-portal-access" onclick="bukaModalLogin()">
+            <i class="fas fa-sign-in-alt"></i> Masuk Portal
+        </button>
+    </div>
+
+    <!-- HERO SECTION LANDING PAGE -->
+    <section class="hero-section">
+        <div class="hero-badge">
+            <i class="fas fa-sparkles"></i> Portal Edukasi & Otomasi Akademik
+        </div>
+        <h1 class="hero-title">Platform Kerja Pendidik & Administrasi Pembelajaran Adaptif</h1>
+        <p class="hero-subtitle">
+            EduAdaptif membantu guru mengelola presensi harian siswa, pengisian jurnal KBM terintegrasi, serta rekapitulasi penilaian secara real-time dan akurat.
+        </p>
+        <div class="hero-cta-group">
+            <button type="button" class="btn-hero-primary" onclick="bukaModalLogin()">
+                <i class="fas fa-chalkboard-teacher"></i> Akses Ruang Kerja Pendidik
+            </button>
+        </div>
+    </section>
+
+    <!-- FITUR UTAMA PLATFORM -->
+    <div class="landing-container">
+        <div class="section-header">
+            <span class="section-tag">Modul Kerja Lengkap</span>
+            <h2 class="main-section-title">Solusi Terpadu Administrasi KBM</h2>
+        </div>
+
+        <div class="features-grid">
+            <!-- FITUR 1: PRESENSI -->
+            <div class="feature-card">
+                <div class="feature-icon icon-blue">
+                    <i class="fas fa-clipboard-user"></i>
+                </div>
+                <h3 class="feature-title">Presensi Digital</h3>
+                <p class="feature-desc">Pencatatan kehadiran harian siswa secara praktis, rapi, dan langsung tersinkronisasi otomatis ke Google Sheets.</p>
+            </div>
+
+            <!-- FITUR 2: JURNAL -->
+            <div class="feature-card">
+                <div class="feature-icon icon-green">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h3 class="feature-title">Jurnal Mengajar</h3>
+                <p class="feature-desc">Dokumentasi pembahasan materi KBM dan tugas harian yang terstruktur, lengkap dengan riwayat dan fitur perbaikan data.</p>
+            </div>
+
+            <!-- FITUR 3: PENILAIAN -->
+            <div class="feature-card">
+                <div class="feature-icon icon-amber">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3 class="feature-title">Input Nilai Formatik</h3>
+                <p class="feature-desc">Penginputan skor Nilai Harian (NH1-NH4), Tugas, STS, hingga SAS dengan fitur pemanggilan otomatis data tersimpan.</p>
+            </div>
+
+            <!-- FITUR 4: REKAPITULASI -->
+            <div class="feature-card">
+                <div class="feature-icon icon-purple">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <h3 class="feature-title">Leger & Cetak Laporan</h3>
+                <p class="feature-desc">Rekapitulasi kehadiran harian/mingguan/bulanan dan leger nilai otomatis siap cetak lengkap dengan format tanda tangan.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FORM LOGIN (POPUP) -->
+    <div class="modal-overlay" id="loginModalOverlay" onclick="tutupModalLogin(event)">
+        <div class="login-card" onclick="event.stopPropagation()">
+            <button type="button" class="btn-close-modal" onclick="tutupModalLoginDirect()">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="brand-header">
+                <img src="photo-guru.png" class="avatar-guru" alt="Foto Guru" onerror="this.src='https://via.placeholder.com/70?text=GURU'">
+                <h2>Ruang Kerja Pendidik</h2>
+                <p>Silakan masuk dengan akun guru untuk mengelola presensi, jurnal, dan nilai siswa.</p>
+            </div>
+
+            <!-- PESAN ERROR -->
+            <div id="alertError" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> <span id="txtError">Username atau Password salah!</span>
+            </div>
+
+            <!-- FORM AUTENTIKASI -->
+            <form id="formLoginGuru" onsubmit="prosesLogin(event)">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user" style="color: #64748b; margin-right: 4px;"></i> Username / NIP:</label>
+                    <input type="text" id="username" class="input-box" placeholder="Masukkan username atau NIP..." required autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock" style="color: #64748b; margin-right: 4px;"></i> Kata Sandi:</label>
+                    <input type="password" id="password" class="input-box" placeholder="Masukkan kata sandi..." required>
+                </div>
+
+                <button type="submit" id="btnLogin" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Masuk Ruang Kerja
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        &copy; 2026 <strong>EduAdaptif</strong> | Created by usudo.id
+    </footer>
+
+    <!-- SCRIPT CONFIG & INTERAKSI LANDING PAGE -->
+    <script src="config.js"></script>
+    <script>
+        // REDIRECT OTOMATIS JIKA SUDAH ADA SESSION LOGIN
+        (function cekSessionAktif() {
+            const session = localStorage.getItem('user_session');
+            if (session) {
+                window.location.replace("beranda.html");
             }
-        } catch (err) {
-            alert('Gagal terhubung ke database server!');
+        })();
+
+        // MODAL CONTROL
+        function bukaModalLogin() {
+            document.getElementById('loginModalOverlay').classList.add('active');
         }
-    });
-</script>
+
+        function tutupModalLogin(e) {
+            if (e.target.id === 'loginModalOverlay') {
+                document.getElementById('loginModalOverlay').classList.remove('active');
+            }
+        }
+
+        function tutupModalLoginDirect() {
+            document.getElementById('loginModalOverlay').classList.remove('active');
+        }
+
+        // PROSES AUTENTIKASI LOGIN
+        async function prosesLogin(e) {
+            e.preventDefault();
+            
+            const usernameInput = document.getElementById('username').value.trim();
+            const passwordInput = document.getElementById('password').value.trim();
+            const alertError = document.getElementById('alertError');
+            const txtError = document.getElementById('txtError');
+            const btnLogin = document.getElementById('btnLogin');
+
+            alertError.style.display = "none";
+            btnLogin.disabled = true;
+            btnLogin.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Memeriksa Akses...`;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        action: "login",
+                        username: usernameInput,
+                        password: passwordInput
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.status === "success" && data.user) {
+                    localStorage.setItem('user_session', JSON.stringify(data.user));
+                    window.location.replace("beranda.html");
+                } else {
+                    txtError.innerText = data.message || "Username atau Password tidak cocok.";
+                    alertError.style.display = "block";
+                }
+            } catch (err) {
+                txtError.innerText = "Gagal terhubung ke server database EduAdaptif.";
+                alertError.style.display = "block";
+            } finally {
+                btnLogin.disabled = false;
+                btnLogin.innerHTML = `<i class="fas fa-sign-in-alt"></i> Masuk Ruang Kerja`;
+            }
+        }
+    </script>
 </body>
 </html>
