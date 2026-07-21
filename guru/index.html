@@ -205,7 +205,7 @@
         (function cekSessionAktif() {
             const session = localStorage.getItem('user_session');
             if (session) {
-                window.location.replace("beranda.html");
+                window.location.replace("dashboard.html");
             }
         })();
 
@@ -252,7 +252,7 @@
 
                 if (data.status === "success" && data.user) {
                     localStorage.setItem('user_session', JSON.stringify(data.user));
-                    window.location.replace("beranda.html");
+                    window.location.replace("dashboard.html");
                 } else {
                     txtError.innerText = data.message || "Username atau Password tidak cocok.";
                     alertError.style.display = "block";
