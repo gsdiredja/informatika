@@ -318,7 +318,7 @@
             </button>`;
             container.innerHTML = html;
         } catch (error) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat data dari database Google Sheets.</div>`;
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat data dari database.</div>`;
         }
     }
 
@@ -662,88 +662,94 @@
 
     async function fetchRekapPresensi() {
         const kls = document.getElementById('rekap-presensi-kelas').value;
+        const tipe = document.getElementById('rekap-presensi-tipe').value;
         const container = document.getElementById('rekap-presensi-table');
 
-        container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data rekap presensi...</div>`;
+        let val1 = "", val2 = "", labelInfo = "";
+        const now = new Date().toISOString().split('T')[0];
 
-        const [resSiswa, resPres] = await Promise.all([
-            fetch(`${API_URL}?action=getSiswa`).then(r => r.json()),
-            fetch(`${API_URL}?action=getPresensi&kelas=${kls}&mapel=${userSession.mapel}`).then(r => r.json())
-        ]);
+        if (tipe === 'harian') {
+            val1 = document.getElementById('rekap-presensi-val')?.value || now;
+            labelInfo = `Harian: ${val1}`;
+        } else if (tipe === 'mingguan') {
+            val1 = document.getElementById('rekap-presensi-val1')?.value || now;
+            val2 = document.getElementById('rekap-presensi-val2')?.value || now;
+            labelInfo = `Mingguan: ${val1} s.d. ${val2}`;
+        } else {
+            val1 = document.getElementById('rekap-presensi-val')?.value || now.slice(0,7);
+            labelInfo = `Bulanan: ${val1}`;
+        }
 
-        const siswaList = resSiswa.data ? resSiswa.data.filter(s => String(s.kelas).trim() === String(kls).trim()) : [];
-        const presDataRaw = resPres.data || {};
+        container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data rekap presensi (${labelInfo})...</div>`;
 
-        let html = `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;" class="no-print">
-                <h3>REKAP PRESENSI - KELAS ${kls}</h3>
-                <button onclick="window.print()" style="background:#2c3e50; color:#fff; border:none; padding:10px 18px; border-radius:6px; cursor:pointer; font-weight:bold;"><i class="fas fa-print"></i> Cetak PDF</button>
-            </div>
+        try {
+            const [resSiswa, resPres] = await Promise.all([
+                fetch(`${API_URL}?action=getSiswa`).then(r => r.json()),
+                fetch(`${API_URL}?action=getPresensi&kelas=${kls}&mapel=${userSession.mapel}&tipe=${tipe}&val1=${val1}&val2=${val2}`).then(r => r.json())
+            ]);
 
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th width="40" class="txt-center">No</th>
-                            <th>Nama Lengkap Siswa</th>
-                            <th width="60" class="txt-center" style="color:#10b981;">H</th>
-                            <th width="60" class="txt-center" style="color:#f59e0b;">S</th>
-                            <th width="60" class="txt-center" style="color:#3b82f6;">I</th>
-                            <th width="60" class="txt-center" style="color:#ef4444;">A</th>
-                            <th width="80" class="txt-center col-aksi">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
+            const siswaList = resSiswa.data ? resSiswa.data.filter(s => String(s.kelas).trim() === String(kls).trim()) : [];
+            const presDataRaw = resPres.data || {};
 
-        siswaList.forEach((s, idx) => {
-            const namaClean = String(s.nama).trim();
-            const p = presDataRaw[namaClean] || { H: 0, S: 0, I: 0, A: 0 };
+            let html = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;" class="no-print">
+                    <h3>REKAP PRESENSI - KELAS ${kls} (${labelInfo})</h3>
+                    <button onclick="window.print()" style="background:#2c3e50; color:#fff; border:none; padding:10px 18px; border-radius:6px; cursor:pointer; font-weight:bold;"><i class="fas fa-print"></i> Cetak PDF</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="40" class="txt-center">No</th>
+                                <th>Nama Lengkap Siswa</th>
+                                <th width="60" class="txt-center" style="color:#10b981;">H</th>
+                                <th width="60" class="txt-center" style="color:#f59e0b;">S</th>
+                                <th width="60" class="txt-center" style="color:#3b82f6;">I</th>
+                                <th width="60" class="txt-center" style="color:#ef4444;">A</th>
+                                <th width="80" class="txt-center col-aksi">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            siswaList.forEach((s, idx) => {
+                const namaClean = String(s.nama).trim();
+                const p = presDataRaw[namaClean] || { H: 0, S: 0, I: 0, A: 0 };
+
+                html += `
+                    <tr>
+                        <td class="txt-center">${idx + 1}</td>
+                        <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
+                        <td class="txt-center txt-bold" style="color:#10b981;">${p.H || 0}</td>
+                        <td class="txt-center txt-bold" style="color:#f59e0b;">${p.S || 0}</td>
+                        <td class="txt-center txt-bold" style="color:#3b82f6;">${p.I || 0}</td>
+                        <td class="txt-center txt-bold" style="color:#ef4444;">${p.A || 0}</td>
+                        <td class="txt-center col-aksi">
+                            <button onclick="loadPage('presensi')" class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
+                        </td>
+                    </tr>`;
+            });
+
+            html += `</tbody></table></div>
             
-            let h = 0, sak = 0, iz = 0, alp = 0;
-
-            if (typeof p === 'object') {
-                h = p.H || 0;
-                sak = p.S || 0;
-                iz = p.I || 0;
-                alp = p.A || 0;
-            } else if (typeof p === 'string') {
-                if (p === 'H') h = 1;
-                if (p === 'S') sak = 1;
-                if (p === 'I') iz = 1;
-                if (p === 'A') alp = 1;
-            }
-
-            html += `
-                <tr>
-                    <td class="txt-center">${idx + 1}</td>
-                    <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
-                    <td class="txt-center txt-bold" style="color:#10b981;">${h}</td>
-                    <td class="txt-center txt-bold" style="color:#f59e0b;">${sak}</td>
-                    <td class="txt-center txt-bold" style="color:#3b82f6;">${iz}</td>
-                    <td class="txt-center txt-bold" style="color:#ef4444;">${alp}</td>
-                    <td class="txt-center col-aksi">
-                        <button onclick="loadPage('presensi')" class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
-                    </td>
-                </tr>`;
-        });
-
-        html += `</tbody></table></div>
-        
-        <div class="signature-container">
-            <div class="sig-box">
-                <p>Mengetahui,</p>
-                <p><strong>Kepala Sekolah</strong></p>
-                <div class="sig-space"></div>
-                <p>_______________________</p>
-            </div>
-            <div class="sig-box">
-                <p>Guru Mata Pelajaran,</p>
-                <br>
-                <div class="sig-space"></div>
-                <p><strong>${userSession.nama}</strong></p>
-            </div>
-        </div>`;
-        container.innerHTML = html;
+            <div class="signature-container">
+                <div class="sig-box">
+                    <p>Mengetahui,</p>
+                    <p><strong>Kepala Sekolah</strong></p>
+                    <div class="sig-space"></div>
+                    <p>_______________________</p>
+                </div>
+                <div class="sig-box">
+                    <p>Guru Mata Pelajaran,</p>
+                    <br>
+                    <div class="sig-space"></div>
+                    <p><strong>${userSession.nama}</strong></p>
+                </div>
+            </div>`;
+            container.innerHTML = html;
+        } catch (e) {
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat rekap presensi.</div>`;
+        }
     }
 
     async function fetchRekapJurnal() {
@@ -878,7 +884,7 @@
                 </tr>`;
         });
 
-        html += `</tbody></table></div>
+        html += `</tbody>mtable></div>
         
         <div class="signature-container">
             <div class="sig-box">
