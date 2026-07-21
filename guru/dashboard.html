@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduAdaptif - Dashboard Guru</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-dark: #1e293b; --nav-blue: #2c3e50; --accent-blue: #3498db; --bg-light: #f1f5f9; --white: #ffffff; --secondary-dark: #0f172a; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; color: #334155; }
+        .main-wrapper { display: flex; flex: 1; flex-direction: column; }
+        .top-header { background-color: var(--primary-dark); color: var(--white); text-align: center; padding: 15px 10px; z-index: 100; }
+        .profile-pic { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); margin: 0 auto 5px; display: block; }
+        .top-header h1 { font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-bar { background-color: var(--nav-blue); display: flex; flex-wrap: wrap; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav-bar a { flex: 1; text-align: center; color: #cbd5e1; padding: 12px 5px; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+        .nav-bar a.active { border-bottom: 3px solid var(--accent-blue); background-color: rgba(255,255,255,0.05); color: #fff; }
+        .btn-logout-top { width: 100%; background-color: #c0392b; text-align: center; color: var(--white); padding: 10px; text-decoration: none; font-size: 13px; font-weight: 600; display: block; border: none; cursor: pointer; }
+        .content-area { flex: 1; padding: 15px; width: 100%; }
+        .card { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .filter-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+        .form-grid { display: flex; flex-direction: column; gap: 12px; }
+        select, input[type="date"], input[type="number"], input[type="text"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+        .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
+        table { width: 100%; border-collapse: collapse; }
+        table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: left; padding: 12px; font-size: 13px; border-bottom: 2px solid #e2e8f0; }
+        table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+        .txt-center { text-align: center; } .txt-bold { font-weight: bold; }
+        .radio-group-horizontal { display: flex; justify-content: center; gap: 15px; align-items: center; }
+        .radio-item { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        footer { background-color: var(--secondary-dark); color: #94a3b8; text-align: center; padding: 20px; font-size: 12px; margin-top: auto; }
+        @media (min-width: 769px) {
+            .main-wrapper { flex-direction: row; }
+            .top-header { width: 260px; min-height: 100vh; position: sticky; top: 0; padding-top: 40px; }
+            .profile-pic { width: 90px; height: 90px; margin-bottom: 15px; }
+            .nav-bar { flex-direction: column; background: none; box-shadow: none; margin-top: 25px; }
+            .nav-bar a { width: 100%; text-align: left; padding: 15px 25px; flex-direction: row; gap: 12px; font-size: 15px; }
+            .nav-bar a.active { border-left: 4px solid var(--accent-blue); background-color: #34495e; border-bottom: none; }
+            .btn-logout-top { position: absolute; bottom: 0; left: 0; padding: 15px; }
+            .content-area { padding: 30px; max-width: calc(100% - 260px); }
+            .form-grid { flex-direction: row; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="top-header">
+        <img id="user-pic" src="photo-guru.png" class="profile-pic" alt="User">
+        <h1>EduAdaptif</h1>
+        <p id="user-name" style="font-size:12px; color:#cbd5e1; font-weight:600; margin-top:5px;">Loading...</p>
+        <br/>
+        <div class="nav-bar">
+            <a onclick="loadPage('beranda')" id="nav-beranda" class="active"><i class="fas fa-tachometer-alt"></i> Beranda</a>
+            <a onclick="loadPage('presensi')" id="nav-presensi"><i class="fas fa-clipboard-user"></i> Presensi Siswa</a>
+            <a onclick="loadPage('nilai')" id="nav-nilai"><i class="fas fa-graduation-cap"></i> Input Nilai</a>
+        </div>
+        <button onclick="logout()" class="btn-logout-top"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+    </div>
+
+    <div class="content-area">
+        <div class="card" id="main-content">
+            <!-- Konten Dinamis Akan Dimuat di Sini -->
+        </div>
+    </div>
+</div>
+
+<footer>&copy; 2026 <strong>EduAdaptif</strong> | Created by usudo.id</footer>
+
+<script src="config.js"></script>
+<script>
+    const userSession = JSON.parse(localStorage.getItem('user_session'));
+    if (!userSession) window.location.href = 'index.html';
+
+    document.getElementById('user-name').innerText = userSession.nama;
+    if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
+
+    const myKelas = userSession.ampu_kelas.split(',');
+
+    function logout() {
+        localStorage.removeItem('user_session');
+        window.location.href = 'index.html';
+    }
+
+    function setActiveNav(page) {
+        document.querySelectorAll('.nav-bar a').forEach(a => a.classList.remove('active'));
+        const activeLink = document.getElementById('nav-' + page);
+        if (activeLink) activeLink.classList.add('active');
+    }
+
+    async function loadPage(page) {
+        setActiveNav(page);
+        const container = document.getElementById('main-content');
+
+        if (page === 'beranda') {
+            container.innerHTML = `
+                <div style="text-align: center; padding: 50px 20px;">
+                    <h2>RUANG KERJA DIGITAL</h2>
+                    <p style="color: #64748b; margin-top:10px;">Selamat datang <strong>${userSession.nama}</strong>. Portal siap mengelola presensi & nilai siswa.</p>
+                </div>`;
+        } 
+        else if (page === 'presensi') {
+            container.innerHTML = `
+                <h2>Input Presensi Harian — <span style="color:var(--accent-blue);">${userSession.mapel}</span></h2>
+                <div class="filter-card">
+                    <div class="form-grid">
+                        <div>
+                            <label>Pilih Kelas:</label>
+                            <select id="sel-kelas-presensi" onchange="renderPresensi()">
+                                ${myKelas.map(k => `<option value="${k}">Kelas ${k}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Tanggal:</label>
+                            <input type="date" id="sel-tgl-presensi" value="${new Date().toISOString().split('T')[0]}" onchange="renderPresensi()">
+                        </div>
+                    </div>
+                </div>
+                <div id="presensi-table-container">Memuat data siswa...</div>`;
+            renderPresensi();
+        }
+        else if (page === 'nilai') {
+            const labels = {
+                'nh1': 'Nilai Harian 1 (NH1)', 'nh2': 'Nilai Harian 2 (NH2)',
+                'tugas1': 'Tugas 1', 'sts1': 'Sumatif Tengah Semester 1', 'sas1': 'Sumatif Akhir Semester 1'
+            };
+            container.innerHTML = `
+                <h2>Daftar Penginputan Nilai — <span style="color:#2ecc71;">${userSession.mapel}</span></h2>
+                <div class="filter-card">
+                    <div class="form-grid">
+                        <div>
+                            <label>Pilih Kelas:</label>
+                            <select id="sel-kelas-nilai" onchange="renderNilai()">
+                                ${myKelas.map(k => `<option value="${k}">Kelas ${k}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Kategori Penilaian:</label>
+                            <select id="sel-jenis-nilai" onchange="renderNilai()">
+                                ${Object.keys(labels).map(k => `<option value="${k}">${labels[k]}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div id="nilai-table-container">Memuat data nilai...</div>`;
+            renderNilai();
+        }
+    }
+
+    async function renderPresensi() {
+        const kls = document.getElementById('sel-kelas-presensi').value;
+        const tgl = document.getElementById('sel-tgl-presensi').value;
+        const container = document.getElementById('presensi-table-container');
+
+        const [resSiswa, resPres] = await Promise.all([
+            fetch(`${API_URL}?action=getSiswa`).then(r => r.json()),
+            fetch(`${API_URL}?action=getPresensi&tanggal=${tgl}&kelas=${kls}&mapel=${userSession.mapel}`).then(r => r.json())
+        ]);
+
+        const siswaList = resSiswa.data.filter(s => s.kelas === kls);
+        const presData = resPres.data || {};
+
+        let html = `
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th width="50" class="txt-center">No</th><th>Nama Lengkap Siswa</th><th width="250" class="txt-center">Status Kehadiran</th></tr></thead>
+                    <tbody>`;
+        
+        siswaList.forEach((s, idx) => {
+            const status = presData[s.nama] || 'H';
+            html += `
+                <tr>
+                    <td class="txt-center">${idx + 1}</td>
+                    <td class="txt-bold">${s.nama}</td>
+                    <td class="txt-center">
+                        <div class="radio-group-horizontal">
+                            <label class="radio-item"><input type="radio" name="p_${idx}" value="H" ${status=='H'?'checked':''} data-nama="${s.nama}"><span style="color:#10b981;">H</span></label>
+                            <label class="radio-item"><input type="radio" name="p_${idx}" value="S" ${status=='S'?'checked':''} data-nama="${s.nama}"><span style="color:#f59e0b;">S</span></label>
+                            <label class="radio-item"><input type="radio" name="p_${idx}" value="I" ${status=='I'?'checked':''} data-nama="${s.nama}"><span style="color:#3b82f6;">I</span></label>
+                            <label class="radio-item"><input type="radio" name="p_${idx}" value="A" ${status=='A'?'checked':''} data-nama="${s.nama}"><span style="color:#ef4444;">A</span></label>
+                        </div>
+                    </td>
+                </tr>`;
+        });
+
+        html += `</tbody></table></div>
+        <button onclick="savePresensi()" style="background:var(--accent-blue); color:#fff; border:none; padding:13px; border-radius:8px; width:100%; margin-top:20px; font-weight:bold; cursor:pointer;">Simpan Data Presensi</button>`;
+        container.innerHTML = html;
+    }
+
+    async function savePresensi() {
+        const kls = document.getElementById('sel-kelas-presensi').value;
+        const tgl = document.getElementById('sel-tgl-presensi').value;
+        const inputs = document.querySelectorAll('#presensi-table-container input[type="radio"]:checked');
+        
+        const listPresensi = [];
+        inputs.forEach(inp => {
+            listPresensi.push({ nama: inp.getAttribute('data-nama'), status: inp.value });
+        });
+
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'savePresensi',
+                tanggal: tgl,
+                kelas: kls,
+                mapel: userSession.mapel,
+                presensi: listPresensi
+            })
+        });
+        const data = await res.json();
+        alert(data.message);
+    }
+
+    async function renderNilai() {
+        const kls = document.getElementById('sel-kelas-nilai').value;
+        const jenis = document.getElementById('sel-jenis-nilai').value;
+        const container = document.getElementById('nilai-table-container');
+
+        const [resSiswa, resNilai] = await Promise.all([
+            fetch(`${API_URL}?action=getSiswa`).then(r => r.json()),
+            fetch(`${API_URL}?action=getNilai&kelas=${kls}&jenis=${jenis}&mapel=${userSession.mapel}`).then(r => r.json())
+        ]);
+
+        const siswaList = resSiswa.data.filter(s => s.kelas === kls);
+        const nilaiData = resNilai.data || {};
+
+        let html = `
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th width="50" class="txt-center">No</th><th>Nama Lengkap Siswa</th><th width="180">Skor Capaian (0 - 100)</th></tr></thead>
+                    <tbody>`;
+        
+        siswaList.forEach((s, idx) => {
+            const skor = nilaiData[s.nama] || 0;
+            html += `
+                <tr>
+                    <td class="txt-center">${idx + 1}</td>
+                    <td class="txt-bold">${s.nama}</td>
+                    <td><input type="number" class="skor-input" data-nama="${s.nama}" min="0" max="100" value="${skor}" style="text-align:center; font-weight:bold;"></td>
+                </tr>`;
+        });
+
+        html += `</tbody></table></div>
+        <button onclick="saveNilai()" style="background:#27ae60; color:#fff; border:none; padding:13px; border-radius:8px; width:100%; margin-top:20px; font-weight:bold; cursor:pointer;">Simpan & Kunci Nilai</button>`;
+        container.innerHTML = html;
+    }
+
+    async function saveNilai() {
+        const kls = document.getElementById('sel-kelas-nilai').value;
+        const jenis = document.getElementById('sel-jenis-nilai').value;
+        const inputs = document.querySelectorAll('.skor-input');
+        
+        const scores = [];
+        inputs.forEach(inp => {
+            scores.push({ nama: inp.getAttribute('data-nama'), skor: parseInt(inp.value) || 0 });
+        });
+
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'saveNilai',
+                kelas: kls,
+                jenis: jenis,
+                mapel: userSession.mapel,
+                scores: scores
+            })
+        });
+        const data = await res.json();
+        alert(data.message);
+    }
+
+    // Default Load Page
+    loadPage('beranda');
+</script>
+</body>
+</html>
