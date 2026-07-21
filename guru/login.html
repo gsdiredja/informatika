@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Guru - EduAdaptif</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .login-card { background: #ffffff; padding: 40px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); width: 100%; max-width: 400px; text-align: center; }
+        .profile-photo-box { width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%; background-color: #f1f5f9; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        .profile-photo-box img { width: 90%; height: 90%; object-fit: cover; border-radius: 50%; }
+        .login-card h2 { color: #1e293b; font-size: 24px; margin-bottom: 5px; }
+        .login-card p { color: #64748b; font-size: 14px; margin-bottom: 30px; }
+        .input-group { position: relative; margin-bottom: 20px; text-align: left; }
+        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+        .input-group input { width: 100%; padding: 14px 15px 14px 45px; border: 1.5px solid #cbd5e1; border-radius: 10px; outline: none; background: #f8fafc; font-size: 15px; }
+        .btn-login { width: 100%; padding: 14px; background: #3498db; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .error-msg { background: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 20px; display: none; }
+    </style>
+</head>
+<body>
+<div class="login-card">
+    <div class="profile-photo-box">
+        <img src="photo-guru.png" alt="Foto Pak Agus">
+    </div>
+    <h2>Dashboard Guru</h2>
+    <p>Sistem Informasi Akademik Sekolah</p>
+    <div id="error-msg" class="error-msg"></div>
+    <form id="loginForm">
+        <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" placeholder="Masukkan Username" required autocomplete="off">
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Masukkan Password" required>
+        </div>
+        <button type="submit" class="btn-login">Masuk <i class="fas fa-sign-out-alt"></i></button>
+    </form>
+</div>
+
+<script src="config.js"></script>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const errorDiv = document.getElementById('error-msg');
+        
+        errorDiv.style.display = 'none';
+        
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'login', username: user, password: pass })
+            });
+            const data = await res.json();
+            
+            if (data.status === 'success') {
+                localStorage.setItem('user_session', JSON.stringify(data.user));
+                window.location.href = 'dashboard.html';
+            } else {
+                errorDiv.innerText = data.message;
+                errorDiv.style.display = 'block';
+            }
+        } catch (err) {
+            alert('Gagal terhubung ke database server!');
+        }
+    });
+</script>
+</body>
+</html>
