@@ -393,11 +393,14 @@
                         <tbody>`;
 
             cacheJurnalData.reverse().forEach((j, idx) => {
+                const cleanDate = String(j.tanggal).split("T")[0];
+                const cleanKelas = String(j.kelas).split("T")[0];
+
                 html += `
                     <tr>
                         <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-center">${j.tanggal}</td>
-                        <td class="txt-center txt-bold">Kelas ${j.kelas}</td>
+                        <td class="txt-center">${cleanDate}</td>
+                        <td class="txt-center txt-bold">Kelas ${cleanKelas}</td>
                         <td>${j.materi || '-'}</td>
                         <td>${j.tugas || '-'}</td>
                         <td class="txt-center col-aksi">
@@ -416,8 +419,8 @@
     function openModalEditJurnal(idx) {
         const item = cacheJurnalData[idx];
         document.getElementById('edit-jurnal-index').value = idx;
-        document.getElementById('edit-jurnal-tgl').value = item.tanggal;
-        document.getElementById('edit-jurnal-kelas').value = item.kelas;
+        document.getElementById('edit-jurnal-tgl').value = String(item.tanggal).split("T")[0];
+        document.getElementById('edit-jurnal-kelas').value = String(item.kelas).split("T")[0];
         document.getElementById('edit-jurnal-materi').value = item.materi;
         document.getElementById('edit-jurnal-tugas').value = item.tugas;
         document.getElementById('modal-edit-jurnal').style.display = 'flex';
@@ -778,7 +781,7 @@
                 html += `
                     <tr>
                         <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-center">${j.tanggal}</td>
+                        <td class="txt-center">${String(j.tanggal).split("T")[0]}</td>
                         <td>${j.materi || '-'}</td>
                         <td>${j.tugas || '-'}</td>
                     </tr>`;
@@ -828,12 +831,15 @@
                         <tr>
                             <th width="40" class="txt-center">No</th>
                             <th>Nama Lengkap Siswa</th>
-                            <th width="70" class="txt-center">NH1</th>
-                            <th width="70" class="txt-center">NH2</th>
-                            <th width="70" class="txt-center">Tugas</th>
-                            <th width="70" class="txt-center">STS</th>
-                            <th width="70" class="txt-center">SAS</th>
-                            <th width="90" class="txt-center" style="background:#e2e8f0;">Rata-Rata</th>
+                            <th width="60" class="txt-center">NH1</th>
+                            <th width="60" class="txt-center">NH2</th>
+                            <th width="60" class="txt-center">NH3</th>
+                            <th width="60" class="txt-center">NH4</th>
+                            <th width="60" class="txt-center">T1</th>
+                            <th width="60" class="txt-center">T2</th>
+                            <th width="60" class="txt-center">STS1</th>
+                            <th width="60" class="txt-center">SAS1</th>
+                            <th width="80" class="txt-center" style="background:#e2e8f0;">Rata2</th>
                             <th width="70" class="txt-center col-aksi">Aksi</th>
                         </tr>
                     </thead>
@@ -845,12 +851,16 @@
             
             const nh1 = parseInt(scores.nh1) || 0;
             const nh2 = parseInt(scores.nh2) || 0;
-            const tugas1 = parseInt(scores.tugas1) || 0;
+            const nh3 = parseInt(scores.nh3) || 0;
+            const nh4 = parseInt(scores.nh4) || 0;
+            const t1 = parseInt(scores.tugas1) || 0;
+            const t2 = parseInt(scores.tugas2) || 0;
             const sts1 = parseInt(scores.sts1) || 0;
             const sas1 = parseInt(scores.sas1) || 0;
             
-            const total = nh1 + nh2 + tugas1 + sts1 + sas1;
-            const avg = total > 0 ? (total / 5).toFixed(1) : "0.0";
+            const total = nh1 + nh2 + nh3 + nh4 + t1 + t2 + sts1 + sas1;
+            const count = (nh1?1:0) + (nh2?1:0) + (nh3?1:0) + (nh4?1:0) + (t1?1:0) + (t2?1:0) + (sts1?1:0) + (sas1?1:0);
+            const avg = count > 0 ? (total / count).toFixed(1) : "0.0";
 
             html += `
                 <tr>
@@ -858,7 +868,10 @@
                     <td class="txt-bold">${namaClean}</td>
                     <td class="txt-center">${nh1}</td>
                     <td class="txt-center">${nh2}</td>
-                    <td class="txt-center">${tugas1}</td>
+                    <td class="txt-center">${nh3}</td>
+                    <td class="txt-center">${nh4}</td>
+                    <td class="txt-center">${t1}</td>
+                    <td class="txt-center">${t2}</td>
                     <td class="txt-center">${sts1}</td>
                     <td class="txt-center">${sas1}</td>
                     <td class="txt-center txt-bold" style="background:#f8fafc;">${avg}</td>
