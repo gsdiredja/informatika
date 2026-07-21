@@ -111,8 +111,7 @@
 
     const myKelas = userSession.ampu_kelas.split(',');
     const selKelas = document.getElementById('sel-kelas');
-    selKelas.innerHTML = myKelas.map(k => `<option value="${k.trim()}">Kelas ${k.trim()}</option>`).join('');
-
+    selKelas.innerHTML = myKelas.map(k => `<option value="${k.trim()}">${k.trim()}</option>`).join('');
     function logout() {
         localStorage.removeItem('user_session');
         window.location.href = 'index.html';
