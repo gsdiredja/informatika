@@ -22,7 +22,7 @@
         }
 
         body {
-            /* Background Gradasi Biru Khas Portal SMAN 1 Muncar */
+            /* Background Gradasi Biru Portal SMAN 1 Muncar */
             background: linear-gradient(135deg, #0d2238 0%, #1a426e 50%, #3e73ad 100%);
             background-attachment: fixed;
             color: #ffffff;
@@ -34,7 +34,7 @@
             overflow-x: hidden;
         }
 
-        /* Aksen Lingkaran Visual Halus di Background */
+        /* Aksen Dekoratif Background */
         body::before {
             content: '';
             position: absolute;
@@ -92,7 +92,7 @@
             font-weight: 500;
         }
 
-        /* TOMBOL GURU ELEGAN MODERN */
+        /* Tombol Guru Elegan */
         .btn-guru-portal {
             display: inline-flex;
             align-items: center;
@@ -121,14 +121,14 @@
             color: #fef08a;
         }
 
-        /* Container Utama Flex-Layout untuk Zoom-Safety */
+        /* Main Wrapper & Flex Layout */
         .main-wrapper {
             width: 100%;
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 30px 24px;
+            padding: 20px 24px 40px 24px;
             position: relative;
             z-index: 10;
         }
@@ -143,14 +143,40 @@
             justify-content: space-between;
         }
 
-        /* Sisi Kiri (Hero Text) */
+        /* Card Login Kanan (Diatur order: 1 pada layar kecil agar posisi diatas) */
+        .login-card {
+            flex: 0 1 380px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 32px 28px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            color: #1e293b;
+            margin: 0 auto;
+            order: 1; /* Posisikan utama/di atas pada mode bertumpuk */
+        }
+
+        /* Sisi Kiri (Hero Text & Informasi) */
         .hero {
             flex: 1 1 480px;
             max-width: 600px;
+            order: 2; /* Diposisikan di bawah login card pada mode bertumpuk */
+        }
+
+        /* Pengaturan Layout untuk Layar Lebar (Desktop) */
+        @media (min-width: 901px) {
+            .hero {
+                order: 1; /* Di desktop hero tetap di sebelah kiri */
+            }
+            .login-card {
+                order: 2; /* Di desktop login card di sebelah kanan */
+            }
         }
 
         .hero h2 {
-            font-size: clamp(28px, 3vw, 40px);
+            font-size: clamp(26px, 3vw, 40px);
             font-weight: 800;
             line-height: 1.25;
             margin-bottom: 16px;
@@ -162,7 +188,7 @@
             font-size: clamp(13px, 1.1vw, 15px);
             color: #cbd5e1;
             line-height: 1.7;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
         /* List Fitur */
@@ -202,20 +228,7 @@
             color: #94a3b8;
         }
 
-        /* Card Login Kanan */
-        .login-card {
-            flex: 0 1 380px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.96);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            padding: 32px 28px;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
-            color: #1e293b;
-            margin: 0 auto;
-        }
-
+        /* Styling Input Form */
         .login-card h2 {
             font-size: 22px;
             font-weight: 800;
@@ -322,7 +335,6 @@
             z-index: 10;
         }
 
-        /* Penyesuaian saat Layar Sangat Kecil / Ponsel */
         @media (max-width: 768px) {
             .navbar {
                 padding: 16px;
@@ -368,7 +380,30 @@
     <div class="main-wrapper">
         <main class="container">
             
-            <!-- Sisi Kiri: Informasi Pembelajaran -->
+            <!-- Kotak Login (Posisi Atas di Layar Tablet/HP) -->
+            <section class="login-card">
+                <h2>Portal Masuk</h2>
+                <p class="subtitle">Silakan gunakan akun Siswa atau Admin Anda.</p>
+
+                <div class="form-group">
+                    <label for="inputUser">Username / NISN</label>
+                    <input type="text" id="inputUser" placeholder="Masukkan username..." autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPass">Kata Sandi</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="inputPass" placeholder="••••••••">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility()" title="Tampilkan/Sembunyikan Kata Sandi">
+                            <span id="eyeIcon">👁️</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="btn-submit" onclick="prosesLogin()">Masuk Aplikasi</button>
+            </section>
+
+            <!-- Informasi Pembelajaran (Posisi Bawah di Layar Tablet/HP) -->
             <section class="hero">
                 <h2>Kelas Digital Informatika</h2>
                 <p class="hero-desc">
@@ -408,29 +443,6 @@
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <!-- Sisi Kanan: Portal Masuk Login -->
-            <section class="login-card">
-                <h2>Portal Masuk</h2>
-                <p class="subtitle">Silakan gunakan akun Siswa atau Admin Anda.</p>
-
-                <div class="form-group">
-                    <label for="inputUser">Username / NISN</label>
-                    <input type="text" id="inputUser" placeholder="Masukkan username..." autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                    <label for="inputPass">Kata Sandi</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="inputPass" placeholder="••••••••">
-                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility()" title="Tampilkan/Sembunyikan Kata Sandi">
-                            <span id="eyeIcon">👁️</span>
-                        </button>
-                    </div>
-                </div>
-
-                <button class="btn-submit" onclick="prosesLogin()">Masuk Aplikasi</button>
             </section>
 
         </main>
