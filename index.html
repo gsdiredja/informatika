@@ -11,8 +11,6 @@
         
         .global-student-header { width: 100%; background-color: #1e293b; color: #f8fafc; padding: 12px 20px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 99; }
         .header-left-side { display: flex; align-items: center; gap: 14px; }
-        .header-right-side { display: flex; align-items: center; gap: 10px; }
-        
         .btn-back-to-topik { background: transparent; border: none; color: #f8fafc; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: 50%; transition: background 0.2s; }
         .btn-back-to-topik:hover { background: rgba(255, 255, 255, 0.1); }
         
@@ -21,35 +19,7 @@
         .header-logo-box img { width: 100%; height: 100%; object-fit: contain; }
         
         .student-info-text { font-weight: 500; }
-        
-        /* TOMBOL GURU ELEGAN */
-        .btn-guru {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
-            transition: all 0.25s ease;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .btn-guru:hover {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.45);
-            transform: translateY(-1px);
-        }
-        .btn-guru:active {
-            transform: translateY(0);
-        }
-
-        .btn-logout { background: #ef4444; color: white; border: none; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: background 0.2s; }
-        .btn-logout:hover { background: #dc2626; }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
 
         .container { max-width: 650px; width: 100%; padding: 30px 20px; }
         h1 { font-size: 24px; font-weight: 700; color: #2c3e50; margin-bottom: 20px; }
@@ -115,9 +85,11 @@
             <button type="button" class="btn-back-to-topik" onclick="event.stopPropagation(); kembaliKeDaftarTopik();" title="Kembali ke Daftar Topik">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-            </button>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
             
             <!-- PENGGUNAAN LOGO OPSI 2 -->
             <div class="header-logo-box">
@@ -128,18 +100,7 @@
                 👤 Siswa: <span id="hdrNamaSiswa">-</span> | Kelas: <span id="hdrKelasSiswa">-</span>
             </div>
         </div>
-
-        <div class="header-right-side">
-            <!-- TOMBOL MENU GURU ELEGAN -->
-            <a href="https://kodi.web.id/guru/index.html" class="btn-guru" title="Akses Panel Guru">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-                </svg>
-                <span>Area Guru</span>
-            </a>
-            <button type="button" class="btn-logout" onclick="event.stopPropagation(); logoutSiswa();">Keluar</button>
-        </div>
+        <button type="button" class="btn-logout" onclick="event.stopPropagation(); logoutSiswa();">Keluar</button>
     </div>
 
     <div class="app-content" style="display: flex; width: 100%; flex-direction: column; align-items: center;">
@@ -393,6 +354,7 @@
 
         function tutupModul() { document.getElementById('moduleModal').classList.remove('active'); }
 
+        // LOGIKA FETCH MATERI DIUBAH AGAR MENANGKAP ERROR FILE 404 KUSTOM
         function toggleMateri(noMateri) {
             if (!internalAkses[noMateri]) return;
             const item = document.getElementById(`item-${noMateri}`);
@@ -423,6 +385,7 @@
                         bukaKunciBerikutnya(noMateri);
                     })
                     .catch(() => {
+                        // Tampilan Kustom Saat Materi Belum Dibuat / Error 404
                         content.innerHTML = `
                             <div style="text-align: center; padding: 25px 15px; color: #64748b; background-color: #ffffff; border-radius: 8px; border: 1px dashed #cbd5e1;">
                                 <div style="font-size: 32px; margin-bottom: 8px;">🚧</div>
@@ -430,6 +393,7 @@
                                 <p style="font-size: 13px; line-height: 1.4;">Bahan ajar digital untuk bagian ini sedang dalam proses penyusunan oleh tim guru.</p>
                             </div>
                         `;
+                        // Tetap buka materi berikutnya/kuis jika admin agar tidak stuck testing
                         if(sessionUser && sessionUser.username === "admin") {
                             bukaKunciBerikutnya(noMateri);
                         }
@@ -458,6 +422,7 @@
             }
         }
 
+        // LOGIKA FETCH POSTTEST DIUBAH AGAR MENANGKAP ERROR FILE 404 KUSTOM
         function bukaHalamanPostTest() {
             if (!internalAkses.pt) return;
 
@@ -503,6 +468,7 @@
                     }
                 })
                 .catch(() => {
+                    // Tampilan Kustom Saat Soal Kuis Belum Tersedia / Error 404
                     document.getElementById('kuisNavRow').style.display = 'none';
                     wrapperSoal.innerHTML = `
                         <div style="text-align: center; padding: 35px 20px; color: #64748b;">
