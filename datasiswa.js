@@ -223,5 +223,6 @@ const daftarSiswa = [
     { username: "alv208", password: "12345", nama: "ALVINO GANESHA PUTRA", kelas: "XI-6" },
     { username: "myi991", password: "12345", nama: "MYISHA AMELIA JAUHARI", kelas: "XI-6" },
     { username: "wif740", password: "12345", nama: "WIFA RIZKI RAMADANI", kelas: "XI-6" },
-    { username: "wid405", password: "12345", nama: "WIDYA JULITA SAPUTRI", kelas: "XI-6" }
+    { username: "wid405", password: "12345", nama: "WIDYA JULITA SAPUTRI", kelas: "XI-6" },
+    { username: "ayu113", password: "12345", nama: "AYU ALFIYANTI", kelas: "XI-6" }
 ];
