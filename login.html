@@ -17,6 +17,10 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
+        html {
+            height: 100%;
+        }
+
         body {
             /* Background Gradasi Biru Khas Portal SMAN 1 Muncar */
             background: linear-gradient(135deg, #0d2238 0%, #1a426e 50%, #3e73ad 100%);
@@ -25,6 +29,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             position: relative;
             overflow-x: hidden;
         }
@@ -35,19 +40,23 @@
             position: absolute;
             top: -150px;
             right: -150px;
-            width: 600px;
-            height: 600px;
+            width: clamp(300px, 40vw, 600px);
+            height: clamp(300px, 40vw, 600px);
             background: rgba(255, 255, 255, 0.05);
             border-radius: 50%;
             pointer-events: none;
         }
 
-        /* Header / Navbar */
+        /* Header / Navbar Responsif */
         .navbar {
-            padding: 24px 8%;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 16px;
             position: relative;
             z-index: 10;
         }
@@ -62,6 +71,7 @@
             width: 38px;
             height: 38px;
             object-fit: contain;
+            flex-shrink: 0;
         }
 
         .nav-title-group {
@@ -70,7 +80,7 @@
         }
 
         .nav-title {
-            font-size: 16px;
+            font-size: clamp(14px, 1.2vw, 16px);
             font-weight: 800;
             letter-spacing: 0.5px;
             color: #ffffff;
@@ -82,7 +92,7 @@
             font-weight: 500;
         }
 
-        /* STYLING TOMBOL GURU ELEGAN */
+        /* TOMBOL GURU ELEGAN MODERN */
         .btn-guru-portal {
             display: inline-flex;
             align-items: center;
@@ -97,9 +107,10 @@
             border-radius: 12px;
             font-size: 13px;
             font-weight: 600;
-            letter-spacing: 0.3px;
+            white-space: nowrap;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
         }
 
         .btn-guru-portal:hover {
@@ -107,83 +118,58 @@
             border-color: rgba(255, 255, 255, 0.45);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-            color: #fef08a; /* Warna sorotan kuning muda saat dicursor */
+            color: #fef08a;
         }
 
-        .btn-guru-portal:active {
-            transform: translateY(0);
-        }
-
-        .btn-guru-portal svg {
-            transition: transform 0.3s ease;
-        }
-
-        .btn-guru-portal:hover svg {
-            transform: scale(1.1);
-        }
-
-        /* Container Utama Split */
-        .container {
-            max-width: 1140px;
+        /* Container Utama Flex-Layout untuk Zoom-Safety */
+        .main-wrapper {
             width: 100%;
-            margin: auto;
-            padding: 20px 24px 60px 24px;
             flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 50px;
+            display: flex;
             align-items: center;
+            justify-content: center;
+            padding: 30px 24px;
             position: relative;
             z-index: 10;
         }
 
-        /* Badge Tahun / Status */
-        .badge-status {
-            display: inline-flex;
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
+            justify-content: space-between;
         }
 
-        .badge-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #eab308;
-            border-radius: 50%;
+        /* Sisi Kiri (Hero Text) */
+        .hero {
+            flex: 1 1 480px;
+            max-width: 600px;
         }
 
-        /* Hero Left Text */
-        .hero h1 {
-            font-size: 42px;
+        .hero h2 {
+            font-size: clamp(28px, 3vw, 40px);
             font-weight: 800;
-            line-height: 1.2;
+            line-height: 1.25;
             margin-bottom: 16px;
             color: #ffffff;
             letter-spacing: -0.5px;
         }
 
         .hero-desc {
-            font-size: 15px;
+            font-size: clamp(13px, 1.1vw, 15px);
             color: #cbd5e1;
             line-height: 1.7;
-            margin-bottom: 36px;
-            max-width: 520px;
+            margin-bottom: 32px;
         }
 
         /* List Fitur */
         .features-list {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
         }
 
         .feature-item {
@@ -192,38 +178,42 @@
             gap: 12px;
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 16px;
+            padding: 14px 16px;
             border-radius: 12px;
             backdrop-filter: blur(4px);
         }
 
         .feature-icon {
             color: #fef08a;
-            font-size: 18px;
+            font-size: 16px;
             line-height: 1;
+            margin-top: 2px;
         }
 
         .feature-text h4 {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 3px;
         }
 
         .feature-text p {
-            font-size: 12px;
+            font-size: 11px;
             color: #94a3b8;
         }
 
         /* Card Login Kanan */
         .login-card {
+            flex: 0 1 380px;
+            width: 100%;
             background: rgba(255, 255, 255, 0.96);
             border: 1px solid rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
-            padding: 36px 30px;
+            padding: 32px 28px;
             border-radius: 20px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
             color: #1e293b;
+            margin: 0 auto;
         }
 
         .login-card h2 {
@@ -245,7 +235,7 @@
 
         .form-group label {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: #334155;
             margin-bottom: 6px;
@@ -253,7 +243,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Wrapper Input khusus untuk Tombol Toggle Password */
         .password-wrapper {
             position: relative;
             display: flex;
@@ -273,7 +262,7 @@
         }
 
         .password-wrapper input {
-            padding-right: 42px; /* Ruang untuk ikon mata */
+            padding-right: 42px;
         }
 
         .form-group input:focus {
@@ -282,7 +271,6 @@
             box-shadow: 0 0 0 3px rgba(26, 66, 110, 0.15);
         }
 
-        /* Tombol Mata (Show/Hide Password) */
         .toggle-password {
             position: absolute;
             right: 12px;
@@ -305,7 +293,7 @@
 
         .btn-submit {
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             background: #1a426e;
             color: #ffffff;
             border: none;
@@ -325,40 +313,28 @@
 
         /* Footer */
         .footer {
-            padding: 24px;
+            padding: 20px 24px;
             text-align: center;
-            font-size: 13px;
+            font-size: 12px;
             color: #94a3b8;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             z-index: 10;
         }
 
-        /* Responsif HP & Tablet */
-        @media (max-width: 900px) {
-            .container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .login-card {
-                order: -1;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .features-list {
-                grid-template-columns: 1fr;
-            }
+        /* Penyesuaian saat Layar Sangat Kecil / Ponsel */
+        @media (max-width: 768px) {
             .navbar {
-                padding: 20px 5%;
+                padding: 16px;
+            }
+            .hero {
+                text-align: center;
+            }
+            .features-list {
+                text-align: left;
             }
             .btn-guru-portal span {
-                display: none; /* Menyembunyikan teks di HP kecil, hanya menampilkan ikon */
+                display: none;
             }
             .btn-guru-portal {
                 padding: 8px 10px;
@@ -378,7 +354,7 @@
             </div>
         </div>
 
-        <!-- Tombol Elegan Menuju Area Guru -->
+        <!-- Tombol Menuju Area Guru -->
         <a href="https://kodi.web.id/guru/index.html" class="btn-guru-portal" title="Akses Area Guru">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
@@ -388,76 +364,77 @@
         </a>
     </header>
 
-    <!-- Konten Utama -->
-    <main class="container">
-        
-        <!-- Sisi Kiri: Informasi Pembelajaran -->
-        <section class="hero">
+    <!-- Content Wrapper Utama -->
+    <div class="main-wrapper">
+        <main class="container">
             
-            <h2>Kelas Digital Informatika</h2>
-            <p class="hero-desc">
-                Akses ruang belajar mandiri, strategi algoritmik, jaringan komputer, dan materi pemrograman Anda secara cepat, rapi, dan praktis.
-            </p>
+            <!-- Sisi Kiri: Informasi Pembelajaran -->
+            <section class="hero">
+                <h2>Kelas Digital Informatika</h2>
+                <p class="hero-desc">
+                    Akses ruang belajar mandiri, strategi algoritmik, jaringan komputer, dan materi pemrograman Anda secara cepat, rapi, dan praktis.
+                </p>
 
-            <div class="features-list">
-                <div class="feature-item">
-                    <span class="feature-icon">✦</span>
-                    <div class="feature-text">
-                        <h4>Algoritma & Koding</h4>
-                        <p>Berpikir komputasional & rekursi</p>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <span class="feature-icon">✦</span>
+                        <div class="feature-text">
+                            <h4>Algoritma & Koding</h4>
+                            <p>Berpikir komputasional & rekursi</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">✦</span>
+                        <div class="feature-text">
+                            <h4>Jaringan Komputer</h4>
+                            <p>Topologi & keamanan cyber</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">✦</span>
+                        <div class="feature-text">
+                            <h4>Aplikasi Mobile</h4>
+                            <p>Pengembangan App Inventor</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">✦</span>
+                        <div class="feature-text">
+                            <h4>Analisis Data</h4>
+                            <p>Pemrosesan & visualisasi data</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sisi Kanan: Portal Masuk Login -->
+            <section class="login-card">
+                <h2>Portal Masuk</h2>
+                <p class="subtitle">Silakan gunakan akun Siswa atau Admin Anda.</p>
+
+                <div class="form-group">
+                    <label for="inputUser">Username / NISN</label>
+                    <input type="text" id="inputUser" placeholder="Masukkan username..." autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPass">Kata Sandi</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="inputPass" placeholder="••••••••">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility()" title="Tampilkan/Sembunyikan Kata Sandi">
+                            <span id="eyeIcon">👁️</span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="feature-item">
-                    <span class="feature-icon">✦</span>
-                    <div class="feature-text">
-                        <h4>Jaringan Komputer</h4>
-                        <p>Topologi & keamanan cyber</p>
-                    </div>
-                </div>
+                <button class="btn-submit" onclick="prosesLogin()">Masuk Aplikasi</button>
+            </section>
 
-                <div class="feature-item">
-                    <span class="feature-icon">✦</span>
-                    <div class="feature-text">
-                        <h4>Aplikasi Mobile</h4>
-                        <p>Pengembangan App Inventor</p>
-                    </div>
-                </div>
-
-                <div class="feature-item">
-                    <span class="feature-icon">✦</span>
-                    <div class="feature-text">
-                        <h4>Analisis Data</h4>
-                        <p>Pemrosesan & visualisasi data</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sisi Kanan: Portal Masuk Login -->
-        <section class="login-card">
-            <h2>Portal Masuk</h2>
-            <p class="subtitle">Silakan gunakan akun Siswa atau Admin Anda.</p>
-
-            <div class="form-group">
-                <label for="inputUser">Username / NISN</label>
-                <input type="text" id="inputUser" placeholder="Masukkan username..." autocomplete="off">
-            </div>
-
-            <div class="form-group">
-                <label for="inputPass">Kata Sandi</label>
-                <div class="password-wrapper">
-                    <input type="password" id="inputPass" placeholder="••••••••">
-                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility()" title="Tampilkan/Sembunyikan Kata Sandi">
-                        <span id="eyeIcon">👁️</span>
-                    </button>
-                </div>
-            </div>
-
-            <button class="btn-submit" onclick="prosesLogin()">Masuk Aplikasi</button>
-        </section>
-
-    </main>
+        </main>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -467,17 +444,16 @@
     <script>
         localStorage.removeItem('loggedSiswa');
 
-        // Fungsi untuk Mengubah Visibilitas Password (Show/Hide)
         function togglePasswordVisibility() {
             const passInput = document.getElementById('inputPass');
             const eyeIcon = document.getElementById('eyeIcon');
 
             if (passInput.type === 'password') {
                 passInput.type = 'text';
-                eyeIcon.textContent = '🙈'; // Ikon tertutup saat password terlihat
+                eyeIcon.textContent = '🙈';
             } else {
                 passInput.type = 'password';
-                eyeIcon.textContent = '👁️'; // Ikon mata saat password tersembunyi
+                eyeIcon.textContent = '👁️';
             }
         }
 
