@@ -82,6 +82,46 @@
             font-weight: 500;
         }
 
+        /* STYLING TOMBOL GURU ELEGAN */
+        .btn-guru-portal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-guru-portal:hover {
+            background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.45);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+            color: #fef08a; /* Warna sorotan kuning muda saat dicursor */
+        }
+
+        .btn-guru-portal:active {
+            transform: translateY(0);
+        }
+
+        .btn-guru-portal svg {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-guru-portal:hover svg {
+            transform: scale(1.1);
+        }
+
         /* Container Utama Split */
         .container {
             max-width: 1140px;
@@ -317,6 +357,12 @@
             .navbar {
                 padding: 20px 5%;
             }
+            .btn-guru-portal span {
+                display: none; /* Menyembunyikan teks di HP kecil, hanya menampilkan ikon */
+            }
+            .btn-guru-portal {
+                padding: 8px 10px;
+            }
         }
     </style>
 </head>
@@ -331,6 +377,15 @@
                 <div class="nav-subtitle">Kelas Digital Informatika</div>
             </div>
         </div>
+
+        <!-- Tombol Elegan Menuju Area Guru -->
+        <a href="https://kodi.web.id/guru/index.html" class="btn-guru-portal" title="Akses Area Guru">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+            <span>Area Guru</span>
+        </a>
     </header>
 
     <!-- Konten Utama -->
