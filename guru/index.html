@@ -18,8 +18,8 @@
         .header-title-text { font-size: 18px; font-weight: 800; letter-spacing: 0.5px; color: #ffffff; }
         .portal-badge { background: #3498db; color: #ffffff; font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .btn-portal-access { background-color: #3b82f6; color: #ffffff; border: none; padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
-        .btn-portal-access:hover { background-color: #2563eb; transform: translateY(-1px); }
+        .btn-portal-access { background-color: #3b82f6; color: #ffffff; text-decoration: none; padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-portal-access:hover { background-color: #2563eb; transform: translateY(-1px); color: #ffffff; }
 
         /* HERO SECTION LANDING PAGE */
         .hero-section { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; padding: 80px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
@@ -89,9 +89,10 @@
             </div>
             <span class="header-title-text">EduAdaptif</span>
         </div>
-        <button type="button" class="btn-portal-access" onclick="bukaModalLogin()">
-            <i class="fas fa-sign-in-alt"></i> Masuk Portal
-        </button>
+        <!-- TOMBOL DIPERBARUI: MENUJU KODI.WEB.ID DENGAN TEKS DASHBOARD -->
+        <a href="https://kodi.web.id" class="btn-portal-access">
+            <i class="fas fa-gauge"></i> Dashboard
+        </a>
     </div>
 
     <!-- HERO SECTION LANDING PAGE -->
@@ -104,6 +105,7 @@
             EduAdaptif membantu guru mengelola presensi harian siswa, pengisian jurnal KBM terintegrasi, serta rekapitulasi penilaian secara real-time dan akurat.
         </p>
         <div class="hero-cta-group">
+            <!-- TOMBOL INI TETAP MEMBUKA POPUP LOGIN RUANG KERJA PENDIDIK -->
             <button type="button" class="btn-hero-primary" onclick="bukaModalLogin()">
                 <i class="fas fa-chalkboard-teacher"></i> Akses Ruang Kerja Pendidik
             </button>
