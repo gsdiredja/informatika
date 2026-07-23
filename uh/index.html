@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ulangan Harian 1 - Strategi Algoritmik & C++</title>
+    <title>Ulangan Harian 1 - Strategi Algoritmik & Pemrograman C++</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: #f3f4f6; color: #1f2937; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
         .card { background: #ffffff; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); width: 100%; max-width: 680px; padding: 32px; position: relative; }
         
+        /* Header */
         .header { border-bottom: 2px solid #e5e7eb; padding-bottom: 16px; margin-bottom: 24px; }
         .header h3 { color: #0b3a7a; font-size: 18px; font-weight: 700; text-transform: uppercase; }
         .header p { font-size: 13px; color: #6b7280; margin-top: 4px; }
         
+        /* Form & Input */
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; color: #374151; }
         .form-group input, .form-group textarea { width: 100%; border: 1px solid #d1d5db; border-radius: 8px; padding: 12px; font-size: 14px; outline: none; transition: border 0.2s; }
         .form-group input:focus, .form-group textarea:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
         
+        /* Opsi Radio */
         .option-label { display: flex; align-items: center; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: background 0.2s, border-color 0.2s; font-size: 14px; color: #4b5563; }
         .option-label:hover { background-color: #f9fafb; border-color: #d1d5db; }
         .option-label input[type="radio"] { margin-right: 12px; accent-color: #2563eb; width: 16px; height: 16px; }
         
+        /* Tombol & Navigasi */
         .btn { background-color: #2563eb; color: #ffffff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
         .btn:hover { background-color: #1d4ed8; }
         .btn:disabled { background-color: #9ca3af; cursor: not-allowed; }
@@ -30,9 +34,11 @@
         .btn-secondary:hover { background-color: #d1d5db; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 24px; border-top: 1px solid #e5e7eb; padding-top: 20px; }
         
+        /* Progress Bar */
         .progress-bar-bg { width: 100%; height: 6px; background-color: #e5e7eb; border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
         .progress-bar-fill { height: 100%; background-color: #2563eb; width: 0%; transition: width 0.3s ease; }
         
+        /* Layar */
         .screen { display: none; }
         .screen.active { display: block; }
         .error-msg { color: #dc2626; font-size: 13px; margin-top: 8px; display: none; }
@@ -42,19 +48,19 @@
 <body>
 
 <div class="card">
-    <!-- LOGIN SCREEN -->
+    <!-- ================= LAYAR LOGIN ================= -->
     <div id="login-screen" class="screen active">
         <div class="header">
             <h3>Login Akses UH1</h3>
-            <p>Masukkan kredensial Anda yang terdaftar pada sistem.</p>
+            <p>Masukkan username dan password Anda untuk memulai kuis.</p>
         </div>
         <form id="login-form" onsubmit="handleLogin(event)">
             <div class="form-group">
-                <label for="username">Username / Nama Siswa</label>
+                <label for="username">Username</label>
                 <input type="text" id="username" placeholder="Masukkan username" required>
             </div>
             <div class="form-group">
-                <label for="password">Password Akses</label>
+                <label for="password">Password</label>
                 <input type="password" id="password" placeholder="Masukkan password" required>
             </div>
             <div class="status-loading" id="login-status">Memuat data akun dari Spreadsheet...</div>
@@ -63,11 +69,11 @@
         </form>
     </div>
 
-    <!-- QUIZ SCREEN -->
+    <!-- ================= LAYAR KUIS ================= -->
     <div id="quiz-screen" class="screen">
         <div class="header">
             <h3>POST TEST TOPIK 1: STRATEGI ALGORITMIK DAN PEMROGRAMAN C++</h3>
-            <p id="user-display"></p>
+            <p id="user-display" style="font-weight: 600; color: #2563eb; margin-top: 6px;"></p>
         </div>
 
         <div class="progress-bar-bg">
@@ -86,7 +92,7 @@
         </form>
     </div>
 
-    <!-- RESULT SCREEN -->
+    <!-- ================= LAYAR HASIL ================= -->
     <div id="result-screen" class="screen" style="text-align: center;">
         <div class="header">
             <h3>Ujian Selesai!</h3>
@@ -98,13 +104,15 @@
 </div>
 
 <script>
-    // **GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA**
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx.../exec";
+    // **1. CONFIGURASI & IDENTITAS UH**
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx.../exec"; // Ganti dengan Web App URL Anda
+    const UH_KODE = "UH1"; // Menandai bahwa ini adalah Ulangan Harian 1
 
     let validUsers = [];
     let currentPage = 0;
-    let currentUser = "";
+    let currentUserData = null; // Menyimpan data akun aktif (Username, Nama, Kelas)
 
+    // **2. DATA SOAL & KUNCI JAWABAN**
     const questions = [
         // B/S (1-5)
         { type: "radio", name: "soal1", text: "Tahap awal dalam pembuatan program komputer adalah langsung menuliskan baris kode program tanpa perlu menganalisis masalah terlebih dahulu.", options: [{v:"A", t:"Benar"}, {v:"B", t:"Salah"}], key: "B" },
@@ -130,7 +138,7 @@
         { type: "radio", name: "soal19", text: "Kesalahan penulisan kode seperti lupa meletakkan tanda titik koma (;) di akhir baris perintah C++ dikelompokkan ke dalam jenis error...", options: [{v:"A", t:"Syntax Error (Kesalahan Sintaksis)"}, {v:"B", t:"Logical Error (Kesalahan Logika)"}, {v:"C", t:"Runtime Error"}, {v:"D", t:"Hardware Error"}], key: "A" },
         { type: "radio", name: "soal20", text: "Manakah struktur percabangan pada C++ yang paling tepat untuk menguji klasifikasi jenis segitiga berdasarkan kondisi tiga panjang sisinya?", options: [{v:"A", t:"switch-case bersarang"}, {v:"B", t:"Struktur if - else if - else berantai"}, {v:"C", t:"Loop perulangan do-while"}, {v:"D", t:"Hanya menggunakan instruksi else"}], key: "B" },
 
-        // ESSAY (21-26)
+        // ESSAY & REFLEKSI (21-26)
         { type: "essay", name: "soal21", title: "Soal Essay 1 (Tahapan Analisis Masalah)", text: "Jelaskan mengapa tahapan 'Problem Analysis' sangat krusial dilakukan sebelum kita melangkah ke tahapan 'Algorithm Design' dalam merancang sebuah program!" },
         { type: "essay", name: "soal22", title: "Soal Essay 2 (Analisis Logika Segitiga)", text: "Perhatikan kondisi penentuan bukan segitiga berikut pada C++:\nif ((a >= b + c) || (b >= a + c) || (c >= a + b)) printf(\"Bukan Segitiga\");\nJelaskan secara logis mengapa digunakan operator >= (lebih besar dari atau sama dengan) dan bukan hanya > untuk menyatakan bahwa tiga bilangan tersebut bukanlah segitiga!" },
         { type: "essay", name: "soal23", title: "Soal Essay 3 (Perbedaan Pustaka)", text: "Jelaskan perbedaan mendasar antara cara penulisan perintah masukan/keluaran pada pustaka <stdio.h> (gaya bahasa C) dengan pustaka <iostream> (gaya bahasa C++)!" },
@@ -139,7 +147,7 @@
         { type: "essay", name: "soal26", title: "Soal Lembar Refleksi Mandiri", text: "Dari 4 tahapan perancangan program (Analisis, Desain, Implementasi, Pengujian), tahapan mana yang menurut Anda paling menantang pada materi strategi algoritmik dan pemrograman C++ ini? Jelaskan alasannya dan strategi apa yang Anda gunakan untuk mengatasi kendala tersebut." }
     ];
 
-    // Ambil Data Akun dari Spreadsheet
+    // **3. AMBIL DATA SISWA DARI SPREADSHEET (TAB "Siswa")**
     window.addEventListener("DOMContentLoaded", () => {
         if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("AKfycbx...")) {
             document.getElementById("login-status").innerText = "URL Apps Script belum dikonfigurasi.";
@@ -150,29 +158,33 @@
         fetch(APPS_SCRIPT_URL)
             .then(res => res.json())
             .then(data => {
-                validUsers = data;
+                validUsers = data; // Data berisi: username, password, nama, kelas
                 document.getElementById("login-status").innerText = "Sistem siap. Silakan login.";
                 document.getElementById("login-status").style.color = "#059669";
                 document.getElementById("btn-login").disabled = false;
             })
             .catch(err => {
-                console.error("Gagal mengambil data siswa:", err);
+                console.error("Gagal memuat akun:", err);
                 document.getElementById("login-status").innerText = "Gagal memuat data akun dari Spreadsheet.";
                 document.getElementById("login-status").style.color = "#dc2626";
             });
     });
 
-    // Validasi Login
+    // **4. AUTENTIKASI LOGIN**
     function handleLogin(e) {
         e.preventDefault();
-        const user = document.getElementById("username").value.trim();
-        const pass = document.getElementById("password").value.trim();
+        const userInput = document.getElementById("username").value.trim();
+        const passInput = document.getElementById("password").value.trim();
 
-        const match = validUsers.find(u => u.username === user && u.password === pass);
+        const match = validUsers.find(u => u.username === userInput && u.password === passInput);
 
         if (match) {
-            currentUser = match.username;
-            document.getElementById("user-display").innerText = "Siswa: " + currentUser;
+            currentUserData = match;
+            document.getElementById("login-error").style.display = "none";
+            
+            // Tampilkan identitas siswa pada header ujian
+            document.getElementById("user-display").innerText = `Siswa: ${match.nama} | Kelas: ${match.kelas} (${match.username})`;
+            
             document.getElementById("login-screen").classList.remove("active");
             document.getElementById("quiz-screen").classList.add("active");
             renderQuestions();
@@ -182,6 +194,7 @@
         }
     }
 
+    // **5. RENDER ELEMEN SOAL PER HALAMAN**
     function renderQuestions() {
         const container = document.getElementById("questions-container");
         container.innerHTML = "";
@@ -213,6 +226,7 @@
         });
     }
 
+    // **6. NAVIGASI HALAMAN (WIZARD)**
     function showPage(page) {
         document.querySelectorAll(".question-card").forEach((el, i) => {
             el.style.display = i === page ? "block" : "none";
@@ -241,18 +255,25 @@
         }
     }
 
+    // **7. SUBMIT DAN PENGIRIMAN DATA KE APPS SCRIPT**
     function submitQuiz() {
         if(!confirm("Apakah Anda yakin ingin menyelesaikan dan mengirimkan jawaban?")) return;
 
         let scorePG = 0;
         let totalPG = 0;
+        
+        // Paket Payload Sesuai Struktur Sheet Baru
         let formData = {
-            nama: currentUser,
+            username: currentUserData.username,
+            nama: currentUserData.nama,
+            kelas: currentUserData.kelas,
+            uhKode: UH_KODE,
             jawaban: {}
         };
 
         const form = document.getElementById("quiz-form");
 
+        // Evaluasi Jawaban
         questions.forEach((q) => {
             if (q.type === "radio") {
                 totalPG++;
@@ -266,20 +287,25 @@
             }
         });
 
+        // Hitung Nilai Skala 100
         let nilaiAkhirPG = Math.round((scorePG / totalPG) * 100);
         formData.nilaiPG = nilaiAkhirPG;
 
+        // Tampilkan Hasil
         document.getElementById("quiz-screen").classList.remove("active");
         document.getElementById("result-screen").classList.add("active");
         document.getElementById("score-box").innerText = `Skor PG/BS: ${nilaiAkhirPG} / 100`;
 
+        // Kirim ke Google Apps Script
         if (APPS_SCRIPT_URL) {
             fetch(APPS_SCRIPT_URL, {
                 method: "POST",
                 mode: "no-cors",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
-            }).catch(err => console.error("Error sending data:", err));
+            }).then(() => {
+                console.log("Data ujian berhasil dikirimkan!");
+            }).catch(err => console.error("Gagal mengirimkan data:", err));
         }
     }
 </script>
