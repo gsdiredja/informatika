@@ -4,7 +4,7 @@ let validUsers = [];
 let currentPage = 0;
 let currentUserData = null;
 let currentQuestions = [];
-let selectedUH = "UH1";
+let selectedUH = "uh1";
 
 // 1. MEMUAT DATA SISWA
 window.addEventListener("DOMContentLoaded", () => {
@@ -29,26 +29,30 @@ window.addEventListener("DOMContentLoaded", () => {
         });
 });
 
-// 2. HANDLER LOGIN & PILIH UH
-function handleLogin(e) {
+// 2. HANDLER LOGIN & FETCH JSON SOAL SESUAI PILIHAN
+async function handleLogin(e) {
     e.preventDefault();
     const userInput = document.getElementById("username").value.trim();
     const passInput = document.getElementById("password").value.trim();
-    selectedUH = document.getElementById("select-uh").value;
+    selectedUH = document.getElementById("select-uh").value.toLowerCase();
 
     const match = validUsers.find(u => u.username === userInput && u.password === passInput);
 
     if (match) {
         currentUserData = match;
-        currentQuestions = BANK_SOAL[selectedUH];
 
-        if (!currentQuestions || currentQuestions.length === 0) {
-            alert("Soal untuk " + selectedUH + " belum tersedia!");
+        // Ambil file JSON soal berdasarkan dropdown (data/soal-uh1.json atau data/soal-uh2.json)
+        try {
+            const response = await fetch(`data/soal-${selectedUH}.json`);
+            if (!response.ok) throw new Error("File soal tidak ditemukan");
+            currentQuestions = await response.json();
+        } catch (err) {
+            alert(`Gagal memuat soal! Pastikan file 'data/soal-${selectedUH}.json' sudah tersedia.`);
             return;
         }
 
         document.getElementById("login-error").style.display = "none";
-        document.getElementById("user-display").innerText = `Siswa: ${match.nama} | Kelas: ${match.kelas} (${selectedUH})`;
+        document.getElementById("user-display").innerText = `Siswa: ${match.nama} | Kelas: ${match.kelas} (${selectedUH.toUpperCase()})`;
         
         document.getElementById("login-screen").classList.remove("active");
         document.getElementById("quiz-screen").classList.add("active");
@@ -92,7 +96,7 @@ function renderQuestions() {
     });
 }
 
-// 4. VALIDASI: HANYA BISA LANJUT JIKA SOAL SUDAH DIJAWAB
+// 4. VALIDASI: HARUS DIJAWAB SEBELUM BISA LANJUT
 function isCurrentQuestionAnswered() {
     const q = currentQuestions[currentPage];
     const form = document.getElementById("quiz-form");
@@ -107,7 +111,7 @@ function isCurrentQuestionAnswered() {
     return true;
 }
 
-// 5. NAVIGASI HALAMAN SOAL
+// 5. NAVIGASI HALAMAN
 function showPage(page) {
     document.querySelectorAll(".question-card").forEach((el, i) => {
         el.style.display = i === page ? "block" : "none";
@@ -130,7 +134,6 @@ function showPage(page) {
 }
 
 function changePage(delta) {
-    // Jika mencoba maju (delta > 0), validasi dulu apakah soal saat ini sudah dijawab
     if (delta > 0 && !isCurrentQuestionAnswered()) {
         alert("Mohon jawab soal ini terlebih dahulu sebelum melanjutkan ke soal berikutnya!");
         return;
@@ -158,7 +161,7 @@ function submitQuiz() {
         username: currentUserData.username,
         nama: currentUserData.nama,
         kelas: currentUserData.kelas,
-        uhKode: selectedUH,
+        uhKode: selectedUH.toUpperCase(),
         jawaban: {}
     };
 
