@@ -3,58 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ulangan Harian 1 - Strategi Algoritmik & Pemrograman C++</title>
+    <title>Sistem Ujian Harian Online</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: #f3f4f6; color: #1f2937; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .card { background: #ffffff; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); width: 100%; max-width: 680px; padding: 32px; position: relative; }
-        
-        /* Header */
-        .header { border-bottom: 2px solid #e5e7eb; padding-bottom: 16px; margin-bottom: 24px; }
-        .header h3 { color: #0b3a7a; font-size: 18px; font-weight: 700; text-transform: uppercase; }
-        .header p { font-size: 13px; color: #6b7280; margin-top: 4px; }
-        
-        /* Form & Input */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; color: #374151; }
-        .form-group input, .form-group textarea { width: 100%; border: 1px solid #d1d5db; border-radius: 8px; padding: 12px; font-size: 14px; outline: none; transition: border 0.2s; }
-        .form-group input:focus, .form-group textarea:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-        
-        /* Opsi Radio */
-        .option-label { display: flex; align-items: center; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: background 0.2s, border-color 0.2s; font-size: 14px; color: #4b5563; }
-        .option-label:hover { background-color: #f9fafb; border-color: #d1d5db; }
-        .option-label input[type="radio"] { margin-right: 12px; accent-color: #2563eb; width: 16px; height: 16px; }
-        
-        /* Tombol & Navigasi */
-        .btn { background-color: #2563eb; color: #ffffff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-        .btn:hover { background-color: #1d4ed8; }
-        .btn:disabled { background-color: #9ca3af; cursor: not-allowed; }
-        .btn-secondary { background-color: #e5e7eb; color: #374151; }
-        .btn-secondary:hover { background-color: #d1d5db; }
-        .nav-buttons { display: flex; justify-content: space-between; margin-top: 24px; border-top: 1px solid #e5e7eb; padding-top: 20px; }
-        
-        /* Progress Bar */
-        .progress-bar-bg { width: 100%; height: 6px; background-color: #e5e7eb; border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
-        .progress-bar-fill { height: 100%; background-color: #2563eb; width: 0%; transition: width 0.3s ease; }
-        
-        /* Layar */
-        .screen { display: none; }
-        .screen.active { display: block; }
-        .error-msg { color: #dc2626; font-size: 13px; margin-top: 8px; display: none; }
-        .status-loading { font-size: 12px; color: #2563eb; margin-top: 5px; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="card">
-    <!-- ================= LAYAR LOGIN ================= -->
+    <!-- LAYAR LOGIN -->
     <div id="login-screen" class="screen active">
         <div class="header">
-            <h3>Login Akses UH1</h3>
-            <p>Masukkan username dan password Anda untuk memulai kuis.</p>
+            <h3>Login Akses Ujian Harian</h3>
+            <p>Masukkan username, password, dan pilih jenis ujian Anda.</p>
         </div>
         <form id="login-form" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="select-uh">Pilih Ulangan Harian</label>
+                <select id="select-uh" style="margin-bottom: 12px;">
+                    <option value="UH1">UH1 - Strategi Algoritmik & Pemrograman C++</option>
+                    <option value="UH2">UH2 - Topik Pembelajaran 2</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" placeholder="Masukkan username" required>
@@ -69,10 +38,10 @@
         </form>
     </div>
 
-    <!-- ================= LAYAR KUIS ================= -->
+    <!-- LAYAR KUIS -->
     <div id="quiz-screen" class="screen">
         <div class="header">
-            <h3>POST TEST TOPIK 1: STRATEGI ALGORITMIK DAN PEMROGRAMAN C++</h3>
+            <h3>POST TEST TOPIK PEMBELAJARAN</h3>
             <p id="user-display" style="font-weight: 600; color: #2563eb; margin-top: 6px;"></p>
         </div>
 
@@ -92,7 +61,7 @@
         </form>
     </div>
 
-    <!-- ================= LAYAR HASIL ================= -->
+    <!-- LAYAR HASIL -->
     <div id="result-screen" class="screen" style="text-align: center;">
         <div class="header">
             <h3>Ujian Selesai!</h3>
@@ -103,211 +72,8 @@
     </div>
 </div>
 
-<script>
-    // **1. CONFIGURASI & IDENTITAS UH**
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzsLfVWFNc85NVkQxbROAIXJmRyG5X3Q9q4XvpldeSe5XECDC-mov6soBnpA8mrg6UA/exec"; // Ganti dengan Web App URL Anda
-    const UH_KODE = "UH1"; // Menandai bahwa ini adalah Ulangan Harian 1
-
-    let validUsers = [];
-    let currentPage = 0;
-    let currentUserData = null; // Menyimpan data akun aktif (Username, Nama, Kelas)
-
-    // **2. DATA SOAL & KUNCI JAWABAN**
-    const questions = [
-        // B/S (1-5)
-        { type: "radio", name: "soal1", text: "Tahap awal dalam pembuatan program komputer adalah langsung menuliskan baris kode program tanpa perlu menganalisis masalah terlebih dahulu.", options: [{v:"A", t:"Benar"}, {v:"B", t:"Salah"}], key: "B" },
-        { type: "radio", name: "soal2", text: "File pustaka <iostream> wajib disertakan jika kita ingin menggunakan fungsi standar input-output seperti cin dan cout pada C++.", options: [{v:"A", t:"Benar"}, {v:"B", t:"Salah"}], key: "A" },
-        { type: "radio", name: "soal3", text: "Fungsi int main() bertindak sebagai entry point, yaitu titik awal tempat di mana eksekusi program C++ selalu dimulai pertama kali.", options: [{v:"A", t:"Benar"}, {v:"B", t:"Salah"}], key: "A" },
-        { type: "radio", name: "soal4", text: "Tiga buah panjang lidi bernilai 2 cm, 3 cm, dan 7 cm dapat dirangkai menjadi sebuah segitiga yang sah.", options: [{v:"A", t:"Benar"}, {v:"B", t:"Salah"}], key: "B" },
-        { type: "radio", name: "soal5", text: "Operator logika && (AND) akan menghasilkan nilai benar (True) hanya jika semua kondisi yang diuji bernilai benar.", options: [{v:"A", t:"Benar"}, {v:"B", t:"Salah"}], key: "A" },
-        
-        // PG (6-20)
-        { type: "radio", name: "soal6", text: "Tahapan awal dalam strategi algoritmik di mana kita mengidentifikasi input, output, dan batasan (constraint) masalah dinamakan...", options: [{v:"A", t:"Problem Analysis (Menganalisis Masalah)"}, {v:"B", t:"Algorithm Design (Merancang Algoritma)"}, {v:"C", t:"Implementation (Implementasi Kode)"}, {v:"D", t:"Testing & Debugging (Pengujian Program)"}], key: "A" },
-        { type: "radio", name: "soal7", text: "Pada C++, file pustaka utama yang digunakan untuk komunikasi proses masukan dan keluaran standar (input-output) adalah...", options: [{v:"A", t:"stdlib.h"}, {v:"B", t:"math.h"}, {v:"C", t:"stdio.h atau iostream"}, {v:"D", t:"string.h"}], key: "C" },
-        { type: "radio", name: "soal8", text: "Format Specifier (penentu format) %d atau %i pada fungsi printf/scanf digunakan untuk tipe data...", options: [{v:"A", t:"Float (Pecahan)"}, {v:"B", t:"Char (Karakter)"}, {v:"C", t:"Integer (Bilangan Bulat)"}, {v:"D", t:"String (Kumpulan Teks)"}], key: "C" },
-        { type: "radio", name: "soal9", text: "Karakter lepas (escape sequence) \\n dalam pemrograman C/C++ berfungsi untuk...", options: [{v:"A", t:"Memberikan spasi tab horizontal"}, {v:"B", t:"Membuat baris baru (New Line)"}, {v:"C", t:"Menandai akhir perintah"}, {v:"D", t:"Menampilkan tanda petik ganda"}], key: "B" },
-        { type: "radio", name: "soal10", text: "Manakah syarat utama (ketaksamaan segitiga) agar 3 buah panjang sisi a, b, dan c dapat membentuk sebuah segitiga?", options: [{v:"A", t:"a + b < c"}, {v:"B", t:"a + b == c"}, {v:"C", t:"a + b <= c"}, {v:"D", t:"Jumlah dua sisi selalu lebih besar dari sisi ketiga (a+b>c, a+c>b, b+c>a)"}], key: "D" },
-        { type: "radio", name: "soal11", text: "Jika diinputkan nilai sisi 1000, 1000, dan 500, maka keluaran program yang benar adalah...", options: [{v:"A", t:"Segitiga Sama Sisi"}, {v:"B", t:"Segitiga Sama Kaki"}, {v:"C", t:"Segitiga Sembarang"}, {v:"D", t:"Bukan Segitiga"}], key: "B" },
-        { type: "radio", name: "soal12", text: "Operator logika C++ yang bernilai True jika SALAH SATU kondisinya terpenuhi adalah...", options: [{v:"A", t:"&& (AND)"}, {v:"B", t:"|| (OR)"}, {v:"C", t:"! (NOT)"}, {v:"D", t:"== (EQUAL)"}], key: "B" },
-        { type: "radio", name: "soal13", text: "Proses mencari dan memperbaiki kesalahan sintaksis, kesalahan logika, maupun kesalahan runtime pada program disebut...", options: [{v:"A", t:"Testing"}, {v:"B", t:"Debugging"}, {v:"C", t:"Compiling"}, {v:"D", t:"Coding"}], key: "B" },
-        { type: "radio", name: "soal14", text: "Mengapa 4 tahapan dalam strategi algoritmik dikatakan bersifat 'iteratif'?", options: [{v:"A", t:"Karena harus dikerjakan sekali saja tanpa kesalahan"}, {v:"B", t:"Karena hanya dapat diimplementasikan menggunakan bahasa C++"}, {v:"C", t:"Karena jika saat pengujian ditemukan hasil yang salah, proses dapat diulang kembali ke tahap analisis atau desain"}, {v:"D", t:"Karena urutan tahapannya boleh diacak"}], key: "C" },
-        { type: "radio", name: "soal15", text: "Sintaks C++ yang digunakan untuk meminta input data dari pengguna melalui papan ketik (keyboard) adalah...", options: [{v:"A", t:"cin >> namaVariabel;"}, {v:"B", t:"cout << namaVariabel;"}, {v:"C", t:"printf(namaVariabel);"}, {v:"D", t:"include <iostream>;"}], key: "A" },
-        { type: "radio", name: "soal16", text: "Perintah pemrograman C++ ditutup menggunakan tanda baca khusus yang menandakan akhir dari sebuah ekspresi (statement terminator), yaitu...", options: [{v:"A", t:"Titik dua ( : )"}, {v:"B", t:"Titik koma ( ; )"}, {v:"C", t:"Koma ( , )"}, {v:"D", t:"Titik ( . )"}], key: "B" },
-        { type: "radio", name: "soal17", text: "Tipe data yang paling tepat digunakan untuk menyimpan nilai panjang sisi segitiga yang memiliki angka desimal/pecahan adalah...", options: [{v:"A", t:"int"}, {v:"B", t:"char"}, {v:"C", t:"float atau double"}, {v:"D", t:"bool"}], key: "C" },
-        { type: "radio", name: "soal18", text: "Apa fungsi dari klausa `using namespace std;` pada bagian awal program C++?", options: [{v:"A", t:"Agar kita tidak perlu menuliskan prefiks `std::` berulang kali di depan perintah bawaan seperti cin dan cout."}, {v:"B", t:"Untuk mempercepat proses kompilasi kode program menjadi file binary."}, {v:"C", t:"Menghapus bug otomatis saat program mendeteksi error runtime."}, {v:"D", t:"Menyertakan pustaka matematika cmath secara otomatis."}], key: "A" },
-        { type: "radio", name: "soal19", text: "Kesalahan penulisan kode seperti lupa meletakkan tanda titik koma (;) di akhir baris perintah C++ dikelompokkan ke dalam jenis error...", options: [{v:"A", t:"Syntax Error (Kesalahan Sintaksis)"}, {v:"B", t:"Logical Error (Kesalahan Logika)"}, {v:"C", t:"Runtime Error"}, {v:"D", t:"Hardware Error"}], key: "A" },
-        { type: "radio", name: "soal20", text: "Manakah struktur percabangan pada C++ yang paling tepat untuk menguji klasifikasi jenis segitiga berdasarkan kondisi tiga panjang sisinya?", options: [{v:"A", t:"switch-case bersarang"}, {v:"B", t:"Struktur if - else if - else berantai"}, {v:"C", t:"Loop perulangan do-while"}, {v:"D", t:"Hanya menggunakan instruksi else"}], key: "B" },
-
-        // ESSAY & REFLEKSI (21-26)
-        { type: "essay", name: "soal21", title: "Soal Essay 1 (Tahapan Analisis Masalah)", text: "Jelaskan mengapa tahapan 'Problem Analysis' sangat krusial dilakukan sebelum kita melangkah ke tahapan 'Algorithm Design' dalam merancang sebuah program!" },
-        { type: "essay", name: "soal22", title: "Soal Essay 2 (Analisis Logika Segitiga)", text: "Perhatikan kondisi penentuan bukan segitiga berikut pada C++:\nif ((a >= b + c) || (b >= a + c) || (c >= a + b)) printf(\"Bukan Segitiga\");\nJelaskan secara logis mengapa digunakan operator >= (lebih besar dari atau sama dengan) dan bukan hanya > untuk menyatakan bahwa tiga bilangan tersebut bukanlah segitiga!" },
-        { type: "essay", name: "soal23", title: "Soal Essay 3 (Perbedaan Pustaka)", text: "Jelaskan perbedaan mendasar antara cara penulisan perintah masukan/keluaran pada pustaka <stdio.h> (gaya bahasa C) dengan pustaka <iostream> (gaya bahasa C++)!" },
-        { type: "essay", name: "soal24", title: "Soal Essay 4 (Jenis-Jenis Error)", text: "Uraikan perbedaan antara Syntax Error dengan Logical Error dalam proses pengembangan perangkat lunak, serta berikan masing-masing satu contohnya!" },
-        { type: "essay", name: "soal25", title: "Soal Essay 5 (Fungsi Operator Logika)", text: "Jelaskan peran penting operator logika kombinasional && dan || saat mengevaluasi kondisi klasifikasi segitiga sama kaki dan segitiga sembarang pada struktur percabangan!" },
-        { type: "essay", name: "soal26", title: "Soal Lembar Refleksi Mandiri", text: "Dari 4 tahapan perancangan program (Analisis, Desain, Implementasi, Pengujian), tahapan mana yang menurut Anda paling menantang pada materi strategi algoritmik dan pemrograman C++ ini? Jelaskan alasannya dan strategi apa yang Anda gunakan untuk mengatasi kendala tersebut." }
-    ];
-
-    // **3. AMBIL DATA SISWA DARI SPREADSHEET (TAB "Siswa")**
-    window.addEventListener("DOMContentLoaded", () => {
-        if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("AKfycbx...")) {
-            document.getElementById("login-status").innerText = "URL Apps Script belum dikonfigurasi.";
-            document.getElementById("login-status").style.color = "#dc2626";
-            return;
-        }
-
-        fetch(APPS_SCRIPT_URL)
-            .then(res => res.json())
-            .then(data => {
-                validUsers = data; // Data berisi: username, password, nama, kelas
-                document.getElementById("login-status").innerText = "Sistem siap. Silakan login.";
-                document.getElementById("login-status").style.color = "#059669";
-                document.getElementById("btn-login").disabled = false;
-            })
-            .catch(err => {
-                console.error("Gagal memuat akun:", err);
-                document.getElementById("login-status").innerText = "Gagal memuat data akun dari Spreadsheet.";
-                document.getElementById("login-status").style.color = "#dc2626";
-            });
-    });
-
-    // **4. AUTENTIKASI LOGIN**
-    function handleLogin(e) {
-        e.preventDefault();
-        const userInput = document.getElementById("username").value.trim();
-        const passInput = document.getElementById("password").value.trim();
-
-        const match = validUsers.find(u => u.username === userInput && u.password === passInput);
-
-        if (match) {
-            currentUserData = match;
-            document.getElementById("login-error").style.display = "none";
-            
-            // Tampilkan identitas siswa pada header ujian
-            document.getElementById("user-display").innerText = `Siswa: ${match.nama} | Kelas: ${match.kelas} (${match.username})`;
-            
-            document.getElementById("login-screen").classList.remove("active");
-            document.getElementById("quiz-screen").classList.add("active");
-            renderQuestions();
-            showPage(0);
-        } else {
-            document.getElementById("login-error").style.display = "block";
-        }
-    }
-
-    // **5. RENDER ELEMEN SOAL PER HALAMAN**
-    function renderQuestions() {
-        const container = document.getElementById("questions-container");
-        container.innerHTML = "";
-
-        questions.forEach((q, index) => {
-            const div = document.createElement("div");
-            div.className = "question-card";
-            div.id = `page-${index}`;
-            div.style.display = "none";
-
-            let html = `<p style="font-weight: 700; margin-bottom: 6px; color: #1f2937; font-size: 14px;">Soal ${index + 1} dari ${questions.length}</p>`;
-            if(q.title) html += `<p style="font-weight:600; font-size:14px; margin-bottom:6px; color:#0b3a7a;">${q.title}</p>`;
-            html += `<p style="font-weight: 500; margin-bottom: 16px; color: #374151; font-size: 14px; line-height: 1.5;">${q.text.replace(/\n/g, '<br>')}</p>`;
-
-            if (q.type === "radio") {
-                q.options.forEach(opt => {
-                    html += `
-                        <label class="option-label">
-                            <input type="radio" name="${q.name}" value="${opt.v}">
-                            <span>${opt.v}. ${opt.t}</span>
-                        </label>`;
-                });
-            } else if (q.type === "essay") {
-                html += `<textarea name="${q.name}" rows="5" placeholder="Tuliskan jawaban Anda di sini..."></textarea>`;
-            }
-
-            div.innerHTML = html;
-            container.appendChild(div);
-        });
-    }
-
-    // **6. NAVIGASI HALAMAN (WIZARD)**
-    function showPage(page) {
-        document.querySelectorAll(".question-card").forEach((el, i) => {
-            el.style.display = i === page ? "block" : "none";
-        });
-
-        currentPage = page;
-        document.getElementById("page-indicator").innerText = `${page + 1} / ${questions.length}`;
-        document.getElementById("btn-prev").style.visibility = page === 0 ? "hidden" : "visible";
-        
-        if (page === questions.length - 1) {
-            document.getElementById("btn-next").style.display = "none";
-            document.getElementById("btn-submit").style.display = "block";
-        } else {
-            document.getElementById("btn-next").style.display = "block";
-            document.getElementById("btn-submit").style.display = "none";
-        }
-
-        const progressPercent = ((page + 1) / questions.length) * 100;
-        document.getElementById("progress-fill").style.width = progressPercent + "%";
-    }
-
-    function changePage(delta) {
-        let newPage = currentPage + delta;
-        if (newPage >= 0 && newPage < questions.length) {
-            showPage(newPage);
-        }
-    }
-
-    // **7. SUBMIT DAN PENGIRIMAN DATA KE APPS SCRIPT**
-    function submitQuiz() {
-        if(!confirm("Apakah Anda yakin ingin menyelesaikan dan mengirimkan jawaban?")) return;
-
-        let scorePG = 0;
-        let totalPG = 0;
-        
-        // Paket Payload Sesuai Struktur Sheet Baru
-        let formData = {
-            username: currentUserData.username,
-            nama: currentUserData.nama,
-            kelas: currentUserData.kelas,
-            uhKode: UH_KODE,
-            jawaban: {}
-        };
-
-        const form = document.getElementById("quiz-form");
-
-        // Evaluasi Jawaban
-        questions.forEach((q) => {
-            if (q.type === "radio") {
-                totalPG++;
-                const selected = form.querySelector(`input[name="${q.name}"]:checked`);
-                const val = selected ? selected.value : "";
-                formData.jawaban[q.name] = val;
-                if (val === q.key) scorePG++;
-            } else if (q.type === "essay") {
-                const textarea = form.querySelector(`textarea[name="${q.name}"]`);
-                formData.jawaban[q.name] = textarea ? textarea.value : "";
-            }
-        });
-
-        // Hitung Nilai Skala 100
-        let nilaiAkhirPG = Math.round((scorePG / totalPG) * 100);
-        formData.nilaiPG = nilaiAkhirPG;
-
-        // Tampilkan Hasil
-        document.getElementById("quiz-screen").classList.remove("active");
-        document.getElementById("result-screen").classList.add("active");
-        document.getElementById("score-box").innerText = `Skor PG/BS: ${nilaiAkhirPG} / 100`;
-
-        // Kirim ke Google Apps Script
-        if (APPS_SCRIPT_URL) {
-            fetch(APPS_SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            }).then(() => {
-                console.log("Data ujian berhasil dikirimkan!");
-            }).catch(err => console.error("Gagal mengirimkan data:", err));
-        }
-    }
-</script>
+<!-- SCRIPT DI-LOAD DI SINI -->
+<script src="soal.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
