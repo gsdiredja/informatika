@@ -25,4 +25,4 @@
   { "type": "essay", "name": "soal24", "title": "Soal Essay 4 (Jenis-Jenis Error)", "text": "Uraikan perbedaan antara Syntax Error dengan Logical Error dalam proses pengembangan perangkat lunak, serta berikan masing-masing satu contohnya!" },
   { "type": "essay", "name": "soal25", "title": "Soal Essay 5 (Fungsi Operator Logika)", "text": "Jelaskan peran penting operator logika kombinasional && dan || saat mengevaluasi kondisi klasifikasi segitiga sama kaki dan segitiga sembarang pada struktur percabangan!" },
   { "type": "essay", "name": "soal26", "title": "Soal Lembar Refleksi Mandiri", "text": "Dari 4 tahapan perancangan program (Analisis, Desain, Implementasi, Pengujian), tahapan mana yang menurut Anda paling menantang pada materi strategi algoritmik dan pemrograman C++ ini? Jelaskan alasannya dan strategi apa yang Anda gunakan untuk mengatasi kendala tersebut." }
-]
+] 
