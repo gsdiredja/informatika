@@ -92,7 +92,22 @@ function renderQuestions() {
     });
 }
 
-// 4. NAVIGASI WIZARD
+// 4. VALIDASI: HANYA BISA LANJUT JIKA SOAL SUDAH DIJAWAB
+function isCurrentQuestionAnswered() {
+    const q = currentQuestions[currentPage];
+    const form = document.getElementById("quiz-form");
+
+    if (q.type === "radio") {
+        const selected = form.querySelector(`input[name="${q.name}"]:checked`);
+        return selected !== null;
+    } else if (q.type === "essay") {
+        const textarea = form.querySelector(`textarea[name="${q.name}"]`);
+        return textarea && textarea.value.trim() !== "";
+    }
+    return true;
+}
+
+// 5. NAVIGASI HALAMAN SOAL
 function showPage(page) {
     document.querySelectorAll(".question-card").forEach((el, i) => {
         el.style.display = i === page ? "block" : "none";
@@ -115,15 +130,26 @@ function showPage(page) {
 }
 
 function changePage(delta) {
+    // Jika mencoba maju (delta > 0), validasi dulu apakah soal saat ini sudah dijawab
+    if (delta > 0 && !isCurrentQuestionAnswered()) {
+        alert("Mohon jawab soal ini terlebih dahulu sebelum melanjutkan ke soal berikutnya!");
+        return;
+    }
+
     let newPage = currentPage + delta;
     if (newPage >= 0 && newPage < currentQuestions.length) {
         showPage(newPage);
     }
 }
 
-// 5. SUBMIT KUIS
+// 6. SUBMIT JAWABAN
 function submitQuiz() {
-    if(!confirm("Apakah Anda yakin ingin menyelesaikan dan mengirimkan jawaban?")) return;
+    if (!isCurrentQuestionAnswered()) {
+        alert("Mohon jawab soal ini terlebih dahulu sebelum mengirimkan jawaban!");
+        return;
+    }
+
+    if (!confirm("Apakah Anda yakin ingin menyelesaikan dan mengirimkan jawaban?")) return;
 
     let scorePG = 0;
     let totalPG = 0;
