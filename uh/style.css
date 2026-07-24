@@ -1,37 +1,195 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-body { background-color: #f3f4f6; color: #1f2937; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-.card { background: #ffffff; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); width: 100%; max-width: 680px; padding: 32px; position: relative; }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-/* Header */
-.header { border-bottom: 2px solid #e5e7eb; padding-bottom: 16px; margin-bottom: 24px; }
-.header h3 { color: #0b3a7a; font-size: 18px; font-weight: 700; text-transform: uppercase; }
-.header p { font-size: 13px; color: #6b7280; margin-top: 4px; }
+/* 1. MENCEGAH SELEKSI TEKS DI DESKTOP & MOBILE */
+body {
+    background-color: #f3f4f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
-/* Form & Input */
-.form-group { margin-bottom: 20px; }
-.form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; color: #374151; }
-.form-group input, .form-group textarea, .form-group select { width: 100%; border: 1px solid #d1d5db; border-radius: 8px; padding: 12px; font-size: 14px; outline: none; transition: border 0.2s; }
-.form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+/* Proteksi tambahan untuk iOS Touch */
+@media (max-width: 768px) {
+    * {
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
+        user-select: none !important;
+    }
+}
 
-/* Opsi Radio */
-.option-label { display: flex; align-items: center; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: background 0.2s, border-color 0.2s; font-size: 14px; color: #4b5563; }
-.option-label:hover { background-color: #f9fafb; border-color: #d1d5db; }
-.option-label input[type="radio"] { margin-right: 12px; accent-color: #2563eb; width: 16px; height: 16px; }
+/* 2. EFEK BLUR & LAYAR HITAM ANTI-SCREENSHOT */
+body.blur-screen {
+    filter: blur(15px);
+    transition: filter 0.1s ease;
+}
 
-/* Tombol & Navigasi */
-.btn { background-color: #2563eb; color: #ffffff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-.btn:hover { background-color: #1d4ed8; }
+#screen-protector {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    color: #ffffff;
+    z-index: 999999;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+}
+
+/* 3. STYLING ELEMEN FORM & KARDUS UI */
+.container {
+    width: 100%;
+    max-width: 650px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: none;
+}
+
+.card.active {
+    display: block;
+}
+
+h2 {
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="password"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    background-color: #ffffff;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn {
+    width: 100%;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary { background-color: #2563eb; color: white; }
+.btn-primary:hover { background-color: #1d4ed8; }
+
+.btn-secondary { background-color: #6b7280; color: white; width: auto; }
+.btn-secondary:hover { background-color: #4b5563; }
+
+.btn-success { background-color: #059669; color: white; width: auto; }
+.btn-success:hover { background-color: #047857; }
+
 .btn:disabled { background-color: #9ca3af; cursor: not-allowed; }
-.btn-secondary { background-color: #e5e7eb; color: #374151; }
-.btn-secondary:hover { background-color: #d1d5db; }
-.nav-buttons { display: flex; justify-content: space-between; margin-top: 24px; border-top: 1px solid #e5e7eb; padding-top: 20px; }
 
-/* Progress Bar */
-.progress-bar-bg { width: 100%; height: 6px; background-color: #e5e7eb; border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
-.progress-bar-fill { height: 100%; background-color: #2563eb; width: 0%; transition: width 0.3s ease; }
+.error-msg {
+    color: #dc2626;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
 
-/* Layar */
-.screen { display: none; }
-.screen.active { display: block; }
-.error-msg { color: #dc2626; font-size: 13px; margin-top: 8px; display: none; }
-.status-loading { font-size: 12px; color: #2563eb; margin-top: 5px; }
+/* 4. STYLING ELEMEN KUIS & OPTION */
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 12px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #e5e7eb;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #2563eb;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.option-label {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.option-label:hover { background-color: #f9fafb; }
+
+.option-label input {
+    margin-top: 3px;
+    margin-right: 10px;
+}
+
+.quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.score-box {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 8px;
+}
