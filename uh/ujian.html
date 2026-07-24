@@ -15,15 +15,15 @@
       background-color: #f8fafc;
       display: flex;
       justify-content: center;
-      padding: 20px;
+      padding: 12px;
       min-height: 100vh;
     }
     .exam-card {
       background-color: #ffffff;
       border-radius: 16px;
-      padding: 24px;
+      padding: 16px;
       width: 100%;
-      max-width: 700px;
+      max-width: 600px;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       border: 1px solid #e2e8f0;
       display: flex;
@@ -34,43 +34,59 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       border-bottom: 1px solid #e2e8f0;
       padding-bottom: 12px;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 8px;
     }
     /* Style Kotak Waktu / Timer */
     .timer-box {
       background-color: #fef2f2;
       color: #dc2626;
       border: 1px solid #fecaca;
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.9rem;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
     .btn-logout {
       background-color: #dc2626;
       color: white;
       border: none;
-      padding: 8px 16px;
+      padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
+      font-size: 0.85rem;
     }
+
+    /* BAR NAVIGASI BAWAH (Dipaksa 1 Baris Sejajar Rata Tengah) */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 6px;
+      width: 100%;
+      flex-wrap: nowrap; /* Mencegah elemen tertekuk ke bawah */
+    }
+
     .btn-nav {
-      padding: 10px 20px;
+      flex: 1; /* Agar lebar tombol kiri & kanan seimbang */
+      padding: 10px 4px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-weight: 600;
+      font-size: 0.85rem;
       cursor: pointer;
+      text-align: center;
+      white-space: nowrap; /* Mencegah teks tombol terpotong */
     }
     .btn-prev {
-      background-color: #cbd5e1;
+      background-color: #e2e8f0;
       color: #334155;
     }
     .btn-prev:disabled {
@@ -85,20 +101,14 @@
       background-color: #16a34a;
       color: white;
     }
-    .nav-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 24px;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+
     #questionProgress {
       font-weight: 700;
-      color: #475569;
-      font-size: 1.1rem;
-      min-width: 60px;
+      color: #1e293b;
+      font-size: 0.95rem;
+      padding: 0 8px;
       text-align: center;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -111,7 +121,7 @@
           <!-- Info Siswa Dirender via JS -->
         </div>
 
-        <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
           <!-- Timer Hitung Mundur -->
           <div id="timerContainer" class="timer-box">
             ⏱️ <span id="timerDisplay">60:00</span>
@@ -125,15 +135,14 @@
       </div>
     </div>
 
+    <!-- Navigasi Bawah Presisi 1 Baris -->
     <div class="nav-bar">
       <button id="btnPrev" class="btn-nav btn-prev" onclick="prevQuestion()">Sebelumnya</button>
 
       <div id="questionProgress">1/45</div>
 
-      <div style="display: flex; gap: 10px;">
-        <button id="btnNext" class="btn-nav btn-next" onclick="nextQuestion()">Selanjutnya</button>
-        <button id="btnSubmitExam" class="btn-nav btn-submit" onclick="submitExam()" style="display: none;">Kirim Jawaban</button>
-      </div>
+      <button id="btnNext" class="btn-nav btn-next" onclick="nextQuestion()">Selanjutnya</button>
+      <button id="btnSubmitExam" class="btn-nav btn-submit" onclick="submitExam()" style="display: none;">Kirim Jawaban</button>
     </div>
   </div>
 
