@@ -3,56 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Akses Ujian Harian</title>
-  <!-- Hubungkan CSS -->
+  <title>Portal Ujian Online</title>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- CSS Utama -->
   <link rel="stylesheet" href="style.css">
-  <!-- Font Google Inter (Opsional agar tampilan lebih rapi) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 
-  <div class="login-wrapper">
-    <div class="login-card">
-      <h2 class="title">LOGIN AKSES UJIAN HARIAN</h2>
-      <p class="subtitle">Masukkan username, password, dan pilih jenis ujian Anda.</p>
+  <div class="login-container">
+    <div class="card login-card">
       
-      <hr class="divider" />
+      <!-- Header Logo / Judul -->
+      <div class="brand-header">
+        <div class="brand-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <h2 class="brand-title">PORTAL UJIAN HARIAN</h2>
+        <p class="brand-subtitle">Silakan masuk menggunakan kredensial akun Anda</p>
+      </div>
 
-      <form id="loginForm">
-        <!-- Pilihan Ulangan Harian (Dinamis membaca file di folder data/) -->
+      <!-- Form Login -->
+      <form id="loginForm" class="login-form">
+        
+        <!-- Pilihan Jenis Ujian -->
         <div class="form-group">
-          <label for="jenisUjian">Pilih Ulangan Harian</label>
-          <select id="jenisUjian" name="jenisUjian" required>
-            <option value="data/soal-uh1.json">UH1 - Strategi Algoritmik & Pemrograman C++</option>
-            <option value="data/soal-uh2.json">UH2 - Belum Tersedia</option>
-            <option value="data/soal-uh3.json">UH3 - Belum Tersedia</option>
-          </select>
+          <label for="jenisUjian" class="form-label">Pilih Paket Ujian</label>
+          <div class="select-wrapper">
+            <select id="jenisUjian" name="jenisUjian" class="form-control" required>
+              <option value="data/soal-uh1.json">UH1 - Strategi Algoritmik & Pemrograman C++</option>
+              <option value="data/soal-uh2.json">UH2 - Algoritma Greedy & Dynamic Programming</option>
+              <option value="data/soal-uh3.json">UH3 - Struktur Data & Analisis Algoritma</option>
+            </select>
+          </div>
         </div>
 
-        <!-- Username -->
+        <!-- Username / NISN -->
         <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" placeholder="Masukkan NISN / Username" required autocomplete="off" />
+          <label for="username" class="form-label">Username / NISN</label>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            class="form-control" 
+            placeholder="Masukkan Username atau NISN" 
+            required 
+            autocomplete="off" 
+          />
         </div>
 
         <!-- Password -->
         <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="••••••••" required />
+          <label for="password" class="form-label">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            class="form-control" 
+            placeholder="••••••••" 
+            required 
+          />
         </div>
 
         <!-- Status Pesan -->
-        <div id="statusMessage" class="status-message text-success">
-          Sistem siap. Silakan login.
+        <div id="statusMessage" class="status-alert">
+          Sistem siap. Silakan lengkapi form untuk masuk.
         </div>
 
-        <!-- Tombol Submit -->
-        <button type="submit" id="btnSubmit" class="btn-primary">Masuk Ke Ujian</button>
+        <!-- Tombol Masuk -->
+        <button type="submit" id="btnSubmit" class="btn-primary">
+          <span>Masuk Ke Ujian</span>
+        </button>
+
       </form>
+
+      <!-- Footer Card -->
+      <div class="card-footer">
+        <p>&copy; 2026 Portal Ujian Online. All rights reserved.</p>
+      </div>
+
     </div>
   </div>
 
-  <!-- Hubungkan JavaScript Login -->
+  <!-- Script Login -->
   <script src="app.js"></script>
 </body>
 </html>
