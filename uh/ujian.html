@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lembar Ujian Harian</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="login-wrapper" style="max-width: 800px; margin: 30px auto;">
+    <div class="login-card">
+      <div id="userHeader" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h3 id="studentName" style="margin: 0;">Nama Siswa</h3>
+          <p id="studentClass" class="subtitle" style="margin: 5px 0 0 0;">Kelas / NISN</p>
+        </div>
+        <button id="btnLogout" class="btn-primary" style="background-color: #dc3545; width: auto; padding: 8px 16px;">Keluar</button>
+      </div>
+
+      <hr class="divider" />
+
+      <form id="examForm">
+        <!-- Tempat Soal-soal Didaftarkan Secara Dinamis -->
+        <div id="questionsContainer">
+          <p class="subtitle">Memuat soal ujian...</p>
+        </div>
+
+        <hr class="divider" />
+
+        <button type="submit" id="btnSubmitExam" class="btn-primary">Kirim Jawaban</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="ujian.js"></script>
+</body>
+</html>
