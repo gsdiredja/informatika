@@ -2,32 +2,28 @@ let currentQuestionIndex = 0;
 let questionsData = [];
 let userAnswers = {};
 
-// 1. Inisialisasi saat halaman selesai dimuat
 document.addEventListener("DOMContentLoaded", () => {
-  // Ambil data dari localStorage (bukan sessionStorage lagi)
   let userDataStr = localStorage.getItem("userData");
   let soalPath = localStorage.getItem("soalPath");
 
-  // Jika tidak ada data, gunakan nilai bawaan (Default) agar tidak memicu alert error
   if (!userDataStr) {
-    userDataStr = JSON.stringify({ username: "Siswa", nama: "Siswa Ujian", kelas: "-" });
+    userDataStr = JSON.stringify({ username: "Siswa", nama: "Nama Siswa", kelas: "Kelas / NISN" });
   }
-  if (!soalPath) {
-    soalPath = "data/soal-uh1.json"; // Path soal default Anda
+
+  if (!soalPath || soalPath === "undefined") {
+    soalPath = "./data/soal-uh1.json";
   }
 
   const userData = JSON.parse(userDataStr);
 
-  // Tampilkan info user
   document.getElementById("userInfo").innerHTML = `
-    <strong>${userData.nama || userData.username}</strong><br>
-    Kelas: ${userData.kelas || '-'} | Username: ${userData.username}
+    <strong style="font-size: 1.1rem; color: #1e293b;">${userData.nama || userData.username}</strong><br>
+    <span style="color: #64748b; font-size: 0.9rem;">Kelas: ${userData.kelas || '-'} | Username: ${userData.username}</span>
   `;
 
-  // Fetch file JSON soal
   fetch(soalPath)
     .then((res) => {
-      if (!res.ok) throw new Error("Gagal memuat file soal");
+      if (!res.ok) throw new Error("HTTP Status " + res.status);
       return res.json();
     })
     .then((data) => {
@@ -36,11 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((err) => {
       console.error(err);
-      alert("Gagal memuat soal ujian. Pastikan file JSON tersedia.");
+      document.getElementById("questionsContainer").innerHTML = `
+        <div style="color: #dc2626; padding: 20px; text-align: center;">
+          <p><strong>Gagal Memuat Soal Ujian!</strong></p>
+          <small>Pastikan file JSON berada di folder <code>data/</code> server Anda (Path: ${soalPath})</small>
+        </div>
+      `;
     });
 });
 
-// 2. Fungsi untuk menampilkan 1 soal sesuai index
 function showQuestion(index) {
   const container = document.getElementById("questionsContainer");
   const q = questionsData[index];
@@ -48,42 +48,37 @@ function showQuestion(index) {
   let html = `<div style="padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">`;
   
   if (q.title) {
-    html += `<h4 style="margin-top:0; color:#2d3748;">${q.title}</h4>`;
+    html += `<h4 style="margin-top:0; color:#2d3748; margin-bottom: 10px;">${q.title}</h4>`;
   }
   
-  html += `<p style="margin-bottom: 16px; font-weight: 500; line-height: 1.5;">${q.text}</p>`;
+  html += `<p style="margin-bottom: 16px; font-weight: 500; line-height: 1.5; color: #1e293b;">${q.text}</p>`;
 
-  // Opsi Radio
   if (q.type === "radio") {
     q.options.forEach((opt) => {
       const isChecked = userAnswers[q.name] === opt.v ? "checked" : "";
       html += `
         <div style="margin-bottom: 10px;">
-          <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+          <label style="cursor: pointer; display: flex; align-items: center; gap: 8px; color: #334155;">
             <input type="radio" name="${q.name}" value="${opt.v}" ${isChecked} onchange="hideWarning()" />
             <span>${opt.t}</span>
           </label>
         </div>
       `;
     });
-  } 
-  // Opsi Checkbox
-  else if (q.type === "checkbox") {
+  } else if (q.type === "checkbox") {
     const savedArr = userAnswers[q.name] || [];
     q.options.forEach((opt) => {
       const isChecked = savedArr.includes(opt.v) ? "checked" : "";
       html += `
         <div style="margin-bottom: 10px;">
-          <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+          <label style="cursor: pointer; display: flex; align-items: center; gap: 8px; color: #334155;">
             <input type="checkbox" name="${q.name}" value="${opt.v}" ${isChecked} onchange="hideWarning()" />
             <span>${opt.t}</span>
           </label>
         </div>
       `;
     });
-  } 
-  // Opsi Essay
-  else if (q.type === "essay") {
+  } else if (q.type === "essay") {
     const savedText = userAnswers[q.name] || "";
     html += `
       <textarea id="essayInput" name="${q.name}" rows="4" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; outline: none;" placeholder="Tuliskan jawaban Anda di sini..." oninput="hideWarning()">${savedText}</textarea>
@@ -93,10 +88,8 @@ function showQuestion(index) {
   html += `</div>`;
   container.innerHTML = html;
 
-  // Indikator Progress 1/45
   document.getElementById("questionProgress").innerText = `${index + 1}/${questionsData.length}`;
 
-  // Navigasi Tombol
   document.getElementById("btnPrev").disabled = (index === 0);
 
   if (index === questionsData.length - 1) {
@@ -108,7 +101,6 @@ function showQuestion(index) {
   }
 }
 
-// 3. Simpan Jawaban Soal Saat Ini
 function saveCurrentAnswer() {
   const q = questionsData[currentQuestionIndex];
   if (!q) return;
@@ -128,7 +120,6 @@ function saveCurrentAnswer() {
   }
 }
 
-// 4. Validasi Soal Terjawab
 function isCurrentQuestionAnswered() {
   const q = questionsData[currentQuestionIndex];
   const ans = userAnswers[q.name];
@@ -140,14 +131,12 @@ function isCurrentQuestionAnswered() {
   return true;
 }
 
-// 5. Sembunyikan Pesan Peringatan
 function hideWarning() {
   saveCurrentAnswer();
   const warnEl = document.getElementById("warningMessage");
   if (warnEl) warnEl.style.display = "none";
 }
 
-// 6. Tombol Selanjutnya
 function nextQuestion() {
   saveCurrentAnswer();
 
@@ -162,7 +151,6 @@ function nextQuestion() {
   }
 }
 
-// 7. Tombol Sebelumnya
 function prevQuestion() {
   saveCurrentAnswer();
   if (currentQuestionIndex > 0) {
@@ -171,7 +159,6 @@ function prevQuestion() {
   }
 }
 
-// 8. Menampilkan Peringatan
 function showWarning(msg) {
   let warnEl = document.getElementById("warningMessage");
   if (!warnEl) {
@@ -192,7 +179,6 @@ function showWarning(msg) {
   warnEl.style.display = "block";
 }
 
-// 9. Kirim Jawaban Akhir & Hitung Skor
 function submitExam() {
   saveCurrentAnswer();
 
@@ -228,7 +214,6 @@ function submitExam() {
   }
 }
 
-// 10. Menampilkan Skor + Tombol Ulangi Ujian
 function showFinalResult(score, correctCount, totalQuestions) {
   const container = document.getElementById("questionsContainer");
 
@@ -241,7 +226,7 @@ function showFinalResult(score, correctCount, totalQuestions) {
   if (warnEl) warnEl.style.display = "none";
 
   container.innerHTML = `
-    <div style="text-align: center; padding: 30px 15px; background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0;">
+    <div style="text-align: center; padding: 20px 10px; background-color: #ffffff; border-radius: 12px;">
       <h2 style="color: #1e293b; margin-bottom: 8px;">Ujian Selesai!</h2>
       <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Hasil nilai Anda telah tercatat.</p>
       
@@ -263,7 +248,6 @@ function showFinalResult(score, correctCount, totalQuestions) {
   `;
 }
 
-// 11. Fungsi untuk Mengulangi Ujian Tanpa Logout
 function restartExam() {
   userAnswers = {};
   currentQuestionIndex = 0;
@@ -274,7 +258,6 @@ function restartExam() {
   showQuestion(currentQuestionIndex);
 }
 
-// 12. Tombol Keluar / Logout Manual
 function logout() {
   localStorage.clear();
   window.location.href = "index.html";
