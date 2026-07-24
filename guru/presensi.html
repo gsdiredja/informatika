@@ -95,23 +95,19 @@
 
 <script src="config.js"></script>
 <script>
-    // 1. Ambil Sesi Login & Konfig
     const userSession = JSON.parse(localStorage.getItem('user_session'));
     const activeMapel = localStorage.getItem('active_mapel') || "";
     const activeKelas = localStorage.getItem('active_kelas') || "";
 
     if (!userSession) window.location.href = 'index.html';
 
-    // 2. Set Profil & Mapel Header
     document.getElementById('user-name').innerText = userSession.nama || userSession.username || "Guru";
     document.getElementById('lbl-mapel').innerText = activeMapel || "Belum Dipilih";
     if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
 
-    // 3. Render Dropdown Kelas
     const selKelas = document.getElementById('sel-kelas');
     populateKelasOptions();
 
-    // Default Tanggal Hari Ini
     document.getElementById('sel-tgl').value = new Date().toISOString().split('T')[0];
 
     function populateKelasOptions() {
@@ -163,7 +159,7 @@
             return;
         }
 
-        container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat presensi...</div>`;
+        container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data siswa...</div>`;
 
         const targetUrl = (typeof SCRIPT_URL !== 'undefined') ? SCRIPT_URL : ((typeof API_URL !== 'undefined') ? API_URL : '');
 
@@ -173,7 +169,7 @@
                 fetch(`${targetUrl}?action=getPresensi&tanggal=${tgl}&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json())
             ]);
 
-            // Normalisasi pembanding teks kelas (misal: "XI-3" -> "xi3")
+            // Normalisasi pembanding string kelas (mengabaikan spasi, huruf besar/kecil, dan tanda hubung)
             const normalize = (str) => String(str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
             const targetKlsNormalized = normalize(kls);
 
@@ -258,7 +254,7 @@
         }
     }
 
-    // Panggil saat halaman pertama kali dibuka
+    // Jalankan otomatis saat halaman dimuat
     loadDataPresensi();
 </script>
 </body>
