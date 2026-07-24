@@ -6,6 +6,7 @@ let userAnswers = {};
 const EXAM_DURATION_MINUTES = 60;
 let totalSeconds = EXAM_DURATION_MINUTES * 60;
 let timerInterval = null;
+let currentUsername = "";
 
 document.addEventListener("DOMContentLoaded", () => {
   let userDataStr = localStorage.getItem("userData");
@@ -20,16 +21,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const userData = JSON.parse(userDataStr);
+  currentUsername = userData.username || "default_user";
 
   document.getElementById("userInfo").innerHTML = `
     <strong style="font-size: 1.1rem; color: #1e293b;">${userData.nama || userData.username}</strong><br>
     <span style="color: #64748b; font-size: 0.85rem;">Kelas: ${userData.kelas || '-'} | NISN: ${userData.username}</span>
   `;
 
-  // Cek jika ada sisa waktu tersimpan dari sesi sebelumnya / setelah refresh
-  const savedRemainingTime = localStorage.getItem("remainingTime");
+  // Cek jika ada sisa waktu tersimpan khusus untuk username ini
+  const savedRemainingTime = localStorage.getItem(`remainingTime_${currentUsername}`);
   if (savedRemainingTime !== null) {
     totalSeconds = parseInt(savedRemainingTime, 10);
+  } else {
+    // Jika belum pernah menyimpan waktu, set default 60 menit
+    totalSeconds = EXAM_DURATION_MINUTES * 60;
   }
 
   // Jalankan Timer Hitung Mundur
@@ -62,7 +67,11 @@ function startTimer() {
 
   timerInterval = setInterval(() => {
     totalSeconds--;
-    localStorage.setItem("remainingTime", totalSeconds);
+    
+    // Simpan sisa waktu spesifik menggunakan NISN / Username
+    if (currentUsername) {
+      localStorage.setItem(`remainingTime_${currentUsername}`, totalSeconds);
+    }
 
     updateTimerDisplay();
 
@@ -74,7 +83,9 @@ function startTimer() {
     // Jika waktu habis
     if (totalSeconds <= 0) {
       clearInterval(timerInterval);
-      localStorage.removeItem("remainingTime");
+      if (currentUsername) {
+        localStorage.removeItem(`remainingTime_${currentUsername}`);
+      }
       alert("Waktu ujian telah habis! Sistem akan otomatis mengumpulkan jawaban Anda.");
       forceSubmitExam();
     }
@@ -255,7 +266,9 @@ function forceSubmitExam() {
 
 function processExamResults() {
   clearInterval(timerInterval);
-  localStorage.removeItem("remainingTime");
+  if (currentUsername) {
+    localStorage.removeItem(`remainingTime_${currentUsername}`);
+  }
 
   let correctCount = 0;
   let totalQuestions = questionsData.length;
@@ -321,7 +334,9 @@ function restartExam() {
   userAnswers = {};
   currentQuestionIndex = 0;
   totalSeconds = EXAM_DURATION_MINUTES * 60;
-  localStorage.removeItem("remainingTime");
+  if (currentUsername) {
+    localStorage.removeItem(`remainingTime_${currentUsername}`);
+  }
 
   document.getElementById("btnPrev").style.display = "inline-block";
   document.getElementById("questionProgress").style.display = "inline-block";
@@ -333,6 +348,7 @@ function restartExam() {
 
 function logout() {
   clearInterval(timerInterval);
-  localStorage.clear();
+  // Hapus hanya data autentikasi user, BUKAN sisa waktu ujian
+  localStorage.removeItem("userData");
   window.location.href = "index.html";
 }
