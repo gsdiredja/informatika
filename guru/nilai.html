@@ -1,305 +1,205 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduAdaptif - Input Nilai</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Panggil file konfigurasi global -->
-    <script src="config.js"></script>
-
-    <style>
-        :root { 
-            --primary-dark: #1e293b; 
-            --nav-blue: #2c3e50; 
-            --accent-blue: #3498db; 
-            --bg-light: #f1f5f9; 
-            --white: #ffffff; 
-            --secondary-dark: #0f172a; 
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; color: #334155; }
-        .main-wrapper { display: flex; flex: 1; flex-direction: column; }
-        .top-header { background-color: var(--primary-dark); color: var(--white); text-align: center; padding: 15px 10px; z-index: 100; }
-        .profile-pic { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); margin: 0 auto 5px; display: block; }
-        .top-header h1 { font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
-        .nav-bar { background-color: var(--nav-blue); display: flex; flex-wrap: wrap; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .nav-bar a { flex: 1; text-align: center; color: #cbd5e1; padding: 12px 5px; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .nav-bar a.active { border-bottom: 3px solid var(--accent-blue); background-color: rgba(255,255,255,0.05); color: #fff; }
-        .btn-logout-top { width: 100%; background-color: #c0392b; text-align: center; color: var(--white); padding: 10px; text-decoration: none; font-size: 13px; font-weight: 600; display: block; border: none; cursor: pointer; }
-        .content-area { flex: 1; padding: 15px; width: 100%; }
-        .card { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        
-        .filter-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
-        .form-grid { display: flex; flex-direction: column; gap: 12px; }
-        select, input[type="number"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
-        
-        .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
-        table { width: 100%; border-collapse: collapse; }
-        table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: left; padding: 12px; font-size: 13px; border-bottom: 2px solid #e2e8f0; }
-        table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
-        .txt-center { text-align: center; } 
-        .txt-bold { font-weight: bold; }
-
-        footer { background-color: var(--secondary-dark); color: #94a3b8; text-align: center; padding: 20px; font-size: 12px; margin-top: auto; }
-
-        @media (min-width: 769px) {
-            .main-wrapper { flex-direction: row; }
-            .top-header { width: 260px; min-height: 100vh; position: sticky; top: 0; padding-top: 40px; }
-            .profile-pic { width: 90px; height: 90px; margin-bottom: 15px; }
-            .nav-bar { flex-direction: column; background: none; box-shadow: none; margin-top: 25px; }
-            .nav-bar a { width: 100%; text-align: left; padding: 15px 25px; flex-direction: row; gap: 12px; font-size: 15px; }
-            .nav-bar a.active { border-left: 4px solid var(--accent-blue); background-color: #34495e; border-bottom: none; }
-            .btn-logout-top { position: absolute; bottom: 0; left: 0; padding: 15px; }
-            .content-area { padding: 30px; max-width: calc(100% - 260px); }
-            .form-grid { flex-direction: row; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Nilai - EduAdaptif</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .table-responsive { max-height: 500px; overflow-y: auto; }
+    th { position: sticky; top: 0; background: #f8f9fa !important; z-index: 10; text-align: center; }
+    .input-nilai { width: 65px; text-align: center; margin: 0 auto; }
+  </style>
 </head>
-<body>
+<body class="p-3 bg-light">
 
-<div class="main-wrapper">
-    <!-- Header / Sidebar -->
-    <div class="top-header">
-        <img id="user-pic" src="photo-guru.png" class="profile-pic" alt="User" onerror="this.src='https://via.placeholder.com/80?text=GURU'">
-        <h1>EduAdaptif</h1>
-        <p id="user-name" style="font-size:12px; color:#cbd5e1; font-weight:600; margin-top:5px;">Loading...</p>
-        <br/>
-        <div class="nav-bar">
-            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            <a href="presensi.html"><i class="fas fa-clipboard-user"></i> Presensi Siswa</a>
-            <a href="jurnal.html"><i class="fas fa-book-open"></i> Jurnal Mengajar</a>
-            <a href="nilai.html" class="active"><i class="fas fa-graduation-cap"></i> Input Nilai</a>
-            <a href="rekap.html"><i class="fas fa-file-invoice"></i> Rekapitulasi</a>
-        </div>
-        <button onclick="logout()" class="btn-logout-top"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+  <div class="container-fluid bg-white p-4 rounded shadow-sm">
+    <h4 class="mb-3 text-primary">Input Nilai Siswa</h4>
+    
+    <!-- FILTER -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <label class="form-label font-weight-bold">Kelas</label>
+        <select id="select-kelas" class="form-select" onchange="loadNilai()">
+          <option value="">-- Pilih Kelas --</option>
+          <option value="XI-5">XI-5</option>
+          <!-- Tambahkan opsi kelas lainnya jika ada -->
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label font-weight-bold">Mata Pelajaran</label>
+        <select id="select-mapel" class="form-select" onchange="loadNilai()">
+          <option value="">-- Pilih Mapel --</option>
+          <option value="Informatika">Informatika</option>
+          <!-- Tambahkan opsi mapel lainnya jika ada -->
+        </select>
+      </div>
+      <div class="col-md-4 d-flex align-items-end">
+        <button id="btn-simpan" class="btn btn-success w-100" onclick="simpanNilai()">
+          <i class="bi bi-save"></i> Simpan Semua Nilai
+        </button>
+      </div>
     </div>
 
-    <!-- Area Konten Utama -->
-    <div class="content-area">
-        <div class="card">
-            <h2>Daftar Penginputan Nilai — <span id="lbl-mapel" style="color:#2ecc71;"></span></h2>
-            
-            <div class="filter-card">
-                <div class="form-grid">
-                    <div style="flex: 1;">
-                        <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Kelas:</label>
-                        <select id="sel-kelas" onchange="onKelasChange()"></select>
-                    </div>
-                    <div style="flex: 1;">
-                        <label style="font-weight:600; display:block; margin-bottom:5px;">Kategori Penilaian:</label>
-                        <select id="sel-jenis" onchange="loadDataNilai()">
-                            <option value="nh1">Nilai Harian 1 (NH1)</option>
-                            <option value="nh2">Nilai Harian 2 (NH2)</option>
-                            <option value="nh3">Nilai Harian 3 (NH3)</option>
-                            <option value="nh4">Nilai Harian 4 (NH4)</option>
-                            <option value="tugas1">Tugas 1</option>
-                            <option value="tugas2">Tugas 2</option>
-                            <option value="tugas3">Tugas 3</option>
-                            <option value="tugas4">Tugas 4</option>
-                            <option value="sts1">Sumatif Tengah Semester 1 (STS 1)</option>
-                            <option value="sts2">Sumatif Tengah Semester 2 (STS 2)</option>
-                            <option value="sas1">Sumatif Akhir Semester 1 (SAS 1)</option>
-                            <option value="sas2">Sumatif Akhir Semester 2 (SAS 2)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Penampung Tabel Data Nilai Siswa -->
-            <div id="nilai-table-container">Memuat data nilai...</div>
-        </div>
+    <!-- TABEL INPUT NILAI HORIZONTAL -->
+    <div class="table-responsive border rounded">
+      <table class="table table-bordered table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th style="width: 40px;">No</th>
+            <th style="min-width: 220px; text-align: left;">Nama Siswa</th>
+            <th>NH1</th>
+            <th>NH2</th>
+            <th>NH3</th>
+            <th>NH4</th>
+            <th>T1</th>
+            <th>T2</th>
+            <th>T3</th>
+            <th>T4</th>
+            <th>STS1</th>
+            <th>STS2</th>
+            <th>SAS1</th>
+            <th>SAS2</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-nilai">
+          <tr>
+            <td colspan="14" class="text-center text-muted">Pilih Kelas dan Mata Pelajaran untuk menampilkan data.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-</div>
+  </div>
 
-<footer>&copy; 2026 <strong>EduAdaptif</strong> | Created by usudo.id</footer>
+  <script>
+    // SESUAIKAN URL DEPLOYMENT ANDA DI SINI
+    const API_URL_APP = "GANTI_DENGAN_URL_WEB_APP_ANDA"; 
 
-<script>
-    const API_URL_APP = typeof window.API_URL !== 'undefined' ? window.API_URL : (window.CONFIG ? window.CONFIG.SCRIPT_URL : '');
-    const userSession = JSON.parse(localStorage.getItem('user_session'));
-    const activeMapel = localStorage.getItem('active_mapel') || (userSession ? userSession.mapel : "");
-    const activeKelas = localStorage.getItem('active_kelas') || "";
+    // Kolom-kolom nilai horizontal
+    const KOLOM_NILAI = ['nh1', 'nh2', 'nh3', 'nh4', 'tugas1', 'tugas2', 'tugas3', 'tugas4', 'sts1', 'sts2', 'sas1', 'sas2'];
 
-    if (!userSession) window.location.href = 'index.html';
+    // 1. Memuat Data Nilai
+    function loadNilai() {
+      const kelas = document.getElementById("select-kelas").value;
+      const mapel = document.getElementById("select-mapel").value;
 
-    document.getElementById('user-name').innerText = userSession.nama || userSession.username || "Guru";
-    document.getElementById('lbl-mapel').innerText = activeMapel || "Belum Dipilih";
-    if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
+      if (!kelas || !mapel) return;
 
-    const selKelas = document.getElementById('sel-kelas');
-    populateKelasOptions();
+      const tbody = document.getElementById("tbody-nilai");
+      tbody.innerHTML = `<tr><td colspan="14" class="text-center py-4">Memuat data nilai...</td></tr>`;
 
-    function cleanTextJS(str) {
-        return String(str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      fetch(API_URL_APP, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "getNilai",
+          kelas: kelas,
+          mapel: mapel
+        })
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === "success") {
+          renderTabelNilai(res.data);
+        } else {
+          alert("Gagal memuat data: " + res.message);
+        }
+      })
+      .catch(err => {
+        tbody.innerHTML = `<tr><td colspan="14" class="text-center text-danger py-4">Gagal terhubung ke server.</td></tr>`;
+      });
     }
 
-    function populateKelasOptions() {
-        const setKelas = new Set();
+    // 2. Render Tabel
+    function renderTabelNilai(dataNilai) {
+      const tbody = document.getElementById("tbody-nilai");
+      tbody.innerHTML = "";
 
-        if (userSession.penugasan && Array.isArray(userSession.penugasan)) {
-            userSession.penugasan.forEach(p => {
-                if (!activeMapel || String(p.mapel).trim().toLowerCase() === activeMapel.trim().toLowerCase()) {
-                    if (p.kelas) {
-                        String(p.kelas).split(',').forEach(k => {
-                            if (k.trim() !== "") setKelas.add(k.trim());
-                        });
-                    }
-                }
-            });
-        }
+      if (!dataNilai || dataNilai.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="14" class="text-center text-muted py-4">Tidak ada data siswa untuk kelas ini.</td></tr>`;
+        return;
+      }
 
-        if (setKelas.size === 0 && userSession.ampu_kelas) {
-            String(userSession.ampu_kelas).split(',').forEach(k => {
-                if (k.trim() !== "") setKelas.add(k.trim());
-            });
-        }
+      dataNilai.forEach((item, index) => {
+        let tr = document.createElement("tr");
+        tr.setAttribute("data-nama", item.nama_siswa);
 
-        const listKelas = Array.from(setKelas);
+        let htmlInputs = `
+          <td class="text-center">${index + 1}</td>
+          <td class="fw-bold">${item.nama_siswa}</td>
+        `;
 
-        if (listKelas.length === 0) {
-            selKelas.innerHTML = '<option value="">-- Tidak Ada Kelas Terdaftar --</option>';
-            return;
-        }
-
-        selKelas.innerHTML = listKelas.map(k => `<option value="${k}">${k}</option>`).join('');
-
-        if (activeKelas && listKelas.includes(activeKelas)) {
-            selKelas.value = activeKelas;
-        }
-    }
-
-    function onKelasChange() {
-        localStorage.setItem('active_kelas', selKelas.value);
-        loadDataNilai();
-    }
-
-    function logout() {
-        localStorage.clear();
-        window.location.href = 'index.html';
-    }
-
-    // MEMUAT DATA SISWA & NILAI EKSISTING DARI SPREADSHEET
-    async function loadDataNilai() {
-        const kls = selKelas.value;
-        const jenis = document.getElementById('sel-jenis').value;
-        const container = document.getElementById('nilai-table-container');
-
-        if (!kls) {
-            container.innerHTML = `<div style="text-align:center; padding:30px; color:#94a3b8;">Silakan pilih kelas terlebih dahulu.</div>`;
-            return;
-        }
-
-        container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data nilai...</div>`;
-
-        try {
-            const [resSiswa, resNilai] = await Promise.all([
-                fetch(`${API_URL_APP}?action=getSiswa`).then(r => r.json()),
-                fetch(`${API_URL_APP}?action=getNilai&kelas=${encodeURIComponent(kls)}&jenis=${encodeURIComponent(jenis)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json())
-            ]);
-
-            const targetKlsNormalized = cleanTextJS(kls);
-            const siswaList = resSiswa.data ? resSiswa.data.filter(s => cleanTextJS(s.kelas) === targetKlsNormalized) : [];
-            const nilaiData = resNilai.data || {};
-
-            if (siswaList.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:30px; color:#94a3b8;">Tidak ada data siswa untuk kelas ${kls}.</div>`;
-                return;
-            }
-
-            // Map untuk pencocokan nama fleksibel
-            const scoreMap = {};
-            Object.keys(nilaiData).forEach(k => {
-                scoreMap[cleanTextJS(k)] = nilaiData[k];
-            });
-
-            let html = `
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th width="50" class="txt-center">No</th>
-                                <th>Nama Lengkap Siswa</th>
-                                <th width="200" class="txt-center">Skor Capaian (0 - 100)</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-
-            siswaList.forEach((s, idx) => {
-                const namaClean = String(s.nama).trim();
-                const namaKey = cleanTextJS(namaClean);
-                
-                const skorTersimpan = (scoreMap[namaKey] !== undefined && scoreMap[namaKey] !== "") ? scoreMap[namaKey] : 0;
-
-                html += `
-                    <tr>
-                        <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
-                        <td class="txt-center">
-                            <input type="number" 
-                                   class="skor-input" 
-                                   data-nama="${namaClean}" 
-                                   min="0" 
-                                   max="100" 
-                                   value="${skorTersimpan}" 
-                                   style="text-align:center; font-weight:bold; color:var(--primary-dark); font-size:15px; width:100%; padding:8px; border-radius:6px; border:1px solid #cbd5e1;">
-                        </td>
-                    </tr>`;
-            });
-
-            html += `</tbody></table></div>
-            <button id="btn-save-nilai" onclick="saveNilai()" style="background:#27ae60; color:#fff; border:none; padding:13px; border-radius:8px; width:100%; margin-top:20px; font-weight:bold; font-size:15px; cursor:pointer;">
-                <i class="fas fa-check-circle" style="margin-right:8px;"></i> Simpan & Kunci Nilai
-            </button>`;
-
-            container.innerHTML = html;
-        } catch (err) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat data nilai dari server.</div>`;
-        }
-    }
-
-    // MENYIMPAN SKOR NILAI SISWA
-    async function saveNilai() {
-        const btn = document.getElementById('btn-save-nilai');
-        const kls = selKelas.value;
-        const jenis = document.getElementById('sel-jenis').value;
-        const inputs = document.querySelectorAll('.skor-input');
-
-        btn.disabled = true;
-        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Memproses...`;
-
-        const scores = [];
-        inputs.forEach(inp => {
-            scores.push({ 
-                nama: inp.getAttribute('data-nama'), 
-                skor: parseInt(inp.value) || 0 
-            });
+        KOLOM_NILAI.forEach(kol => {
+          let val = item[kol] !== undefined && item[kol] !== null ? item[kol] : "";
+          htmlInputs += `
+            <td>
+              <input type="number" 
+                     class="form-control input-nilai input-${kol}" 
+                     data-kolom="${kol}" 
+                     value="${val}">
+            </td>
+          `;
         });
 
-        try {
-            const res = await fetch(API_URL_APP, {
-                method: 'POST',
-                body: JSON.stringify({ 
-                    action: 'saveNilai', 
-                    kelas: kls, 
-                    jenis: jenis, 
-                    mapel: activeMapel, 
-                    scores: scores 
-                })
-            });
-            const data = await res.json();
-            alert(data.message || 'Nilai berhasil disimpan!');
-            loadDataNilai();
-        } catch (e) {
-            alert('Terjadi kesalahan saat menyimpan nilai.');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = `<i class="fas fa-check-circle" style="margin-right:8px;"></i> Simpan & Kunci Nilai`;
-        }
+        tr.innerHTML = htmlInputs;
+        tbody.appendChild(tr);
+      });
     }
 
-    // Load awal saat halaman dibuka
-    loadDataNilai();
-</script>
+    // 3. Simpan Nilai Horizontal
+    function simpanNilai() {
+      const kelas = document.getElementById("select-kelas").value;
+      const mapel = document.getElementById("select-mapel").value;
+      const btnSimpan = document.getElementById("btn-simpan");
+
+      if (!kelas || !mapel) {
+        alert("Pilih Kelas dan Mapel terlebih dahulu!");
+        return;
+      }
+
+      const rows = document.querySelectorAll("#tbody-nilai tr");
+      const listNilai = [];
+
+      rows.forEach(tr => {
+        const namaSiswa = tr.getAttribute("data-nama");
+        if (!namaSiswa) return;
+
+        let rowObj = { nama_siswa: namaSiswa };
+
+        tr.querySelectorAll(".input-nilai").forEach(input => {
+          const fieldName = input.getAttribute("data-kolom");
+          rowObj[fieldName] = input.value !== "" ? Number(input.value) : "";
+        });
+
+        listNilai.push(rowObj);
+      });
+
+      btnSimpan.disabled = true;
+      btnSimpan.innerText = "Menyimpan...";
+
+      fetch(API_URL_APP, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "saveNilai",
+          kelas: kelas,
+          mapel: mapel,
+          nilai: listNilai
+        })
+      })
+      .then(res => res.json())
+      .then(res => {
+        btnSimpan.disabled = false;
+        btnSimpan.innerHTML = `<i class="bi bi-save"></i> Simpan Semua Nilai`;
+        alert(res.message);
+        if (res.status === "success") {
+          loadNilai(); // Refresh data
+        }
+      })
+      .catch(err => {
+        btnSimpan.disabled = false;
+        btnSimpan.innerHTML = `<i class="bi bi-save"></i> Simpan Semua Nilai`;
+        alert("Terjadi kesalahan saat menyimpan: " + err);
+      });
+    }
+  </script>
 </body>
 </html>
