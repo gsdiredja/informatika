@@ -287,10 +287,8 @@
         function bukaRuangKerja() {
             const savedSession = localStorage.getItem('user_session');
             if (savedSession) {
-                // Jika user sudah pernah login, langsung arahkan ke dashboard
                 window.location.href = "dashboard.html";
             } else {
-                // Jika belum login, buka pop-up modal login
                 document.getElementById('modalLogin').style.display = 'flex';
             }
         }
@@ -308,7 +306,6 @@
             const u = document.getElementById('txtUsername').value.trim();
             const p = document.getElementById('txtPassword').value.trim();
 
-            // Membaca URL Apps Script secara otomatis dari config.js
             const targetUrl = typeof SCRIPT_URL !== 'undefined' 
                 ? SCRIPT_URL 
                 : (window.CONFIG && window.CONFIG.SCRIPT_URL ? window.CONFIG.SCRIPT_URL : '');
@@ -321,19 +318,20 @@
             }
 
             try {
+                // Menggunakan URLSearchParams untuk format x-www-form-urlencoded
+                const formData = new URLSearchParams();
+                formData.append('action', 'login');
+                formData.append('username', u);
+                formData.append('password', p);
+
                 const response = await fetch(targetUrl, {
                     method: "POST",
-                    body: JSON.stringify({ 
-                        action: "login", 
-                        username: u, 
-                        password: p 
-                    })
+                    body: formData
                 });
 
                 const result = await response.json();
 
                 if (result.status === "success") {
-                    // Menyimpan data user & seluruh array penugasan ke localStorage
                     localStorage.setItem('user_session', JSON.stringify(result.user));
                     window.location.href = "dashboard.html";
                 } else {
@@ -341,7 +339,7 @@
                 }
             } catch (err) {
                 console.error("Error Login:", err);
-                alert("Gagal terhubung ke server. Periksa koneksi internet Anda atau file config.js!");
+                alert("Gagal terhubung ke server! Pastikan URL Apps Script di config.js sudah berstatus 'Anyone' dan telah ter-deploy versi baru.");
             } finally {
                 btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Masuk Ke Ruang Kerja';
                 btn.disabled = false;
