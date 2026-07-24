@@ -40,22 +40,6 @@
       background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
       color: #ffffff;
     }
-    .modal-content {
-      background-color: #1e293b;
-      color: #f8fafc;
-      border: 1px solid #334155;
-    }
-    .form-control {
-      background-color: #0f172a;
-      border: 1px solid #334155;
-      color: #f8fafc;
-    }
-    .form-control:focus {
-      background-color: #0f172a;
-      border-color: #38bdf8;
-      color: #f8fafc;
-      box-shadow: none;
-    }
   </style>
 </head>
 <body>
@@ -68,7 +52,8 @@
         <span>EduAdaptif</span>
       </a>
       <div class="ms-auto">
-        <button class="btn btn-primary rounded-pill px-4" onclick="bukaModalLogin()">
+        <!-- Mengarahkan ke Fungsi Cek Akses -->
+        <button class="btn btn-primary rounded-pill px-4" onclick="keHalamanAkses()">
           <i class="bi bi-speedometer2 me-1"></i> Dashboard
         </button>
       </div>
@@ -88,109 +73,26 @@
         EduAdaptif membantu guru mengelola presensi harian siswa, pengisian jurnal KBM terintegrasi, serta rekapitulasi penilaian secara real-time dan akurat.
       </p>
       <div>
-        <button class="btn btn-custom-primary btn-lg" onclick="bukaModalLogin()">
+        <!-- Mengarahkan ke Fungsi Cek Akses -->
+        <button class="btn btn-custom-primary btn-lg" onclick="keHalamanAkses()">
           <i class="bi bi-code-square me-2"></i> Akses Ruang Kerja Pendidik
         </button>
       </div>
     </div>
   </section>
 
-  <!-- Modal Login -->
-  <div class="modal fade" id="modalLogin" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-3">
-        <div class="modal-header border-0">
-          <h5 class="modal-title fw-bold">Login Guru</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div id="alertBox" class="alert d-none" role="alert"></div>
-          <form onsubmit="prosesLogin(event)">
-            <div class="mb-3">
-              <label class="form-label text-secondary">Username</label>
-              <input type="text" id="username" class="form-control" placeholder="Masukkan username" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label text-secondary">Password</label>
-              <input type="password" id="password" class="form-control" placeholder="Masukkan password" required>
-            </div>
-            <button type="submit" id="btnLogin" class="btn btn-custom-primary w-100 mt-2">Masuk</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // ⚠️ PASTIKAN URL DEPLOYMENT APPS SCRIPT BERAKHIRAN /exec
-    const API_URL_APP = "https://script.google.com/macros/s/AKfycby79vQf4Jomh_h3jd5KsVBcgxVDPhim2YeOWS4aKOqGG-pBI-yX0u1ZwxOTYJWhg9dO/exec"; 
-
-    const modalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
-
-    function bukaModalLogin() {
-      // Jika sudah ada sesi login, langsung pindah ke dashboard
+    function keHalamanAkses() {
       const userSession = localStorage.getItem("user_edu");
+      
       if (userSession) {
+        // Jika sudah login, langsung buka dashboard
         window.location.href = "dashboard.html";
       } else {
-        modalLogin.show();
+        // Jika belum login, buka halaman login
+        window.location.href = "login.html"; 
       }
-    }
-
-    function prosesLogin(e) {
-      e.preventDefault();
-      
-      const usernameInput = document.getElementById("username").value.trim();
-      const passwordInput = document.getElementById("password").value.trim();
-      const btnLogin = document.getElementById("btnLogin");
-      const alertBox = document.getElementById("alertBox");
-
-      btnLogin.disabled = true;
-      btnLogin.innerText = "Memproses...";
-      alertBox.classList.add("d-none");
-
-      fetch(API_URL_APP, {
-        method: "POST",
-        body: JSON.stringify({
-          action: "login",
-          username: usernameInput,
-          password: passwordInput
-        })
-      })
-      .then(res => res.json())
-      .then(res => {
-        btnLogin.disabled = false;
-        btnLogin.innerText = "Masuk";
-
-        if (res.status === "success") {
-          // 1. Simpan data user ke localStorage (key: user_edu)
-          localStorage.setItem("user_edu", JSON.stringify(res.data));
-
-          // 2. Set kelas & mapel aktif pertama kali
-          if (res.data.ampu_kelas) {
-            const listKelas = res.data.ampu_kelas.split(",");
-            localStorage.setItem("activeKelas", listKelas[0].trim());
-          }
-          if (res.data.mapel) {
-            localStorage.setItem("activeMapel", res.data.mapel.trim());
-          }
-
-          // 3. Arahkan ke dashboard
-          window.location.href = "dashboard.html";
-        } else {
-          alertBox.className = "alert alert-danger";
-          alertBox.innerText = res.message || "Username atau password salah!";
-          alertBox.classList.remove("d-none");
-        }
-      })
-      .catch(err => {
-        btnLogin.disabled = false;
-        btnLogin.innerText = "Masuk";
-        alertBox.className = "alert alert-danger";
-        alertBox.innerText = "Gagal terhubung ke server. Periksa koneksi atau URL Apps Script.";
-        alertBox.classList.remove("d-none");
-      });
     }
   </script>
 </body>
