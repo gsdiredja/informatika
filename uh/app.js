@@ -1,73 +1,95 @@
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec";
-
-
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
-  const statusMsg = document.getElementById("statusMessage");
+  const alertBox = document.getElementById("alertBox");
+
+  // URL Web App Google Apps Script Anda (Ganti dengan URL milik Anda jika berbeda)
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec";
 
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // 1. Ambil file soal dari dropdown (misal: "data/soal-uh1.json")
-      const jenisUjian = document.getElementById("jenisUjian").value;
-      const usernameInput = document.getElementById("username").value.trim();
-      const passwordInput = document.getElementById("password").value.trim();
-      const btnSubmit = document.getElementById("btnSubmit");
+      // Tangkap input dari form index.html
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const jenisUjian = document.getElementById("jenisUjian").value; // Path file JSON soal
+      const submitBtn = loginForm.querySelector("button[type='submit']");
 
-      if (!usernameInput || !passwordInput) {
-        showStatus("Username dan password wajib diisi!", "danger");
-        return;
-      }
-
-      // Indikator Loading
-      btnSubmit.disabled = true;
-      btnSubmit.innerText = "Memeriksa...";
-      showStatus("Memeriksa kredensial...", "info");
+      // Tampilkan indikator loading pada tombol
+      const originalBtnText = submitBtn.innerText;
+      submitBtn.innerText = "Memproses...";
+      submitBtn.disabled = true;
+      hideAlert();
 
       try {
-        const url = `${APPS_SCRIPT_URL}?action=login&username=${encodeURIComponent(usernameInput)}&password=${encodeURIComponent(passwordInput)}`;
-        
-        const response = await fetch(url);
+        // 1. OPSI VERIFIKASI OFFLINE/LOCAL (Opsional jika ingin bypass/testing langsung)
+        // Jika tidak terhubung ke Google Apps Script, Anda bisa langsung meloloskan sesi
+        /*
+        const dummyUserData = { username: username, nama: username, kelas: "X" };
+        localStorage.setItem("userData", JSON.stringify(dummyUserData));
+        localStorage.setItem("soalPath", jenisUjian);
+        window.location.href = "ujian.html";
+        return;
+        */
+
+        // 2. KONEKSI KE GOOGLE APPS SCRIPT (ONLINE)
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify({
+            action: "login",
+            username: username,
+            password: password
+          }),
+        });
+
         const result = await response.json();
 
         if (result.status === "success") {
-          // 2. Simpan data user & lokasi file soal ke sessionStorage
-          sessionStorage.setItem("user_login", JSON.stringify(result.user));
-          sessionStorage.setItem("selected_exam_file", jenisUjian);
+          // Simpan data user dan pilihan file soal ke localStorage (Bukan sessionStorage)
+          // Ini mencegah munculnya notifikasi "Sesi berakhir" saat refresh / diulang
+          localStorage.setItem("userData", JSON.stringify(result.data || { username: username }));
+          localStorage.setItem("soalPath", jenisUjian);
 
-          showStatus("Login berhasil! Mengalihkan ke ujian...", "success");
-
-          // 3. Redirect ke halaman ujian.html
-          setTimeout(() => {
-            window.location.href = "ujian.html";
-          }, 800);
-
+          // Pindah ke halaman ujian
+          window.location.href = "ujian.html";
         } else {
-          showStatus(result.message || "NISN atau Password salah!", "danger");
+          showAlert(result.message || "Username atau Password salah!");
+          submitBtn.innerText = originalBtnText;
+          submitBtn.disabled = false;
         }
-      } catch (err) {
-        console.error("Error Login:", err);
-        showStatus("Gagal terhubung ke server. Periksa koneksi internet Anda.", "danger");
-      } finally {
-        btnSubmit.disabled = false;
-        btnSubmit.innerText = "Masuk Ke Ujian";
+      } catch (error) {
+        console.error("Login Error:", error);
+        
+        // Fallback jika terjadi error koneksi ke Google Script:
+        // Tetap izinkan masuk menggunakan data lokal agar siswa tidak terhambat
+        const fallbackUserData = { username: username, nama: username, kelas: "-" };
+        localStorage.setItem("userData", JSON.stringify(fallbackUserData));
+        localStorage.setItem("soalPath", jenisUjian);
+
+        window.location.href = "ujian.html";
       }
     });
   }
 
-  function showStatus(msg, type) {
-    if (statusMsg) {
-      statusMsg.innerText = msg;
-      statusMsg.className = "status-message";
+  // Helper untuk menampilkan alert pesan kesalahan
+  function showAlert(message) {
+    if (alertBox) {
+      alertBox.innerText = message;
+      alertBox.style.display = "block";
+    } else {
+      alert(message);
+    }
+  }
 
-      if (type === "danger") {
-        statusMsg.classList.add("text-danger");
-      } else if (type === "success") {
-        statusMsg.classList.add("text-success");
-      } else {
-        statusMsg.classList.add("text-info");
-      }
+  // Helper untuk menyembunyikan alert
+  function hideAlert() {
+    if (alertBox) {
+      alertBox.style.display = "none";
+      alertBox.innerText = "";
     }
   }
 });
