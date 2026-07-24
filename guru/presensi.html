@@ -78,7 +78,7 @@
                 <div class="form-grid">
                     <div>
                         <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Kelas:</label>
-                        <select id="sel-kelas" onchange="loadDataPresensi()"></select>
+                        <select id="sel-kelas" onchange="onKelasChange()"></select>
                     </div>
                     <div>
                         <label style="font-weight:600; display:block; margin-bottom:5px;">Tanggal Mengajar:</label>
@@ -95,23 +95,65 @@
 
 <script src="config.js"></script>
 <script>
+    // 1. Cek Sesi Login
     const userSession = JSON.parse(localStorage.getItem('user_session'));
+    const activeMapel = localStorage.getItem('active_mapel') || "";
+    const activeKelas = localStorage.getItem('active_kelas') || "";
+
     if (!userSession) window.location.href = 'index.html';
 
-    document.getElementById('user-name').innerText = userSession.nama;
-    document.getElementById('lbl-mapel').innerText = userSession.mapel;
+    // 2. Set Profil & Mapel
+    document.getElementById('user-name').innerText = userSession.nama || userSession.username || "Guru";
+    document.getElementById('lbl-mapel').innerText = activeMapel || "Belum Dipilih";
     if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
 
-    const myKelas = userSession.ampu_kelas.split(',');
+    // 3. Populate Dropdown Kelas
     const selKelas = document.getElementById('sel-kelas');
-    
-    // Opsi pilihan kelas murni sesuai isi ampu_kelas (XI-3, XI-4, dst.)
-    selKelas.innerHTML = myKelas.map(k => `<option value="${k.trim()}">${k.trim()}</option>`).join('');
-    
+    populateKelasOptions();
+
+    // Set Tanggal Hari Ini
     document.getElementById('sel-tgl').value = new Date().toISOString().split('T')[0];
 
+    function populateKelasOptions() {
+        const setKelas = new Set();
+
+        if (userSession.penugasan && Array.isArray(userSession.penugasan)) {
+            userSession.penugasan.forEach(p => {
+                // Filter berdasarkan mapel aktif jika ada
+                if (!activeMapel || String(p.mapel).trim() === activeMapel.trim()) {
+                    if (p.kelas) {
+                        // Memecah kelas jika dipisahkan koma (misal: "XI-3,XI-4,XI-5")
+                        String(p.kelas).split(',').forEach(k => {
+                            if (k.trim() !== "") setKelas.add(k.trim());
+                        });
+                    }
+                }
+            });
+        }
+
+        const listKelas = Array.from(setKelas);
+
+        if (listKelas.length === 0) {
+            selKelas.innerHTML = '<option value="">-- Tidak Ada Kelas --</option>';
+            return;
+        }
+
+        selKelas.innerHTML = listKelas.map(k => `<option value="${k}">${k}</option>`).join('');
+
+        // Pilih otomatis kelas yang diklik dari dashboard jika ada
+        if (activeKelas && listKelas.includes(activeKelas)) {
+            selKelas.value = activeKelas;
+        }
+    }
+
+    function onKelasChange() {
+        // Simpan perubahan kelas yang dipilih di dropdown
+        localStorage.setItem('active_kelas', selKelas.value);
+        loadDataPresensi();
+    }
+
     function logout() {
-        localStorage.removeItem('user_session');
+        localStorage.clear();
         window.location.href = 'index.html';
     }
 
@@ -120,19 +162,27 @@
         const tgl = document.getElementById('sel-tgl').value;
         const container = document.getElementById('table-container');
 
+        if (!kls) {
+            container.innerHTML = `<div style="text-align:center; padding:30px; color:#94a3b8;">Silakan pilih kelas terlebih dahulu.</div>`;
+            return;
+        }
+
         container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat presensi...</div>`;
+
+        // Menggunakan URL SCRIPT_URL dari config.js
+        const targetUrl = (typeof SCRIPT_URL !== 'undefined') ? SCRIPT_URL : ((typeof API_URL !== 'undefined') ? API_URL : '');
 
         try {
             const [resSiswa, resPres] = await Promise.all([
-                fetch(`${API_URL}?action=getSiswa`).then(r => r.json()),
-                fetch(`${API_URL}?action=getPresensi&tanggal=${tgl}&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(userSession.mapel)}`).then(r => r.json())
+                fetch(`${targetUrl}?action=getSiswa`).then(r => r.json()),
+                fetch(`${targetUrl}?action=getPresensi&tanggal=${tgl}&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json())
             ]);
 
             const siswaList = resSiswa.data ? resSiswa.data.filter(s => String(s.kelas).trim().toLowerCase() === String(kls).trim().toLowerCase()) : [];
             const presData = resPres.data || {};
 
             if (siswaList.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:30px; color:#94a3b8;">Tidak ada data siswa untuk kelas ini.</div>`;
+                container.innerHTML = `<div style="text-align:center; padding:30px; color:#94a3b8;">Tidak ada data siswa untuk kelas ${kls}.</div>`;
                 return;
             }
 
@@ -192,10 +242,12 @@
             list.push({ nama: inp.getAttribute('data-nama'), status: inp.value });
         });
 
+        const targetUrl = (typeof SCRIPT_URL !== 'undefined') ? SCRIPT_URL : ((typeof API_URL !== 'undefined') ? API_URL : '');
+
         try {
-            const res = await fetch(API_URL, {
+            const res = await fetch(targetUrl, {
                 method: 'POST',
-                body: JSON.stringify({ action: 'savePresensi', tanggal: tgl, kelas: kls, mapel: userSession.mapel, presensi: list })
+                body: JSON.stringify({ action: 'savePresensi', tanggal: tgl, kelas: kls, mapel: activeMapel, presensi: list })
             });
             const data = await res.json();
             alert(data.message || 'Presensi berhasil disimpan!');
@@ -207,7 +259,7 @@
         }
     }
 
-    // Load awal
+    // Load awal saat halaman dibuka
     loadDataPresensi();
 </script>
 </body>
