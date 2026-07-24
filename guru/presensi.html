@@ -116,7 +116,20 @@
 
     function populateKelasOptions() {
         const setKelas = new Set();
-        if (userSession.ampu_kelas) {
+
+        if (userSession.penugasan && Array.isArray(userSession.penugasan)) {
+            userSession.penugasan.forEach(p => {
+                if (!activeMapel || cleanTextJS(p.mapel) === cleanTextJS(activeMapel)) {
+                    if (p.kelas) {
+                        String(p.kelas).split(',').forEach(k => {
+                            if (k.trim()) setKelas.add(k.trim());
+                        });
+                    }
+                }
+            });
+        }
+
+        if (setKelas.size === 0 && userSession.ampu_kelas) {
             String(userSession.ampu_kelas).split(',').forEach(k => {
                 if (k.trim()) setKelas.add(k.trim());
             });
@@ -154,17 +167,19 @@
             return;
         }
 
-        container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data siswa & presensi...</div>`;
+        container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data presensi lama dari server...</div>`;
 
         try {
             const [resSiswa, resPres] = await Promise.all([
                 fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json()),
-                fetch(`${API_URL_APP}?action=getPresensi&tanggal=${tgl}&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json())
+                fetch(`${API_URL_APP}?action=getPresensi&tanggal=${encodeURIComponent(tgl)}&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json())
             ]);
 
             const targetKlsNormalized = cleanTextJS(kls);
             const siswaList = resSiswa.data ? resSiswa.data.filter(s => cleanTextJS(s.kelas) === targetKlsNormalized) : [];
-            const presData = resPres.data || {};
+            
+            // Map status presensi lama berdasarkan nama bersihan
+            const presDataObj = resPres.data || {};
 
             if (siswaList.length === 0) {
                 container.innerHTML = `<div style="text-align:center; padding:30px; color:#e11d48; font-weight:bold;">
@@ -188,7 +203,9 @@
             siswaList.forEach((s, idx) => {
                 const namaClean = String(s.nama || s.nama_siswa).trim();
                 const namaKey = cleanTextJS(namaClean);
-                const st = presData[namaKey] || 'H';
+                
+                // Jika data lama ada di spreadsheet, ambil nilai lamanya (H/S/I/A). Jika belum ada, default ke 'H'.
+                const statusLama = presDataObj[namaKey] || 'H';
 
                 html += `
                     <tr>
@@ -196,10 +213,10 @@
                         <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
                         <td class="txt-center">
                             <div class="radio-group-horizontal">
-                                <label class="radio-pill"><input type="radio" name="p_${idx}" value="H" ${st==='H'?'checked':''} data-nama="${namaClean}"> Hadir</label>
-                                <label class="radio-pill"><input type="radio" name="p_${idx}" value="S" ${st==='S'?'checked':''} data-nama="${namaClean}"> Sakit</label>
-                                <label class="radio-pill"><input type="radio" name="p_${idx}" value="I" ${st==='I'?'checked':''} data-nama="${namaClean}"> Izin</label>
-                                <label class="radio-pill"><input type="radio" name="p_${idx}" value="A" ${st==='A'?'checked':''} data-nama="${namaClean}"> Alpha</label>
+                                <label class="radio-pill"><input type="radio" name="p_${idx}" value="H" ${statusLama==='H'?'checked':''} data-nama="${namaClean}"> Hadir</label>
+                                <label class="radio-pill"><input type="radio" name="p_${idx}" value="S" ${statusLama==='S'?'checked':''} data-nama="${namaClean}"> Sakit</label>
+                                <label class="radio-pill"><input type="radio" name="p_${idx}" value="I" ${statusLama==='I'?'checked':''} data-nama="${namaClean}"> Izin</label>
+                                <label class="radio-pill"><input type="radio" name="p_${idx}" value="A" ${statusLama==='A'?'checked':''} data-nama="${namaClean}"> Alpha</label>
                             </div>
                         </td>
                     </tr>`;
@@ -207,12 +224,12 @@
 
             html += `</tbody></table></div>
             <button id="btn-save" onclick="savePresensi()" style="background:var(--accent-blue); color:#fff; border:none; padding:13px; border-radius:8px; width:100%; margin-top:20px; font-weight:bold; cursor:pointer; font-size:15px;">
-                <i class="fas fa-save"></i> Simpan Data Presensi
+                <i class="fas fa-save"></i> Simpan / Update Presensi
             </button>`;
 
             container.innerHTML = html;
         } catch (err) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat data dari Apps Script.<br/><small>${err.message}</small></div>`;
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal mengambil data lama dari server.<br/><small>${err.message}</small></div>`;
         }
     }
 
@@ -242,13 +259,13 @@
                 })
             });
             const data = await res.json();
-            alert(data.message || 'Presensi berhasil disimpan!');
+            alert(data.message || 'Presensi berhasil diperbarui!');
             loadDataPresensi();
         } catch (e) {
             alert('Gagal menyimpan presensi. Pastikan koneksi internet stabil.');
         } finally {
             btn.disabled = false;
-            btn.innerHTML = `<i class="fas fa-save"></i> Simpan Data Presensi`;
+            btn.innerHTML = `<i class="fas fa-save"></i> Simpan / Update Presensi`;
         }
     }
 
