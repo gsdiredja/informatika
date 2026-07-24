@@ -77,16 +77,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Menampilkan 1 Soal berdasarkan Indeks Active
+// Menampilkan 1 Soal berdasarkan Indeks Active (Tanpa Nomor & Tanpa Huruf Opsi)
 function showQuestion(index) {
   const container = document.getElementById("questionsContainer");
   const q = questionsData[index];
 
   let html = `<div style="padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px;">`;
   html += `<h4 style="margin-top:0; color:#2d3748;">${q.title}</h4>`;
-  html += `<p style="margin-bottom: 12px; font-weight: 500;">${index + 1}. ${q.text}</p>`;
+  
+  // Menampilkan teks soal tanpa nomor urut otomatis
+  html += `<p style="margin-bottom: 12px; font-weight: 500;">${q.text}</p>`;
 
-  // 1. Pilihan Ganda / Benar Salah (Radio)
+  // 1. Pilihan Ganda / Benar Salah (Radio) - Tanpa Label "A.", "B.", dst.
   if (q.type === "radio") {
     q.options.forEach((opt) => {
       const isChecked = userAnswers[q.name] === opt.v ? "checked" : "";
@@ -94,13 +96,13 @@ function showQuestion(index) {
         <div style="margin-bottom: 8px;">
           <label style="cursor: pointer;">
             <input type="radio" name="${q.name}" value="${opt.v}" ${isChecked} onchange="hideWarning()" />
-            <b>${opt.v}.</b> ${opt.t}
+            ${opt.t}
           </label>
         </div>
       `;
     });
   } 
-  // 2. Pilihan Ganda Kompleks (Checkbox)
+  // 2. Pilihan Ganda Kompleks (Checkbox) - Tanpa Label "A.", "B.", dst.
   else if (q.type === "checkbox") {
     const savedArr = userAnswers[q.name] || [];
     q.options.forEach((opt) => {
@@ -109,7 +111,7 @@ function showQuestion(index) {
         <div style="margin-bottom: 8px;">
           <label style="cursor: pointer;">
             <input type="checkbox" name="${q.name}" value="${opt.v}" ${isChecked} onchange="hideWarning()" />
-            <b>${opt.v}.</b> ${opt.t}
+            ${opt.t}
           </label>
         </div>
       `;
@@ -126,7 +128,7 @@ function showQuestion(index) {
   html += `</div>`;
   container.innerHTML = html;
 
-  // Update Tampilan Tombol Navigasi
+  // Update Tampilan Baris Navigasi Progress
   document.getElementById("questionProgress").innerText = `Soal ${index + 1} dari ${questionsData.length}`;
   
   document.getElementById("btnPrev").disabled = (index === 0);
