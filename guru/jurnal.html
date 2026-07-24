@@ -6,18 +6,10 @@
     <title>EduAdaptif - Jurnal Mengajar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Panggil file konfigurasi global -->
     <script src="config.js"></script>
 
     <style>
-        :root { 
-            --primary-dark: #1e293b; 
-            --nav-blue: #2c3e50; 
-            --accent-blue: #3498db; 
-            --bg-light: #f1f5f9; 
-            --white: #ffffff; 
-            --secondary-dark: #0f172a; 
-        }
+        :root { --primary-dark: #1e293b; --nav-blue: #2c3e50; --accent-blue: #3498db; --bg-light: #f1f5f9; --white: #ffffff; --secondary-dark: #0f172a; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
         body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; color: #334155; }
         .main-wrapper { display: flex; flex: 1; flex-direction: column; }
@@ -30,24 +22,18 @@
         .btn-logout-top { width: 100%; background-color: #c0392b; text-align: center; color: var(--white); padding: 10px; text-decoration: none; font-size: 13px; font-weight: 600; display: block; border: none; cursor: pointer; }
         .content-area { flex: 1; padding: 15px; width: 100%; }
         .card { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        
         .filter-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
         .form-grid { display: flex; flex-direction: column; gap: 12px; }
         select, input[type="date"], input[type="text"], textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
-        
         .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
         table { width: 100%; border-collapse: collapse; }
         table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: left; padding: 12px; font-size: 13px; border-bottom: 2px solid #e2e8f0; }
         table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
-        .txt-center { text-align: center; } 
-        .txt-bold { font-weight: bold; }
-        
+        .txt-center { text-align: center; } .txt-bold { font-weight: bold; }
         .btn-edit { background: #f39c12; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
         .btn-edit:hover { background: #d35400; }
-
         .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
         .modal-body { background: #fff; padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-
         footer { background-color: var(--secondary-dark); color: #94a3b8; text-align: center; padding: 20px; font-size: 12px; margin-top: auto; }
 
         @media (min-width: 769px) {
@@ -66,7 +52,6 @@
 <body>
 
 <div class="main-wrapper">
-    <!-- Header Navigation Sidebar -->
     <div class="top-header">
         <img id="user-pic" src="photo-guru.png" class="profile-pic" alt="User" onerror="this.src='https://via.placeholder.com/80?text=GURU'">
         <h1>EduAdaptif</h1>
@@ -82,12 +67,10 @@
         <button onclick="logout()" class="btn-logout-top"><i class="fas fa-sign-out-alt"></i> Keluar</button>
     </div>
 
-    <!-- Area Konten Utama -->
     <div class="content-area">
         <div class="card">
             <h2>Jurnal Mengajar Guru — <span id="lbl-mapel" style="color:var(--accent-blue);"></span></h2>
             
-            <!-- FORM INPUT JURNAL -->
             <div class="filter-card" style="margin-top:15px;">
                 <h3 style="margin-bottom: 12px; font-size: 16px; color: #1e293b;"><i class="fas fa-edit"></i> Isi Jurnal KBM</h3>
                 <div class="form-grid" style="margin-bottom:12px;">
@@ -113,14 +96,12 @@
                 </button>
             </div>
 
-            <!-- TABEL RIWAYAT JURNAL -->
             <h3 style="margin:25px 0 15px; font-size:16px;"><i class="fas fa-history"></i> Riwayat Jurnal Mengajar</h3>
             <div id="jurnal-table-container">Memuat riwayat jurnal...</div>
         </div>
     </div>
 </div>
 
-<!-- MODAL EDIT JURNAL -->
 <div id="modal-edit-jurnal" class="modal-bg">
     <div class="modal-body">
         <h3 style="margin-bottom:15px; font-size:16px;"><i class="fas fa-edit"></i> Edit Jurnal Mengajar</h3>
@@ -161,44 +142,27 @@
     document.getElementById('lbl-mapel').innerText = activeMapel || "Belum Dipilih";
     if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
 
-    // Memuat daftar kelas ke Dropdown
     const selKelas = document.getElementById('jurnal-kelas');
     populateKelasOptions();
-
     document.getElementById('jurnal-tgl').value = new Date().toISOString().split('T')[0];
 
     let cacheJurnalData = [];
 
     function populateKelasOptions() {
         const setKelas = new Set();
-
-        if (userSession.penugasan && Array.isArray(userSession.penugasan)) {
-            userSession.penugasan.forEach(p => {
-                if (!activeMapel || String(p.mapel).trim().toLowerCase() === activeMapel.trim().toLowerCase()) {
-                    if (p.kelas) {
-                        String(p.kelas).split(',').forEach(k => {
-                            if (k.trim() !== "") setKelas.add(k.trim());
-                        });
-                    }
-                }
-            });
-        }
-
-        if (setKelas.size === 0 && userSession.ampu_kelas) {
+        if (userSession.ampu_kelas) {
             String(userSession.ampu_kelas).split(',').forEach(k => {
-                if (k.trim() !== "") setKelas.add(k.trim());
+                if (k.trim()) setKelas.add(k.trim());
             });
         }
 
         const listKelas = Array.from(setKelas);
-
         if (listKelas.length === 0) {
             selKelas.innerHTML = '<option value="">-- Tidak Ada Kelas Terdaftar --</option>';
             return;
         }
 
         selKelas.innerHTML = listKelas.map(k => `<option value="${k}">${k}</option>`).join('');
-
         if (activeKelas && listKelas.includes(activeKelas)) {
             selKelas.value = activeKelas;
         }
@@ -209,19 +173,13 @@
         window.location.href = 'index.html';
     }
 
-    // MEMUAT RIWAYAT JURNAL DARI GOOGLE SHEETS
     async function loadDataJurnal() {
         const container = document.getElementById('jurnal-table-container');
         container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat riwayat jurnal...</div>`;
 
         try {
-            const res = await fetch(`${API_URL_APP}?action=getJurnal`).then(r => r.json());
-            const rawData = res.data || [];
-
-            // Filter jurnal berdasarkan mapel aktif
-            cacheJurnalData = rawData.filter(j => 
-                !activeMapel || String(j.mapel).trim().toLowerCase() === activeMapel.trim().toLowerCase()
-            );
+            const res = await fetch(`${API_URL_APP}?action=getJurnal&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
+            cacheJurnalData = res.data || [];
 
             if (cacheJurnalData.length === 0) {
                 container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Belum ada riwayat jurnal mengajar tersimpan untuk mata pelajaran ini.</div>`;
@@ -243,12 +201,11 @@
                         </thead>
                         <tbody>`;
 
-            // Urutkan dari yang terbaru (Reverse)
             const listReversed = [...cacheJurnalData].reverse();
 
             listReversed.forEach((j, idx) => {
                 const cleanDate = String(j.tanggal).split("T")[0];
-                const cleanKelas = String(j.kelas).split("T")[0];
+                const cleanKelas = String(j.kelas);
                 const originalIndex = cacheJurnalData.length - 1 - idx;
 
                 html += `
@@ -257,7 +214,7 @@
                         <td class="txt-center">${cleanDate}</td>
                         <td class="txt-center txt-bold">Kelas ${cleanKelas}</td>
                         <td>${j.materi || '-'}</td>
-                        <td>${j.tugas || '-'}</td>
+                        <td>${j.tugas || j.catatan || '-'}</td>
                         <td class="txt-center">
                             <button onclick="openModalEditJurnal(${originalIndex})" class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
                         </td>
@@ -267,11 +224,10 @@
             html += `</tbody></table></div>`;
             container.innerHTML = html;
         } catch (e) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat jurnal dari database Google Sheets.</div>`;
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat jurnal dari database.</div>`;
         }
     }
 
-    // POSTING JURNAL BARU
     async function saveJurnal() {
         const btn = document.getElementById('btn-save-jurnal');
         const tgl = document.getElementById('jurnal-tgl').value;
@@ -301,7 +257,8 @@
                     kelas: kls,
                     mapel: activeMapel,
                     materi: materi,
-                    tugas: tugas
+                    tugas: tugas,
+                    catatan: tugas
                 })
             });
             const data = await res.json();
@@ -320,9 +277,9 @@
     function openModalEditJurnal(idx) {
         const item = cacheJurnalData[idx];
         document.getElementById('edit-jurnal-tgl').value = String(item.tanggal).split("T")[0];
-        document.getElementById('edit-jurnal-kelas').value = String(item.kelas).split("T")[0];
-        document.getElementById('edit-jurnal-materi').value = item.materi;
-        document.getElementById('edit-jurnal-tugas').value = item.tugas;
+        document.getElementById('edit-jurnal-kelas').value = String(item.kelas);
+        document.getElementById('edit-jurnal-materi').value = item.materi || "";
+        document.getElementById('edit-jurnal-tugas').value = item.tugas || item.catatan || "";
         document.getElementById('modal-edit-jurnal').style.display = 'flex';
     }
 
@@ -345,7 +302,8 @@
                     kelas: kls,
                     mapel: activeMapel,
                     materi: materi,
-                    tugas: tugas
+                    tugas: tugas,
+                    catatan: tugas
                 })
             });
             const data = await res.json();
@@ -357,7 +315,6 @@
         }
     }
 
-    // Load awal saat halaman dibuka
     loadDataJurnal();
 </script>
 </body>
