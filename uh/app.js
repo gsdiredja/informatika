@@ -6,7 +6,7 @@ let currentUserData = null;
 let currentQuestions = [];
 let selectedUH = "uh1";
 
-// 1. MEMUAT DATA SISWA
+// 1. MEMUAT DATA SISWA DARI APPS SCRIPT
 window.addEventListener("DOMContentLoaded", () => {
     if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("AKfycbx...")) {
         document.getElementById("login-status").innerText = "URL Apps Script belum dikonfigurasi.";
@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded", () => {
         });
 });
 
-// 2. HANDLER LOGIN & FETCH JSON SOAL SESUAI PILIHAN
+// 2. HANDLER LOGIN & AMBIL FILE JSON DENGAN DETEKSI ERROR DETAIL
 async function handleLogin(e) {
     e.preventDefault();
     const userInput = document.getElementById("username").value.trim();
@@ -41,14 +41,28 @@ async function handleLogin(e) {
     if (match) {
         currentUserData = match;
 
-        // Ambil file JSON soal berdasarkan dropdown (data/soal-uh1.json atau data/soal-uh2.json)
         try {
+            // Mengambil berkas JSON dari folder data/
             const response = await fetch(`data/soal-${selectedUH}.json`);
-            if (!response.ok) throw new Error("File soal tidak ditemukan");
-            currentQuestions = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(`File 'data/soal-${selectedUH}.json' tidak ditemukan di server! (HTTP ${response.status})`);
+            }
+            
+            // Ambil teks mentah file JSON untuk dites
+            const rawText = await response.text();
+            
+            try {
+                currentQuestions = JSON.parse(rawText);
+            } catch (jsonErr) {
+                console.error("Isi Teks Mentah JSON Yang Rusak:", rawText);
+                throw new Error(`Format isi file JSON rusak atau ada kesalahan sintaksis! (${jsonErr.message})`);
+            }
+
         } catch (err) {
-            alert(`Gagal memuat soal! Pastikan file 'data/soal-${selectedUH}.json' sudah tersedia.`);
-            return;
+            console.error("Detail Error Pemanggilan Kuis:", err);
+            alert(`Gagal Memuat Kuis!\n\nPenyebab: ${err.message}`);
+            return; // Hentikan eksekusi jika terjadi error
         }
 
         document.getElementById("login-error").style.display = "none";
@@ -64,7 +78,7 @@ async function handleLogin(e) {
     }
 }
 
-// 3. RENDER SOAL
+// 3. RENDER ELEMEN SOAL KE LAYAR
 function renderQuestions() {
     const container = document.getElementById("questions-container");
     container.innerHTML = "";
@@ -76,7 +90,7 @@ function renderQuestions() {
         div.style.display = "none";
 
         let html = `<p style="font-weight: 700; margin-bottom: 6px; color: #1f2937; font-size: 14px;">Soal ${index + 1} dari ${currentQuestions.length}</p>`;
-        if(q.title) html += `<p style="font-weight:600; font-size:14px; margin-bottom:6px; color:#0b3a7a;">${q.title}</p>`;
+        if (q.title) html += `<p style="font-weight:600; font-size:14px; margin-bottom:6px; color:#0b3a7a;">${q.title}</p>`;
         html += `<p style="font-weight: 500; margin-bottom: 16px; color: #374151; font-size: 14px; line-height: 1.5;">${q.text.replace(/\n/g, '<br>')}</p>`;
 
         if (q.type === "radio") {
@@ -111,7 +125,7 @@ function isCurrentQuestionAnswered() {
     return true;
 }
 
-// 5. NAVIGASI HALAMAN
+// 5. NAVIGASI HALAMAN KUIS
 function showPage(page) {
     document.querySelectorAll(".question-card").forEach((el, i) => {
         el.style.display = i === page ? "block" : "none";
@@ -145,7 +159,7 @@ function changePage(delta) {
     }
 }
 
-// 6. SUBMIT JAWABAN
+// 6. SUBMIT JAWABAN KE GOOGLE APPS SCRIPT
 function submitQuiz() {
     if (!isCurrentQuestionAnswered()) {
         alert("Mohon jawab soal ini terlebih dahulu sebelum mengirimkan jawaban!");
