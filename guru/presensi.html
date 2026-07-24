@@ -95,23 +95,23 @@
 
 <script src="config.js"></script>
 <script>
-    // 1. Cek Sesi Login
+    // 1. Ambil Sesi Login & Konfig
     const userSession = JSON.parse(localStorage.getItem('user_session'));
     const activeMapel = localStorage.getItem('active_mapel') || "";
     const activeKelas = localStorage.getItem('active_kelas') || "";
 
     if (!userSession) window.location.href = 'index.html';
 
-    // 2. Set Profil & Mapel
+    // 2. Set Profil & Mapel Header
     document.getElementById('user-name').innerText = userSession.nama || userSession.username || "Guru";
     document.getElementById('lbl-mapel').innerText = activeMapel || "Belum Dipilih";
     if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
 
-    // 3. Populate Dropdown Kelas
+    // 3. Render Dropdown Kelas
     const selKelas = document.getElementById('sel-kelas');
     populateKelasOptions();
 
-    // Set Tanggal Hari Ini
+    // Default Tanggal Hari Ini
     document.getElementById('sel-tgl').value = new Date().toISOString().split('T')[0];
 
     function populateKelasOptions() {
@@ -119,10 +119,8 @@
 
         if (userSession.penugasan && Array.isArray(userSession.penugasan)) {
             userSession.penugasan.forEach(p => {
-                // Filter berdasarkan mapel aktif jika ada
                 if (!activeMapel || String(p.mapel).trim() === activeMapel.trim()) {
                     if (p.kelas) {
-                        // Memecah kelas jika dipisahkan koma (misal: "XI-3,XI-4,XI-5")
                         String(p.kelas).split(',').forEach(k => {
                             if (k.trim() !== "") setKelas.add(k.trim());
                         });
@@ -140,14 +138,12 @@
 
         selKelas.innerHTML = listKelas.map(k => `<option value="${k}">${k}</option>`).join('');
 
-        // Pilih otomatis kelas yang diklik dari dashboard jika ada
         if (activeKelas && listKelas.includes(activeKelas)) {
             selKelas.value = activeKelas;
         }
     }
 
     function onKelasChange() {
-        // Simpan perubahan kelas yang dipilih di dropdown
         localStorage.setItem('active_kelas', selKelas.value);
         loadDataPresensi();
     }
@@ -169,7 +165,6 @@
 
         container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat presensi...</div>`;
 
-        // Menggunakan URL SCRIPT_URL dari config.js
         const targetUrl = (typeof SCRIPT_URL !== 'undefined') ? SCRIPT_URL : ((typeof API_URL !== 'undefined') ? API_URL : '');
 
         try {
@@ -178,7 +173,11 @@
                 fetch(`${targetUrl}?action=getPresensi&tanggal=${tgl}&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json())
             ]);
 
-            const siswaList = resSiswa.data ? resSiswa.data.filter(s => String(s.kelas).trim().toLowerCase() === String(kls).trim().toLowerCase()) : [];
+            // Normalisasi pembanding teks kelas (misal: "XI-3" -> "xi3")
+            const normalize = (str) => String(str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            const targetKlsNormalized = normalize(kls);
+
+            const siswaList = resSiswa.data ? resSiswa.data.filter(s => normalize(s.kelas) === targetKlsNormalized) : [];
             const presData = resPres.data || {};
 
             if (siswaList.length === 0) {
@@ -259,7 +258,7 @@
         }
     }
 
-    // Load awal saat halaman dibuka
+    // Panggil saat halaman pertama kali dibuka
     loadDataPresensi();
 </script>
 </body>
