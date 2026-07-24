@@ -1,118 +1,84 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Ruang Kerja Guru</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background: #f8fafc; padding: 20px; color: #1e293b; }
-        .card { background: white; max-width: 500px; margin: 20px auto; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .user-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 14px; }
-        .user-header img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #3b82f6; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #475569; }
-        .select-box { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
-        .select-box:focus { border-color: #3b82f6; }
-        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; }
-    </style>
-</head>
-<body>
+<script>
+    let sessionUser = null;
 
-    <div class="card">
-        <div class="user-header">
-            <img id="imgFotoGuru" src="" alt="Foto Guru" onerror="this.src='https://via.placeholder.com/50?text=GURU'">
-            <div>
-                <h3 id="txtNamaGuru">-</h3>
-                <span id="txtNipGuru" style="font-size: 12px; color: #64748b;">NIP: -</span>
-            </div>
-            <button class="btn-logout" style="margin-left: auto;" onclick="logout()">Keluar</button>
-        </div>
-
-        <h4 style="margin-bottom: 16px; font-size: 15px;">Form Input Presensi / Jurnal KBM</h4>
-
-        <!-- DROPDOWN 1: MATA PELAJARAN -->
-        <div class="form-group">
-            <label for="selectMapel">Pilih Mata Pelajaran & Role:</label>
-            <select id="selectMapel" class="select-box" onchange="updateDropdownKelas()">
-                <option value="">-- Pilih Mapel --</option>
-            </select>
-        </div>
-
-        <!-- DROPDOWN 2: KELAS (TERFILTER OTOMATIS) -->
-        <div class="form-group">
-            <label for="selectKelas">Pilih Kelas Mengajar:</label>
-            <select id="selectKelas" class="select-box">
-                <option value="">-- Pilih Mapel Terlebih Dahulu --</option>
-            </select>
-        </div>
-    </div>
-
-    <script>
-        let sessionUser = null;
-
-        // Load Session User saat Halaman Dimuat
-        document.addEventListener("DOMContentLoaded", () => {
-            const savedSession = localStorage.getItem('user_session');
-            if (!savedSession) {
-                window.location.replace("login.html");
-                return;
-            }
-
-            sessionUser = JSON.parse(savedSession);
-            
-            // Tampilkan Data Pengguna
-            document.getElementById('txtNamaGuru').innerText = sessionUser.nama;
-            document.getElementById('txtNipGuru').innerText = "NIP/Username: " + sessionUser.username;
-            if(sessionUser.foto) {
-                document.getElementById('imgFotoGuru').src = sessionUser.foto;
-            }
-
-            // Inisialisasi Pilihan Mapel
-            renderDropdownMapel();
-        });
-
-        // 1. Render Pilihan Mapel dari Penugasan
-        function renderDropdownMapel() {
-            const selectMapel = document.getElementById('selectMapel');
-            selectMapel.innerHTML = '<option value="">-- Pilih Mapel --</option>';
-
-            if (sessionUser && sessionUser.penugasan) {
-                sessionUser.penugasan.forEach((p, index) => {
-                    selectMapel.innerHTML += `<option value="${index}">${p.mapel} [Role: ${p.role.toUpperCase()}]</option>`;
-                });
-            }
+    document.addEventListener("DOMContentLoaded", () => {
+        const savedSession = localStorage.getItem('user_session');
+        if (!savedSession) {
+            window.location.replace("index.html"); // atau login.html
+            return;
         }
 
-        // 2. Filter Pilihan Kelas secara Otomatis saat Mapel Dipilih
-        function updateDropdownKelas() {
-            const selectMapelIndex = document.getElementById('selectMapel').value;
-            const selectKelas = document.getElementById('selectKelas');
+        sessionUser = JSON.parse(savedSession);
+        console.log("Data Session Aktif:", sessionUser); // Untuk memantau di Inspect Element Console
 
-            selectKelas.innerHTML = '<option value="">-- Pilih Kelas --</option>';
-
-            if (selectMapelIndex !== "") {
-                const penugasanDipilih = sessionUser.penugasan[selectMapelIndex];
-                
-                // Pisahkan string "XI-3,XI-4,XI-5" menjadi Array ["XI-3", "XI-4", "XI-5"]
-                const arrayKelas = penugasanDipilih.ampu_kelas.split(',');
-
-                arrayKelas.forEach(kelas => {
-                    const kelasBersih = kelas.trim();
-                    if(kelasBersih) {
-                        selectKelas.innerHTML += `<option value="${kelasBersih}">Kelas ${kelasBersih}</option>`;
-                    }
-                });
-            } else {
-                selectKelas.innerHTML = '<option value="">-- Pilih Mapel Terlebih Dahulu --</option>';
-            }
+        // 1. Tampilkan Profil Guru (Cegah undefined)
+        document.getElementById('txtNamaGuru').innerText = sessionUser.nama || sessionUser.nama_lengkap || "Guru";
+        document.getElementById('txtNipGuru').innerText = "NIP/Username: " + (sessionUser.username || sessionUser.nip || "-");
+        
+        if (sessionUser.foto) {
+            document.getElementById('imgFotoGuru').src = sessionUser.foto;
         }
 
-        function logout() {
-            localStorage.removeItem('user_session');
-            window.location.replace("login.html");
+        // 2. Render Pilihan Mapel
+        renderDropdownMapel();
+    });
+
+    function renderDropdownMapel() {
+        const selectMapel = document.getElementById('selectMapel');
+        selectMapel.innerHTML = '<option value="">-- Pilih Mapel --</option>';
+
+        // A. Jika data berbentuk Array Penugasan (Multi-Mapel)
+        if (sessionUser.penugasan && Array.isArray(sessionUser.penugasan) && sessionUser.penugasan.length > 0) {
+            sessionUser.penugasan.forEach((p, index) => {
+                selectMapel.innerHTML += `<option value="${index}">${p.mapel} [Role: ${(p.role || '').toUpperCase()}]</option>`;
+            });
+        } 
+        // B. Jika data dari backend berupa format tunggal (mapel & ampu_kelas langsung di root user)
+        else if (sessionUser.mapel) {
+            selectMapel.innerHTML += `<option value="single">${sessionUser.mapel} [Role: ${(sessionUser.role || 'GURU').toUpperCase()}]</option>`;
+        } else {
+            selectMapel.innerHTML = '<option value="">-- Tidak ada mapel terdaftar --</option>';
         }
-    </script>
-</body>
-</html>
+    }
+
+    function updateDropdownKelas() {
+        const selectMapelVal = document.getElementById('selectMapel').value;
+        const selectKelas = document.getElementById('selectKelas');
+
+        selectKelas.innerHTML = '<option value="">-- Pilih Kelas --</option>';
+
+        if (selectMapelVal === "") {
+            selectKelas.innerHTML = '<option value="">-- Pilih Mapel Terlebih Dahulu --</option>';
+            return;
+        }
+
+        let stringKelas = "";
+
+        // A. Ambil dari Array Penugasan
+        if (selectMapelVal !== "single" && sessionUser.penugasan && sessionUser.penugasan[selectMapelVal]) {
+            stringKelas = sessionUser.penugasan[selectMapelVal].ampu_kelas || "";
+        } 
+        // B. Ambil dari Format Tunggal
+        else if (selectMapelVal === "single") {
+            stringKelas = sessionUser.ampu_kelas || "";
+        }
+
+        if (stringKelas) {
+            // Pisahkan berdasarkan koma (,)
+            const arrayKelas = stringKelas.split(',');
+            arrayKelas.forEach(kelas => {
+                const kelasBersih = kelas.trim();
+                if (kelasBersih) {
+                    selectKelas.innerHTML += `<option value="${kelasBersih}">Kelas ${kelasBersih}</option>`;
+                }
+            });
+        } else {
+            selectKelas.innerHTML = '<option value="">-- Tidak ada kelas diampu --</option>';
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('user_session');
+        window.location.replace("index.html");
+    }
+</script>
