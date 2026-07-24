@@ -305,9 +305,10 @@
         const u = document.getElementById('txtUsername').value.trim();
         const p = document.getElementById('txtPassword').value.trim();
 
-        const targetUrl = typeof SCRIPT_URL !== 'undefined' 
-            ? SCRIPT_URL 
-            : (window.CONFIG && window.CONFIG.SCRIPT_URL ? window.CONFIG.SCRIPT_URL : '');
+        const targetUrl =
+    window.SCRIPT_URL ||
+    (window.CONFIG && window.CONFIG.SCRIPT_URL) ||
+    "";
 
         if (!targetUrl) {
             alert("URL Apps Script belum dikonfigurasi di file config.js!");
