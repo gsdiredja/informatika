@@ -16,7 +16,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: #f1f5f9; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* Navbar Header */
         header { 
             background: #0f172a; 
             color: white; 
@@ -47,10 +46,8 @@
         }
         .btn-logout:hover { background: #dc2626; }
 
-        /* Container Main */
         .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; width: 100%; flex: 1; }
 
-        /* Card Profile */
         .profile-card { 
             background: #ffffff; 
             border-radius: 16px; 
@@ -84,7 +81,6 @@
             text-transform: uppercase; 
         }
 
-        /* Section Settings & Grid */
         .section-card { 
             background: #ffffff; 
             border-radius: 16px; 
@@ -130,7 +126,6 @@
         }
         .select-control:focus { border-color: #0284c7; }
 
-        /* Navigation Grid Modul */
         .grid-modul { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 10px; }
 
         .modul-card { 
@@ -169,7 +164,6 @@
 </head>
 <body>
 
-    <!-- Header Navigation -->
     <header>
         <a href="#" class="brand">
             <img src="photo-guru.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=EDU'">
@@ -180,10 +174,8 @@
         </button>
     </header>
 
-    <!-- Content Container -->
     <div class="container">
         
-        <!-- User Profile Card -->
         <div class="profile-card">
             <img id="imgAvatar" src="photo-guru.png" alt="Foto Profil" class="avatar" onerror="this.src='https://via.placeholder.com/80?text=GURU'">
             <div class="user-info">
@@ -193,7 +185,6 @@
             </div>
         </div>
 
-        <!-- Ruang Kerja Settings -->
         <div class="section-card">
             <div class="section-title">
                 <i class="fas fa-sliders" style="color: #0284c7;"></i> Pengaturan Ruang Kerja
@@ -215,7 +206,6 @@
                 </div>
             </div>
 
-            <!-- Modul Kerja KBM -->
             <div class="section-title" style="margin-top: 28px;">
                 <i class="fas fa-cubes" style="color: #0284c7;"></i> Modul Kerja KBM
             </div>
@@ -243,7 +233,6 @@
 
     </div>
 
-    <!-- Script Logika Dashboard -->
     <script>
         let globalUserData = null;
 
@@ -259,7 +248,7 @@
             try {
                 globalUserData = JSON.parse(sessionStr);
                 renderUserProfile(globalUserData);
-                renderDropdownMapel(globalUserData.penugasan || []);
+                renderDropdownMapel(globalUserData);
             } catch (e) {
                 console.error("Gagal membaca session:", e);
                 prosesLogout();
@@ -274,19 +263,23 @@
             }
         }
 
-        function renderDropdownMapel(penugasan) {
+        function renderDropdownMapel(user) {
             const selectMapel = document.getElementById('selectMapel');
             selectMapel.innerHTML = "";
 
-            if (!penugasan || penugasan.length === 0) {
-                selectMapel.innerHTML = '<option value="">-- Tidak ada mapel terdaftar --</option>';
-                return;
+            const mapelSet = new Set();
+
+            // 1. Ekstrak dari array penugasan jika ada
+            if (user.penugasan && Array.isArray(user.penugasan) && user.penugasan.length > 0) {
+                user.penugasan.forEach(p => {
+                    if (p.mapel) mapelSet.add(p.mapel.toString().trim());
+                });
             }
 
-            const mapelSet = new Set();
-            penugasan.forEach(p => {
-                if (p.mapel) mapelSet.add(p.mapel.toString().trim());
-            });
+            // 2. Fallback ke properti mapel tunggal jika penugasan kosong
+            if (mapelSet.size === 0 && user.mapel) {
+                mapelSet.add(user.mapel.toString().trim());
+            }
 
             const mapelList = Array.from(mapelSet);
 
@@ -296,20 +289,18 @@
             }
 
             selectMapel.innerHTML = '<option value="">-- Pilih Mata Pelajaran --</option>';
-            
             const savedActiveMapel = localStorage.getItem('active_mapel') || "";
 
             mapelList.forEach(mapel => {
                 const opt = document.createElement('option');
                 opt.value = mapel;
                 opt.textContent = mapel;
-                if (mapel === savedActiveMapel) opt.selected = true;
+                if (mapel === savedActiveMapel || mapelList.length === 1) opt.selected = true;
                 selectMapel.appendChild(opt);
             });
 
-            if (savedActiveMapel) {
-                updateDropdownKelas();
-            }
+            // Langsung panggil update kelas
+            updateDropdownKelas();
         }
 
         function updateDropdownKelas() {
@@ -317,24 +308,32 @@
             const selectKelas = document.getElementById('selectKelas');
             selectKelas.innerHTML = "";
 
-            if (!selectMapelVal || !globalUserData || !globalUserData.penugasan) {
+            if (!selectMapelVal || !globalUserData) {
                 selectKelas.innerHTML = '<option value="">-- Pilih Mapel Terlebih Dahulu --</option>';
                 return;
             }
 
             const setKelasUnik = new Set();
 
-            globalUserData.penugasan.forEach(p => {
-                if (String(p.mapel).trim() === selectMapelVal && p.kelas) {
-                    const itemKelas = String(p.kelas).split(',');
-                    itemKelas.forEach(k => {
-                        const namaKelasBersih = k.trim();
-                        if (namaKelasBersih !== "") {
-                            setKelasUnik.add(namaKelasBersih);
-                        }
-                    });
-                }
-            });
+            // 1. Ekstrak dari array penugasan yang sesuai mapel
+            if (globalUserData.penugasan && Array.isArray(globalUserData.penugasan)) {
+                globalUserData.penugasan.forEach(p => {
+                    if (String(p.mapel).trim().toLowerCase() === selectMapelVal.trim().toLowerCase() && p.kelas) {
+                        const itemKelas = String(p.kelas).split(',');
+                        itemKelas.forEach(k => {
+                            if (k.trim()) setKelasUnik.add(k.trim());
+                        });
+                    }
+                });
+            }
+
+            // 2. Fallback ke ampu_kelas jika tidak ditemukan di penugasan
+            if (setKelasUnik.size === 0 && globalUserData.ampu_kelas) {
+                const itemKelas = String(globalUserData.ampu_kelas).split(',');
+                itemKelas.forEach(k => {
+                    if (k.trim()) setKelasUnik.add(k.trim());
+                });
+            }
 
             const listKelas = Array.from(setKelasUnik);
 
