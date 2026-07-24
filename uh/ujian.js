@@ -89,7 +89,7 @@ function showQuestion(index) {
   html += `</div>`;
   container.innerHTML = html;
 
-  // FORMAT PROGRESS BARU: 1/45
+  // Format Progress Ringkhas (contoh: 1/45)
   document.getElementById("questionProgress").innerText = `${index + 1}/${questionsData.length}`;
 
   // Navigasi Tombol
@@ -195,7 +195,7 @@ function showWarning(msg) {
   warnEl.style.display = "block";
 }
 
-// 9. Kirim Jawaban Akhir
+// 9. Kirim Jawaban Akhir & Hitung Skor
 function submitExam() {
   saveCurrentAnswer();
 
@@ -205,17 +205,70 @@ function submitExam() {
   }
 
   if (confirm("Apakah Anda yakin ingin menyelesaikan ujian ini?")) {
-    console.log("Jawaban dikirim:", userAnswers);
-    alert("Jawaban berhasil disimpan. Terima kasih!");
-    sessionStorage.clear();
-    window.location.href = "index.html";
+    let correctCount = 0;
+    let totalQuestions = questionsData.length;
+
+    // Perhitungan Skor Otomatis
+    questionsData.forEach((q) => {
+      const userAns = userAnswers[q.name];
+      const correctAns = q.answer; // Mengambil kunci jawaban dari JSON
+
+      if (q.type === "radio") {
+        if (userAns === correctAns) correctCount++;
+      } else if (q.type === "checkbox") {
+        if (Array.isArray(userAns) && Array.isArray(correctAns)) {
+          if (
+            userAns.length === correctAns.length &&
+            userAns.every((val) => correctAns.includes(val))
+          ) {
+            correctCount++;
+          }
+        }
+      }
+    });
+
+    // Menghitung Nilai Skala 0 - 100
+    const score = Math.round((correctCount / totalQuestions) * 100);
+
+    // Tampilkan Skor di Layar
+    showFinalResult(score, correctCount, totalQuestions);
   }
 }
 
-// 10. Tombol Keluar / Logout
+// 10. Tampilan Hasil / Papan Nilai Akhir
+function showFinalResult(score, correctCount, totalQuestions) {
+  const container = document.getElementById("questionsContainer");
+  
+  // Sembunyikan elemen navigasi bawah & peringatan
+  document.getElementById("btnPrev").style.display = "none";
+  document.getElementById("btnNext").style.display = "none";
+  document.getElementById("btnSubmitExam").style.display = "none";
+  document.getElementById("questionProgress").style.display = "none";
+  
+  const warnEl = document.getElementById("warningMessage");
+  if (warnEl) warnEl.style.display = "none";
+
+  // Render Tampilan Skor
+  container.innerHTML = `
+    <div style="text-align: center; padding: 30px 15px; background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0;">
+      <h2 style="color: #1e293b; margin-bottom: 8px;">Ujian Selesai!</h2>
+      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Jawaban Anda telah berhasil tersimpan.</p>
+      
+      <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px; max-width: 280px; margin: 0 auto 20px auto;">
+        <span style="font-size: 0.85rem; color: #15803d; font-weight: 700; letter-spacing: 0.5px;">SKOR AKHIR</span>
+        <h1 style="font-size: 3.5rem; color: #16a34a; margin: 6px 0; font-weight: 800;">${score}</h1>
+        <p style="font-size: 0.85rem; color: #166534; margin: 0;">Benar ${correctCount} dari ${totalQuestions} soal</p>
+      </div>
+
+      <button onclick="logout()" style="padding: 10px 24px; background-color: #dc2626; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+        Keluar Ujian
+      </button>
+    </div>
+  `;
+}
+
+// 11. Tombol Keluar / Logout
 function logout() {
-  if (confirm("Apakah Anda yakin ingin keluar dari ujian? Data yang belum tersimpan mungkin akan hilang.")) {
-    sessionStorage.clear();
-    window.location.href = "index.html";
-  }
+  sessionStorage.clear();
+  window.location.href = "index.html";
 }
