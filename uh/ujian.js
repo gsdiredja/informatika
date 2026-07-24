@@ -2,6 +2,11 @@ let currentQuestionIndex = 0;
 let questionsData = [];
 let userAnswers = {};
 
+// KONFIGURASI WAKTU (60 Menit)
+const EXAM_DURATION_MINUTES = 60;
+let totalSeconds = EXAM_DURATION_MINUTES * 60;
+let timerInterval = null;
+
 document.addEventListener("DOMContentLoaded", () => {
   let userDataStr = localStorage.getItem("userData");
   let soalPath = localStorage.getItem("soalPath");
@@ -18,9 +23,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("userInfo").innerHTML = `
     <strong style="font-size: 1.1rem; color: #1e293b;">${userData.nama || userData.username}</strong><br>
-    <span style="color: #64748b; font-size: 0.9rem;">Kelas: ${userData.kelas || '-'} | Username: ${userData.username}</span>
+    <span style="color: #64748b; font-size: 0.85rem;">Kelas: ${userData.kelas || '-'} | NISN: ${userData.username}</span>
   `;
 
+  // Cek jika ada sisa waktu tersimpan dari sesi sebelumnya / setelah refresh
+  const savedRemainingTime = localStorage.getItem("remainingTime");
+  if (savedRemainingTime !== null) {
+    totalSeconds = parseInt(savedRemainingTime, 10);
+  }
+
+  // Jalankan Timer Hitung Mundur
+  startTimer();
+
+  // Load Data Soal Ujian
   fetch(soalPath)
     .then((res) => {
       if (!res.ok) throw new Error("HTTP Status " + res.status);
@@ -41,6 +56,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// LOGIKA TIMER
+function startTimer() {
+  updateTimerDisplay();
+
+  timerInterval = setInterval(() => {
+    totalSeconds--;
+    localStorage.setItem("remainingTime", totalSeconds);
+
+    updateTimerDisplay();
+
+    // Notifikasi peringatan saat sisa 5 menit
+    if (totalSeconds === 300) {
+      alert("Peringatan: Waktu pengerjaan tinggal 5 menit lagi!");
+    }
+
+    // Jika waktu habis
+    if (totalSeconds <= 0) {
+      clearInterval(timerInterval);
+      localStorage.removeItem("remainingTime");
+      alert("Waktu ujian telah habis! Sistem akan otomatis mengumpulkan jawaban Anda.");
+      forceSubmitExam();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const timerDisplay = document.getElementById("timerDisplay");
+  if (!timerDisplay) return;
+
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(seconds).padStart(2, '0');
+
+  timerDisplay.innerText = `${formattedMinutes}:${formattedSeconds}`;
+}
+
+// MENAMPILKAN SOAL
 function showQuestion(index) {
   const container = document.getElementById("questionsContainer");
   const q = questionsData[index];
@@ -89,7 +143,6 @@ function showQuestion(index) {
   container.innerHTML = html;
 
   document.getElementById("questionProgress").innerText = `${index + 1}/${questionsData.length}`;
-
   document.getElementById("btnPrev").disabled = (index === 0);
 
   if (index === questionsData.length - 1) {
@@ -101,6 +154,7 @@ function showQuestion(index) {
   }
 }
 
+// MENYIMPAN JAWABAN
 function saveCurrentAnswer() {
   const q = questionsData[currentQuestionIndex];
   if (!q) return;
@@ -137,6 +191,7 @@ function hideWarning() {
   if (warnEl) warnEl.style.display = "none";
 }
 
+// NAVIGASI
 function nextQuestion() {
   saveCurrentAnswer();
 
@@ -179,6 +234,7 @@ function showWarning(msg) {
   warnEl.style.display = "block";
 }
 
+// SUBMIT JAWABAN
 function submitExam() {
   saveCurrentAnswer();
 
@@ -188,30 +244,42 @@ function submitExam() {
   }
 
   if (confirm("Apakah Anda yakin ingin menyelesaikan ujian ini?")) {
-    let correctCount = 0;
-    let totalQuestions = questionsData.length;
+    processExamResults();
+  }
+}
 
-    questionsData.forEach((q) => {
-      const userAns = userAnswers[q.name];
-      const correctAns = q.answer;
+function forceSubmitExam() {
+  saveCurrentAnswer();
+  processExamResults();
+}
 
-      if (q.type === "radio") {
-        if (userAns === correctAns) correctCount++;
-      } else if (q.type === "checkbox") {
-        if (Array.isArray(userAns) && Array.isArray(correctAns)) {
-          if (
-            userAns.length === correctAns.length &&
-            userAns.every((val) => correctAns.includes(val))
-          ) {
-            correctCount++;
-          }
+function processExamResults() {
+  clearInterval(timerInterval);
+  localStorage.removeItem("remainingTime");
+
+  let correctCount = 0;
+  let totalQuestions = questionsData.length;
+
+  questionsData.forEach((q) => {
+    const userAns = userAnswers[q.name];
+    const correctAns = q.answer;
+
+    if (q.type === "radio") {
+      if (userAns === correctAns) correctCount++;
+    } else if (q.type === "checkbox") {
+      if (Array.isArray(userAns) && Array.isArray(correctAns)) {
+        if (
+          userAns.length === correctAns.length &&
+          userAns.every((val) => correctAns.includes(val))
+        ) {
+          correctCount++;
         }
       }
-    });
+    }
+  });
 
-    const score = Math.round((correctCount / totalQuestions) * 100);
-    showFinalResult(score, correctCount, totalQuestions);
-  }
+  const score = Math.round((correctCount / totalQuestions) * 100);
+  showFinalResult(score, correctCount, totalQuestions);
 }
 
 function showFinalResult(score, correctCount, totalQuestions) {
@@ -221,6 +289,7 @@ function showFinalResult(score, correctCount, totalQuestions) {
   document.getElementById("btnNext").style.display = "none";
   document.getElementById("btnSubmitExam").style.display = "none";
   document.getElementById("questionProgress").style.display = "none";
+  document.getElementById("timerContainer").style.display = "none";
   
   const warnEl = document.getElementById("warningMessage");
   if (warnEl) warnEl.style.display = "none";
@@ -237,7 +306,7 @@ function showFinalResult(score, correctCount, totalQuestions) {
       </div>
 
       <div style="display: flex; gap: 10px; justify-content: center;">
-        <button onclick="restartExam()" style="padding: 10px 20px; background-color: #2563eb; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+        <button onclick="restartExam()" style="padding: 10px 20px; background-color: #4f46e5; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
           🔄 Ulangi Ujian Lagi
         </button>
         <button onclick="logout()" style="padding: 10px 20px; background-color: #dc2626; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
@@ -251,14 +320,19 @@ function showFinalResult(score, correctCount, totalQuestions) {
 function restartExam() {
   userAnswers = {};
   currentQuestionIndex = 0;
+  totalSeconds = EXAM_DURATION_MINUTES * 60;
+  localStorage.removeItem("remainingTime");
 
   document.getElementById("btnPrev").style.display = "inline-block";
   document.getElementById("questionProgress").style.display = "inline-block";
+  document.getElementById("timerContainer").style.display = "flex";
 
+  startTimer();
   showQuestion(currentQuestionIndex);
 }
 
 function logout() {
+  clearInterval(timerInterval);
   localStorage.clear();
   window.location.href = "index.html";
 }
