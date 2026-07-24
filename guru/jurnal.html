@@ -148,9 +148,25 @@
 
     let cacheJurnalData = [];
 
+    function cleanTextJS(str) {
+        return String(str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
     function populateKelasOptions() {
         const setKelas = new Set();
-        if (userSession.ampu_kelas) {
+        if (userSession.penugasan && Array.isArray(userSession.penugasan)) {
+            userSession.penugasan.forEach(p => {
+                if (!activeMapel || cleanTextJS(p.mapel) === cleanTextJS(activeMapel)) {
+                    if (p.kelas) {
+                        String(p.kelas).split(',').forEach(k => {
+                            if (k.trim()) setKelas.add(k.trim());
+                        });
+                    }
+                }
+            });
+        }
+
+        if (setKelas.size === 0 && userSession.ampu_kelas) {
             String(userSession.ampu_kelas).split(',').forEach(k => {
                 if (k.trim()) setKelas.add(k.trim());
             });
@@ -175,7 +191,7 @@
 
     async function loadDataJurnal() {
         const container = document.getElementById('jurnal-table-container');
-        container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat riwayat jurnal...</div>`;
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat riwayat jurnal lama dari Spreadsheet...</div>`;
 
         try {
             const res = await fetch(`${API_URL_APP}?action=getJurnal&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
@@ -224,7 +240,7 @@
             html += `</tbody></table></div>`;
             container.innerHTML = html;
         } catch (e) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat jurnal dari database.</div>`;
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat riwayat jurnal dari database.</div>`;
         }
     }
 
@@ -235,13 +251,8 @@
         const materi = document.getElementById('jurnal-materi').value.trim();
         const tugas = document.getElementById('jurnal-tugas').value.trim();
 
-        if (!kls) {
-            alert('Silakan pilih kelas terlebih dahulu!');
-            return;
-        }
-
-        if (!materi) {
-            alert('Materi KBM wajib diisi!');
+        if (!kls || !materi) {
+            alert('Silakan pilih kelas dan isi materi KBM!');
             return;
         }
 
