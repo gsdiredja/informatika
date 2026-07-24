@@ -1,5 +1,5 @@
 // config.js
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxB9i1MzUJh7xuJYWq9RycwQ9_J7OHcmH49IVbIlHHyoVsjSdKP75_I_xN8yQo_qNTT/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxH9K3wkiZHJ4gK47q670dxa5kNXhhOaXUjWx-kyKaEJflC69yoiMCJmbRVmOnGmRFH/exec";
 
 window.SCRIPT_URL = SCRIPT_URL;
 window.API_URL = SCRIPT_URL;
