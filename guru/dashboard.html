@@ -282,7 +282,7 @@
 
             const mapelSet = new Set();
 
-            if (user.penugasan && Array.isArray(user.penugasan)) {
+            if (user.penugasan && Array.isArray(user.penugasan) && user.penugasan.length > 0) {
                 user.penugasan.forEach(p => {
                     if (p.mapel) mapelSet.add(p.mapel.trim());
                 });
@@ -325,8 +325,8 @@
 
             const setKelasUnik = new Set();
             
-            // 1. Ekstrak dari penugasan spesifik mapel
-            if (globalUserData.penugasan && Array.isArray(globalUserData.penugasan)) {
+            // 1. Ambil dari penugasan spesifik mapel yang dipilih
+            if (globalUserData.penugasan && Array.isArray(globalUserData.penugasan) && globalUserData.penugasan.length > 0) {
                 globalUserData.penugasan.forEach(p => {
                     if (p.mapel && p.mapel.trim().toLowerCase() === selectMapelVal.trim().toLowerCase()) {
                         if (p.kelas) {
@@ -341,7 +341,7 @@
                 });
             }
 
-            // 2. Fallback ke ampu_kelas jika penugasan kosong
+            // 2. Fallback: jika penugasan tidak terpisah per mapel, gunakan ampu_kelas
             if (setKelasUnik.size === 0 && globalUserData.ampu_kelas) {
                 String(globalUserData.ampu_kelas).split(',').forEach(k => {
                     const cleanK = k.trim();
@@ -353,39 +353,12 @@
 
             const listKelas = Array.from(setKelasUnik);
 
-            // Jika daftar kelas bersih masih kosong (misal karena tersisa kata "guru" dari session lama), paksa re-fetch dari backend
             if (listKelas.length === 0) {
-                selectKelas.innerHTML = '<option value="">-- Memuat Kelas dari Server --</option>';
-                fetchKelasFromBackend(selectMapelVal);
+                selectKelas.innerHTML = '<option value="">-- Tidak Ada Kelas Terdaftar --</option>';
                 return;
             }
 
             renderKelasOptions(listKelas);
-        }
-
-        async function fetchKelasFromBackend(mapel) {
-            const selectKelas = document.getElementById('selectKelas');
-            try {
-                const targetUrl = window.SCRIPT_URL || (window.CONFIG && window.CONFIG.SCRIPT_URL) || "";
-                const res = await fetch(targetUrl + "?action=getSiswa").then(r => r.json());
-                
-                if (res.status === "success" && Array.isArray(res.data)) {
-                    const kelasSet = new Set();
-                    res.data.forEach(s => {
-                        if (s.kelas) kelasSet.add(String(s.kelas).trim());
-                    });
-                    
-                    const listKelas = Array.from(kelasSet);
-                    if (listKelas.length > 0) {
-                        renderKelasOptions(listKelas);
-                        return;
-                    }
-                }
-                selectKelas.innerHTML = '<option value="">-- Tidak Ada Kelas Terdaftar --</option>';
-            } catch (e) {
-                console.error("Gagal memuat kelas:", e);
-                selectKelas.innerHTML = '<option value="">-- Gagal Memuat Kelas --</option>';
-            }
         }
 
         function renderKelasOptions(listKelas) {
