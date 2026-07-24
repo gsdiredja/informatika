@@ -5,156 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Guru - EduAdaptif</title>
     
-    <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Config File -->
     <script src="config.js"></script>
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: #f1f5f9; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; }
-
-        header { 
-            background: #0f172a; 
-            color: white; 
-            padding: 16px 8%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-        }
-
+        header { background: #0f172a; color: white; padding: 16px 8%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; color: #ffffff; text-decoration: none; }
         .brand img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
-
-        .btn-logout { 
-            background: #ef4444; 
-            color: white; 
-            padding: 8px 16px; 
-            border-radius: 8px; 
-            text-decoration: none; 
-            font-weight: 700; 
-            font-size: 14px; 
-            border: none; 
-            cursor: pointer; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 6px; 
-            transition: 0.2s; 
-        }
+        .btn-logout { background: #ef4444; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
         .btn-logout:hover { background: #dc2626; }
-
         .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; width: 100%; flex: 1; }
-
-        .profile-card { 
-            background: #ffffff; 
-            border-radius: 16px; 
-            padding: 24px 32px; 
-            display: flex; 
-            align-items: center; 
-            gap: 24px; 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); 
-            margin-bottom: 24px; 
-        }
-
-        .avatar { 
-            width: 80px; 
-            height: 80px; 
-            border-radius: 50%; 
-            object-fit: cover; 
-            border: 3px solid #0284c7; 
-        }
-
+        .profile-card { background: #ffffff; border-radius: 16px; padding: 24px 32px; display: flex; align-items: center; gap: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 24px; }
+        .avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #0284c7; }
         .user-info h2 { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
         .user-info p { font-size: 14px; color: #64748b; font-weight: 500; }
-        .badge-role { 
-            display: inline-block; 
-            background: #e0f2fe; 
-            color: #0284c7; 
-            font-size: 11px; 
-            font-weight: 800; 
-            padding: 3px 10px; 
-            border-radius: 12px; 
-            margin-top: 6px; 
-            text-transform: uppercase; 
-        }
-
-        .section-card { 
-            background: #ffffff; 
-            border-radius: 16px; 
-            padding: 28px 32px; 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); 
-            margin-bottom: 24px; 
-        }
-
-        .section-title { 
-            font-size: 18px; 
-            font-weight: 800; 
-            color: #0f172a; 
-            margin-bottom: 20px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-        }
-
+        .badge-role { display: inline-block; background: #e0f2fe; color: #0284c7; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 12px; margin-top: 6px; text-transform: uppercase; }
+        .section-card { background: #ffffff; border-radius: 16px; padding: 28px 32px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 24px; }
+        .section-title { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .grid-select { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-        .form-group label { 
-            display: block; 
-            font-size: 12px; 
-            font-weight: 800; 
-            color: #475569; 
-            margin-bottom: 8px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
-        }
-
-        .select-control { 
-            width: 100%; 
-            padding: 12px 16px; 
-            border: 1px solid #cbd5e1; 
-            border-radius: 10px; 
-            font-size: 14px; 
-            font-weight: 600; 
-            color: #0f172a; 
-            background-color: #ffffff; 
-            outline: none; 
-            cursor: pointer; 
-            transition: border-color 0.2s; 
-        }
+        .form-group label { display: block; font-size: 12px; font-weight: 800; color: #475569; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .select-control { width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; font-weight: 600; color: #0f172a; background-color: #ffffff; outline: none; cursor: pointer; transition: border-color 0.2s; }
         .select-control:focus { border-color: #0284c7; }
-
         .grid-modul { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 10px; }
-
-        .modul-card { 
-            background: #f8fafc; 
-            border: 1px solid #e2e8f0; 
-            border-radius: 12px; 
-            padding: 20px 16px; 
-            text-align: center; 
-            text-decoration: none; 
-            color: #334155; 
-            transition: all 0.2s; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 12px; 
-            cursor: pointer;
-        }
-
+        .modul-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px 16px; text-align: center; text-decoration: none; color: #334155; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 12px; cursor: pointer; }
         .modul-card i { font-size: 28px; color: #0284c7; transition: transform 0.2s; }
         .modul-card span { font-size: 14px; font-weight: 700; }
-
-        .modul-card:hover { 
-            background: #ffffff; 
-            border-color: #0284c7; 
-            transform: translateY(-3px); 
-            box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.1); 
-        }
+        .modul-card:hover { background: #ffffff; border-color: #0284c7; transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.1); }
         .modul-card:hover i { transform: scale(1.1); }
-
         @media (max-width: 768px) {
             .grid-select { grid-template-columns: 1fr; }
             .grid-modul { grid-template-columns: repeat(2, 1fr); }
@@ -257,7 +138,7 @@
 
         function renderUserProfile(user) {
             document.getElementById('txtNamaUser').innerText = user.nama || user.username || "Nama Guru";
-            document.getElementById('txtNipUser').innerText = "NIP / Username: " + (user.nip || user.username || "-");
+            document.getElementById('txtNipUser').innerText = "NIP / Username: " + (user.username || "-");
             if (user.foto) {
                 document.getElementById('imgAvatar').src = user.foto;
             }
@@ -268,17 +149,10 @@
             selectMapel.innerHTML = "";
 
             const mapelSet = new Set();
-
-            // 1. Ekstrak dari array penugasan jika ada
-            if (user.penugasan && Array.isArray(user.penugasan) && user.penugasan.length > 0) {
-                user.penugasan.forEach(p => {
-                    if (p.mapel) mapelSet.add(p.mapel.toString().trim());
+            if (user.mapel) {
+                String(user.mapel).split(',').forEach(m => {
+                    if (m.trim()) mapelSet.add(m.trim());
                 });
-            }
-
-            // 2. Fallback ke properti mapel tunggal jika penugasan kosong
-            if (mapelSet.size === 0 && user.mapel) {
-                mapelSet.add(user.mapel.toString().trim());
             }
 
             const mapelList = Array.from(mapelSet);
@@ -299,7 +173,6 @@
                 selectMapel.appendChild(opt);
             });
 
-            // Langsung panggil update kelas
             updateDropdownKelas();
         }
 
@@ -309,28 +182,15 @@
             selectKelas.innerHTML = "";
 
             if (!selectMapelVal || !globalUserData) {
-                selectKelas.innerHTML = '<option value="">-- Pilih Kelas --</option>';
+                selectKelas.innerHTML = '<option value="">-- Pilih Mapel Terlebih Dahulu --</option>';
+                return;
+            }
 
-const savedActiveKelas = localStorage.getItem("active_kelas") || "";
-
-listKelas.forEach(function(kelas){
-
-    const opt=document.createElement("option");
-
-    opt.value=kelas;
-
-    opt.textContent=kelas;
-
-    if(
-        kelas===savedActiveKelas ||
-        listKelas.length===1
-    ){
-        opt.selected=true;
-    }
-
-    selectKelas.appendChild(opt);
-
-});
+            const setKelasUnik = new Set();
+            if (globalUserData.ampu_kelas) {
+                String(globalUserData.ampu_kelas).split(',').forEach(k => {
+                    if (k.trim()) setKelasUnik.add(k.trim());
+                });
             }
 
             const listKelas = Array.from(setKelasUnik);
@@ -347,7 +207,7 @@ listKelas.forEach(function(kelas){
                 const opt = document.createElement('option');
                 opt.value = kelas;
                 opt.textContent = kelas;
-                if (kelas === savedActiveKelas) opt.selected = true;
+                if (kelas === savedActiveKelas || listKelas.length === 1) opt.selected = true;
                 selectKelas.appendChild(opt);
             });
         }
@@ -371,13 +231,11 @@ listKelas.forEach(function(kelas){
         }
 
         function prosesLogout() {
-            function prosesLogout(){
-
-    localStorage.removeItem("user_session");
-    localStorage.removeItem("active_mapel");
-    localStorage.removeItem("active_kelas");
-    window.location.href="index.html";
-}
+            localStorage.removeItem("user_session");
+            localStorage.removeItem("active_mapel");
+            localStorage.removeItem("active_kelas");
+            window.location.href = "index.html";
+        }
     </script>
 </body>
 </html>
