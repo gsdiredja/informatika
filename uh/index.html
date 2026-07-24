@@ -2,74 +2,69 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Aplikasi Ujian Online</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Ujian Harian Online</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
-    <!-- Layar Penutup Anti-Screenshot (Desktop & Mobile) -->
-    <div id="screen-protector">
-        Tampilan Dilindungi.<br>Dilarang Melakukan Screenshot / Pindah Aplikasi!
-    </div>
-
-    <div class="container">
-        <!-- 1. LAYAR LOGIN -->
-        <div id="login-screen" class="card active">
+    <!-- SCREEN 1: LOGIN -->
+    <div id="login-screen" class="screen active">
+        <div class="card">
             <h2>Login Ujian Harian</h2>
-            <p id="login-status" style="margin-bottom: 15px; font-weight: 500; color: #6b7280;">Memuat sistem...</p>
-            
-            <form onsubmit="handleLogin(event)">
+            <form id="login-form">
                 <div class="form-group">
-                    <label for="username">Username (NISN)</label>
+                    <label for="username">NISN / Username</label>
                     <input type="text" id="username" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" required>
                 </div>
-                <div class="form-group">
-                    <label for="select-uh">Pilih Ujian Harian</label>
-                    <select id="select-uh">
-                        <option value="uh1">UH 1 - Strategi Algoritmik & C++</option>
-                        <option value="uh2">UH 2 - Struktur Data</option>
-                    </select>
-                </div>
-                <p id="login-error" class="error-msg" style="display: none;">Username atau Password salah!</p>
-                <button type="submit" id="btn-login" class="btn btn-primary" disabled>Masuk Ujian</button>
+                <button type="submit" class="btn">Masuk</button>
             </form>
+            <p id="login-error" class="error-msg"></p>
         </div>
+    </div>
 
-        <!-- 2. LAYAR KUIS -->
-        <div id="quiz-screen" class="card">
-            <div class="quiz-header">
-                <span id="user-display">Siswa: -</span>
-                <span id="page-indicator">1 / 1</span>
-            </div>
-
-            <div class="progress-bar">
-                <div id="progress-fill" class="progress-fill"></div>
-            </div>
-
-            <form id="quiz-form">
-                <div id="questions-container">
-                    <!-- Soal dinamis dimuat dari JS/JSON -->
-                </div>
-            </form>
-
-            <div class="quiz-footer">
-                <button type="button" id="btn-prev" class="btn btn-secondary" onclick="changePage(-1)">Sebelumnya</button>
-                <button type="button" id="btn-next" class="btn btn-primary" onclick="changePage(1)">Selanjutnya</button>
-                <button type="button" id="btn-submit" class="btn btn-success" onclick="submitQuiz()" style="display: none;">Kirim Jawaban</button>
+    <!-- SCREEN 2: PILIH UH -->
+    <div id="select-screen" class="screen">
+        <div class="card">
+            <h2 id="welcome-msg">Selamat Datang</h2>
+            <p>Pilih topik Ujian Harian yang akan dikerjakan:</p>
+            <div id="uh-list" class="uh-buttons">
+                <!-- Tombol UH akan dibuat secara otomatis lewat JS -->
             </div>
         </div>
+    </div>
 
-        <!-- 3. LAYAR HASIL -->
-        <div id="result-screen" class="card">
+    <!-- SCREEN 3: UJIAN -->
+    <div id="quiz-screen" class="screen">
+        <div class="quiz-header">
+            <span id="quiz-title">Ujian Harian</span>
+            <span id="question-number">Soal 1</span>
+        </div>
+
+        <form id="quiz-form">
+            <div id="questions-container">
+                <!-- Soal aktif akan dirender di sini oleh JS -->
+            </div>
+        </form>
+
+        <div class="quiz-footer">
+            <button id="btn-prev" class="btn btn-secondary" onclick="prevQuestion()" disabled>Kembali</button>
+            <button id="btn-next" class="btn" onclick="nextQuestion()">Lanjut</button>
+            <button id="btn-submit" class="btn btn-success hidden" onclick="submitQuiz()">Selesai & Kirim</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 4: HASIL -->
+    <div id="result-screen" class="screen">
+        <div class="card">
             <h2>Ujian Selesai!</h2>
-            <p>Jawaban Anda telah berhasil dikirimkan ke sistem.</p>
-            <div id="score-box" class="score-box">Skor PG/BS: -</div>
-            <p style="font-size: 13px; color: #6b7280; margin-top: 15px;">Catatan: Jawaban Essay akan diperiksa secara manual oleh Guru.</p>
+            <p>Jawaban Anda telah berhasil terkirim ke sistem.</p>
+            <div id="score-box" class="score-box"></div>
+            <p class="note">*Nilai soal Essay akan diperiksa manual oleh Guru.</p>
         </div>
     </div>
 
