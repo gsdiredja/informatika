@@ -114,7 +114,14 @@
 
     function getDaftarKelas() {
         const setKelas = new Set();
-        if (userSession.ampu_kelas) {
+        if (userSession.penugasan && Array.isArray(userSession.penugasan)) {
+            userSession.penugasan.forEach(p => {
+                if (!activeMapel || normText(p.mapel) === normText(activeMapel)) {
+                    if (p.kelas) String(p.kelas).split(',').forEach(k => { if (k.trim()) setKelas.add(k.trim()); });
+                }
+            });
+        }
+        if (setKelas.size === 0 && userSession.ampu_kelas) {
             String(userSession.ampu_kelas).split(',').forEach(k => { if (k.trim()) setKelas.add(k.trim()); });
         }
         return Array.from(setKelas);
@@ -138,7 +145,13 @@
 
     function renderRekap() {
         const area = document.getElementById('rekap-content-area');
-        const optionsKelas = getDaftarKelas().map(k => `<option value="${k}">${k}</option>`).join('');
+        const listK = getDaftarKelas();
+        const optionsKelas = listK.map(k => `<option value="${k}">${k}</option>`).join('');
+
+        if (listK.length === 0) {
+            area.innerHTML = `<div style="text-align:center; padding:30px; color:#94a3b8;">Tidak ada kelas terdaftar.</div>`;
+            return;
+        }
 
         if (currentSubTab === 'presensi') {
             area.innerHTML = `
@@ -244,7 +257,7 @@
         try {
             const [resSiswa, resPres] = await Promise.all([
                 fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json()),
-                fetch(`${API_URL_APP}?action=getPresensi&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}&tipe=${tipe}&val1=${val1}&val2=${val2}`).then(r => r.json())
+                fetch(`${API_URL_APP}?action=getPresensi&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}&tipe=${tipe}&val1=${encodeURIComponent(val1)}&val2=${encodeURIComponent(val2)}`).then(r => r.json())
             ]);
 
             const targetKlsKey = normText(kls);
