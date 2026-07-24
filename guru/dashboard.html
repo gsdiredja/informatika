@@ -1,9 +1,381 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const sessionStr = localStorage.getItem('user_session');
-    console.log("ISI USER SESSION SAAT INI:", sessionStr);
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Guru - EduAdaptif</title>
     
-    if (sessionStr) {
-        const user = JSON.parse(sessionStr);
-        alert("Data User Terdeteksi:\n" + JSON.stringify(user, null, 2));
-    }
-});
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Config File -->
+    <script src="config.js"></script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f1f5f9; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; }
+
+        header { 
+            background: #0f172a; 
+            color: white; 
+            padding: 16px 8%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+        }
+
+        .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; color: #ffffff; text-decoration: none; }
+        .brand img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
+
+        .btn-logout { 
+            background: #ef4444; 
+            color: white; 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 14px; 
+            border: none; 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 6px; 
+            transition: 0.2s; 
+        }
+        .btn-logout:hover { background: #dc2626; }
+
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; width: 100%; flex: 1; }
+
+        .profile-card { 
+            background: #ffffff; 
+            border-radius: 16px; 
+            padding: 24px 32px; 
+            display: flex; 
+            align-items: center; 
+            gap: 24px; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); 
+            margin-bottom: 24px; 
+        }
+
+        .avatar { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 3px solid #0284c7; 
+        }
+
+        .user-info h2 { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+        .user-info p { font-size: 14px; color: #64748b; font-weight: 500; }
+        .badge-role { 
+            display: inline-block; 
+            background: #e0f2fe; 
+            color: #0284c7; 
+            font-size: 11px; 
+            font-weight: 800; 
+            padding: 3px 10px; 
+            border-radius: 12px; 
+            margin-top: 6px; 
+            text-transform: uppercase; 
+        }
+
+        .section-card { 
+            background: #ffffff; 
+            border-radius: 16px; 
+            padding: 28px 32px; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); 
+            margin-bottom: 24px; 
+        }
+
+        .section-title { 
+            font-size: 18px; 
+            font-weight: 800; 
+            color: #0f172a; 
+            margin-bottom: 20px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+
+        .grid-select { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .form-group label { 
+            display: block; 
+            font-size: 12px; 
+            font-weight: 800; 
+            color: #475569; 
+            margin-bottom: 8px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+        }
+
+        .select-control { 
+            width: 100%; 
+            padding: 12px 16px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 10px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #0f172a; 
+            background-color: #ffffff; 
+            outline: none; 
+            cursor: pointer; 
+            transition: border-color 0.2s; 
+        }
+        .select-control:focus { border-color: #0284c7; }
+
+        .grid-modul { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 10px; }
+
+        .modul-card { 
+            background: #f8fafc; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 12px; 
+            padding: 20px 16px; 
+            text-align: center; 
+            text-decoration: none; 
+            color: #334155; 
+            transition: all 0.2s; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 12px; 
+            cursor: pointer;
+        }
+
+        .modul-card i { font-size: 28px; color: #0284c7; transition: transform 0.2s; }
+        .modul-card span { font-size: 14px; font-weight: 700; }
+
+        .modul-card:hover { 
+            background: #ffffff; 
+            border-color: #0284c7; 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.1); 
+        }
+        .modul-card:hover i { transform: scale(1.1); }
+
+        @media (max-width: 768px) {
+            .grid-select { grid-template-columns: 1fr; }
+            .grid-modul { grid-template-columns: repeat(2, 1fr); }
+            .profile-card { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="brand">
+            <img src="photo-guru.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=EDU'">
+            <span>EduAdaptif</span>
+        </a>
+        <button onclick="prosesLogout()" class="btn-logout">
+            <i class="fas fa-right-from-bracket"></i> Keluar
+        </button>
+    </header>
+
+    <div class="container">
+        
+        <div class="profile-card">
+            <img id="imgAvatar" src="photo-guru.png" alt="Foto Profil" class="avatar" onerror="this.src='https://via.placeholder.com/80?text=GURU'">
+            <div class="user-info">
+                <h2 id="txtNamaUser">Memuat nama...</h2>
+                <p id="txtNipUser">NIP / Username: -</p>
+                <span class="badge-role">PENDIDIK</span>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-title">
+                <i class="fas fa-sliders" style="color: #0284c7;"></i> Pengaturan Ruang Kerja
+            </div>
+
+            <div class="grid-select">
+                <div class="form-group">
+                    <label for="selectMapel"><i class="fas fa-book"></i> Pilih Mata Pelajaran:</label>
+                    <select id="selectMapel" class="select-control" onchange="updateDropdownKelas()">
+                        <option value="">-- Memuat Mapel --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="selectKelas"><i class="fas fa-users"></i> Pilih Kelas Mengajar:</label>
+                    <select id="selectKelas" class="select-control">
+                        <option value="">-- Pilih Mapel Terlebih Dahulu --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 28px;">
+                <i class="fas fa-cubes" style="color: #0284c7;"></i> Modul Kerja KBM
+            </div>
+
+            <div class="grid-modul">
+                <a href="javascript:void(0)" onclick="bukaModul('presensi')" class="modul-card">
+                    <i class="fas fa-address-book"></i>
+                    <span>Input Presensi</span>
+                </a>
+                <a href="javascript:void(0)" onclick="bukaModul('jurnal')" class="modul-card">
+                    <i class="fas fa-book-open"></i>
+                    <span>Jurnal Mengajar</span>
+                </a>
+                <a href="javascript:void(0)" onclick="bukaModul('nilai')" class="modul-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Input Nilai</span>
+                </a>
+                <a href="javascript:void(0)" onclick="bukaModul('rekap')" class="modul-card">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Leger & Rekap</span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        let globalUserData = null;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const sessionStr = localStorage.getItem('user_session');
+            
+            if (!sessionStr) {
+                alert("Sesi Anda telah berakhir. Silakan login kembali.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            try {
+                globalUserData = JSON.parse(sessionStr);
+                renderUserProfile(globalUserData);
+                renderDropdownMapel(globalUserData);
+            } catch (e) {
+                console.error("Gagal membaca session:", e);
+                prosesLogout();
+            }
+        });
+
+        function renderUserProfile(user) {
+            document.getElementById('txtNamaUser').innerText = user.nama || user.username || "Nama Guru";
+            document.getElementById('txtNipUser').innerText = "NIP / Username: " + (user.nip || user.username || "-");
+            if (user.foto) {
+                document.getElementById('imgAvatar').src = user.foto;
+            }
+        }
+
+        function renderDropdownMapel(user) {
+            const selectMapel = document.getElementById('selectMapel');
+            selectMapel.innerHTML = "";
+
+            const mapelSet = new Set();
+
+            // 1. Ekstrak dari array penugasan jika ada
+            if (user.penugasan && Array.isArray(user.penugasan) && user.penugasan.length > 0) {
+                user.penugasan.forEach(p => {
+                    if (p.mapel) mapelSet.add(p.mapel.toString().trim());
+                });
+            }
+
+            // 2. Fallback ke properti mapel tunggal jika penugasan kosong
+            if (mapelSet.size === 0 && user.mapel) {
+                mapelSet.add(user.mapel.toString().trim());
+            }
+
+            const mapelList = Array.from(mapelSet);
+
+            if (mapelList.length === 0) {
+                selectMapel.innerHTML = '<option value="">-- Tidak ada mapel terdaftar --</option>';
+                return;
+            }
+
+            selectMapel.innerHTML = '<option value="">-- Pilih Mata Pelajaran --</option>';
+            const savedActiveMapel = localStorage.getItem('active_mapel') || "";
+
+            mapelList.forEach(mapel => {
+                const opt = document.createElement('option');
+                opt.value = mapel;
+                opt.textContent = mapel;
+                if (mapel === savedActiveMapel || mapelList.length === 1) opt.selected = true;
+                selectMapel.appendChild(opt);
+            });
+
+            // Langsung panggil update kelas
+            updateDropdownKelas();
+        }
+
+        function updateDropdownKelas() {
+            const selectMapelVal = document.getElementById('selectMapel').value;
+            const selectKelas = document.getElementById('selectKelas');
+            selectKelas.innerHTML = "";
+
+            if (!selectMapelVal || !globalUserData) {
+                selectKelas.innerHTML = '<option value="">-- Pilih Mapel Terlebih Dahulu --</option>';
+                return;
+            }
+
+            const setKelasUnik = new Set();
+
+            // 1. Ekstrak dari array penugasan yang sesuai mapel
+            if (globalUserData.penugasan && Array.isArray(globalUserData.penugasan)) {
+                globalUserData.penugasan.forEach(p => {
+                    if (String(p.mapel).trim().toLowerCase() === selectMapelVal.trim().toLowerCase() && p.kelas) {
+                        const itemKelas = String(p.kelas).split(',');
+                        itemKelas.forEach(k => {
+                            if (k.trim()) setKelasUnik.add(k.trim());
+                        });
+                    }
+                });
+            }
+
+            // 2. Fallback ke ampu_kelas jika tidak ditemukan di penugasan
+            if (setKelasUnik.size === 0 && globalUserData.ampu_kelas) {
+                const itemKelas = String(globalUserData.ampu_kelas).split(',');
+                itemKelas.forEach(k => {
+                    if (k.trim()) setKelasUnik.add(k.trim());
+                });
+            }
+
+            const listKelas = Array.from(setKelasUnik);
+
+            if (listKelas.length === 0) {
+                selectKelas.innerHTML = '<option value="">-- Tidak ada kelas terdaftar --</option>';
+                return;
+            }
+
+            selectKelas.innerHTML = '<option value="">-- Pilih Kelas --</option>';
+            const savedActiveKelas = localStorage.getItem('active_kelas') || "";
+
+            listKelas.forEach(kelas => {
+                const opt = document.createElement('option');
+                opt.value = kelas;
+                opt.textContent = kelas;
+                if (kelas === savedActiveKelas) opt.selected = true;
+                selectKelas.appendChild(opt);
+            });
+        }
+
+        function bukaModul(jenisModul) {
+            const mapel = document.getElementById('selectMapel').value;
+            const kelas = document.getElementById('selectKelas').value;
+
+            if (!mapel || !kelas) {
+                alert("Silakan pilih Mata Pelajaran dan Kelas mengajar terlebih dahulu!");
+                return;
+            }
+
+            localStorage.setItem('active_mapel', mapel);
+            localStorage.setItem('active_kelas', kelas);
+
+            if (jenisModul === 'presensi') window.location.href = "presensi.html";
+            else if (jenisModul === 'jurnal') window.location.href = "jurnal.html";
+            else if (jenisModul === 'nilai') window.location.href = "nilai.html";
+            else if (jenisModul === 'rekap') window.location.href = "rekap.html";
+        }
+
+        function prosesLogout() {
+            localStorage.clear();
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
