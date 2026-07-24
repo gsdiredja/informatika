@@ -20,7 +20,7 @@
         .btn-logout:hover { background: #dc2626; }
         .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; width: 100%; flex: 1; }
         .profile-card { background: #ffffff; border-radius: 16px; padding: 24px 32px; display: flex; align-items: center; gap: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 24px; }
-        .avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #0284c7; }
+        .avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #0284c7; background-color: #e2e8f0; }
         .user-info h2 { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
         .user-info p { font-size: 14px; color: #64748b; font-weight: 500; }
         .badge-role { display: inline-block; background: #e0f2fe; color: #0284c7; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 12px; margin-top: 6px; text-transform: uppercase; }
@@ -47,7 +47,7 @@
 
     <header>
         <a href="#" class="brand">
-            <img src="photo-guru.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=EDU'">
+            <img src="photo-guru.png" alt="Logo" onerror="this.src='https://ui-avatars.com/api/?name=Edu&background=0284c7&color=fff'">
             <span>EduAdaptif</span>
         </a>
         <button onclick="prosesLogout()" class="btn-logout">
@@ -58,7 +58,7 @@
     <div class="container">
         
         <div class="profile-card">
-            <img id="imgAvatar" src="photo-guru.png" alt="Foto Profil" class="avatar" onerror="this.src='https://via.placeholder.com/80?text=GURU'">
+            <img id="imgAvatar" src="photo-guru.png" alt="Foto Profil" class="avatar" onerror="handleImageError(this)">
             <div class="user-info">
                 <h2 id="txtNamaUser">Memuat nama...</h2>
                 <p id="txtNipUser">NIP / Username: -</p>
@@ -136,11 +136,25 @@
             }
         });
 
+        function handleImageError(imgElem) {
+            if (!imgElem.dataset.fallbackTried) {
+                imgElem.dataset.fallbackTried = "true";
+                imgElem.src = "photo-guru.png";
+            } else {
+                const name = (globalUserData && globalUserData.nama) ? encodeURIComponent(globalUserData.nama) : "Guru";
+                imgElem.src = "https://ui-avatars.com/api/?name=" + name + "&background=0284c7&color=fff&size=128";
+            }
+        }
+
         function renderUserProfile(user) {
             document.getElementById('txtNamaUser').innerText = user.nama || user.username || "Nama Guru";
             document.getElementById('txtNipUser').innerText = "NIP / Username: " + (user.username || "-");
-            if (user.foto) {
-                document.getElementById('imgAvatar').src = user.foto;
+            
+            const imgAvatar = document.getElementById('imgAvatar');
+            if (user.foto && user.foto.trim() !== "") {
+                imgAvatar.src = user.foto;
+            } else {
+                imgAvatar.src = "photo-guru.png";
             }
         }
 
@@ -149,7 +163,12 @@
             selectMapel.innerHTML = "";
 
             const mapelSet = new Set();
-            if (user.mapel) {
+
+            if (user.penugasan && Array.isArray(user.penugasan)) {
+                user.penugasan.forEach(p => {
+                    if (p.mapel) mapelSet.add(p.mapel.trim());
+                });
+            } else if (user.mapel) {
                 String(user.mapel).split(',').forEach(m => {
                     if (m.trim()) mapelSet.add(m.trim());
                 });
@@ -187,7 +206,20 @@
             }
 
             const setKelasUnik = new Set();
-            if (globalUserData.ampu_kelas) {
+            
+            if (globalUserData.penugasan && Array.isArray(globalUserData.penugasan)) {
+                globalUserData.penugasan.forEach(p => {
+                    if (p.mapel && p.mapel.trim().toLowerCase() === selectMapelVal.trim().toLowerCase()) {
+                        if (p.kelas) {
+                            String(p.kelas).split(',').forEach(k => {
+                                if (k.trim()) setKelasUnik.add(k.trim());
+                            });
+                        }
+                    }
+                });
+            }
+
+            if (setKelasUnik.size === 0 && globalUserData.ampu_kelas) {
                 String(globalUserData.ampu_kelas).split(',').forEach(k => {
                     if (k.trim()) setKelasUnik.add(k.trim());
                 });
@@ -196,7 +228,7 @@
             const listKelas = Array.from(setKelasUnik);
 
             if (listKelas.length === 0) {
-                selectKelas.innerHTML = '<option value="">-- Tidak ada kelas terdaftar --</option>';
+                selectKelas.innerHTML = '<option value="">-- Tidak Ada Kelas Terdaftar --</option>';
                 return;
             }
 
@@ -206,7 +238,7 @@
             listKelas.forEach(kelas => {
                 const opt = document.createElement('option');
                 opt.value = kelas;
-                opt.textContent = kelas;
+                opt.textContent = "Kelas " + kelas;
                 if (kelas === savedActiveKelas || listKelas.length === 1) opt.selected = true;
                 selectKelas.appendChild(opt);
             });
