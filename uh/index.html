@@ -2,76 +2,77 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Ujian Harian Online</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aplikasi Ujian Online</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="card">
-    <!-- LAYAR LOGIN -->
-    <div id="login-screen" class="screen active">
-        <div class="header">
-            <h3>Login Akses Ujian Harian</h3>
-            <p>Masukkan username, password, dan pilih jenis ujian Anda.</p>
-        </div>
-        <form id="login-form" onsubmit="handleLogin(event)">
-            <div class="form-group">
-                <label for="select-uh">Pilih Ulangan Harian</label>
-                <select id="select-uh" style="margin-bottom: 12px;">
-                    <option value="uh1">UH1 - Strategi Algoritmik & Pemrograman C++</option>
-                    <option value="uh2">UH2 - Topik Pemrograman Lanjutan</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" placeholder="Masukkan username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Masukkan password" required>
-            </div>
-            <div class="status-loading" id="login-status">Memuat data akun dari Spreadsheet...</div>
-            <div class="error-msg" id="login-error">Username atau Password salah!</div>
-            <button type="submit" class="btn" id="btn-login" disabled style="width: 100%; margin-top: 15px;">Masuk Ke Ujian</button>
-        </form>
+    <!-- Layar Penutup Anti-Screenshot (Desktop & Mobile) -->
+    <div id="screen-protector">
+        Tampilan Dilindungi.<br>Dilarang Melakukan Screenshot / Pindah Aplikasi!
     </div>
 
-    <!-- LAYAR KUIS -->
-    <div id="quiz-screen" class="screen">
-        <div class="header">
-            <h3>POST TEST TOPIK PEMBELAJARAN</h3>
-            <p id="user-display" style="font-weight: 600; color: #2563eb; margin-top: 6px;"></p>
+    <div class="container">
+        <!-- 1. LAYAR LOGIN -->
+        <div id="login-screen" class="card active">
+            <h2>Login Ujian Harian</h2>
+            <p id="login-status" style="margin-bottom: 15px; font-weight: 500; color: #6b7280;">Memuat sistem...</p>
+            
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username (NISN)</label>
+                    <input type="text" id="username" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="select-uh">Pilih Ujian Harian</label>
+                    <select id="select-uh">
+                        <option value="uh1">UH 1 - Strategi Algoritmik & C++</option>
+                        <option value="uh2">UH 2 - Struktur Data</option>
+                    </select>
+                </div>
+                <p id="login-error" class="error-msg" style="display: none;">Username atau Password salah!</p>
+                <button type="submit" id="btn-login" class="btn btn-primary" disabled>Masuk Ujian</button>
+            </form>
         </div>
 
-        <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="progress-fill"></div>
-        </div>
-
-        <form id="quiz-form">
-            <div id="questions-container"></div>
-
-            <div class="nav-buttons">
-                <button type="button" class="btn btn-secondary" id="btn-prev" onclick="changePage(-1)">Sebelumnya</button>
-                <span id="page-indicator" style="align-self: center; font-size: 14px; font-weight: 500; color: #6b7280;"></span>
-                <button type="button" class="btn" id="btn-next" onclick="changePage(1)">Berikutnya</button>
-                <button type="button" class="btn" id="btn-submit" style="display: none; background-color: #059669;" onclick="submitQuiz()">Kirim Jawaban</button>
+        <!-- 2. LAYAR KUIS -->
+        <div id="quiz-screen" class="card">
+            <div class="quiz-header">
+                <span id="user-display">Siswa: -</span>
+                <span id="page-indicator">1 / 1</span>
             </div>
-        </form>
-    </div>
 
-    <!-- LAYAR HASIL -->
-    <div id="result-screen" class="screen" style="text-align: center;">
-        <div class="header">
-            <h3>Ujian Selesai!</h3>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+
+            <form id="quiz-form">
+                <div id="questions-container">
+                    <!-- Soal dinamis dimuat dari JS/JSON -->
+                </div>
+            </form>
+
+            <div class="quiz-footer">
+                <button type="button" id="btn-prev" class="btn btn-secondary" onclick="changePage(-1)">Sebelumnya</button>
+                <button type="button" id="btn-next" class="btn btn-primary" onclick="changePage(1)">Selanjutnya</button>
+                <button type="button" id="btn-submit" class="btn btn-success" onclick="submitQuiz()" style="display: none;">Kirim Jawaban</button>
+            </div>
         </div>
-        <p style="font-size: 16px; color: #4b5563; margin-bottom: 10px;">Terima kasih telah menyelesaikan ujian.</p>
-        <div id="score-box" style="font-size: 28px; font-weight: 700; color: #2563eb; margin: 20px 0;"></div>
-        <p style="font-size: 13px; color: #6b7280;">*Nilai di atas adalah hasil Pilihan Ganda & Benar/Salah. Jawaban Essay & Refleksi akan dikoreksi manual oleh guru.</p>
-    </div>
-</div>
 
-<script src="app.js"></script>
+        <!-- 3. LAYAR HASIL -->
+        <div id="result-screen" class="card">
+            <h2>Ujian Selesai!</h2>
+            <p>Jawaban Anda telah berhasil dikirimkan ke sistem.</p>
+            <div id="score-box" class="score-box">Skor PG/BS: -</div>
+            <p style="font-size: 13px; color: #6b7280; margin-top: 15px;">Catatan: Jawaban Essay akan diperiksa secara manual oleh Guru.</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
