@@ -4,48 +4,237 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduAdaptif - Portal Edukasi & Otomasi Akademik</title>
+    
+    <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-     <!-- PANGGIL CONFIG.JS DI SINI -->
+    
+    <!-- PANGGIL FILE CONFIG DI SINI -->
     <script src="config.js"></script>
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+        }
 
-        header { padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; }
-        .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; color: #ffffff; text-decoration: none; }
-        .brand img { width: 36px; height: 36px; border-radius: 8px; }
+        body { 
+            background-color: #0f172a; 
+            color: #ffffff; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
 
-        .btn-top { background: #2563eb; color: white; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-top:hover { background: #1d4ed8; }
+        /* Header Navigation */
+        header { 
+            padding: 20px 8%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
 
-        .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
-        .pill-tag { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.2); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 24px; display: inline-block; }
+        .brand { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            font-weight: 800; 
+            font-size: 20px; 
+            color: #ffffff; 
+            text-decoration: none; 
+        }
+
+        .brand img { 
+            width: 36px; 
+            height: 36px; 
+            border-radius: 8px; 
+            object-fit: cover;
+        }
+
+        .btn-top { 
+            background: #2563eb; 
+            color: white; 
+            padding: 8px 18px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 14px; 
+            transition: 0.2s; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 6px; 
+        }
+
+        .btn-top:hover { 
+            background: #1d4ed8; 
+        }
+
+        /* Hero Section */
+        .hero { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            padding: 40px 20px; 
+            max-width: 900px; 
+            margin: 0 auto; 
+        }
+
+        .pill-tag { 
+            background: rgba(56, 189, 248, 0.1); 
+            color: #38bdf8; 
+            border: 1px solid rgba(56, 189, 248, 0.2); 
+            padding: 6px 16px; 
+            border-radius: 20px; 
+            font-size: 13px; 
+            font-weight: 600; 
+            margin-bottom: 24px; 
+            display: inline-block; 
+        }
+
+        h1 { 
+            font-size: 42px; 
+            font-weight: 800; 
+            line-height: 1.2; 
+            margin-bottom: 16px; 
+            letter-spacing: -0.5px; 
+        }
+
+        p.subtitle { 
+            font-size: 16px; 
+            color: #94a3b8; 
+            max-width: 650px; 
+            line-height: 1.6; 
+            margin-bottom: 32px; 
+        }
+
+        /* Tombol Utama */
+        .btn-main { 
+            background: #0284c7; 
+            color: white; 
+            padding: 14px 28px; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 16px; 
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); 
+            transition: all 0.2s; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            cursor: pointer; 
+            border: none; 
+        }
+
+        .btn-main:hover { 
+            background: #0369a1; 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6); 
+        }
+
+        /* Modal Overlay & Card */
+        .modal-overlay { 
+            display: none; 
+            position: fixed; 
+            top:0; 
+            left:0; 
+            width:100%; 
+            height:100%; 
+            background: rgba(15, 23, 42, 0.8); 
+            backdrop-filter: blur(6px); 
+            z-index: 1000; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 16px;
+        }
+
+        .modal-card { 
+            background: #ffffff; 
+            color: #0f172a; 
+            padding: 32px; 
+            border-radius: 16px; 
+            width: 100%; 
+            max-width: 400px; 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); 
+            position: relative; 
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close-modal { 
+            position: absolute; 
+            top: 16px; 
+            right: 20px; 
+            font-size: 24px; 
+            cursor: pointer; 
+            color: #64748b; 
+            line-height: 1;
+        }
         
-        h1 { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.5px; }
-        p.subtitle { font-size: 16px; color: #94a3b8; max-width: 650px; line-height: 1.6; margin-bottom: 32px; }
+        .close-modal:hover { color: #0f172a; }
 
-        .btn-main { background: #0284c7; color: white; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); transition: all 0.2s; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; border: none; }
-        .btn-main:hover { background: #0369a1; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6); }
+        .form-group { 
+            margin-bottom: 16px; 
+            text-align: left; 
+        }
 
-        /* Modal Login */
-        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-card { background: #ffffff; color: #0f172a; padding: 32px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); position: relative; }
-        .close-modal { position: absolute; top: 16px; right: 20px; font-size: 20px; cursor: pointer; color: #64748b; }
-        
-        .form-group { margin-bottom: 16px; text-align: left; }
-        .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #334155; }
-        .form-control { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
-        .form-control:focus { border-color: #0284c7; }
-        
-        .btn-submit { width: 100%; background: #0284c7; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 15px; margin-top: 10px; }
-        .btn-submit:hover { background: #0369a1; }
+        .form-group label { 
+            display: block; 
+            font-size: 13px; 
+            font-weight: 700; 
+            margin-bottom: 6px; 
+            color: #334155; 
+        }
 
-        @media (max-width: 600px) { h1 { font-size: 28px; } }
+        .form-control { 
+            width: 100%; 
+            padding: 10px 14px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            outline: none; 
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus { 
+            border-color: #0284c7; 
+        }
+
+        .btn-submit { 
+            width: 100%; 
+            background: #0284c7; 
+            color: white; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 15px; 
+            margin-top: 10px; 
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover { 
+            background: #0369a1; 
+        }
+
+        @media (max-width: 600px) { 
+            h1 { font-size: 28px; } 
+            p.subtitle { font-size: 14px; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Header Navigation -->
     <header>
         <a href="#" class="brand">
             <img src="photo-guru.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=EDU'">
@@ -56,6 +245,7 @@
         </a>
     </header>
 
+    <!-- Main Hero Section -->
     <main class="hero">
         <span class="pill-tag">Portal Edukasi & Otomasi Akademik</span>
         <h1>Platform Kerja Pendidik & Administrasi Pembelajaran Adaptif</h1>
@@ -63,7 +253,7 @@
             EduAdaptif membantu guru mengelola presensi harian siswa, pengisian jurnal KBM terintegrasi, serta rekapitulasi penilaian secara real-time dan akurat.
         </p>
         
-        <!-- Tombol Utama yang Diperbaiki -->
+        <!-- Tombol Akses Utama -->
         <button class="btn-main" onclick="bukaRuangKerja()">
             <i class="fas fa-laptop-code"></i> Akses Ruang Kerja Pendidik
         </button>
@@ -74,32 +264,33 @@
         <div class="modal-card">
             <span class="close-modal" onclick="tutupModal()">&times;</span>
             <h3 style="margin-bottom: 6px; font-size: 20px;">Login Guru</h3>
-            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">Masukkan NIP dan Password Anda</p>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">Masukkan Username/NIP dan Password Anda</p>
             
             <form onsubmit="prosesLogin(event)">
                 <div class="form-group">
-                    <label>NIP / Username</label>
-                    <input type="text" id="txtUsername" class="form-control" placeholder="Contoh: 19730213..." required>
+                    <label for="txtUsername">Username / NIP</label>
+                    <input type="text" id="txtUsername" class="form-control" placeholder="Contoh: 19730213..." required autocomplete="username">
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="txtPassword" class="form-control" placeholder="Masukkan password" required>
+                    <label for="txtPassword">Password</label>
+                    <input type="password" id="txtPassword" class="form-control" placeholder="Masukkan password" required autocomplete="current-password">
                 </div>
-                <button type="submit" id="btnSubmitLogin" class="btn-submit">Masuk Ke Ruang Kerja</button>
+                <button type="submit" id="btnSubmitLogin" class="btn-submit">
+                    <i class="fas fa-right-to-bracket"></i> Masuk Ke Ruang Kerja
+                </button>
             </form>
         </div>
     </div>
 
+    <!-- Script Logika Frontend & Autentikasi -->
     <script>
-        
-
         function bukaRuangKerja() {
             const savedSession = localStorage.getItem('user_session');
             if (savedSession) {
-                // Jika sudah login, langsung ke dashboard.html
+                // Jika user sudah pernah login, langsung arahkan ke dashboard
                 window.location.href = "dashboard.html";
             } else {
-                // Jika belum, tampilkan modal login
+                // Jika belum login, buka pop-up modal login
                 document.getElementById('modalLogin').style.display = 'flex';
             }
         }
@@ -117,24 +308,42 @@
             const u = document.getElementById('txtUsername').value.trim();
             const p = document.getElementById('txtPassword').value.trim();
 
+            // Membaca URL Apps Script secara otomatis dari config.js
+            const targetUrl = typeof SCRIPT_URL !== 'undefined' 
+                ? SCRIPT_URL 
+                : (window.CONFIG && window.CONFIG.SCRIPT_URL ? window.CONFIG.SCRIPT_URL : '');
+
+            if (!targetUrl) {
+                alert("URL Apps Script belum dikonfigurasi di file config.js!");
+                btn.innerText = "Masuk Ke Ruang Kerja";
+                btn.disabled = false;
+                return;
+            }
+
             try {
-                const response = await fetch(SCRIPT_URL, {
+                const response = await fetch(targetUrl, {
                     method: "POST",
-                    body: JSON.stringify({ action: "login", username: u, password: p })
+                    body: JSON.stringify({ 
+                        action: "login", 
+                        username: u, 
+                        password: p 
+                    })
                 });
+
                 const result = await response.json();
 
                 if (result.status === "success") {
-                    // Simpan data user lengkap (termasuk multi-mapel)
+                    // Menyimpan data user & seluruh array penugasan ke localStorage
                     localStorage.setItem('user_session', JSON.stringify(result.user));
                     window.location.href = "dashboard.html";
                 } else {
                     alert(result.message || "Username atau Password salah!");
                 }
             } catch (err) {
-                alert("Gagal terhubung ke server. Pastikan URL Apps Script benar.");
+                console.error("Error Login:", err);
+                alert("Gagal terhubung ke server. Periksa koneksi internet Anda atau file config.js!");
             } finally {
-                btn.innerText = "Masuk Ke Ruang Kerja";
+                btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Masuk Ke Ruang Kerja';
                 btn.disabled = false;
             }
         }
