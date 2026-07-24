@@ -1,60 +1,70 @@
-// GANTI DENGAN URL DEPLOYMENT BARU ANDA
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("loginForm"); // Sesuaikan ID form Anda
-  const errorMsg = document.getElementById("errorMessage"); // Sesuaikan ID elemen error Anda
+  const loginForm = document.getElementById("loginForm");
+  const statusMsg = document.getElementById("statusMessage");
 
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      const jenisUjian = document.getElementById("jenisUjian").value;
       const usernameInput = document.getElementById("username").value.trim();
       const passwordInput = document.getElementById("password").value.trim();
-      const btnSubmit = loginForm.querySelector("button[type='submit']");
+      const btnSubmit = document.getElementById("btnSubmit");
 
       if (!usernameInput || !passwordInput) {
-        showError("Username dan password wajib diisi!");
+        showStatus("Username dan password wajib diisi!", "danger");
         return;
       }
 
       // Indikator Loading
       btnSubmit.disabled = true;
       btnSubmit.innerText = "Memeriksa...";
-      if (errorMsg) errorMsg.innerText = "";
+      showStatus("Memeriksa kredensial...", "info");
 
       try {
-        // Mengirim request via GET parameter ke Apps Script
         const url = `${APPS_SCRIPT_URL}?action=login&username=${encodeURIComponent(usernameInput)}&password=${encodeURIComponent(passwordInput)}`;
         
         const response = await fetch(url);
         const result = await response.json();
 
         if (result.status === "success") {
-          // Simpan data user ke SessionStorage
+          // Simpan data user dan file soal yang dipilih ke Session Storage
           sessionStorage.setItem("user_login", JSON.stringify(result.user));
-          
-          // Redirect ke halaman ujian/dashboard
-          window.location.href = "ujian.html"; 
+          sessionStorage.setItem("selected_exam_file", jenisUjian);
+
+          showStatus("Login berhasil! Mengalihkan ke ujian...", "success");
+
+          // Redirect ke halaman ujian setelah delay singkat
+          setTimeout(() => {
+            window.location.href = "ujian.html";
+          }, 1000);
         } else {
-          showError(result.message || "NISN atau Password salah!");
+          showStatus(result.message || "NISN atau Password salah!", "danger");
         }
       } catch (err) {
-        console.error("Login Error:", err);
-        showError("Gagal terhubung ke server. Periksa koneksi internet Anda.");
+        console.error("Error Login:", err);
+        showStatus("Gagal terhubung ke server. Periksa koneksi internet Anda.", "danger");
       } finally {
         btnSubmit.disabled = false;
-        btnSubmit.innerText = "Masuk";
+        btnSubmit.innerText = "Masuk Ke Ujian";
       }
     });
   }
 
-  function showError(msg) {
-    if (errorMsg) {
-      errorMsg.innerText = msg;
-      errorMsg.style.display = "block";
-    } else {
-      alert(msg);
+  function showStatus(msg, type) {
+    if (statusMsg) {
+      statusMsg.innerText = msg;
+      statusMsg.className = "status-message"; // Reset class
+
+      if (type === "danger") {
+        statusMsg.classList.add("text-danger");
+      } else if (type === "success") {
+        statusMsg.classList.add("text-success");
+      } else {
+        statusMsg.classList.add("text-info");
+      }
     }
   }
 });
