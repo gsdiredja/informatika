@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      // Mengambil nilai dari dropdown (misal: "data/soal-uh1.json")
       const jenisUjian = document.getElementById("jenisUjian").value;
       const usernameInput = document.getElementById("username").value.trim();
       const passwordInput = document.getElementById("password").value.trim();
@@ -30,16 +31,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = await response.json();
 
         if (result.status === "success") {
-          // Simpan data user dan file soal yang dipilih ke Session Storage
+          // Simpan data user yang berhasil login
           sessionStorage.setItem("user_login", JSON.stringify(result.user));
-          sessionStorage.setItem("selected_exam_file", jenisUjian);
 
-          showStatus("Login berhasil! Mengalihkan ke ujian...", "success");
+          showStatus("Login berhasil! Membuka soal...", "success");
 
-          // Redirect ke halaman ujian setelah delay singkat
+          // LANGSUNG DIARAHKAN KE FILE JSON YANG DIPILIH
           setTimeout(() => {
-            window.location.href = "ujian.html";
-          }, 1000);
+            window.location.href = jenisUjian; // Akandimengarahkan ke "data/soal-uh1.json"
+          }, 800);
+
         } else {
           showStatus(result.message || "NISN atau Password salah!", "danger");
         }
@@ -56,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showStatus(msg, type) {
     if (statusMsg) {
       statusMsg.innerText = msg;
-      statusMsg.className = "status-message"; // Reset class
+      statusMsg.className = "status-message";
 
       if (type === "danger") {
         statusMsg.classList.add("text-danger");
