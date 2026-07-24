@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduAdaptif - Rekapitulasi & Laporan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="config.js"></script>
+
     <style>
         :root { --primary-dark: #1e293b; --nav-blue: #2c3e50; --accent-blue: #3498db; --bg-light: #f1f5f9; --white: #ffffff; --secondary-dark: #0f172a; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
@@ -19,26 +22,21 @@
         .btn-logout-top { width: 100%; background-color: #c0392b; text-align: center; color: var(--white); padding: 10px; text-decoration: none; font-size: 13px; font-weight: 600; display: block; border: none; cursor: pointer; }
         .content-area { flex: 1; padding: 15px; width: 100%; }
         .card { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        
         .sub-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
         .btn-tab { padding: 8px 18px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
         .btn-tab.active { background-color: var(--accent-blue); color: var(--white); }
         .btn-tab.inactive { background-color: #e2e8f0; color: #64748b; }
-        
         .filter-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
         .form-grid { display: flex; flex-direction: column; gap: 12px; }
         select, input[type="date"], input[type="month"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
-        
         .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
         table { width: 100%; border-collapse: collapse; }
         table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: left; padding: 12px; font-size: 13px; border-bottom: 2px solid #e2e8f0; }
         table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
         .txt-center { text-align: center; } .txt-bold { font-weight: bold; }
-        
         .signature-container { display: none; justify-content: space-between; width: 100%; margin-top: 40px; padding: 10px; background: var(--white); }
         .sig-box { text-align: center; width: 240px; font-size: 14px; }
         .sig-space { height: 70px; }
-
         footer { background-color: var(--secondary-dark); color: #94a3b8; text-align: center; padding: 20px; font-size: 12px; margin-top: auto; }
 
         @media (min-width: 769px) {
@@ -66,7 +64,7 @@
 
 <div class="main-wrapper">
     <div class="top-header">
-        <img id="user-pic" src="photo-guru.png" class="profile-pic" alt="User">
+        <img id="user-pic" src="photo-guru.png" class="profile-pic" alt="User" onerror="this.src='https://via.placeholder.com/80?text=GURU'">
         <h1>EduAdaptif</h1>
         <p id="user-name" style="font-size:12px; color:#cbd5e1; font-weight:600; margin-top:5px;">Loading...</p>
         <br/>
@@ -97,7 +95,6 @@
 
 <footer>&copy; 2026 <strong>EduAdaptif</strong> | Created by usudo.id</footer>
 
-<script src="config.js"></script>
 <script>
     const API_URL_APP = typeof window.API_URL !== 'undefined' ? window.API_URL : (window.CONFIG ? window.CONFIG.SCRIPT_URL : '');
     const userSession = JSON.parse(localStorage.getItem('user_session'));
@@ -105,8 +102,8 @@
 
     if (!userSession) window.location.href = 'index.html';
 
-    document.getElementById('user-name').innerText = userSession.nama;
-    document.getElementById('lbl-mapel').innerText = activeMapel;
+    document.getElementById('user-name').innerText = userSession.nama || userSession.username || "Guru";
+    document.getElementById('lbl-mapel').innerText = activeMapel || "Belum Dipilih";
     if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
 
     let currentSubTab = 'presensi';
@@ -117,14 +114,7 @@
 
     function getDaftarKelas() {
         const setKelas = new Set();
-        if (userSession.penugasan && Array.isArray(userSession.penugasan)) {
-            userSession.penugasan.forEach(p => {
-                if (normText(p.mapel) === normText(activeMapel)) {
-                    String(p.kelas).split(',').forEach(k => { if (k.trim()) setKelas.add(k.trim()); });
-                }
-            });
-        }
-        if (setKelas.size === 0 && userSession.ampu_kelas) {
+        if (userSession.ampu_kelas) {
             String(userSession.ampu_kelas).split(',').forEach(k => { if (k.trim()) setKelas.add(k.trim()); });
         }
         return Array.from(setKelas);
@@ -229,7 +219,6 @@
         fetchRekapPresensi();
     }
 
-    /* 1. FETCH REKAP PRESENSI */
     async function fetchRekapPresensi() {
         const kls = document.getElementById('rekap-presensi-kelas').value;
         const tipe = document.getElementById('rekap-presensi-tipe').value;
@@ -254,7 +243,7 @@
 
         try {
             const [resSiswa, resPres] = await Promise.all([
-                fetch(`${API_URL_APP}?action=getSiswa`).then(r => r.json()),
+                fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json()),
                 fetch(`${API_URL_APP}?action=getPresensi&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}&tipe=${tipe}&val1=${val1}&val2=${val2}`).then(r => r.json())
             ]);
 
@@ -286,16 +275,11 @@
                 html += `<tr><td colspan="6" class="txt-center" style="color:#94a3b8; padding:20px;">Tidak ada data siswa ditemukan untuk kelas ini.</td></tr>`;
             } else {
                 siswaList.forEach((s, idx) => {
-                    const namaClean = String(s.nama).trim();
+                    const namaClean = String(s.nama || s.nama_siswa).trim();
                     const namaKey = normText(namaClean);
                     const p = presDataRaw[namaKey] || { H: 0, S: 0, I: 0, A: 0 };
                     
-                    let h = 0, sak = 0, iz = 0, alp = 0;
-                    if (typeof p === 'object') {
-                        h = p.H || 0; sak = p.S || 0; iz = p.I || 0; alp = p.A || 0;
-                    } else if (typeof p === 'string') {
-                        if (p === 'H') h = 1; if (p === 'S') sak = 1; if (p === 'I') iz = 1; if (p === 'A') alp = 1;
-                    }
+                    let h = p.H || 0, sak = p.S || 0, iz = p.I || 0, alp = p.A || 0;
 
                     html += `
                         <tr>
@@ -316,7 +300,6 @@
         }
     }
 
-    /* 2. FETCH REKAP JURNAL */
     async function fetchRekapJurnal() {
         const kls = document.getElementById('rekap-jurnal-kelas').value;
         const container = document.getElementById('rekap-table-container');
@@ -324,13 +307,8 @@
         container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data rekap jurnal...</div>`;
 
         try {
-            const res = await fetch(`${API_URL_APP}?action=getJurnal`).then(r => r.json());
-            const cleanTargetKelas = normText(kls);
-            const cleanTargetMapel = normText(activeMapel);
-
-            const listJurnal = res.data ? res.data.filter(j => {
-                return normText(j.kelas) === cleanTargetKelas && normText(j.mapel) === cleanTargetMapel;
-            }) : [];
+            const res = await fetch(`${API_URL_APP}?action=getJurnal&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
+            const listJurnal = res.data || [];
 
             let html = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;" class="no-print">
@@ -359,7 +337,7 @@
                             <td class="txt-center">${idx + 1}</td>
                             <td class="txt-center">${String(j.tanggal).split("T")[0]}</td>
                             <td>${j.materi || '-'}</td>
-                            <td>${j.tugas || '-'}</td>
+                            <td>${j.tugas || j.catatan || '-'}</td>
                         </tr>`;
                 });
             }
@@ -371,7 +349,6 @@
         }
     }
 
-    /* 3. FETCH REKAP LEGER NILAI */
     async function fetchRekapNilai() {
         const kls = document.getElementById('rekap-nilai-kelas').value;
         const container = document.getElementById('rekap-table-container');
@@ -380,7 +357,7 @@
 
         try {
             const [resSiswa, resNilai] = await Promise.all([
-                fetch(`${API_URL_APP}?action=getSiswa`).then(r => r.json()),
+                fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json()),
                 fetch(`${API_URL_APP}?action=getNilai&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json())
             ]);
 
@@ -417,7 +394,7 @@
                 html += `<tr><td colspan="11" class="txt-center" style="color:#94a3b8; padding:20px;">Tidak ada data siswa ditemukan untuk kelas ini.</td></tr>`;
             } else {
                 siswaList.forEach((s, idx) => {
-                    const namaClean = String(s.nama).trim();
+                    const namaClean = String(s.nama || s.nama_siswa).trim();
                     const namaKey = normText(namaClean);
                     const scores = nilaiRekap[namaKey] || {};
                     
@@ -471,12 +448,11 @@
                     <p>Guru Mata Pelajaran,</p>
                     <br>
                     <div class="sig-space"></div>
-                    <p><strong>${userSession.nama}</strong></p>
+                    <p><strong>${userSession.nama || userSession.username}</strong></p>
                 </div>
             </div>`;
     }
 
-    // Load awal
     renderRekap();
 </script>
 </body>
