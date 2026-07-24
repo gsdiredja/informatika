@@ -6,6 +6,48 @@
   <title>Lembar Ujian Harian</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Styling tambahan untuk navigasi soal */
+    .navigation-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .btn-nav {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
+    }
+    .btn-secondary:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background-color: #0d6efd;
+      color: white;
+    }
+    .btn-success {
+      background-color: #198754;
+      color: white;
+    }
+    .alert-warning {
+      color: #842029;
+      background-color: #f8d7da;
+      border: 1px solid #f5c2c7;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
@@ -22,14 +64,25 @@
       <hr class="divider" />
 
       <form id="examForm">
-        <!-- Tempat Soal-soal Didaftarkan Secara Dinamis -->
+        <!-- Wadah untuk 1 soal aktif -->
         <div id="questionsContainer">
           <p class="subtitle">Memuat soal ujian...</p>
         </div>
 
+        <!-- Pesan Peringatan jika belum dijawab -->
+        <div id="warningMsg" class="alert-warning">
+          Pilih / isi jawaban terlebih dahulu sebelum melanjutkan ke soal berikutnya!
+        </div>
+
         <hr class="divider" />
 
-        <button type="submit" id="btnSubmitExam" class="btn-primary">Kirim Jawaban</button>
+        <!-- Tombol Navigasi -->
+        <div class="navigation-wrapper">
+          <button type="button" id="btnPrev" class="btn-nav btn-secondary" disabled>Sebelumnya</button>
+          <span id="questionProgress" style="font-weight: 600; color: #495057;">Soal 1 dari -</span>
+          <button type="button" id="btnNext" class="btn-nav btn-primary">Selanjutnya</button>
+          <button type="submit" id="btnSubmitExam" class="btn-nav btn-success" style="display: none;">Kirim Jawaban</button>
+        </div>
       </form>
     </div>
   </div>
