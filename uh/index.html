@@ -3,92 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Ujian Online</title>
-  <!-- Google Fonts: Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- CSS Utama -->
-  <link rel="stylesheet" href="style.css">
+  <title>Login Ujian Online</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .login-card {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      width: 100%;
+      max-width: 400px;
+    }
+    .login-card h2 {
+      text-align: center;
+      color: #1e293b;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #475569;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: #2563eb;
+    }
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn-login:hover {
+      background-color: #1d4ed8;
+    }
+    #alertBox {
+      display: none;
+      padding: 10px;
+      background-color: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+  </style>
 </head>
-<body class="bg-light">
+<body>
 
-  <div class="login-container">
-    <div class="card login-card">
-      
-      <!-- Header Logo / Judul -->
-      <div class="brand-header">
-        <div class="brand-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-          </svg>
-        </div>
-        <h2 class="brand-title">PORTAL UJIAN HARIAN</h2>
-        <p class="brand-subtitle">Silakan masuk menggunakan kredensial akun Anda</p>
+  <div class="login-card">
+    <h2>Login Ujian</h2>
+    
+    <div id="alertBox"></div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username / NISN</label>
+        <input type="text" id="username" required placeholder="Masukkan username">
       </div>
 
-      <!-- Form Login -->
-      <form id="loginForm" class="login-form">
-        
-        <!-- Pilihan Jenis Ujian -->
-        <div class="form-group">
-          <label for="jenisUjian" class="form-label">Pilih Paket Ujian</label>
-          <div class="select-wrapper">
-            <select id="jenisUjian" name="jenisUjian" class="form-control" required>
-              <option value="data/soal-uh1.json">UH1 - Strategi Algoritmik & Pemrograman C++</option>
-              <option value="data/soal-uh2.json">UH2 - Algoritma Greedy & Dynamic Programming</option>
-              <option value="data/soal-uh3.json">UH3 - Struktur Data & Analisis Algoritma</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Username / NISN -->
-        <div class="form-group">
-          <label for="username" class="form-label">Username / NISN</label>
-          <input 
-            type="text" 
-            id="username" 
-            name="username" 
-            class="form-control" 
-            placeholder="Masukkan Username atau NISN" 
-            required 
-            autocomplete="off" 
-          />
-        </div>
-
-        <!-- Password -->
-        <div class="form-group">
-          <label for="password" class="form-label">Password</label>
-          <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            class="form-control" 
-            placeholder="••••••••" 
-            required 
-          />
-        </div>
-
-        <!-- Status Pesan -->
-        <div id="statusMessage" class="status-alert">
-          <center></center>Sistem siap. Silakan lengkapi form untuk masuk.</center>
-        </div>
-
-        <!-- Tombol Masuk -->
-        <button type="submit" id="btnSubmit" class="btn-primary">
-          <span>Masuk Ke Ujian</span>
-        </button>
-
-      </form>
-
-      <!-- Footer Card -->
-      <div class="card-footer">
-        <p><center></center>&copy; 2026 Portal Ujian Online<br/>All rights reserved.<br/>Design By Agus Tjakra</center></p>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required placeholder="Masukkan password">
       </div>
 
-    </div>
+      <div class="form-group">
+        <label for="jenisUjian">Pilih Paket Ujian</label>
+        <select id="jenisUjian" required>
+          <option value="./data/soal-uh1.json">Ulangan Harian 1</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-login">Masuk Ujian</button>
+    </form>
   </div>
 
-  <!-- Script Login -->
   <script src="app.js"></script>
 </body>
 </html>
