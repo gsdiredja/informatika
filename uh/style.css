@@ -5,20 +5,29 @@
   font-family: 'Inter', sans-serif;
 }
 
+/* Memastikan body selalu menutupi layar dan memosisikan isi ke tengah (Flexbox Center) */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body.bg-light {
   background-color: #f4f6f9;
   color: #333333;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* Mengetengahkan secara vertikal */
+  justify-content: center; /* Mengetengahkan secara horizontal */
   min-height: 100vh;
   padding: 20px;
 }
 
-/* Container & Card Login */
+/* Container utama login - Dijamin selalu di tengah untuk Tablet & PC */
 .login-container {
   width: 100%;
-  max-width: 440px;
+  max-width: 440px; /* Lebar ideal kartu login */
+  margin: auto; /* Memastikan posisi tetap rata tengah di tablet & PC */
 }
 
 .login-card {
@@ -27,6 +36,7 @@ body.bg-light {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.03);
   padding: 32px 28px;
   border: 1px solid #e2e8f0;
+  width: 100%;
 }
 
 /* Header Brand */
@@ -134,7 +144,7 @@ select.form-control {
   transform: scale(0.98);
 }
 
-/* Card Footer */
+/* --- PERBAIKAN FOOTER & UKURAN FONT --- */
 .card-footer {
   margin-top: 24px;
   text-align: center;
@@ -143,6 +153,8 @@ select.form-control {
 }
 
 .card-footer p {
-  font-size: 0.75rem;
+  font-size: 0.7rem; /* Diperkecil agar lebih proporsional & tidak dominan */
   color: #94a3b8;
+  line-height: 1.4;
+  font-weight: 400;
 }
