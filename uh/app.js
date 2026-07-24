@@ -1,11 +1,5 @@
-// URL Google Apps Script milik Anda
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec";
-
-// Data Siswa (Bisa disesuaikan / ditambah)
-const USERS = [
-    { username: "1001", pass: "1234", nama: "Ahmad Dani", kelas: "X-RPL" },
-    { username: "1002", pass: "1234", nama: "Budi Santoso", kelas: "X-RPL" }
-];
+// ISI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec"; 
 
 let currentUserData = null;
 let currentQuestions = [];
@@ -13,27 +7,51 @@ let currentQuestionIndex = 0;
 let selectedUH = "";
 
 // ==========================================
-// 1. SISTEM LOGIN & SELEKSI UH
+// 1. SISTEM LOGIN VIA SPREADSHEET
 // ==========================================
-document.getElementById("login-form").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const u = document.getElementById("username").value.trim();
-    const p = document.getElementById("password").value.trim();
+document.addEventListener("DOMContentLoaded", function() {
+    const loginForm = document.getElementById("login-form");
 
-    const match = USERS.find(user => user.username === u && user.pass === p);
+    if (loginForm) {
+        loginForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const u = document.getElementById("username").value.trim();
+            const p = document.getElementById("password").value.trim();
+            const errorMsg = document.getElementById("login-error");
 
-    if (match) {
-        currentUserData = match;
-        document.getElementById("login-error").innerText = "";
-        document.getElementById("login-screen").classList.remove("active");
-        
-        document.getElementById("welcome-msg").innerText = `Selamat Datang, ${currentUserData.nama}!`;
-        document.getElementById("select-screen").classList.add("active");
+            errorMsg.style.color = "#2563eb";
+            errorMsg.innerText = "Memeriksa data ke Spreadsheet...";
 
-        createWatermark(); // Aktifkan watermark nama
-        renderUHButtons();
-    } else {
-        document.getElementById("login-error").innerText = "NISN atau Password salah!";
+            // Panggil Google Apps Script untuk verifikasi login
+            const loginUrl = `${APPS_SCRIPT_URL}?action=login&username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`;
+
+            fetch(loginUrl)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        currentUserData = data.user; // Menyimpan {username, nama, kelas} dari Spreadsheet
+                        errorMsg.innerText = "";
+                        
+                        // Pindah Halaman
+                        document.getElementById("login-screen").classList.remove("active");
+                        document.getElementById("select-screen").classList.add("active");
+
+                        document.getElementById("welcome-msg").innerText = `Selamat Datang, ${currentUserData.nama} (${currentUserData.kelas})!`;
+
+                        createWatermark();
+                        renderUHButtons();
+                    } else {
+                        errorMsg.style.color = "#dc2626";
+                        errorMsg.innerText = data.message || "Login Gagal! Periksa NISN & Password.";
+                    }
+                })
+                .catch(err => {
+                    console.error("Error Login:", err);
+                    errorMsg.style.color = "#dc2626";
+                    errorMsg.innerText = "Gagal terhubung ke Spreadsheet server!";
+                });
+        });
     }
 });
 
@@ -77,9 +95,7 @@ function loadQuizData(uhId) {
             document.getElementById("quiz-title").innerText = uhId.toUpperCase();
             renderCurrentQuestion();
         })
-        .catch(err => {
-            alert("Terjadi Kendala: " + err.message);
-        });
+        .catch(err => alert("Terjadi Kendala: " + err.message));
 }
 
 // ==========================================
@@ -96,7 +112,6 @@ function renderCurrentQuestion() {
         <div class="question-text">${q.text}</div>
     `;
 
-    // 1. Radio Button (Pilihan Ganda Biasa / Benar-Salah)
     if (q.type === "radio") {
         q.options.forEach(opt => {
             html += `
@@ -105,9 +120,7 @@ function renderCurrentQuestion() {
                     <span><strong>${opt.v}.</strong> ${opt.t}</span>
                 </label>`;
         });
-    } 
-    // 2. Checkbox (Pilihan Ganda Kompleks)
-    else if (q.type === "checkbox") {
+    } else if (q.type === "checkbox") {
         q.options.forEach(opt => {
             html += `
                 <label class="option-label">
@@ -115,9 +128,7 @@ function renderCurrentQuestion() {
                     <span><strong>${opt.v}.</strong> ${opt.t}</span>
                 </label>`;
         });
-    } 
-    // 3. Essay (Teks Paragraf)
-    else if (q.type === "essay") {
+    } else if (q.type === "essay") {
         html += `<textarea name="${q.name}" rows="5" placeholder="Tuliskan jawaban Anda di sini..."></textarea>`;
     }
 
@@ -175,7 +186,7 @@ function prevQuestion() {
 }
 
 // ==========================================
-// 4. SUBMIT & SKOR OTOMATIS
+// 4. SUBMIT & PENILAIAN SKOR OTOMATIS
 // ==========================================
 function submitQuiz() {
     if (!isCurrentQuestionAnswered()) {
@@ -199,7 +210,6 @@ function submitQuiz() {
     const form = document.getElementById("quiz-form");
 
     currentQuestions.forEach((q) => {
-        // A. Pilihan Ganda / Benar Salah (Radio)
         if (q.type === "radio") {
             totalSoalObjektif++;
             const selected = form.querySelector(`input[name="${q.name}"]:checked`);
@@ -208,7 +218,6 @@ function submitQuiz() {
 
             if (val === q.key) totalBenarObjektif++;
         } 
-        // B. Pilihan Ganda Kompleks (Checkbox)
         else if (q.type === "checkbox") {
             totalSoalObjektif++;
             const checkedEls = form.querySelectorAll(`input[name="${q.name}"]:checked`);
@@ -220,14 +229,12 @@ function submitQuiz() {
                 totalBenarObjektif++;
             }
         } 
-        // C. Essay (Tidak Diikutsertakan Dalam Skor Otomatis Web)
         else if (q.type === "essay") {
             const textarea = form.querySelector(`textarea[name="${q.name}"]`);
             formData.jawaban[q.name] = textarea ? textarea.value : "";
         }
     });
 
-    // Kalkulasi Skor Otomatis Skala 0 - 100
     let nilaiObjektifOtomatis = 0;
     if (totalSoalObjektif > 0) {
         nilaiObjektifOtomatis = Math.round((totalBenarObjektif / totalSoalObjektif) * 100);
@@ -235,7 +242,7 @@ function submitQuiz() {
 
     formData.nilaiObjektif = nilaiObjektifOtomatis;
 
-    // Tampilkan Layar Hasil
+    // Layar Hasil
     document.getElementById("quiz-screen").classList.remove("active");
     document.getElementById("result-screen").classList.add("active");
     
@@ -244,21 +251,17 @@ function submitQuiz() {
         <small style="font-size:12px; font-weight:normal;">(Benar ${totalBenarObjektif} dari ${totalSoalObjektif} Soal Objektif)</small>
     `;
 
-    // Kirim Data ke Google Apps Script
-    if (APPS_SCRIPT_URL) {
-        fetch(APPS_SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
-        }).then(() => {
-            console.log("Data berhasil dikirim ke Spreadsheet!");
-        }).catch(err => console.error("Gagal mengirim data:", err));
-    }
+    // Send data back to GAS
+    fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+    }).then(() => console.log("Jawaban dikirim!"));
 }
 
 // ==========================================
-// 5. FITUR WATERMARK & KEAMANAN
+// 5. WATERMARK DENGAN NAMA & KELAS SPREADSHEET
 // ==========================================
 function createWatermark() {
     if (!currentUserData) return;
@@ -269,7 +272,7 @@ function createWatermark() {
     overlay.id = "watermark-overlay";
     overlay.className = "watermark-overlay";
 
-    const textInfo = `${currentUserData.nama} - ${currentUserData.username}`;
+    const textInfo = `${currentUserData.nama} (${currentUserData.kelas}) - ${currentUserData.username}`;
     for (let i = 0; i < 12; i++) {
         const item = document.createElement("div");
         item.className = "watermark-item";
@@ -279,7 +282,6 @@ function createWatermark() {
     document.body.appendChild(overlay);
 }
 
-// Sembunyikan Soal Sekejap Jika Tombol Fisik/Keyboard Ditekan
 document.addEventListener('keydown', function(e) {
     const container = document.getElementById("questions-container");
     if (container) {
