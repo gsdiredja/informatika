@@ -4,15 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lembar Ujian Harian</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Styling tambahan untuk navigasi soal */
-    .navigation-wrapper {
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f1f5f9;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .exam-card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      width: 100%;
+      max-width: 700px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .header-user {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+    }
+    .btn-logout {
+      background-color: #dc2626;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
     }
     .btn-nav {
       padding: 10px 20px;
@@ -20,70 +52,65 @@
       border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.2s;
     }
-    .btn-secondary {
-      background-color: #6c757d;
-      color: white;
+    .btn-prev {
+      background-color: #cbd5e1;
+      color: #334155;
     }
-    .btn-secondary:disabled {
-      background-color: #cccccc;
+    .btn-prev:disabled {
+      opacity: 0.5;
       cursor: not-allowed;
     }
-    .btn-primary {
-      background-color: #0d6efd;
+    .btn-next {
+      background-color: #2563eb;
       color: white;
     }
-    .btn-success {
-      background-color: #198754;
+    .btn-submit {
+      background-color: #16a34a;
       color: white;
     }
-    .alert-warning {
-      color: #842029;
-      background-color: #f8d7da;
-      border: 1px solid #f5c2c7;
-      padding: 10px;
-      border-radius: 6px;
-      margin-top: 10px;
-      display: none;
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 24px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    #questionProgress {
+      font-weight: 700;
+      color: #475569;
+      font-size: 1.1rem;
+      min-width: 60px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <div class="login-wrapper" style="max-width: 800px; margin: 30px auto;">
-    <div class="login-card">
-      <div id="userHeader" style="display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <h3 id="studentName" style="margin: 0;">Nama Siswa</h3>
-          <p id="studentClass" class="subtitle" style="margin: 5px 0 0 0;">Kelas / NISN</p>
+  <div class="exam-card">
+    <div>
+      <div class="header-user">
+        <div id="userInfo">
+          <!-- Info Siswa Dirender via JS -->
         </div>
-        <button id="btnLogout" class="btn-primary" style="background-color: #dc3545; width: auto; padding: 8px 16px;">Keluar</button>
+        <button class="btn-logout" onclick="logout()">Keluar</button>
       </div>
 
-      <hr class="divider" />
+      <div id="questionsContainer">
+        <p style="color: #64748b;">Memuat soal ujian...</p>
+      </div>
+    </div>
 
-      <form id="examForm">
-        <!-- Wadah untuk 1 soal aktif -->
-        <div id="questionsContainer">
-          <p class="subtitle">Memuat soal ujian...</p>
-        </div>
+    <div class="nav-bar">
+      <button id="btnPrev" class="btn-nav btn-prev" onclick="prevQuestion()">Sebelumnya</button>
 
-        <!-- Pesan Peringatan jika belum dijawab -->
-        <div id="warningMsg" class="alert-warning">
-          Pilih / isi jawaban terlebih dahulu sebelum melanjutkan ke soal berikutnya!
-        </div>
+      <div id="questionProgress">1/45</div>
 
-        <hr class="divider" />
-
-        <!-- Tombol Navigasi -->
-        <div class="navigation-wrapper">
-          <button type="button" id="btnPrev" class="btn-nav btn-secondary" disabled>Sebelumnya</button>
-          <span id="questionProgress" style="font-weight: 600; color: #495057;">1 / -</span>
-          <button type="button" id="btnNext" class="btn-nav btn-primary">Selanjutnya</button>
-          <button type="submit" id="btnSubmitExam" class="btn-nav btn-success" style="display: none;">Kirim Jawaban</button>
-        </div>
-      </form>
+      <div style="display: flex; gap: 10px;">
+        <button id="btnNext" class="btn-nav btn-next" onclick="nextQuestion()">Selanjutnya</button>
+        <button id="btnSubmitExam" class="btn-nav btn-submit" onclick="submitExam()" style="display: none;">Kirim Jawaban</button>
+      </div>
     </div>
   </div>
 
