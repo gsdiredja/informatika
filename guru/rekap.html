@@ -57,6 +57,7 @@
             .form-grid { flex-direction: row; }
         }
 
+        /* PERATURAN CETAK (PRINT & PDF) */
         @media print {
             .top-header, .filter-card, .sub-tabs, .btn-logout-top, .no-print, footer, .btn-cetak-container { display: none !important; }
             body, .main-wrapper, .content-area, .card { background: white !important; margin: 0 !important; padding: 0 !important; width: 100% !important; display: block !important; box-shadow: none !important; }
@@ -88,8 +89,9 @@
 
     <div class="content-area">
         <div class="card">
-            <h2>Rekapitulasi & Laporan — <span id="lbl-mapel" style="color:var(--accent-blue);"></span></h2>
-            <br>
+            <!-- Ditambahkan 'no-print' agar tidak tampil di PDF/Cetak -->
+            <h2 class="no-print" style="margin-bottom:15px;">Rekapitulasi & Laporan — <span id="lbl-mapel" style="color:var(--accent-blue);"></span></h2>
+
             <div class="sub-tabs no-print">
                 <button id="tab-presensi" class="btn-tab active" onclick="switchTab('presensi')">Rekap Presensi</button>
                 <button id="tab-jurnal" class="btn-tab inactive" onclick="switchTab('jurnal')">Rekap Jurnal</button>
@@ -120,13 +122,12 @@
         return String(str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
     }
 
-    // Helper Ubah Format Tanggal YYYY-MM-DD ke DD/MM/YYYY
     function formatTanggalIndo(dateStr) {
         if (!dateStr) return "-";
         if (dateStr.includes("-")) {
             const parts = dateStr.split("-");
             if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
-            if (parts.length === 2) return `${parts[1]}/${parts[0]}`; // untuk format YYYY-MM
+            if (parts.length === 2) return `${parts[1]}/${parts[0]}`;
         }
         return dateStr;
     }
