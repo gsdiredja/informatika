@@ -200,7 +200,9 @@
         try {
             // Panggil API getSiswa dan getPresensi secara simultan
             const [resSiswa, resPres] = await Promise.all([
-                fetch(`${API_URL_APP}?action=getSiswa`).then(r => r.json()),
+                fetch(
+`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`
+),
                 fetch(`${API_URL_APP}?action=getPresensi&tanggal=${tgl}&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json())
             ]);
 
