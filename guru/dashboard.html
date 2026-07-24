@@ -8,263 +8,51 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; min-height: 100vh; display: flex; flex-direction: column; }
 
-        body {
-            background-color: #f1f5f9;
-            color: #1e293b;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        .header { background-color: #0f172a; color: #ffffff; padding: 16px 8%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 100; }
+        .brand-logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 18px; color: #38bdf8; text-decoration: none; }
+        .brand-logo img { width: 36px; height: 36px; border-radius: 8px; background: #ffffff; padding: 2px; object-fit: contain; }
 
-        /* HEADER GLOBAL */
-        .header {
-            background-color: #0f172a;
-            color: #ffffff;
-            padding: 16px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .btn-logout:hover { background: #dc2626; transform: translateY(-1px); }
 
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 800;
-            font-size: 18px;
-            color: #38bdf8;
-            text-decoration: none;
-        }
+        .main-container { max-width: 900px; width: 100%; margin: 30px auto; padding: 0 20px; flex: 1; }
 
-        .brand-logo img {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background: #ffffff;
-            padding: 2px;
-            object-fit: contain;
-        }
+        .profile-card { background: #ffffff; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 20px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; margin-bottom: 24px; }
+        .profile-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #0284c7; flex-shrink: 0; background: #e2e8f0; }
+        .profile-info h2 { font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+        .profile-info p { font-size: 13px; color: #64748b; font-weight: 600; }
+        .badge-role { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; margin-top: 6px; text-transform: uppercase; }
 
-        .btn-logout {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .content-card { background: #ffffff; border-radius: 16px; padding: 28px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; }
+        .content-card h3 { font-size: 17px; font-weight: 800; color: #0f172a; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; }
 
-        .btn-logout:hover {
-            background: #dc2626;
-            transform: translateY(-1px);
-        }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-size: 12px; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* CONTAINER UTAMA */
-        .main-container {
-            max-width: 900px;
-            width: 100%;
-            margin: 30px auto;
-            padding: 0 20px;
-            flex: 1;
-        }
+        .select-box { width: 100%; padding: 12px 14px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; color: #0f172a; font-weight: 600; outline: none; transition: all 0.2s; cursor: pointer; }
+        .select-box:focus { border-color: #0284c7; background: #ffffff; box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15); }
 
-        /* PROFILE CARD */
-        .profile-card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            margin-bottom: 24px;
-        }
+        .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 10px; }
+        .btn-action-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 16px; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; color: #334155; }
+        .btn-action-card i { font-size: 22px; color: #0284c7; }
+        .btn-action-card span { font-size: 13px; font-weight: 700; }
+        .btn-action-card:hover { background: #0284c7; border-color: #0284c7; color: #ffffff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25); }
+        .btn-action-card:hover i { color: #ffffff; }
 
-        .profile-avatar {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #0284c7;
-            flex-shrink: 0;
-            background: #e2e8f0;
-        }
-
-        .profile-info h2 {
-            font-size: 20px;
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 4px;
-        }
-
-        .profile-info p {
-            font-size: 13px;
-            color: #64748b;
-            font-weight: 600;
-        }
-
-        .badge-role {
-            display: inline-block;
-            background: #e0f2fe;
-            color: #0369a1;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 12px;
-            margin-top: 6px;
-            text-transform: uppercase;
-        }
-
-        /* DASHBOARD CONTENT CARD */
-        .content-card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-        }
-
-        .content-card h3 {
-            font-size: 17px;
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 12px;
-        }
-
-        /* FORM GRID CONTROL */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 24px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group label {
-            font-size: 12px;
-            font-weight: 700;
-            color: #334155;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .select-box {
-            width: 100%;
-            padding: 12px 14px;
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            font-size: 14px;
-            color: #0f172a;
-            font-weight: 600;
-            outline: none;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .select-box:focus {
-            border-color: #0284c7;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
-        }
-
-        /* PANEL ACTIONS (TAB AKSES MODUL) */
-        .action-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 14px;
-            margin-top: 10px;
-        }
-
-        .btn-action-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            color: #334155;
-        }
-
-        .btn-action-card i {
-            font-size: 22px;
-            color: #0284c7;
-        }
-
-        .btn-action-card span {
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .btn-action-card:hover {
-            background: #0284c7;
-            border-color: #0284c7;
-            color: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
-        }
-
-        .btn-action-card:hover i {
-            color: #ffffff;
-        }
-
-        /* FOOTER */
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #94a3b8;
-            margin-top: auto;
-        }
+        footer { text-align: center; padding: 20px; font-size: 12px; color: #94a3b8; margin-top: auto; }
 
         @media (max-width: 600px) {
-            .profile-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            .header {
-                padding: 14px 20px;
-            }
+            .profile-card { flex-direction: column; text-align: center; }
+            .header { padding: 14px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR HEADER -->
     <header class="header">
         <a href="https://kodi.web.id" class="brand-logo">
             <img src="photo-guru.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=EDU'">
@@ -276,20 +64,17 @@
         </button>
     </header>
 
-    <!-- MAIN CONTAINER -->
     <main class="main-container">
         
-        <!-- PROFILE CARD -->
         <section class="profile-card">
             <img id="imgFotoGuru" class="profile-avatar" src="photo-guru.png" alt="Foto Profil Guru" onerror="this.src='https://via.placeholder.com/72?text=GURU'">
             <div class="profile-info">
                 <h2 id="txtNamaGuru">Memuat Nama...</h2>
-                <p id="txtNipGuru">NIP/Username: -</p>
-                <span class="badge-role" id="txtRoleBadge">Pendidik</span>
+                <p id="txtNipGuru">NIP / Username: -</p>
+                <span class="badge-role" id="txtRoleBadge">PENDIDIK</span>
             </div>
         </section>
 
-        <!-- CONTENT CARD FORM SELECTOR -->
         <section class="content-card">
             <h3>
                 <i class="fas fa-sliders" style="color: #0284c7;"></i>
@@ -297,7 +82,6 @@
             </h3>
 
             <div class="form-grid">
-                <!-- DROPDOWN 1: MAPEL -->
                 <div class="form-group">
                     <label for="selectMapel"><i class="fas fa-book"></i> Pilih Mata Pelajaran & Role:</label>
                     <select id="selectMapel" class="select-box" onchange="updateDropdownKelas()">
@@ -305,7 +89,6 @@
                     </select>
                 </div>
 
-                <!-- DROPDOWN 2: KELAS -->
                 <div class="form-group">
                     <label for="selectKelas"><i class="fas fa-users"></i> Pilih Kelas Mengajar:</label>
                     <select id="selectKelas" class="select-box">
@@ -314,26 +97,25 @@
                 </div>
             </div>
 
-            <!-- MODUL KERJA AKSES CEPAT -->
             <h3 style="margin-top: 10px;">
                 <i class="fas fa-cubes" style="color: #0284c7;"></i>
                 Modul Kerja KBM
             </h3>
 
             <div class="action-grid">
-                <a href="#" class="btn-action-card" onclick="bukaModul('presensi')">
+                <a href="presensi.html" class="btn-action-card" onclick="bukaModul('presensi')">
                     <i class="fas fa-clipboard-user"></i>
                     <span>Input Presensi</span>
                 </a>
-                <a href="#" class="btn-action-card" onclick="bukaModul('jurnal')">
+                <a href="jurnal.html" class="btn-action-card" onclick="bukaModul('jurnal')">
                     <i class="fas fa-book-open"></i>
                     <span>Jurnal Mengajar</span>
                 </a>
-                <a href="#" class="btn-action-card" onclick="bukaModul('nilai')">
+                <a href="nilai.html" class="btn-action-card" onclick="bukaModul('nilai')">
                     <i class="fas fa-graduation-cap"></i>
                     <span>Input Nilai</span>
                 </a>
-                <a href="#" class="btn-action-card" onclick="bukaModul('rekap')">
+                <a href="rekap.html" class="btn-action-card" onclick="bukaModul('rekap')">
                     <i class="fas fa-file-invoice"></i>
                     <span>Leger & Rekap</span>
                 </a>
@@ -342,21 +124,18 @@
 
     </main>
 
-    <!-- FOOTER -->
     <footer>
         &copy; 2026 <strong>EduAdaptif</strong> | Created by Agus Tjakra - kodi.web.id
     </footer>
 
-    <!-- SCRIPT LOGIKA DASHBOARD -->
     <script>
         let sessionUser = null;
 
         document.addEventListener("DOMContentLoaded", () => {
             const savedSession = localStorage.getItem('user_session');
             
-            // Verifikasi Session
             if (!savedSession) {
-                window.location.replace("index.html"); // Redirect jika belum login
+                window.location.replace("index.html");
                 return;
             }
 
@@ -368,9 +147,7 @@
                 return;
             }
 
-            console.log("Data Session Loaded:", sessionUser);
-
-            // 1. Render Identitas Profil Guru (Toleran Undefined)
+            // Render Informasi Pengguna
             const nama = sessionUser.nama || sessionUser.nama_lengkap || "Guru Pendidik";
             const username = sessionUser.username || sessionUser.nip || "-";
             
@@ -381,38 +158,29 @@
                 document.getElementById('imgFotoGuru').src = sessionUser.foto;
             }
 
-            // 2. Render Pilihan Dropdown Mapel & Kelas
+            // Inisialisasi Pilihan Mapel
             renderDropdownMapel();
         });
 
-        // FUNGSI 1: Render Dropdown Mata Pelajaran
+        // 1. Render Pilihan Dropdown Mapel
         function renderDropdownMapel() {
             const selectMapel = document.getElementById('selectMapel');
             selectMapel.innerHTML = '<option value="">-- Pilih Mapel --</option>';
 
-            // A. Jalur Array Penugasan (Multi-Mapel)
             if (sessionUser.penugasan && Array.isArray(sessionUser.penugasan) && sessionUser.penugasan.length > 0) {
                 sessionUser.penugasan.forEach((p, index) => {
                     const roleText = p.role ? p.role.toUpperCase() : 'GURU';
                     selectMapel.innerHTML += `<option value="${index}">${p.mapel} [Role: ${roleText}]</option>`;
                 });
-                
-                // Set default pilihan pertama jika ada data
-                selectMapel.selectedIndex = 1;
-                updateDropdownKelas();
-            } 
-            // B. Jalur Single Penugasan (Mapel langsung di root object)
-            else if (sessionUser.mapel) {
+            } else if (sessionUser.mapel) {
                 const roleText = sessionUser.role ? sessionUser.role.toUpperCase() : 'GURU';
                 selectMapel.innerHTML += `<option value="single">${sessionUser.mapel} [Role: ${roleText}]</option>`;
-                selectMapel.selectedIndex = 1;
-                updateDropdownKelas();
             } else {
                 selectMapel.innerHTML = '<option value="">-- Tidak ada mapel terdaftar --</option>';
             }
         }
 
-        // FUNGSI 2: Update Dropdown Kelas Berdasarkan Mapel Terpilih
+        // 2. Filter Kelas Sesuai Mapel Terpilih
         function updateDropdownKelas() {
             const selectMapelVal = document.getElementById('selectMapel').value;
             const selectKelas = document.getElementById('selectKelas');
@@ -429,21 +197,16 @@
             let stringKelas = "";
             let roleDipilih = "PENDIDIK";
 
-            // A. Ambil dari Array Penugasan (Index)
             if (selectMapelVal !== "single" && sessionUser.penugasan && sessionUser.penugasan[selectMapelVal]) {
                 stringKelas = sessionUser.penugasan[selectMapelVal].ampu_kelas || "";
                 roleDipilih = sessionUser.penugasan[selectMapelVal].role || "GURU";
-            } 
-            // B. Ambil dari Single Penugasan
-            else if (selectMapelVal === "single") {
+            } else if (selectMapelVal === "single") {
                 stringKelas = sessionUser.ampu_kelas || "";
                 roleDipilih = sessionUser.role || "GURU";
             }
 
-            // Update Badge Role di Profil
             txtRoleBadge.innerText = roleDipilih.toUpperCase();
 
-            // Render Pilihan Kelas dari String "XI-1,XI-2,XI-3"
             if (stringKelas) {
                 const arrayKelas = stringKelas.split(',');
                 arrayKelas.forEach(kelas => {
@@ -457,34 +220,30 @@
             }
         }
 
-        // FUNGSI 3: Navigasi ke Modul Kerja
+        // 3. Pemicu Modul Pembelajaran
         function bukaModul(namaModul) {
-            const selectMapel = document.getElementById('selectMapel').value;
+            const selectMapelIndex = document.getElementById('selectMapel').value;
             const selectKelas = document.getElementById('selectKelas').value;
 
-            if (!selectMapel || !selectKelas) {
+            if (selectMapelIndex === "" || !selectKelas) {
                 alert("Silakan pilih Mata Pelajaran dan Kelas mengajar terlebih dahulu!");
                 return;
             }
 
-            // Dapatkan nama Mapel teks
             let mapelText = "";
-            if (selectMapel === "single") {
+            if (selectMapelIndex === "single") {
                 mapelText = sessionUser.mapel;
-            } else if (sessionUser.penugasan && sessionUser.penugasan[selectMapel]) {
-                mapelText = sessionUser.penugasan[selectMapel].mapel;
+            } else if (sessionUser.penugasan && sessionUser.penugasan[selectMapelIndex]) {
+                mapelText = sessionUser.penugasan[selectMapelIndex].mapel;
             }
 
             alert(`Membuka Modul ${namaModul.toUpperCase()}\nMapel: ${mapelText}\nKelas: ${selectKelas}`);
-            
-            // Contoh Redirect ke halaman modul spesifik (sesuai kebutuhan Anda):
-            // window.location.href = `${namaModul}.html?kelas=${encodeURIComponent(selectKelas)}&mapel=${encodeURIComponent(mapelText)}`;
         }
 
-        // FUNGSI 4: Logout Session
+        // 4. Fungsi Keluar / Clear Session
         function logout() {
             if (confirm("Apakah Anda yakin ingin keluar dari Ruang Kerja?")) {
-                localStorage.removeItem('user_session');
+                localStorage.clear();
                 window.location.replace("index.html");
             }
         }
