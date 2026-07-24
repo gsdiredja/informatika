@@ -309,30 +309,28 @@
             selectKelas.innerHTML = "";
 
             if (!selectMapelVal || !globalUserData) {
-                selectKelas.innerHTML = '<option value="">-- Pilih Mapel Terlebih Dahulu --</option>';
-                return;
-            }
+                selectKelas.innerHTML = '<option value="">-- Pilih Kelas --</option>';
 
-            const setKelasUnik = new Set();
+const savedActiveKelas = localStorage.getItem("active_kelas") || "";
 
-            // 1. Ekstrak dari array penugasan yang sesuai mapel
-            if (globalUserData.penugasan && Array.isArray(globalUserData.penugasan)) {
-                globalUserData.penugasan.forEach(p => {
-                    if (String(p.mapel).trim().toLowerCase() === selectMapelVal.trim().toLowerCase() && p.kelas) {
-                        const itemKelas = String(p.kelas).split(',');
-                        itemKelas.forEach(k => {
-                            if (k.trim()) setKelasUnik.add(k.trim());
-                        });
-                    }
-                });
-            }
+listKelas.forEach(function(kelas){
 
-            // 2. Fallback ke ampu_kelas jika tidak ditemukan di penugasan
-            if (setKelasUnik.size === 0 && globalUserData.ampu_kelas) {
-                const itemKelas = String(globalUserData.ampu_kelas).split(',');
-                itemKelas.forEach(k => {
-                    if (k.trim()) setKelasUnik.add(k.trim());
-                });
+    const opt=document.createElement("option");
+
+    opt.value=kelas;
+
+    opt.textContent=kelas;
+
+    if(
+        kelas===savedActiveKelas ||
+        listKelas.length===1
+    ){
+        opt.selected=true;
+    }
+
+    selectKelas.appendChild(opt);
+
+});
             }
 
             const listKelas = Array.from(setKelasUnik);
@@ -373,9 +371,13 @@
         }
 
         function prosesLogout() {
-            localStorage.clear();
-            window.location.href = "index.html";
-        }
+            function prosesLogout(){
+
+    localStorage.removeItem("user_session");
+    localStorage.removeItem("active_mapel");
+    localStorage.removeItem("active_kelas");
+    window.location.href="index.html";
+}
     </script>
 </body>
 </html>
