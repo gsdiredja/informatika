@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Config File -->
     <script src="config.js"></script>
 
     <style>
@@ -184,7 +185,7 @@
         
         <!-- User Profile Card -->
         <div class="profile-card">
-            <img src="photo-guru.png" alt="Foto Profil" class="avatar" onerror="this.src='https://via.placeholder.com/80?text=GURU'">
+            <img id="imgAvatar" src="photo-guru.png" alt="Foto Profil" class="avatar" onerror="this.src='https://via.placeholder.com/80?text=GURU'">
             <div class="user-info">
                 <h2 id="txtNamaUser">Memuat nama...</h2>
                 <p id="txtNipUser">NIP / Username: -</p>
@@ -200,7 +201,7 @@
 
             <div class="grid-select">
                 <div class="form-group">
-                    <label for="selectMapel"><i class="fas fa-book"></i> Pilih Mata Pelajaran & Role:</label>
+                    <label for="selectMapel"><i class="fas fa-book"></i> Pilih Mata Pelajaran:</label>
                     <select id="selectMapel" class="select-control" onchange="updateDropdownKelas()">
                         <option value="">-- Memuat Mapel --</option>
                     </select>
@@ -246,7 +247,6 @@
     <script>
         let globalUserData = null;
 
-        // Inisialisasi Saat Halaman Dimuat
         document.addEventListener("DOMContentLoaded", function() {
             const sessionStr = localStorage.getItem('user_session');
             
@@ -266,13 +266,14 @@
             }
         });
 
-        // Tampilkan Data Profil User
         function renderUserProfile(user) {
             document.getElementById('txtNamaUser').innerText = user.nama || user.username || "Nama Guru";
             document.getElementById('txtNipUser').innerText = "NIP / Username: " + (user.nip || user.username || "-");
+            if (user.foto) {
+                document.getElementById('imgAvatar').src = user.foto;
+            }
         }
 
-        // Tampilkan List Mapel Unik di Dropdown
         function renderDropdownMapel(penugasan) {
             const selectMapel = document.getElementById('selectMapel');
             selectMapel.innerHTML = "";
@@ -282,7 +283,6 @@
                 return;
             }
 
-            // Ekstrak mata pelajaran unik
             const mapelSet = new Set();
             penugasan.forEach(p => {
                 if (p.mapel) mapelSet.add(p.mapel.toString().trim());
@@ -296,15 +296,22 @@
             }
 
             selectMapel.innerHTML = '<option value="">-- Pilih Mata Pelajaran --</option>';
+            
+            const savedActiveMapel = localStorage.getItem('active_mapel') || "";
+
             mapelList.forEach(mapel => {
                 const opt = document.createElement('option');
                 opt.value = mapel;
                 opt.textContent = mapel;
+                if (mapel === savedActiveMapel) opt.selected = true;
                 selectMapel.appendChild(opt);
             });
+
+            if (savedActiveMapel) {
+                updateDropdownKelas();
+            }
         }
 
-        // Filter & Pecah Dropdown Kelas Berdasarkan Mapel Yang Dipilih
         function updateDropdownKelas() {
             const selectMapelVal = document.getElementById('selectMapel').value;
             const selectKelas = document.getElementById('selectKelas');
@@ -317,10 +324,8 @@
 
             const setKelasUnik = new Set();
 
-            // Loop semua penugasan yang sesuai mapel
             globalUserData.penugasan.forEach(p => {
                 if (String(p.mapel).trim() === selectMapelVal && p.kelas) {
-                    // Memecah teks kelas jika digabung dengan koma (misal: "XI-3,XI-4,XI-5")
                     const itemKelas = String(p.kelas).split(',');
                     itemKelas.forEach(k => {
                         const namaKelasBersih = k.trim();
@@ -339,15 +344,17 @@
             }
 
             selectKelas.innerHTML = '<option value="">-- Pilih Kelas --</option>';
+            const savedActiveKelas = localStorage.getItem('active_kelas') || "";
+
             listKelas.forEach(kelas => {
                 const opt = document.createElement('option');
                 opt.value = kelas;
                 opt.textContent = kelas;
+                if (kelas === savedActiveKelas) opt.selected = true;
                 selectKelas.appendChild(opt);
             });
         }
 
-        // Buka Modul Kerja
         function bukaModul(jenisModul) {
             const mapel = document.getElementById('selectMapel').value;
             const kelas = document.getElementById('selectKelas').value;
@@ -357,22 +364,17 @@
                 return;
             }
 
-            // Simpan konteks pilihan guru ke localStorage
             localStorage.setItem('active_mapel', mapel);
             localStorage.setItem('active_kelas', kelas);
 
-            // Arahkan ke modul terkait
             if (jenisModul === 'presensi') window.location.href = "presensi.html";
             else if (jenisModul === 'jurnal') window.location.href = "jurnal.html";
             else if (jenisModul === 'nilai') window.location.href = "nilai.html";
             else if (jenisModul === 'rekap') window.location.href = "rekap.html";
         }
 
-        // Logout & Hapus Sesi
         function prosesLogout() {
-            localStorage.removeItem('user_session');
-            localStorage.removeItem('active_mapel');
-            localStorage.removeItem('active_kelas');
+            localStorage.clear();
             window.location.href = "index.html";
         }
     </script>
