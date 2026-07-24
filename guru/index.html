@@ -298,58 +298,67 @@
         }
 
         async function prosesLogin(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btnSubmitLogin');
-            btn.innerText = "Memproses...";
-            btn.disabled = true;
+    e.preventDefault();
+    const btn = document.getElementById('btnSubmitLogin');
+    btn.innerText = "Memproses...";
+    btn.disabled = true;
 
-            const u = document.getElementById('txtUsername').value.trim();
-            const p = document.getElementById('txtPassword').value.trim();
+    const u = document.getElementById('txtUsername').value.trim();
+    const p = document.getElementById('txtPassword').value.trim();
 
-            const targetUrl = typeof SCRIPT_URL !== 'undefined' 
-                ? SCRIPT_URL 
-                : (window.CONFIG && window.CONFIG.SCRIPT_URL ? window.CONFIG.SCRIPT_URL : '');
+    const targetUrl = typeof SCRIPT_URL !== 'undefined' 
+        ? SCRIPT_URL 
+        : (window.CONFIG && window.CONFIG.SCRIPT_URL ? window.CONFIG.SCRIPT_URL : '');
 
-            if (!targetUrl) {
-                alert("URL Apps Script belum dikonfigurasi di file config.js!");
-                btn.innerText = "Masuk Ke Ruang Kerja";
-                btn.disabled = false;
-                return;
+    if (!targetUrl) {
+        alert("URL Apps Script belum dikonfigurasi di file config.js!");
+        btn.innerText = "Masuk Ke Ruang Kerja";
+        btn.disabled = false;
+        return;
+    }
+
+    try {
+        const formData = new URLSearchParams();
+        formData.append('action', 'login');
+        formData.append('username', u);
+        formData.append('password', p);
+
+        const response = await fetch(targetUrl, {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+            // Ambil data user dari respon Apps Script
+            let userData = result.data || result.user || result.userData;
+
+            // Jika backend Apps Script tidak mengirim detail objek user, buat objek fallback otomatis
+            if (!userData || typeof userData !== 'object') {
+                userData = {
+                    username: u,
+                    nama: u,
+                    nip: u
+                };
             }
 
-            try {
-                const formData = new URLSearchParams();
-                formData.append('action', 'login');
-                formData.append('username', u);
-                formData.append('password', p);
+            // Simpan data session secara paksa dalam format String JSON valid
+            localStorage.setItem('user_session', JSON.stringify(userData));
 
-                const response = await fetch(targetUrl, {
-                    method: "POST",
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (result.status === "success") {
-                    // Ambil data user dari result.data ATAU result.user
-                    const userData = result.data || result.user;
-
-                    // Simpan ke 'user_session' (sesuai yang dibaca oleh dashboard.html)
-                    localStorage.setItem('user_session', JSON.stringify(userData));
-
-                    // Pindah ke dashboard
-                    window.location.href = "dashboard.html";
-                } else {
-                    alert(result.message || "Username atau Password salah!");
-                }
-            } catch (err) {
-                console.error("Error Login:", err);
-                alert("Gagal terhubung ke server! Pastikan URL Apps Script di config.js sudah berstatus 'Anyone' dan telah ter-deploy versi baru.");
-            } finally {
-                btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Masuk Ke Ruang Kerja';
-                btn.disabled = false;
-            }
+            // Pindah ke dashboard
+            window.location.href = "dashboard.html";
+        } else {
+            alert(result.message || "Username atau Password salah!");
         }
+    } catch (err) {
+        console.error("Error Login:", err);
+        alert("Gagal terhubung ke server! Pastikan URL Apps Script di config.js sudah berstatus 'Anyone' dan telah ter-deploy versi baru.");
+    } finally {
+        btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Masuk Ke Ruang Kerja';
+        btn.disabled = false;
+    }
+}
     </script>
 </body>
 </html>
