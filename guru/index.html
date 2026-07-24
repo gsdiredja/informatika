@@ -131,12 +131,14 @@
             const result = await response.json();
 
             if (result.status === "success" && result.data) {
+                // SIMPAN PENUGASAN SECARA UTUH
                 const userData = {
                     username: result.data.username || u,
                     nama: result.data.nama || u,
                     mapel: result.data.mapel || "",
                     ampu_kelas: result.data.ampu_kelas || "",
-                    foto: result.data.foto || "photo-guru.png"
+                    foto: result.data.foto || "photo-guru.png",
+                    penugasan: result.data.penugasan || []
                 };
 
                 localStorage.setItem('user_session', JSON.stringify(userData));
@@ -146,7 +148,7 @@
             }
         } catch (err) {
             console.error("Error Login:", err);
-            alert("Gagal terhubung ke server! Pastikan URL Apps Script di config.js sudah ter-deploy dengan benar.");
+            alert("Gagal terhubung ke server! Pastikan URL Apps Script di config.js sudah benar.");
         } finally {
             btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Masuk Ke Ruang Kerja';
             btn.disabled = false;
