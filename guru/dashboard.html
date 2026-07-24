@@ -304,7 +304,7 @@
             });
         }
 
-        // Filter Dropdown Kelas Berdasarkan Mapel Yang Dipilih
+        // Filter & Pecah Dropdown Kelas Berdasarkan Mapel Yang Dipilih
         function updateDropdownKelas() {
             const selectMapelVal = document.getElementById('selectMapel').value;
             const selectKelas = document.getElementById('selectKelas');
@@ -315,20 +315,31 @@
                 return;
             }
 
-            // Filter kelas berdasarkan mapel terpilih
-            const kelasList = globalUserData.penugasan
-                .filter(p => String(p.mapel).trim() === selectMapelVal)
-                .map(p => String(p.kelas).trim());
+            const setKelasUnik = new Set();
 
-            const uniqueKelas = Array.from(new Set(kelasList));
+            // Loop semua penugasan yang sesuai mapel
+            globalUserData.penugasan.forEach(p => {
+                if (String(p.mapel).trim() === selectMapelVal && p.kelas) {
+                    // Memecah teks kelas jika digabung dengan koma (misal: "XI-3,XI-4,XI-5")
+                    const itemKelas = String(p.kelas).split(',');
+                    itemKelas.forEach(k => {
+                        const namaKelasBersih = k.trim();
+                        if (namaKelasBersih !== "") {
+                            setKelasUnik.add(namaKelasBersih);
+                        }
+                    });
+                }
+            });
 
-            if (uniqueKelas.length === 0) {
+            const listKelas = Array.from(setKelasUnik);
+
+            if (listKelas.length === 0) {
                 selectKelas.innerHTML = '<option value="">-- Tidak ada kelas terdaftar --</option>';
                 return;
             }
 
             selectKelas.innerHTML = '<option value="">-- Pilih Kelas --</option>';
-            uniqueKelas.forEach(kelas => {
+            listKelas.forEach(kelas => {
                 const opt = document.createElement('option');
                 opt.value = kelas;
                 opt.textContent = kelas;
