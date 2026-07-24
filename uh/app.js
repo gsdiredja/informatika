@@ -1,5 +1,6 @@
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec";
 
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const statusMsg = document.getElementById("statusMessage");
@@ -8,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // Mengambil nilai dari dropdown (misal: "data/soal-uh1.json")
+      // 1. Ambil file soal dari dropdown (misal: "data/soal-uh1.json")
       const jenisUjian = document.getElementById("jenisUjian").value;
       const usernameInput = document.getElementById("username").value.trim();
       const passwordInput = document.getElementById("password").value.trim();
@@ -31,14 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = await response.json();
 
         if (result.status === "success") {
-          // Simpan data user yang berhasil login
+          // 2. Simpan data user & lokasi file soal ke sessionStorage
           sessionStorage.setItem("user_login", JSON.stringify(result.user));
+          sessionStorage.setItem("selected_exam_file", jenisUjian);
 
-          showStatus("Login berhasil! Membuka soal...", "success");
+          showStatus("Login berhasil! Mengalihkan ke ujian...", "success");
 
-          // LANGSUNG DIARAHKAN KE FILE JSON YANG DIPILIH
+          // 3. Redirect ke halaman ujian.html
           setTimeout(() => {
-            window.location.href = jenisUjian; // Akandimengarahkan ke "data/soal-uh1.json"
+            window.location.href = "ujian.html";
           }, 800);
 
         } else {
