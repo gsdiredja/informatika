@@ -1,73 +1,36 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Ujian Harian Online</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+<div class="login-card">
+  <h2>LOGIN AKSES UJIAN HARIAN</h2>
+  <p class="subtitle">Masukkan username, password, dan pilih jenis ujian Anda.</p>
+  <hr />
 
-    <!-- SCREEN 1: LOGIN -->
-    <div id="login-screen" class="screen active">
-        <div class="card">
-            <h2>Login Ujian Harian</h2>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="username">NISN / Username</label>
-                    <input type="text" id="username" required autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required>
-                </div>
-                <button type="submit" class="btn">Masuk</button>
-            </form>
-            <p id="login-error" class="error-msg"></p>
-        </div>
+  <form id="loginForm">
+    <!-- Dropdown Pilih Ulangan Harian -->
+    <div class="form-group">
+      <label for="jenisUjian">Pilih Ulangan Harian</label>
+      <select id="jenisUjian" name="jenisUjian" required>
+        <option value="data/soal-uh1.json">UH1 - Strategi Algoritmik & Pemrograman C++</option>
+        <!-- Tambahkan pilihan UH lain jika ada -->
+      </select>
     </div>
 
-    <!-- SCREEN 2: PILIH UH -->
-    <div id="select-screen" class="screen">
-        <div class="card">
-            <h2 id="welcome-msg">Selamat Datang</h2>
-            <p>Pilih topik Ujian Harian yang akan dikerjakan:</p>
-            <div id="uh-list" class="uh-buttons">
-                <!-- Tombol UH akan dibuat secara otomatis lewat JS -->
-            </div>
-        </div>
+    <!-- Input Username -->
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="admin" required />
     </div>
 
-    <!-- SCREEN 3: UJIAN -->
-    <div id="quiz-screen" class="screen">
-        <div class="quiz-header">
-            <span id="quiz-title">Ujian Harian</span>
-            <span id="question-number">Soal 1</span>
-        </div>
-
-        <form id="quiz-form">
-            <div id="questions-container">
-                <!-- Soal aktif akan dirender di sini oleh JS -->
-            </div>
-        </form>
-
-        <div class="quiz-footer">
-            <button id="btn-prev" class="btn btn-secondary" onclick="prevQuestion()" disabled>Kembali</button>
-            <button id="btn-next" class="btn" onclick="nextQuestion()">Lanjut</button>
-            <button id="btn-submit" class="btn btn-success hidden" onclick="submitQuiz()">Selesai & Kirim</button>
-        </div>
+    <!-- Input Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="•••••" required />
     </div>
 
-    <!-- SCREEN 4: HASIL -->
-    <div id="result-screen" class="screen">
-        <div class="card">
-            <h2>Ujian Selesai!</h2>
-            <p>Jawaban Anda telah berhasil terkirim ke sistem.</p>
-            <div id="score-box" class="score-box"></div>
-            <p class="note">*Nilai soal Essay akan diperiksa manual oleh Guru.</p>
-        </div>
+    <!-- Pesan Status / Error -->
+    <div id="statusMessage" class="status-message text-success">
+      Sistem siap. Silakan login.
     </div>
 
-    <script src="app.js"></script>
-</body>
-</html>
+    <!-- Tombol Submit -->
+    <button type="submit" id="btnSubmit" class="btn-primary">Masuk Ke Ujian</button>
+  </form>
+</div>
