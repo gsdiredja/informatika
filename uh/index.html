@@ -1,36 +1,55 @@
-<div class="login-card">
-  <h2>LOGIN AKSES UJIAN HARIAN</h2>
-  <p class="subtitle">Masukkan username, password, dan pilih jenis ujian Anda.</p>
-  <hr />
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Akses Ujian Harian</title>
+  <!-- Hubungkan CSS -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Font Google Inter/Roboto (Opsional agar tulisan lebih bersih) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
-  <form id="loginForm">
-    <!-- Dropdown Pilih Ulangan Harian -->
-    <div class="form-group">
-      <label for="jenisUjian">Pilih Ulangan Harian</label>
-      <select id="jenisUjian" name="jenisUjian" required>
-        <option value="data/soal-uh1.json">UH1 - Strategi Algoritmik & Pemrograman C++</option>
-        <!-- Tambahkan pilihan UH lain jika ada -->
-      </select>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <h2 class="title">LOGIN AKSES UJIAN HARIAN</h2>
+      <p class="subtitle">Masukkan username, password, dan pilih jenis ujian Anda.</p>
+      
+      <hr class="divider" />
+
+      <form id="loginForm">
+        <!-- Pilihan Ulangan -->
+        <div class="form-group">
+          <label for="jenisUjian">Pilih Ulangan Harian</label>
+          <select id="jenisUjian" name="jenisUjian" required>
+            <option value="data/soal-uh1.json">UH1 - Strategi Algoritmik & Pemrograman C++</option>
+          </select>
+        </div>
+
+        <!-- Username -->
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="admin" required autocomplete="off" />
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="•••••" required />
+        </div>
+
+        <!-- Status Pesan -->
+        <div id="statusMessage" class="status-message text-success">
+          Sistem siap. Silakan login.
+        </div>
+
+        <!-- Tombol Submit -->
+        <button type="submit" id="btnSubmit" class="btn-primary">Masuk Ke Ujian</button>
+      </form>
     </div>
+  </div>
 
-    <!-- Input Username -->
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" placeholder="admin" required />
-    </div>
-
-    <!-- Input Password -->
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="•••••" required />
-    </div>
-
-    <!-- Pesan Status / Error -->
-    <div id="statusMessage" class="status-message text-success">
-      Sistem siap. Silakan login.
-    </div>
-
-    <!-- Tombol Submit -->
-    <button type="submit" id="btnSubmit" class="btn-primary">Masuk Ke Ujian</button>
-  </form>
-</div>
+  <script src="app.js"></script>
+</body>
+</html>
