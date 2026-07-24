@@ -3,75 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduAdaptif - Beranda</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Dashboard Ruang Kerja Guru</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary-dark: #1e293b; --nav-blue: #2c3e50; --accent-blue: #3498db; --bg-light: #f1f5f9; --white: #ffffff; --secondary-dark: #0f172a; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; color: #334155; }
-        .main-wrapper { display: flex; flex: 1; flex-direction: column; }
-        .top-header { background-color: var(--primary-dark); color: var(--white); text-align: center; padding: 15px 10px; z-index: 100; }
-        .profile-pic { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); margin: 0 auto 5px; display: block; }
-        .top-header h1 { font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
-        .nav-bar { background-color: var(--nav-blue); display: flex; flex-wrap: wrap; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .nav-bar a { flex: 1; text-align: center; color: #cbd5e1; padding: 12px 5px; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .nav-bar a.active { border-bottom: 3px solid var(--accent-blue); background-color: rgba(255,255,255,0.05); color: #fff; }
-        .btn-logout-top { width: 100%; background-color: #c0392b; text-align: center; color: var(--white); padding: 10px; text-decoration: none; font-size: 13px; font-weight: 600; display: block; border: none; cursor: pointer; }
-        .content-area { flex: 1; padding: 15px; width: 100%; }
-        .card { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        footer { background-color: var(--secondary-dark); color: #94a3b8; text-align: center; padding: 20px; font-size: 12px; margin-top: auto; }
-        @media (min-width: 769px) {
-            .main-wrapper { flex-direction: row; }
-            .top-header { width: 260px; min-height: 100vh; position: sticky; top: 0; padding-top: 40px; }
-            .profile-pic { width: 90px; height: 90px; margin-bottom: 15px; }
-            .nav-bar { flex-direction: column; background: none; box-shadow: none; margin-top: 25px; }
-            .nav-bar a { width: 100%; text-align: left; padding: 15px 25px; flex-direction: row; gap: 12px; font-size: 15px; }
-            .nav-bar a.active { border-left: 4px solid var(--accent-blue); background-color: #34495e; border-bottom: none; }
-            .btn-logout-top { position: absolute; bottom: 0; left: 0; padding: 15px; }
-            .content-area { padding: 30px; max-width: calc(100% - 260px); }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background: #f8fafc; padding: 20px; color: #1e293b; }
+        .card { background: white; max-width: 500px; margin: 20px auto; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .user-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 14px; }
+        .user-header img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #3b82f6; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #475569; }
+        .select-box { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
+        .select-box:focus { border-color: #3b82f6; }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; }
     </style>
 </head>
 <body>
 
-<div class="main-wrapper">
-    <div class="top-header">
-        <img id="user-pic" src="photo-guru.png" class="profile-pic" alt="User">
-        <h1>EduAdaptif</h1>
-        <p id="user-name" style="font-size:12px; color:#cbd5e1; font-weight:600; margin-top:5px;">Loading...</p>
-        <br/>
-        <div class="nav-bar">
-            <a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            <a href="presensi.html"><i class="fas fa-clipboard-user"></i> Presensi Siswa</a>
-            <a href="jurnal.html"><i class="fas fa-book-open"></i> Jurnal Mengajar</a>
-            <a href="nilai.html"><i class="fas fa-graduation-cap"></i> Input Nilai</a>
-            <a href="rekap.html"><i class="fas fa-file-invoice"></i> Rekapitulasi</a>
-        </div>
-        <button onclick="logout()" class="btn-logout-top"><i class="fas fa-sign-out-alt"></i> Keluar</button>
-    </div>
-
-    <div class="content-area">
-        <div class="card">
-            <div style="text-align: center; padding: 50px 20px;">
-                <h2>RUANG KERJA DIGITAL</h2>
-                <p style="color: #64748b; margin-top:10px;">Selamat datang di portal akademik <strong>EduAdaptif</strong>. Silakan pilih menu navigasi di samping untuk mengelola kelas.</p>
+    <div class="card">
+        <div class="user-header">
+            <img id="imgFotoGuru" src="" alt="Foto Guru" onerror="this.src='https://via.placeholder.com/50?text=GURU'">
+            <div>
+                <h3 id="txtNamaGuru">-</h3>
+                <span id="txtNipGuru" style="font-size: 12px; color: #64748b;">NIP: -</span>
             </div>
+            <button class="btn-logout" style="margin-left: auto;" onclick="logout()">Keluar</button>
+        </div>
+
+        <h4 style="margin-bottom: 16px; font-size: 15px;">Form Input Presensi / Jurnal KBM</h4>
+
+        <!-- DROPDOWN 1: MATA PELAJARAN -->
+        <div class="form-group">
+            <label for="selectMapel">Pilih Mata Pelajaran & Role:</label>
+            <select id="selectMapel" class="select-box" onchange="updateDropdownKelas()">
+                <option value="">-- Pilih Mapel --</option>
+            </select>
+        </div>
+
+        <!-- DROPDOWN 2: KELAS (TERFILTER OTOMATIS) -->
+        <div class="form-group">
+            <label for="selectKelas">Pilih Kelas Mengajar:</label>
+            <select id="selectKelas" class="select-box">
+                <option value="">-- Pilih Mapel Terlebih Dahulu --</option>
+            </select>
         </div>
     </div>
-</div>
 
-<footer>© 2026 EduAdaptif | Created by Agus Tjakra - kodi.web.id</footer>
+    <script>
+        let sessionUser = null;
 
-<script>
-    const userSession = JSON.parse(localStorage.getItem('user_session'));
-    if (!userSession) window.location.href = 'index.html';
-    document.getElementById('user-name').innerText = userSession.nama;
-    if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
+        // Load Session User saat Halaman Dimuat
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedSession = localStorage.getItem('user_session');
+            if (!savedSession) {
+                window.location.replace("login.html");
+                return;
+            }
 
-    function logout() {
-        localStorage.removeItem('user_session');
-        window.location.href = 'index.html';
-    }
-</script>
+            sessionUser = JSON.parse(savedSession);
+            
+            // Tampilkan Data Pengguna
+            document.getElementById('txtNamaGuru').innerText = sessionUser.nama;
+            document.getElementById('txtNipGuru').innerText = "NIP/Username: " + sessionUser.username;
+            if(sessionUser.foto) {
+                document.getElementById('imgFotoGuru').src = sessionUser.foto;
+            }
+
+            // Inisialisasi Pilihan Mapel
+            renderDropdownMapel();
+        });
+
+        // 1. Render Pilihan Mapel dari Penugasan
+        function renderDropdownMapel() {
+            const selectMapel = document.getElementById('selectMapel');
+            selectMapel.innerHTML = '<option value="">-- Pilih Mapel --</option>';
+
+            if (sessionUser && sessionUser.penugasan) {
+                sessionUser.penugasan.forEach((p, index) => {
+                    selectMapel.innerHTML += `<option value="${index}">${p.mapel} [Role: ${p.role.toUpperCase()}]</option>`;
+                });
+            }
+        }
+
+        // 2. Filter Pilihan Kelas secara Otomatis saat Mapel Dipilih
+        function updateDropdownKelas() {
+            const selectMapelIndex = document.getElementById('selectMapel').value;
+            const selectKelas = document.getElementById('selectKelas');
+
+            selectKelas.innerHTML = '<option value="">-- Pilih Kelas --</option>';
+
+            if (selectMapelIndex !== "") {
+                const penugasanDipilih = sessionUser.penugasan[selectMapelIndex];
+                
+                // Pisahkan string "XI-3,XI-4,XI-5" menjadi Array ["XI-3", "XI-4", "XI-5"]
+                const arrayKelas = penugasanDipilih.ampu_kelas.split(',');
+
+                arrayKelas.forEach(kelas => {
+                    const kelasBersih = kelas.trim();
+                    if(kelasBersih) {
+                        selectKelas.innerHTML += `<option value="${kelasBersih}">Kelas ${kelasBersih}</option>`;
+                    }
+                });
+            } else {
+                selectKelas.innerHTML = '<option value="">-- Pilih Mapel Terlebih Dahulu --</option>';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user_session');
+            window.location.replace("login.html");
+        }
+    </script>
 </body>
 </html>
