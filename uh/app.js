@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded", () => {
         });
 });
 
-// 2. HANDLER LOGIN & AMBIL FILE JSON DENGAN DETEKSI ERROR DETAIL
+// 2. HANDLER LOGIN & AMBIL FILE JSON DENGAN ERROR CHECKING
 async function handleLogin(e) {
     e.preventDefault();
     const userInput = document.getElementById("username").value.trim();
@@ -42,14 +42,12 @@ async function handleLogin(e) {
         currentUserData = match;
 
         try {
-            // Mengambil berkas JSON dari folder data/
             const response = await fetch(`data/soal-${selectedUH}.json`);
             
             if (!response.ok) {
                 throw new Error(`File 'data/soal-${selectedUH}.json' tidak ditemukan di server! (HTTP ${response.status})`);
             }
             
-            // Ambil teks mentah file JSON untuk dites
             const rawText = await response.text();
             
             try {
@@ -62,7 +60,7 @@ async function handleLogin(e) {
         } catch (err) {
             console.error("Detail Error Pemanggilan Kuis:", err);
             alert(`Gagal Memuat Kuis!\n\nPenyebab: ${err.message}`);
-            return; // Hentikan eksekusi jika terjadi error
+            return;
         }
 
         document.getElementById("login-error").style.display = "none";
@@ -110,7 +108,7 @@ function renderQuestions() {
     });
 }
 
-// 4. VALIDASI: HARUS DIJAWAB SEBELUM BISA LANJUT
+// 4. VALIDASI INPUT JAWABAN
 function isCurrentQuestionAnswered() {
     const q = currentQuestions[currentPage];
     const form = document.getElementById("quiz-form");
@@ -212,3 +210,58 @@ function submitQuiz() {
         }).catch(err => console.error("Gagal mengirimkan data:", err));
     }
 }
+
+// ==================================================
+// FITUR KEAMANAN (ANTI SCREENSHOT, COPY & INSPECT)
+// ==================================================
+
+const protector = document.getElementById('screen-protector');
+
+function triggerProtection() {
+    if (protector) protector.style.display = 'flex';
+    document.body.classList.add('blur-screen');
+}
+
+function removeProtection() {
+    setTimeout(() => {
+        if (protector) protector.style.display = 'none';
+        document.body.classList.remove('blur-screen');
+    }, 300);
+}
+
+// 1. Deteksi Kehilangan Fokus (Screenshot HP / Windows Snipping Tool / Switch Tab)
+window.addEventListener('pagehide', triggerProtection);
+window.addEventListener('blur', triggerProtection);
+window.addEventListener('pageshow', removeProtection);
+window.addEventListener('focus', removeProtection);
+
+// 2. Blokir Klik Kanan
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// 3. Blokir Tombol Pintas Keyboard (F12, Inspect, Print, Save, PrintScreen)
+document.addEventListener('keydown', function(e) {
+    if (e.key === "F12") e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) e.preventDefault();
+    if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) e.preventDefault();
+    if (e.ctrlKey && (e.key === 'p' || e.key === 'P')) { e.preventDefault(); alert("Dilarang mencetak halaman!"); }
+    if (e.ctrlKey && (e.key === 's' || e.key === 'S')) e.preventDefault();
+    if (e.key === "PrintScreen") {
+        e.preventDefault();
+        if (navigator.clipboard) navigator.clipboard.writeText("");
+        alert("Fitur Screenshot telah dimatikan!");
+    }
+});
+
+// 4. Mencegah Gesture Multi-Finger di HP Android/iOS
+document.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+
+// 5. Bersihkan Clipboard jika Terjadi Aksi Copy
+document.addEventListener('copy', function(e) {
+    e.preventDefault();
+    if (e.clipboardData) e.clipboardData.setData('text/plain', '');
+    alert('Dilarang menyalin teks ujian!');
+});
