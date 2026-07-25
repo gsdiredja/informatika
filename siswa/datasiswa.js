@@ -68,13 +68,12 @@ const daftarSiswa = [
     { username: "rev144", password: "12345", nama: "REVY MAULIDA HASANAH", kelas: "XI-2" },
     { username: "ris847", password: "12345", nama: "RISKA MAULIDA ULFA", kelas: "XI-2" },
     { username: "rob570", password: "12345", nama: "ROBY JATI MURTI", kelas: "XI-2" },
-    { username: "sal649", password: "12345", nama: "SALMA RAHADATUL AISY", kelas: "XI-2" },
     { username: "sen227", password: "12345", nama: "SENJA DINANTI", kelas: "XI-2" },
     { username: "sof487", password: "12345", nama: "SOFYAN ZAHURI A.", kelas: "XI-2" },
     { username: "van180", password: "12345", nama: "VANA AGISTA RAMADHANI", kelas: "XI-2" },
     { username: "wul665", password: "12345", nama: "WULIDATUL AFIFAH", kelas: "XI-2" },
     { username: "yen400", password: "12345", nama: "YENI DWI PRASTIYANI", kelas: "XI-2" },
-    { username: "m. 949", password: "12345", nama: "M. SUELTAN SOFYAN ARRIDHO", kelas: "XI-2" },
+    { username: "mss949", password: "12345", nama: "M. SUELTAN SOFYAN ARRIDHO", kelas: "XI-2" },
 
     // KELAS XI-3
     { username: "ach743", password: "12345", nama: "ACHMAD FAIRUS RADITYA", kelas: "XI-3" },
@@ -148,6 +147,7 @@ const daftarSiswa = [
     { username: "nov422", password: "12345", nama: "NOVA WIDIANTI", kelas: "XI-4" },
     { username: "moh317", password: "12345", nama: "MOHAMMAD ARIANSYAH", kelas: "XI-4" },
     { username: "fir771", password: "12345", nama: "FIRDAUS IBNU HADU", kelas: "XI-4" },
+    { username: "sal649", password: "12345", nama: "SALMA RAHADATUL AISY", kelas: "XI-4" },
 
     // KELAS XI-5
     { username: "adi611", password: "12345", nama: "ADITYA RAMADHANI", kelas: "XI-5" },
