@@ -156,7 +156,6 @@
         }
         .modul-card:hover i { transform: scale(1.1); }
 
-        /* FOOTER DASHBOARD */
         footer { 
             background-color: #0f172a; 
             color: #94a3b8; 
@@ -184,8 +183,9 @@
 <body>
 
     <header>
+        <!-- LOGO.PNG DI SAMPING NAMA PORTAL -->
         <a href="dashboard.html" class="brand">
-            <img src="photo-guru.png" alt="Logo" onerror="this.src='https://ui-avatars.com/api/?name=Edu&background=0284c7&color=fff'">
+            <img src="logo.png" alt="Logo Kodi EduAdaptif" onerror="this.src='https://ui-avatars.com/api/?name=Kodi&background=0284c7&color=fff'">
             <span>Kodi EduAdaptif</span>
         </a>
         <button onclick="prosesLogout()" class="btn-logout">
@@ -195,11 +195,12 @@
 
     <div class="container">
         
+        <!-- FOTO PROFIL GURU TETAP DI KARTU PROFIL -->
         <div class="profile-card">
-            <img id="imgAvatar" src="photo-guru.png" alt="Foto Profil" class="avatar" onerror="handleImageError(this)">
+            <img id="imgAvatar" src="photo-guru.png" alt="Foto Profil Guru" class="avatar" onerror="handleImageError(this)">
             <div class="user-info">
                 <h2 id="txtNamaUser">Memuat nama...</h2>
-                <p id="txtNipUser">NIP : -</p>
+                <p id="txtNipUser">NIP / Username: -</p>
                 <span class="badge-role">PENDIDIK</span>
             </div>
         </div>
@@ -252,9 +253,10 @@
 
     </div>
 
-    <!-- FOOTER DASHBOARD -->
     <footer>
         <span>&copy; 2026 <strong>Kodi EduAdaptif</strong> | kodi.web.id</span>
+        <span>•</span>
+        <a href="tentang.html"><i class="fas fa-user-gear"></i> Tentang Pengembang</a>
     </footer>
 
     <script>
