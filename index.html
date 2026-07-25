@@ -13,9 +13,25 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* HEADER & MENU NAVIGASI */
         header { padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; }
         .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; color: #ffffff; text-decoration: none; }
         .brand img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 20px; }
+        .nav-link { 
+            color: #94a3b8; 
+            text-decoration: none; 
+            font-size: 14px; 
+            font-weight: 600; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            transition: color 0.2s; 
+        }
+        .nav-link:hover { color: #38bdf8; }
+
         .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
         .pill-tag { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.2); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 24px; display: inline-block; }
         h1 { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.5px; }
@@ -54,16 +70,44 @@
         .form-control:focus { border-color: #0284c7; }
         .btn-submit { width: 100%; background: #0284c7; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 15px; margin-top: 10px; transition: background 0.2s; }
         .btn-submit:hover { background: #0369a1; }
-        @media (max-width: 600px) { h1 { font-size: 28px; } p.subtitle { font-size: 14px; } }
+        
+        footer { 
+            text-align: center; 
+            padding: 24px 20px; 
+            font-size: 13px; 
+            color: #64748b; 
+            border-top: 1px solid #1e293b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        footer a { color: #38bdf8; text-decoration: none; font-weight: 600; }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 600px) { 
+            h1 { font-size: 28px; } 
+            p.subtitle { font-size: 14px; }
+            header { flex-direction: column; gap: 15px; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="#" class="brand">
+        <a href="index.html" class="brand">
             <img src="photo-guru.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=EDU'">
             <span>Kodi EduAdaptif</span>
         </a>
+        
+        <!-- MENU DI HEADER -->
+        <nav class="nav-menu">
+            <a href="tentang.html" class="nav-link">
+                <i class="fas fa-code"></i> Pengembang
+            </a>
+        </nav>
     </header>
 
     <main class="hero">
@@ -74,12 +118,12 @@
         </p>
         
         <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-            <!-- Tombol Guru: Membuka Modal Login Guru -->
+            <!-- Tombol Guru -->
             <button class="btn-main" onclick="bukaRuangKerja()">
                 <i class="fas fa-laptop-code"></i> Portal Kerja Guru
             </button>
 
-            <!-- Tombol Siswa: Langsung Mengarah ke Folder /siswa/index.html (Tanpa JS Modal) -->
+            <!-- Tombol Siswa -->
             <a href="/siswa/index.html" class="btn-main">
                 <i class="fas fa-user-graduate"></i> Portal Utama Siswa
             </a>
@@ -108,6 +152,13 @@
             </form>
         </div>
     </div>
+
+    <!-- FOOTER DENGAN TAUTAN PENGEMBANG -->
+    <footer>
+        <span>&copy; 2026 <strong>Kodi EduAdaptif</strong> | kodi.web.id</span>
+        <span>•</span>
+        <a href="tentang.html"><i class="fas fa-user-gear"></i> Tentang Pengembang</a>
+    </footer>
 
 <script>
     function bukaRuangKerja() {
