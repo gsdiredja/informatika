@@ -57,6 +57,9 @@
         <button class="btn-main" onclick="bukaRuangKerja()">
             <i class="fas fa-laptop-code"></i> Akses Ruang Kerja Pendidik
         </button>
+        <button class="btn-main" onclick="bukaRuangSiswa()">
+            <i class="fas fa-laptop-code"></i> Akses Belajar Siswa
+        </button>
     </main>
 
     <div class="modal-overlay" id="modalLogin">
@@ -86,6 +89,14 @@
         const savedSession = localStorage.getItem('user_session');
         if (savedSession && savedSession !== "undefined" && savedSession !== "null") {
             window.location.href = "dashboard.html";
+        } else {
+            document.getElementById('modalLogin').style.display = 'flex';
+        }
+    }
+     function bukaRuangSiswa() {
+        const savedSession = localStorage.getItem('user_session');
+        if (savedSession && savedSession !== "undefined" && savedSession !== "null") {
+            window.location.href = "siswa/index.html";
         } else {
             document.getElementById('modalLogin').style.display = 'flex';
         }
