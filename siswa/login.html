@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KELAS DIGITAL INFORMATIKA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Memuat database siswa -->
+    <script src="datasiswa.js?v=1.1"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            /* Background Gradasi Biru Portal SMAN 1 Muncar */
+            background: linear-gradient(135deg, #0d2238 0%, #1a426e 50%, #3e73ad 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Aksen Dekoratif Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -150px;
+            right: -150px;
+            width: clamp(300px, 40vw, 600px);
+            height: clamp(300px, 40vw, 600px);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Header / Navbar Responsif */
+        .navbar {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .nav-title-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-title {
+            font-size: clamp(14px, 1.2vw, 16px);
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+        }
+
+        .nav-subtitle {
+            font-size: 11px;
+            color: #93c5fd;
+            font-weight: 500;
+        }
+
+        /* Tombol Guru Elegan */
+        .btn-guru-portal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+
+        .btn-guru-portal:hover {
+            background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.45);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+            color: #fef08a;
+        }
+
+        /* Main Wrapper & Flex Layout */
+        .main-wrapper {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 24px 40px 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Card Login Kanan (Diatur order: 1 pada layar kecil agar posisi diatas) */
+        .login-card {
+            flex: 0 1 380px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 32px 28px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            color: #1e293b;
+            margin: 0 auto;
+            order: 1; /* Posisikan utama/di atas pada mode bertumpuk */
+        }
+
+        /* Sisi Kiri (Hero Text & Informasi) */
+        .hero {
+            flex: 1 1 480px;
+            max-width: 600px;
+            order: 2; /* Diposisikan di bawah login card pada mode bertumpuk */
+        }
+
+        /* Pengaturan Layout untuk Layar Lebar (Desktop) */
+        @media (min-width: 901px) {
+            .hero {
+                order: 1; /* Di desktop hero tetap di sebelah kiri */
+            }
+            .login-card {
+                order: 2; /* Di desktop login card di sebelah kanan */
+            }
+        }
+
+        .hero h2 {
+            font-size: clamp(26px, 3vw, 40px);
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 16px;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-desc {
+            font-size: clamp(13px, 1.1vw, 15px);
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        /* List Fitur */
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 16px;
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        .feature-icon {
+            color: #fef08a;
+            font-size: 16px;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        .feature-text h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 3px;
+        }
+
+        .feature-text p {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        /* Styling Input Form */
+        .login-card h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f2d4a;
+            margin-bottom: 6px;
+        }
+
+        .login-card p.subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            color: #0f172a;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .password-wrapper input {
+            padding-right: 42px;
+        }
+
+        .form-group input:focus {
+            border-color: #1a426e;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(26, 66, 110, 0.15);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #64748b;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+            user-select: none;
+        }
+
+        .toggle-password:hover {
+            color: #1a426e;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            background: #1a426e;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+            box-shadow: 0 4px 12px rgba(26, 66, 110, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: #0d2238;
+            transform: translateY(-1px);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 20px 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 16px;
+            }
+            .hero {
+                text-align: center;
+            }
+            .features-list {
+                text-align: left;
+            }
+            .btn-guru-portal span {
+                display: none;
+            }
+            .btn-guru-portal {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigasi -->
+    <header class="navbar">
+        <div class="nav-brand">
+            <img class="nav-logo" src="logo-sekolah.png" alt="Logo SMAN 1 Muncar" onerror="this.src='https://via.placeholder.com/38?text=SMAN1'">
+            <div class="nav-title-group">
+                <div class="nav-title">SMAN 1 MUNCAR</div>
+                <div class="nav-subtitle">Kelas Digital Informatika</div>
+            </div>
+        </div>
+
+        <!-- Tombol Menuju Area Guru -->
+        <a href="https://kodi.web.id/guru/index.html" class="btn-guru-portal" title="Akses Area Guru">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+            <span>Area Guru</span>
+        </a>
+    </header>
+
+    <!-- Content Wrapper Utama -->
+    <div class="main-wrapper">
+        <main class="container">
+            
+            <!-- Kotak Login (Posisi Atas di Layar Tablet/HP) -->
+            <section class="login-card">
+                <h2>Portal Masuk</h2>
+                <p class="subtitle">Silakan gunakan akun Siswa atau Admin Anda.</p>
+
+                <div class="form-group">
+                    <label for="inputUser">Username / NISN</label>
+                    <input type="text" id="inputUser" placeholder="Masukkan username..." autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPass">Kata Sandi</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="inputPass" placeholder="••••••••">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility()" title="Tampilkan/Sembunyikan Kata Sandi">
+                            <span id="eyeIcon">👁️</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="btn-submit" onclick="prosesLogin()">Masuk Aplikasi</button>
+            </section>
+
+            <!-- Informasi Pembelajaran (Posisi Bawah di Layar Tablet/HP) -->
+            <section class="hero">
+                <h2>Kelas Digital Informatika</h2>
+                <p class="hero-desc">
+                    Akses ruang belajar mandiri, strategi algoritmik, jaringan komputer, dan materi pemrograman Anda secara cepat, rapi, dan praktis.
+                </p>
+
+                <div class="features-list">
+                    <div class="feature-item">
+                        <span class="feature-icon">⭐</span>
+                        <div class="feature-text">
+                            <h4>Algoritma & Koding</h4>
+                            <p>Berpikir komputasional & rekursi</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">⭐</span>
+                        <div class="feature-text">
+                            <h4>Jaringan Komputer</h4>
+                            <p>Topologi & keamanan cyber</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">⭐</span>
+                        <div class="feature-text">
+                            <h4>Aplikasi Mobile</h4>
+                            <p>Pengembangan App Inventor</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">⭐</span>
+                        <div class="feature-text">
+                            <h4>Analisis Data</h4>
+                            <p>Pemrosesan & visualisasi data</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2026 KODI | Kelas Digital Informatika SMAN 1 Muncar
+    </footer>
+
+    <script>
+        localStorage.removeItem('loggedSiswa');
+
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('inputPass');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                eyeIcon.textContent = '🙈';
+            } else {
+                passInput.type = 'password';
+                eyeIcon.textContent = '👁️';
+            }
+        }
+
+        function prosesLogin() {
+            const userIn = document.getElementById('inputUser').value.trim();
+            const passIn = document.getElementById('inputPass').value.trim();
+
+            if(!userIn || !passIn) {
+                alert("Username dan Password wajib diisi!");
+                return;
+            }
+
+            if (typeof daftarSiswa === 'undefined') {
+                alert("Gagal memuat database siswa. Silakan tekan Ctrl+F5 untuk memuat ulang halaman.");
+                return;
+            }
+
+            const ketemu = daftarSiswa.find(s => s.username === userIn && s.password === passIn);
+
+            if(ketemu) {
+                localStorage.setItem('loggedSiswa', JSON.stringify(ketemu));
+                window.location.href = "topik.html";
+            } else {
+                alert("Username atau Password salah! Silakan coba lagi.");
+            }
+        }
+    </script>
+</body>
+</html>

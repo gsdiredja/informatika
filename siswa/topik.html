@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFOMATIKA SMA N 1 MUNCAR | Daftar Topik</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f1f5f9; color: #333333; }
+        
+        /* Header / Navbar Disamakan Selaras dengan login.html */
+        .pmm-navbar { 
+            width: 100%; 
+            background: linear-gradient(135deg, #0d2238 0%, #1a426e 100%); 
+            color: white; 
+            padding: 20px 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 12px rgba(13, 34, 56, 0.15); 
+        }
+        
+        .nav-left { display: flex; align-items: center; gap: 15px; }
+        .nav-logo-box { background: white; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .nav-title { font-size: 17px; font-weight: 800; letter-spacing: 0.5px; color: #ffffff; }
+        .nav-right-btn { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); color: white; font-weight: 600; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+        .nav-right-btn:hover { background: rgba(255, 255, 255, 0.25); }
+
+        .breadcrumb-bar { max-width: 1200px; width: 100%; margin: 20px auto 0 auto; padding: 0 20px; font-size: 14px; color: #64748b; }
+        .breadcrumb-bar span { color: #334155; font-weight: 600; }
+        .main-container { max-width: 1200px; width: 100%; margin: 0 auto; padding: 20px; }
+        
+        .tab-menu-row { display: flex; gap: 24px; border-bottom: 2px solid #cbd5e1; margin-bottom: 30px; padding-bottom: 8px; }
+        .tab-item { font-size: 16px; font-weight: 600; color: #64748b; padding-bottom: 8px; cursor: pointer; position: relative; text-decoration: none; user-select: none; }
+        .tab-item.active { color: #1a426e; font-weight: 700; }
+        .tab-item.active::after { content: ""; position: absolute; bottom: -10px; left: 0; width: 100%; height: 3px; background-color: #1a426e; border-radius: 3px; }
+        
+        .section-header-title { font-size: 24px; font-weight: 800; color: #0d2238; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+        .filter-btn { border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 8px; font-size: 14px; background: white; color: #334155; font-weight: 500; }
+        
+        .topik-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        @media (max-width: 992px) { .topik-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .topik-grid { grid-template-columns: 1fr; } }
+        
+        .topik-card { background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+        .topik-card:hover:not(.locked) { transform: translateY(-3px); box-shadow: 0 12px 20px -3px rgba(13, 34, 56, 0.08); border-color: #cbd5e1; }
+        .topik-card.locked { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; opacity: 0.6; }
+        .topik-card.locked .topik-title { color: #94a3b8; }
+        .topik-card.locked .thumbnail-box { background-color: #e2e8f0 !important; color: #94a3b8 !important; }
+        .topik-card.completed { border-color: #10b981; }
+        .topik-card.completed::after { content: "✓ Selesai"; position: absolute; top: 15px; right: 20px; background: #10b981; color: white; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
+        
+        .card-top-info { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 12px; }
+        .topik-title { font-size: 16px; font-weight: 700; color: #0d2238; line-height: 1.4; }
+        .topik-desc { font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .topik-target { background-color: #f1f5f9; color: #475569; font-size: 12px; padding: 4px 10px; border-radius: 6px; font-weight: 600; width: fit-content; }
+        .card-bottom-info { border-top: 1px solid #f1f5f9; padding-top: 14px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; font-weight: 500; }
+        .thumbnail-box { width: 50px; height: 50px; background-color: #e0f2fe; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #0284c7; }
+        
+        .sumatif-container { display: none; }
+        .sumatif-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        @media (max-width: 640px) { .sumatif-grid { grid-template-columns: 1fr; } }
+        
+        .soal-card { background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
+        .soal-card:hover:not(.locked) { border-color: #1a426e; box-shadow: 0 6px 16px rgba(26, 66, 110, 0.08); transform: translateY(-2px); }
+        .soal-card.locked { background-color: #f8fafc; cursor: not-allowed; opacity: 0.6; }
+        .soal-card.locked .soal-title { color: #94a3b8; }
+        .soal-info-left { display: flex; flex-direction: column; gap: 6px; }
+        .soal-tag-status { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; width: fit-content; }
+        .soal-tag-status.terbuka { background-color: #e0f2fe; color: #0369a1; }
+        .soal-tag-status.terkunci { background-color: #f1f5f9; color: #64748b; }
+        .soal-title { font-size: 15px; font-weight: 700; color: #0d2238; }
+        .soal-meta { font-size: 12px; color: #64748b; }
+        .arrow-circle-icon { width: 32px; height: 32px; border-radius: 50%; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #1a426e; transition: all 0.2s; }
+        .soal-card:hover:not(.locked) .arrow-circle-icon { background-color: #1a426e; color: white; }
+        .soal-card.locked .arrow-circle-icon { color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar Diselaraskan Warna Gradasi SMAN 1 Muncar -->
+    <div class="pmm-navbar">
+        <div class="nav-left">
+            <div class="nav-logo-box">
+                <img src="logo-sekolah.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.src='https://via.placeholder.com/40?text=INF'">
+            </div>
+            <div class="nav-title">KELAS DIGITAL INFORMATIKA</div>
+        </div>
+        <button class="nav-right-btn" onclick="logoutAkses()">Keluar</button>
+    </div>
+
+    <div class="breadcrumb-bar">
+        Beranda &gt; <span id="breadcrumbActiveText">Daftar Topik</span>
+    </div>
+
+    <div class="main-container">
+        <div class="tab-menu-row">
+            <div class="tab-item active" id="tabTopik" onclick="pindahMenuTab('topik')">Topik</div>
+            <div class="tab-item" id="tabSumatif" onclick="pindahMenuTab('sumatif')">PENILAIAN SUMATIF</div>
+        </div>
+
+        <div id="halamanTopikUtama">
+            <div class="section-header-title">
+                <span>Daftar Topik</span>
+                <button class="filter-btn">Urutan: <b>Rekomendasi</b></button>
+            </div>
+
+            <!-- GRID KARTU TOPIK GENERATE DINAMIS -->
+            <div class="topik-grid" id="topikContainerGrid">
+                <!-- Kartu Topik dimuat lewat JavaScript dari data-topik.js -->
+            </div>
+        </div>
+
+        <div class="sumatif-container" id="halamanSumatifKonten">
+            <div class="section-header-title">
+                <span>Daftar Soal Sumatif</span>
+            </div>
+            <p style="color:#64748b; font-size:14px; margin-bottom: 24px;">Pilih tautan di bawah ini untuk memulai pengerjaan ujian penilaian sumatif digital:</p>
+            
+            <div class="sumatif-grid">
+                <div class="soal-card" id="soal-sumatif-1" onclick="bukaSoalSumatif(1)">
+                    <div class="soal-info-left">
+                        <span class="soal-tag-status terbuka" id="tag-soal-1">Siap Dikerjakan</span>
+                        <h4 class="soal-title">Soal Sumatif 1: Strategi Algoritmik</h4>
+                        <span class="soal-meta">📋 Durasi: 45 Menit | Pilihan Ganda & Essay</span>
+                    </div>
+                    <div class="arrow-circle-icon">➔</div>
+                </div>
+
+                <div class="soal-card locked" id="soal-sumatif-2" onclick="bukaSoalSumatif(2)">
+                    <div class="soal-info-left">
+                        <span class="soal-tag-status terkunci" id="tag-soal-2">🔒 Terkunci</span>
+                        <h4 class="soal-title">Soal Sumatif 2: Berpikir Kritis & Dampak Sosial</h4>
+                        <span class="soal-meta">📋 Durasi: 60 Menit | Pembahasan Topik 2</span>
+                    </div>
+                    <div class="arrow-circle-icon">➔</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="datasiswa.js"></script>
+    <script src="data-topik.js"></script>
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbwH3IGe7wra6vC4SyqHxV8h7rr7T4mztd4ZzaFsFkljzvN_090QEngLjXz2RBeDmaTA/exec"; 
+
+        let sessionUser = null;
+        let statusTopik = { 1: true, 2: false, 3: false, 4: false, 5: false };
+
+        (function cekTiketAkses() {
+            const token = localStorage.getItem('loggedSiswa');
+            if(!token) {
+                window.location.replace("login.html");
+            } else {
+                sessionUser = JSON.parse(token);
+                
+                if (sessionUser && sessionUser.username === "admin") {
+                    statusTopik = { 1: true, 2: true, 3: true, 4: true, 5: true };
+                }
+
+                document.addEventListener("DOMContentLoaded", () => {
+                    renderKartuTopik();
+                    loadStatusTopikDariCloud();
+                    if (sessionUser && sessionUser.username === "admin") {
+                        bukaVisualSumatifAdmin();
+                    }
+                });
+            }
+        })();
+
+        function renderKartuTopik() {
+            const container = document.getElementById('topikContainerGrid');
+            container.innerHTML = "";
+            const isAdmin = (sessionUser && sessionUser.username === "admin");
+
+            Object.keys(DATA_TOPIK).forEach(idTopik => {
+                const t = DATA_TOPIK[idTopik];
+                const jmlModul = Object.keys(t.modul).length;
+                
+                const isLocked = !isAdmin && (idTopik > 1);
+
+                container.innerHTML += `
+                    <div class="topik-card ${isLocked ? 'locked' : ''}" id="topik-${idTopik}" onclick="bukaTopik(${idTopik})">
+                        <div>
+                            <div class="card-top-info">
+                                <h4 class="topik-title">${t.judulTopik}</h4>
+                                <div class="thumbnail-box">📘</div>
+                            </div>
+                            <p class="topik-desc">${t.deskripsi}</p>
+                        </div>
+                        <div>
+                            <div class="topik-target" style="margin-bottom: 12px;">Untuk Siswa</div>
+                            <div class="card-bottom-info"><span id="lock-icon-${idTopik}">${isLocked ? '🔒 ' : ''}</span>${jmlModul} modul</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function pindahMenuTab(menuTarget) {
+            const tabTopik = document.getElementById('tabTopik');
+            const tabSumatif = document.getElementById('tabSumatif');
+            const areaTopik = document.getElementById('halamanTopikUtama');
+            const areaSumatif = document.getElementById('halamanSumatifKonten');
+            const breadcrumbText = document.getElementById('breadcrumbActiveText');
+
+            if(menuTarget === 'topik') {
+                tabTopik.classList.add('active');
+                tabSumatif.classList.remove('active');
+                areaTopik.style.display = 'block';
+                areaSumatif.style.display = 'none';
+                breadcrumbText.innerText = "Daftar Topik";
+            } else if(menuTarget === 'sumatif') {
+                tabSumatif.classList.add('active');
+                tabTopik.classList.remove('active');
+                areaTopik.style.display = 'none';
+                areaSumatif.style.display = 'block';
+                breadcrumbText.innerText = "Penilaian Sumatif";
+            }
+        }
+
+        function loadStatusTopikDariCloud() {
+            if (sessionUser && sessionUser.username === "admin") {
+                statusTopik = { 1: true, 2: true, 3: true, 4: true, 5: true };
+                renderGembokVisualTopik();
+                return;
+            }
+
+            if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) return;
+
+            fetch(`${API_URL}?userId=${encodeURIComponent(sessionUser.username)}`)
+                .then(res => res.json())
+                .then(resData => {
+                    if(resData.status === "success") {
+                        let prog = resData.progress;
+                        for (let k in prog) {
+                            prog[k] = (prog[k] === true || prog[k] === "true" || prog[k] === "TRUE");
+                        }
+
+                        if (prog[5] === true) {
+                            statusTopik[1] = true;
+                            statusTopik[2] = true; 
+                        }
+                        renderGembokVisualTopik();
+                    }
+                }).catch(() => {
+                    renderGembokVisualTopik();
+                });
+        }
+
+        function renderGembokVisualTopik() {
+            const isAdmin = (sessionUser && sessionUser.username === "admin");
+
+            Object.keys(DATA_TOPIK).forEach(i => {
+                const card = document.getElementById(`topik-${i}`);
+                if (!card) return;
+
+                if (statusTopik[i] || isAdmin) {
+                    card.classList.remove('locked');
+                    const lockIcon = document.getElementById(`lock-icon-${i}`);
+                    if(lockIcon) lockIcon.style.display = 'none';
+
+                    if (i == 1 && statusTopik[2] === true && !isAdmin) {
+                        card.classList.add('completed');
+                    }
+                } else {
+                    card.classList.add('locked');
+                }
+            });
+        }
+
+        function bukaVisualSumatifAdmin() {
+            const soal2 = document.getElementById('soal-sumatif-2');
+            const tag2 = document.getElementById('tag-soal-2');
+            if(soal2) soal2.classList.remove('locked');
+            if(tag2) {
+                tag2.innerText = "Siap Dikerjakan";
+                tag2.className = "soal-tag-status terbuka";
+            }
+        }
+
+        function bukaTopik(idTopik) {
+            const isAdmin = (sessionUser && sessionUser.username === "admin");
+            if (!statusTopik[idTopik] && !isAdmin) {
+                alert("Topik ini masih terkunci! Selesaikan seluruh modul pada topik sebelumnya terlebih dahulu.");
+                return;
+            }
+            window.location.replace(`index.html?topik=${idTopik}`);
+        }
+
+        function bukaSoalSumatif(idSoal) {
+            const isAdmin = (sessionUser && sessionUser.username === "admin");
+            if (idSoal === 2 && !statusTopik[2] && !isAdmin) {
+                alert("Soal Sumatif 2 masih terkunci!");
+                return;
+            }
+            window.location.replace("sumatif-1.html"); 
+        }
+
+        function logoutAkses() {
+            localStorage.removeItem('loggedSiswa');
+            window.location.replace("login.html");
+        }
+    </script>
+</body>
+</html>
