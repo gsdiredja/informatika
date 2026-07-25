@@ -1,0 +1,102 @@
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937; max-width: 800px; margin: 0 auto; padding: 10px;">
+    
+    <h2 style="color: #0b3a7a; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; font-size: 22px; font-weight: 700;">
+        Fungsi & Array/Vector (Mengatur Kode dan Kumpulan Data)
+    </h2>
+
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Selamat! Kamu sudah sampai di materi terakhir pada modul ini. Sekarang, bayangkan kamu memiliki resep rahasia membuat es krim cokelat. Daripada menulis ulang seluruh langkah pembuatan setiap kali ada pelanggan yang memesan, kamu cukup memberikan nama resep itu: <strong>"BikinEsKrim()"</strong>. Di dunia pemrograman, resep rahasia ini dinamakan <strong>Fungsi (Function)</strong>.
+    </p>
+
+    <div style="background-color: #f3f4f6; border-left: 4px solid #0b3a7a; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0;">
+        <strong style="color: #0b3a7a;">Konsep Utama Fungsi:</strong> Fungsi adalah sebuah blok kode terpisah yang sengaja dibuat untuk menyelesaikan tugas spesifik. Kode di dalam fungsi tidak akan berjalan sebelum kita memanggil namanya. Ini membuat kode kita menjadi rapi, ringkas, dan tidak ditulis berulang-ulang (*Don't Repeat Yourself* / DRY).
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        1. Cara Membuat dan Memanggil Fungsi di Python
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Untuk membuat fungsi di Python, kita menggunakan kata kunci <code>def</code> (singkatan dari *define*), diikuti nama fungsinya, tanda kurung <code>()</code>, dan titik dua.
+    </p>
+
+    <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto; margin-bottom: 20px;">
+<span style="color: #6a9955;"># 1. Cara membuat fungsi</span>
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">sapa_siswa</span>(nama):
+    <span style="color: #dcdcaa;">print</span>(<span style="color: #ce9178;">f"Halo {nama}, selamat belajar Informatika!"</span>)
+
+<span style="color: #6a9955;"># 2. Cara memanggil fungsi agar berjalan</span>
+sapa_siswa(<span style="color: #ce9178;">"Budi"</span>)
+sapa_siswa(<span style="color: #ce9178;">"Siti"</span>)</pre>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        2. Mengenal Array / Vector (Menggunakan List di Python)
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 12px;">
+        Jika variabel biasa hanya bisa menyimpan **satu data** (misal: <code>nilai = 80</code>), maka <strong>Array</strong> atau di Python disebut <strong>List</strong> dapat menyimpan **banyak data sekaligus** di dalam satu kotak variabel. Ibaratnya seperti kotak pensil yang bisa diisi pulpen, penghapus, penggaris, dan pensil warna.
+    </p>
+    
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Ciri khas List/Array adalah menggunakan tanda kurung siku <code>[ ]</code> dan setiap datanya dipisahkan dengan tanda koma.
+    </p>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
+        <thead>
+            <tr style="background-color: #0b3a7a; color: white;">
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: left;">Operasi Array (List)</th>
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: left;">Contoh Kode Python</th>
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: left;">Penjelasan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-weight: bold;">Membuat List</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-family: monospace;">game = ["Roblox", "ML", "FF"]</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db;">Membuat daftar nama-nama game.</td>
+            </tr>
+            <tr style="background-color: #f9fafb;">
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-weight: bold;">Mengakses Data (Index)</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-family: monospace;">print(game[0])</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db;">Mengambil data pertama. <strong>Ingat!</strong> Komputer menghitung urutan dari angka 0.</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-weight: bold;">Menambah Data</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-family: monospace;">game.append("Minecraft")</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db;">Fungsi <code>.append()</code> memasukkan data baru ke barisan paling akhir.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        3. Lembar Kerja Praktik Siswa (Google Colab)
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 12px;">
+        Mari kita satukan konsep **Fungsi** dan **Array (List)** dalam satu program keren! Salin kode di bawah ini ke Google Colab-mu untuk menghitung rata-rata nilai rapor kelas secara otomatis.
+    </p>
+
+    <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto; line-height: 1.5; margin-bottom: 20px;">
+# 1. MEMBUAT FUNGSI HITUNG RATA-RATA
+def hitung_rata_rata(daftar_nilai):
+    total = sum(daftar_nilai)       # sum() menjumlahkan semua angka di list
+    jumlah_data = len(daftar_nilai) # len() menghitung total item di list
+    hasil = total / jumlah_data
+    return hasil                    # Mengembalikan nilai hasil hitungan keluar fungsi
+
+# 2. MEMBUAT ARRAY/LIST DATA NILAI SISWA
+nilai_informatika = [85, 90, 78, 92, 88]
+
+# 3. MEMANGGIL FUNGSI
+rata_rapor = hitung_rata_rata(nilai_informatika)
+
+print("============ KELOLA DATA NILAI ============")
+print(f"Daftar Nilai Siswa : {nilai_informatika}")
+print(f"Banyaknya Siswa    : {len(nilai_informatika)} anak")
+print(f"Rata-rata Kelas    : {rata_rapor}")
+print("===========================================")</pre>
+
+</div>

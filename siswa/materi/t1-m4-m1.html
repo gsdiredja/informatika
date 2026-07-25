@@ -1,0 +1,84 @@
+<section id="materi-1" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px;">
+    
+    <h2 style="color: #2b6cb0; border-left: 4px solid #3182ce; padding-left: 10px; margin-top: 25px; margin-bottom: 15px;">
+    📘 Belajar dari Game Angry Birds (Simulasi Burung)
+    </h2>
+    
+    <h3>1. Apa Hubungannya Game dengan Fisika?</h3>
+    <p style="text-align: justify; margin-bottom: 12px;">
+        Kalian pasti pernah bermain atau melihat game <strong>Angry Birds</strong>. Pernahkah kalian berpikir bagaimana bisa burung yang ketapelnya ditarik dapat terbang melengkung lalu pas mengenai target? 
+    </p>
+    <p style="text-align: justify; margin-bottom: 12px;">
+        Di dalam dunia sains, lintasan melengkung ini dinamakan <strong>Gerak Parabola</strong>. Gerak ini sebenarnya gabungan dari dua kejadian:
+    </p>
+    
+    <ul style="margin-bottom: 12px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;">
+            <strong>Maju secara mendatar (Sumbu X):</strong> Burung akan terus maju ke depan dengan kecepatan yang sama (tetap), karena kita menganggap tidak ada angin yang menghambatnya.
+        </li>
+        <li style="margin-bottom: 6px;">
+            <strong>Naik dan turun (Sumbu Y):</strong> Burung akan terbang ke atas, melambat di titik tertinggi, lalu ditarik jatuh kembali ke bumi karena adanya <strong>Gaya Gravitasi</strong>.
+        </li>
+    </ul>
+
+    <!-- Media Pembelajaran: Video Embed -->
+    <div class="video-container">
+  <iframe 
+    src="https://www.youtube.com/embed/Qe6tWnm5ivk?autoplay=1&mute=1" 
+    title="Gerak Parabola • Part 1: Konsep, Skema, dan Rumus Gerak Parabola" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+  </iframe>
+</div>
+
+<style>
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* Rasio 16:9 */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+Video 1.1: Analisis Kinematika Gerak Parabola dan Implementasi Komputer</p>
+    <blockquote style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 12px; margin: 15px 0; border-radius: 4px; font-size: 0.95em;">
+        <strong>💡 Fakta Menarik:</strong> Garis putus-putus putih yang muncul saat kalian menarik ketapel di dalam game itu adalah hasil hitungan rumus fisika yang dikerjakan oleh komputer secara kilat!
+    </blockquote>
+
+    <h3>2. Mengubah Rumus Fisika Menjadi Bahasa Komputer</h3>
+    <p style="text-align: justify; margin-bottom: 12px;">
+        Komputer itu pintar menghitung, tapi dia tidak tahu apa itu "burung terbang". Supaya komputer bisa membuat simulasi, kita harus memberikan rumus matematika dalam koordinat posisi <span style="font-weight: bold; color: #b7791f;">X (jarak mendatar)</span> dan <span style="font-weight: bold; color: #b7791f;">Y (ketinggian)</span> berdasarkan waktu terbang (<span style="font-style: italic;">t</span>).
+    </p>
+
+    <p style="margin-bottom: 6px;">Berikut adalah 3 rumus utama yang akan kita pakai di dalam kode program nanti:</p>
+    
+    <ol style="margin-bottom: 12px; padding-left: 20px;">
+        <li style="margin-bottom: 10px;">
+            <strong>Mengubah Sudut:</strong> Komputer membaca sudut dalam satuan Radian. Jadi sudut derajat ketapel harus diubah dulu:
+            <div style="margin: 5px 0; font-weight: bold; color: #b7791f;">Sudut Radian = Sudut Derajat &times; (&pi; / 180)</div>
+        </li>
+        <li style="margin-bottom: 10px;">
+            <strong>Waktu Terbang:</strong> Untuk tahu berapa lama burung berada di udara sebelum menyentuh tanah:
+            <div style="margin: 5px 0; font-weight: bold; color: #b7791f;">Total Waktu = (2 &times; Kecepatan Awal &times; Sinus Sudut) / Gravitasi</div>
+        </li>
+        <li style="margin-bottom: 10px;">
+            <strong>Mencari Posisi Burung:</strong> Untuk melacak posisi burung pada detik tertentu:
+            <div style="margin: 5px 0; font-weight: bold; color: #b7791f;">Posisi Mendatar (X) = Kecepatan Awal &times; Cosinus Sudut &times; Waktu</div>
+            <div style="margin: 5px 0; font-weight: bold; color: #b7791f;">Ketinggian (Y) = (Kecepatan Awal &times; Sinus Sudut &times; Waktu) - (&frac12; &times; Gravitasi &times; Waktu<sup>2</sup>)</div>
+        </li>
+    </ol>
+
+    <p style="text-align: justify; margin-top: 15px;">
+        Nah, di materi selanjutnya (Materi 2), kita akan langsung memasukkan rumus-rumus di atas ke dalam baris kode Python di Google Colab agar kita bisa melihat simulasinya secara nyata!
+    </p>
+
+</section>

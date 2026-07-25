@@ -1,0 +1,110 @@
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937; max-width: 800px; margin: 0 auto; padding: 10px;">
+    
+    <h2 style="color: #0b3a7a; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; font-size: 22px; font-weight: 700;">
+        Implementasi Kode Proyek (Mulai Merakit Kode)
+    </h2>
+
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Pernahkah kamu membeli mainan balok susun (Lego) atau mencoba memasak mi instan dengan melihat petunjuk di balik bungkusnya? Ketika merakit Lego, kamu tidak langsung menggabungkan semua balok secara acak, kan? Kamu pasti memasang bagian dasarnya dulu, lalu dindingnya, baru kemudian bagian atapnya.
+    </p>
+
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Proses mengetik kode program atau <strong>Implementasi Kode</strong> mirip sekali dengan merakit Lego. Setelah rencana proyek di Materi 1 selesai, sekarang tim programmer mulai menyusun baris kode di Python potongan demi potongan (modular), lalu menggabungkannya menjadi satu aplikasi utuh yang berfungsi.
+    </p>
+
+    <div style="background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 12px; margin-bottom: 20px; border-radius: 0 6px 6px 0; font-size: 14px;">
+        <strong>💡 Tips Kerja Tim:</strong> Jangan menulis seluruh kode dalam satu lembar besar sekaligus. Kerjakan per fitur! Selesaikan dulu kode untuk menerima input, setelah sukses baru buat kode untuk rumus hitungannya, dan terakhir buat kode untuk menampilkan hasilnya.
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        1. Alur Struktur Kode Proyek yang Rapi
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 15px;">
+        Sebuah aplikasi proyek lintas bidang (misalnya aplikasi penghitung nilai rata-rata pelajaran atau simulasi sains) umumnya dibagi menjadi 3 blok utama:
+    </p>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
+        <thead>
+            <tr style="background-color: #0b3a7a; color: white;">
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: left; width: 25%;">Bagian Blok</th>
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: left; width: 35%;">Tugas Kode</th>
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: left;">Analogi Nyata</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-weight: bold; color: #b45309;">1. Input Data</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db;">Menerima angka atau teks yang dimasukkan oleh pengguna lewat keyboard.</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-style: italic;">Memasukkan bahan-bahan mentah ke dalam wadah masak.</td>
+            </tr>
+            <tr style="background-color: #f9fafb;">
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-weight: bold; color: #0b3a7a;">2. Proses (Logika)</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db;">Mengolah data menggunakan rumus matematika, percabangan (if), atau perulangan.</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-style: italic;">Kompor menyala memasak bahan mentah sesuai langkah resep.</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-weight: bold; color: #10b981;">3. Output Tampilan</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db;">Menampilkan hasil olahan data ke layar monitor agar bisa dibaca pengguna.</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; font-style: italic;">Makanan matang disajikan cantik di atas piring saji.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        2. Lembar Kerja Praktik Siswa (Google Colab)
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 12px;">
+        Mari kita coba membuat satu prototipe proyek lintas bidang sederhana: **Aplikasi Kasir Kantin Sekolah Digital**. Salin kode terstruktur ini ke Google Colab kelompokmu, jalankan, dan perhatikan bagaimana tiap blok bekerja saling mendukung!
+    </p>
+
+    <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto; line-height: 1.5; margin-bottom: 20px;">
+# ====================================================
+# BLOK 1: FUNGSI PROSES (LOGIKA REKOMENDASI HARGANYA)
+# ====================================================
+def hitung_total_belanja(harga_satuan, jumlah_beli):
+    total = harga_satuan * jumlah_beli
+    
+    # Memberikan diskon jika membeli lebih dari 5 porsi (Percabangan)
+    if jumlah_beli > 5:
+        diskon = total * 0.10  # Diskon 10%
+        total = total - diskon
+        print("🎉 Selamat! Kelompokmu dapat diskon tim 10%")
+        
+    return total
+
+# ====================================================
+# BLOK 2: INPUT DATA (MENERIMA MASUKAN PENGGUNA)
+# ====================================================
+print("--- SISTEM KASIR KANTIN DIGITAL KELOMPOK ---")
+nama_makanan = input("Masukkan nama menu makanan: ")
+harga_menu   = int(input("Masukkan harga satu porsi (Rp): "))
+jumlah_porsi = int(input("Mau beli berapa porsi?: "))
+
+# ====================================================
+# BLOK 3: EKSEKUSI PROSES DAN TAMPILKAN OUTPUT
+# ====================================================
+total_bayar = hitung_total_belanja(harga_menu, jumlah_porsi)
+
+print("\n================ STRUK BELANJA ================")
+print(f"Menu Pesanan : {nama_makanan}")
+print(f"Banyaknya    : {jumlah_porsi} porsi")
+print(f"Total Bayar  : Rp {total_bayar}")
+print("===============================================")</pre>
+
+    <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+    <h3 style="color: #0b3a7a; font-size: 18px; font-weight: 600; margin-bottom: 12px;">
+        3. Tantangan Eksperimen Kelompok
+    </h3>
+    <p style="font-size: 15px; margin-bottom: 12px;">
+        Coba diskusikan dengan teman kelompokmu di Google Colab:
+    </p>
+    <div style="background-color: #fffbeb; border: 1px solid #fef3c7; padding: 15px; border-radius: 6px; font-size: 14px;">
+        Ubah persentase diskon pada kode di atas dari <code>0.10</code> (10%) menjadi <code>0.20</code> (20%), lalu ubah juga syarat minimal pembelian porsi dari <code>&gt; 5</code> menjadi <code>&gt; 3</code>. Jalankan ulang programnya dan amati apakah harga total belanja berubah menjadi lebih murah saat kamu memasukkan jumlah porsi sebanyak 4!
+    </div>
+
+</div>
