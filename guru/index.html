@@ -94,13 +94,14 @@
         }
     }
      function bukaRuangSiswa() {
-        const savedSession = localStorage.getItem('user_session');
-        if (savedSession && savedSession !== "undefined" && savedSession !== "null") {
-            window.location.href = "siswa/index.html";
-        } else {
-            document.getElementById('modalLogin').style.display = 'flex';
-        }
+    const savedSession = localStorage.getItem('user_session');
+    if (savedSession && savedSession !== "undefined" && savedSession !== "null") {
+        // Menggunakan path absolut agar selalu mengarah ke kodi.web.id/siswa/index.html
+        window.location.href = "/siswa/index.html"; 
+    } else {
+        document.getElementById('modalLogin').style.display = 'flex';
     }
+}
 
     function tutupModal() {
         document.getElementById('modalLogin').style.display = 'none';
