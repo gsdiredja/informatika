@@ -16,14 +16,33 @@
         header { padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; }
         .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; color: #ffffff; text-decoration: none; }
         .brand img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
-        .btn-top { background: #2563eb; color: white; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-top:hover { background: #1d4ed8; }
         .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
         .pill-tag { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.2); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 24px; display: inline-block; }
         h1 { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.5px; }
         p.subtitle { font-size: 16px; color: #94a3b8; max-width: 650px; line-height: 1.6; margin-bottom: 32px; }
-        .btn-main { background: #0284c7; color: white; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); transition: all 0.2s; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; border: none; }
+        
+        /* DESAIN TOMBOL PRESISI & SAMA PANJANG */
+        .btn-main { 
+            background: #0284c7; 
+            color: white; 
+            padding: 14px 28px; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 16px; 
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); 
+            transition: all 0.2s; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            cursor: pointer; 
+            border: none; 
+            width: 280px; 
+            max-width: 100%; 
+        }
         .btn-main:hover { background: #0369a1; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6); }
+        
         .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(6px); z-index: 1000; justify-content: center; align-items: center; padding: 16px; }
         .modal-card { background: #ffffff; color: #0f172a; padding: 32px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); position: relative; animation: fadeIn 0.2s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
@@ -45,7 +64,6 @@
             <img src="photo-guru.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=EDU'">
             <span>Kodi EduAdaptif</span>
         </a>
-       
     </header>
 
     <main class="hero">
@@ -54,15 +72,21 @@
         <p class="subtitle">
             Kodi EduAdaptif membantu guru mengelola presensi harian siswa, pengisian jurnal KBM terintegrasi, serta rekapitulasi penilaian secara real-time dan akurat.
         </p>
+        
         <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-        <button class="btn-main" onclick="bukaRuangKerja()">
-            <i class="fas fa-laptop-code"></i> Portal Kerja Guru
-        </button><br/>
-        <button class="btn-main" onclick="bukaRuangSiswa()">
-            <i class="fas fa-laptop-code"></i> Portal Utama Siswa
-        </button></div>
+            <!-- Tombol Guru: Membuka Modal Login Guru -->
+            <button class="btn-main" onclick="bukaRuangKerja()">
+                <i class="fas fa-laptop-code"></i> Portal Kerja Guru
+            </button>
+
+            <!-- Tombol Siswa: Langsung Mengarah ke Folder /siswa/index.html (Tanpa JS Modal) -->
+            <a href="/siswa/index.html" class="btn-main">
+                <i class="fas fa-user-graduate"></i> Portal Utama Siswa
+            </a>
+        </div>
     </main>
 
+    <!-- Modal Login Khusus Guru -->
     <div class="modal-overlay" id="modalLogin">
         <div class="modal-card">
             <span class="close-modal" onclick="tutupModal()">&times;</span>
@@ -94,15 +118,6 @@
             document.getElementById('modalLogin').style.display = 'flex';
         }
     }
-     function bukaRuangSiswa() {
-    const savedSession = localStorage.getItem('user_session');
-    if (savedSession && savedSession !== "undefined" && savedSession !== "null") {
-        // Menggunakan path absolut agar selalu mengarah ke kodi.web.id/siswa/index.html
-        window.location.href = "/siswa/index.html"; 
-    } else {
-        document.getElementById('modalLogin').style.display = 'flex';
-    }
-}
 
     function tutupModal() {
         document.getElementById('modalLogin').style.display = 'none';
@@ -142,7 +157,6 @@
             const result = await response.json();
 
             if (result.status === "success" && result.data) {
-                // SIMPAN PENUGASAN SECARA UTUH
                 const userData = {
                     username: result.data.username || u,
                     nama: result.data.nama || u,
