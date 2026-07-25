@@ -1,0 +1,457 @@
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937; max-width: 800px; margin: 0 auto; padding: 10px;">
+
+    <!-- IFRAME GAIB UNTUK MENERIMA RESPONSE SECARA SENYAP -->
+    <iframe name="kotakGaibPostTest" id="kotakGaibPostTest" style="display:none;"></iframe>
+
+    <form action="https://script.google.com/macros/s/AKfycbzJkMb703eBgetPx84K2OXZrzjJD5_Cl7Si9d8b9hzAFIgam2Zmt8miIgH4CJuCZWPJ/exec" method="POST" target="kotakGaibPostTest" onsubmit="alert('Seluruh jawaban Post-Test dan Refleksi Kesehatan kamu berhasil dikirim!');" style="display: flex; flex-direction: column; gap: 20px; padding: 5px 0;">
+        
+        <!-- HIDDEN LOG PARAMETERS -->
+        <input type="hidden" name="tipeAksi" value="KIRIM_QUIZ"> 
+        <input type="hidden" name="userId" value="Siswa_Web_Platform">
+        <input type="hidden" name="modul" value="Modul 3 - Topik 3 (Post-Test Informasi Kesehatan)">
+
+        <h3 style="margin-bottom: 10px; color: #0b3a7a; font-size: 18px; font-weight: 700; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">
+            POST TEST GABUNGAN: TOPIK 3 KAJIAN KRITIS PENERAPAN INFORMASI BIDANG KESEHATAN
+        </h3>
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 1: BENAR / SALAH (5 SOAL)                        -->
+        <!-- ======================================================= -->
+        
+        <!-- SOAL BENAR SALAH 1 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Penyebab utama memanjangnya antrean rawat jalan di RSUD Husada Mulia adalah karena nakes senior menolak menyentuh tablet digital sama sekali sejak hari pertama proyek diluncurkan.
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal1" value="A" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal1" value="B" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 2 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Pilar Aksesibilitas dan Literasi Digital berfokus pada evaluasi apakah kecepatan enkripsi pangkalan data server cloud mampu menangkal serangan malware dari luar negeri.
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal2" value="A" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal2" value="B" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 3 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Fenomena bias diagnosis algoritma AI skrining jantung terjadi akibat minimnya keterwakilan profil klinis rekam medis pasien perempuan dalam data latih (dataset training) mesin.
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal3" value="A" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal3" value="B" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 4 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Kondisi alert fatigue pada bidan desa dipicu oleh sistem aplikasi yang menyajikan navigasi sangat sederhana dengan istilah penamaan bahasa lokal yang mudah dimengerti.
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal4" value="A" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal4" value="B" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- SOAL BENAR SALAH 5 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Malfungsi sistem telemetri sensor Cold Chain Monitoring akibat putusnya daya listrik pedesaan berisiko menyebabkan kerusakan biologis tersembunyi pada muatan vaksin sensitif suhu.
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal5" value="A" style="margin-right: 8px;"> Benar
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal5" value="B" style="margin-right: 8px;"> Salah
+            </label>
+        </div>
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 2: PILIHAN GANDA (15 SOAL)                       -->
+        <!-- ======================================================= -->
+
+        <!-- SOAL PG 1 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Manakah di bawah ini yang merupakan perwujudan pilar Sosio-Etika & Kultural dalam evaluasi informasi kesehatan?
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="A" style="margin-right: 8px;"> Pengukuran kestabilan tegangan listrik genset rumah sakit
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="B" style="margin-right: 8px;"> Kajian pergeseran empati interaksi dokter-pasien akibat terdistraksi layar komputer
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="C" style="margin-right: 8px;"> Perhitungan kapasitas ruang memori SSD untuk database rekam medis
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal6" value="D" style="margin-right: 8px;"> Audit harga lisensi sistem operasi komputer depo farmasi
+            </label>
+        </div>
+
+        <!-- SOAL PG 2 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Berdasarkan kasus RSUD Husada Mulia, salah input dosis resep digital sebanyak 14 kasus disebabkan oleh kegagalan...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="A" style="margin-right: 8px;"> Konektivitas satelit cuaca
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="B" style="margin-right: 8px;"> Desain ergonomi antarmuka format resep digital yang membingungkan staf farmasi
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="C" style="margin-right: 8px;"> Kerusakan total mesin printer cetak struk obat
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal7" value="D" style="margin-right: 8px;"> Pencurian perangkat tablet medis di ruang rawat jalan
+            </label>
+        </div>
+
+        <!-- SOAL PG 3 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Apa celah keamanan siber utama yang memicu rekam medis rahasia bocor dan diperjualbelikan di forum gelap berdasarkan Artikel 1?
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="A" style="margin-right: 8px;"> Kerusakan fisik pada harddisk server klinik
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="B" style="margin-right: 8px;"> Lemahnya protokol enkripsi sehingga data rekam medis tersimpan dalam format teks biasa
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="C" style="margin-right: 8px;"> Kelalaian petugas loket meninggalkan komputer dalam posisi menyala
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal8" value="D" style="margin-right: 8px;"> Pemadaman listrik masal dari gardu utama kota
+            </label>
+        </div>
+
+        <!-- SOAL PG 4 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Kasus bias diagnosis AI jantung pada pasien perempuan membuktikan pentingnya aspek standar intelektual...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="A" style="margin-right: 8px;"> Kejelasan (Clarity)
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="B" style="margin-right: 8px;"> Akurasi dan Keluasan (Accuracy & Breadth) representasi data latih mesin
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="C" style="margin-right: 8px;"> Kecepatan transfer data bitwise internet
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal9" value="D" style="margin-right: 8px;"> Kerapian tata letak kabel jaringan puskesmas
+            </label>
+        </div>
+
+        <!-- SOAL PG 5 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Dampak fatal kognitif dari fenomena alert fatigue pada aplikasi pelaporan gizi KIA di pedalaman desa adalah...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="A" style="margin-right: 8px;"> Ponsel pintar bidan kehabisan ruang memori penyimpanan
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="B" style="margin-right: 8px;"> Menurunnya sensitivitas bidan sehingga tidak sengaja mengabaikan notifikasi kasus kritis riil
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="C" style="margin-right: 8px;"> Meningkatnya kecepatan internet 4G secara mendadak di pedesaan
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal10" value="D" style="margin-right: 8px;"> Bidan desa meminta kenaikan upah operasional bulanan
+            </label>
+        </div>
+
+        <!-- SOAL PG 6 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Mengapa persentase retensi lansia penderita hipertensi terhadap penggunaan aplikasi telemedisin sangat rendah (hanya 8%)?
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="A" style="margin-right: 8px;"> Tarif konsultasi online dinilai terlampau mahal
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="B" style="margin-right: 8px;"> Sistem otentikasi biometrik wajah sering gagal mengenali kontur kulit lansia dan alur dompet digital rumit
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="C" style="margin-right: 8px;"> Dokter online menolak melayani pasien jaminan BPJS
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal11" value="D" style="margin-right: 8px;"> Lansia tidak memiliki akses fisik terhadap perangkat handphone pintar
+            </label>
+        </div>
+
+        <!-- SOAL PG 7 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Berapa tingkat fluktuasi kekuatan sinyal seluler persawahan luar jawa yang memicu sistem katup irigasi pintar malfungsi digital?
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="A" style="margin-right: 8px;"> -10 dBm hingga -20 dBm
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="B" style="margin-right: 8px;"> -40 dBm hingga -60 dBm
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="C" style="margin-right: 8px;"> -115 dBm hingga -125 dBm
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal12" value="D" style="margin-right: 8px;"> -150 dBm hingga -200 dBm
+            </label>
+        </div>
+
+        <!-- SOAL PG 8 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Apa dampak hilangnya daya sensor Cold Chain Monitoring System di daerah terluar bagi imunisasi anak-anak setempat?
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="A" style="margin-right: 8px;"> Gudang farmasi mengalami kebakaran hebat akibat hubungan arus pendek listrik
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="B" style="margin-right: 8px;"> Pendistribusian vaksin rusak tanpa sadar, memicu kegagalan pembentukan antibodi massal anak
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="C" style="margin-right: 8px;"> Aplikasi menampilkan grafik alarm palsu secara berturut-turut di layar monitoring
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal13" value="D" style="margin-right: 8px;"> Petani petugas medis terpaksa membeli lemari pendingin es balok konvensional
+            </label>
+        </div>
+
+        <!-- SOAL PG 9 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Sistem informasi kesehatan digital idealnya diklasifikasikan ke dalam tipe arsitektur...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="A" style="margin-right: 8px;"> Pengganti Dokter Otonom Total
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="B" style="margin-right: 8px;"> Sistem Pendukung Keputusan Klinik (Clinical Decision Support System)
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="C" style="margin-right: 8px;"> Media Sosial Diskusi Medis Terbuka
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal14" value="D" style="margin-right: 8px;"> Pengolah Gambar Rontgen Statis Tanpa Jaringan
+            </label>
+        </div>
+
+        <!-- SOAL PG 10 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Jika sebuah aplikasi rekam medis mewajibkan pengisian 42 kolom isian wajib hanya untuk pasien flu ringan, desain UI/UX tersebut mengabaikan aspek...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="A" style="margin-right: 8px;"> Keindahan estetika perpaduan kombinasi warna tombol
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="B" style="margin-right: 8px;"> Kemudahan Alur Kerja klinis (Complexity) dan pencegahan beban kognitif nakes
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="C" style="margin-right: 8px;"> Legalitas hak cipta merek dagang perangkat lunak nasional
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal15" value="D" style="margin-right: 8px;"> Kecepatan pemrosesan unit kartu grafis tablet komputer
+            </label>
+        </div>
+
+        <!-- SOAL PG 11 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Kondisi penolakan transisi digital di mana 78% nakes memilih mencatat riwayat di kertas terlebih dahulu membuktikan adanya kegagalan pada pemenuhan aspek...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="A" style="margin-right: 8px;"> Ketersediaan anggaran subsidi pembelian tablet baru
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="B" style="margin-right: 8px;"> Kemanfaatan Relatif nyata bagi kecepatan durasi pelayanan fisik pasien langsung
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="C" style="margin-right: 8px;"> Kebijakan sanksi disiplin dari kementerian kesehatan pusat
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal16" value="D" style="margin-right: 8px;"> Jarak fisik antara ruang poliklinik dengan instalasi ruang server
+            </label>
+        </div>
+
+        <!-- SOAL PG 12 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Audit forensik terhadap sistem informasi klinik pratama swasta menunjukkan persentase ketiadaan staf ahli IT berlisensi mencapai angka...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="A" style="margin-right: 8px;"> 12%
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="B" style="margin-right: 8px;"> 35%
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="C" style="margin-right: 8px;"> 50%
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal17" value="D" style="margin-right: 8px;"> 92%
+            </label>
+        </div>
+
+        <!-- SOAL PG 13 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Dalam standar intelektual, menguji apakah rekomendasi tata kelola klinis kesehatan digital memiliki alur sebab-akibat yang runtut merupakan wujud pilar...
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="A" style="margin-right: 8px;"> Presisi (Precision)
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="B" style="margin-right: 8px;"> Logika (Logic)
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="C" style="margin-right: 8px;"> Kedalaman (Depth)
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal18" value="D" style="margin-right: 8px;"> Kejelasan (Clarity)
+            </label>
+        </div>
+
+        <!-- SOAL PG 14 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Berapa persentase lonjakan angka putus obat (default rate) hipertensi lansia akibat rumitnya alur verifikasi dompet digital telemedisin?
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="A" style="margin-right: 8px;"> 5%
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="B" style="margin-right: 8px;"> 14%
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="C" style="margin-right: 8px;"> 22%
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal19" value="D" style="margin-right: 8px;"> 40%
+            </label>
+        </div>
+
+        <!-- SOAL PG 15 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Apa kesimpulan/gagasan pokok paling tepat yang mendasari analisis kritis seluruh modul kesehatan digital pedesaan?
+            </p>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="A" style="margin-right: 8px;"> Komputerisasi administrasi medis harus dipaksakan tanpa perlu mendengarkan keluhan nakes senior
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="B" style="margin-right: 8px;"> Sistem informasi kesehatan akan kehilangan fungsi esensialnya jika tidak dirancang adaptif terhadap batasan infrastruktur fisik rural dan kesiapan kognitif penggunanya
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="C" style="margin-right: 8px;"> Seluruh klinik sebaiknya kembali menggunakan pencatatan buku besar konvensional manual abad lalu
+            </label>
+            <label style="display: block; margin-bottom: 6px; cursor: pointer; font-size: 14px; color: #4b5563;">
+                <input type="radio" name="soal20" value="D" style="margin-right: 8px;"> Setiap puskesmas diwajibkan menyewa server eksternal berkecepatan milidetik dari luar negeri
+            </label>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 3: SOAL ESSAY (5 SOAL)                           -->
+        <!-- ======================================================= -->
+
+        <!-- SOAL ESSAY 1 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Essay 1 (Faktor Risiko Siber):
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Uraikan bahaya rekayasa sosial dan konsekuensi psikososial yang diderita pasien akibat kelalaian klinik swasta dalam menerapkan enkripsi rekam medis terpadu!
+            </p>
+            <textarea required rows="4" name="soal21" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 2 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Essay 2 (Bias Data Algoritma AI):
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Analisis mengapa sistem diagnosis berbasis AI bisa menghasilkan keputusan medis yang tidak adil (bias gender) dan apa dampaknya bagi keselamatan jiwa pasien rawat jalan!
+            </p>
+            <textarea required rows="4" name="soal22" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 3 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Essay 3 (Solusi Desain Antarmuka Klinis):
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Jika kamu bertindak sebagai analis UI/UX kesehatan digital, modifikasi sistem apa yang akan kamu terapkan pada aplikasi KIA guna menyembuhkan bidan desa dari wabah kognitif alert fatigue?
+            </p>
+            <textarea required rows="4" name="soal23" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 4 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Essay 4 (Dilema Aksesibilitas Finansial Lansia):
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Jelaskan mata rantai hubungan sebab-akibat antara kewajiban otentikasi dompet digital pada aplikasi telemedisin dengan lonjakan angka kasus penyakit stroke akut di pedesaan luar Jawa!
+            </p>
+            <textarea required rows="4" name="soal24" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <!-- SOAL ESSAY 5 -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Essay 5 (Ketergantungan Infrastruktur Makro):
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Gunakan instrumen 6W untuk membongkar mengapa sistem telemetri IoT Cold Chain berbasis baterai di pulau terluar gagal mengamankan kualitas potensi zat aktif imunisasi anak pedalaman!
+            </p>
+            <textarea required rows="4" name="soal25" placeholder="Tuliskan jawaban essay Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+
+        <!-- ======================================================= -->
+        <!-- BAGIAN 4: REFLEKSI KEGIATAN                             -->
+        <!-- ======================================================= -->
+
+        <!-- SOAL REFLEKSI -->
+        <div class="kuis-step">
+            <p style="font-weight: 600; margin-bottom: 8px; color: #1f2937; font-size: 14px;">
+                Soal Lembar Refleksi Mandiri Kesehatan Digital:
+            </p>
+            <p style="margin-bottom: 8px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+                Setelah mempelajari kerangka kerja teoretis, membedah malpraktik digital SIRS di RSUD Husada Mulia, dan merenungkan data empiris kebocoran rekam medis hingga bias algoritma AI medis, bagaimanakah pandanganmu berubah tentang digitalisasi kesehatan? Apakah kemajuan indikator fitur perangkat lunak klinis otomatis berbanding lurus dengan pemenuhan hak esensial keselamatan nyawa manusia? Tuliskan prinsip moral-teknologismu sebagai pemikir kritis siber masa depan!
+            </p>
+            <textarea required rows="5" name="soal26" placeholder="Tuliskan hasil refleksi mendalam Anda di sini..." style="width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; font-size: 14px; outline: none; resize: none; box-sizing: border-box;"></textarea>
+        </div>
+
+       
+   
+    </form>
+
+</div>
