@@ -3,185 +3,615 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kodi EduAdaptif - Portal Edukasi & Otomasi Akademik</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="config.js"></script>
-
+    <title>Sistem Modul Pembelajaran Informatika</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
-        header { padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; }
-        .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; color: #ffffff; text-decoration: none; }
-        .brand img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
-        .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
-        .pill-tag { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.2); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 24px; display: inline-block; }
-        h1 { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.5px; }
-        p.subtitle { font-size: 16px; color: #94a3b8; max-width: 650px; line-height: 1.6; margin-bottom: 32px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f3f4f6; color: #333333; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
-        /* PENGATURAN PANJANG TOMBOL AGAR SAMA PRESISI */
-        .btn-main { 
-            background: #0284c7; 
-            color: white; 
-            padding: 14px 28px; 
-            border-radius: 10px; 
-            text-decoration: none; 
-            font-weight: 700; 
-            font-size: 16px; 
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); 
-            transition: all 0.2s; 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
-            cursor: pointer; 
-            border: none; 
-            width: 280px; 
-            max-width: 100%; 
-        }
-        .btn-main:hover { background: #0369a1; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6); }
+        .global-student-header { width: 100%; background-color: #1e293b; color: #f8fafc; padding: 12px 20px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 99; }
+        .header-left-side { display: flex; align-items: center; gap: 14px; }
+        .btn-back-to-topik { background: transparent; border: none; color: #f8fafc; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: 50%; transition: background 0.2s; }
+        .btn-back-to-topik:hover { background: rgba(255, 255, 255, 0.1); }
         
-        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(6px); z-index: 1000; justify-content: center; align-items: center; padding: 16px; }
-        .modal-card { background: #ffffff; color: #0f172a; padding: 32px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); position: relative; animation: fadeIn 0.2s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .close-modal { position: absolute; top: 16px; right: 20px; font-size: 24px; cursor: pointer; color: #64748b; line-height: 1; }
-        .close-modal:hover { color: #0f172a; }
-        .form-group { margin-bottom: 16px; text-align: left; }
-        .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #334155; }
-        .form-control { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; }
-        .form-control:focus { border-color: #0284c7; }
-        .btn-submit { width: 100%; background: #0284c7; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 15px; margin-top: 10px; transition: background 0.2s; }
-        .btn-submit:hover { background: #0369a1; }
-        @media (max-width: 600px) { h1 { font-size: 28px; } p.subtitle { font-size: 14px; } }
+        /* STYLING LOGO PERBAIKAN (OPSI 2) */
+        .header-logo-box { width: 32px; height: 32px; background: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 3px; flex-shrink: 0; }
+        .header-logo-box img { width: 100%; height: 100%; object-fit: contain; }
+        
+        .student-info-text { font-weight: 500; }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
+
+        .container { max-width: 650px; width: 100%; padding: 30px 20px; }
+        h1 { font-size: 24px; font-weight: 700; color: #2c3e50; margin-bottom: 20px; }
+        .description-card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px; margin-bottom: 30px; }
+        .section-title { font-size: 20px; font-weight: 700; color: #1f2937; margin-bottom: 4px; }
+        .section-subtitle { font-size: 14px; color: #6b7280; margin-bottom: 20px; }
+        
+        .modules-list { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+        .module-card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px; display: flex; gap: 20px; cursor: pointer; transition: all 0.2s; position: relative; }
+        .module-card.locked { background-color: #fef2f2; border-color: #fca5a5; cursor: not-allowed; opacity: 0.8; }
+        .module-card.locked .module-name { color: #991b1b; }
+        .module-card.locked .module-number { background-color: #ef4444; }
+        .module-card.locked .btn-study { background-color: #fee2e2; color: #991b1b; cursor: not-allowed; }
+        .module-card.completed { border-color: #10b981; }
+        .module-card.completed::after { content: "✓ Tuntas"; position: absolute; top: 15px; right: 20px; background: #10b981; color: white; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
+        .module-card:not(.locked):hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.08); }
+        .module-number { background-color: #3b82f6; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; }
+        .module-name { font-size: 17px; font-weight: 700; color: #111827; margin: 4px 0 6px 0; }
+        .module-meta { font-size: 13px; color: #6b7280; margin-bottom: 12px; }
+        .btn-study { background-color: #a5f3fc; color: #0369a1; border: none; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f4f6; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 1000; overflow-y: auto; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-container { max-width: 650px; width: 100%; margin: 0 auto; background-color: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
+        .pmm-header { background-color: #0b3a7a; color: white; padding: 30px 24px; }
+        .btn-back { background: transparent; border: none; color: white; cursor: pointer; display: flex; align-items: center; margin-bottom: 20px; }
+        .pmm-header h2 { font-size: 20px; font-weight: 700; line-height: 1.4; }
+        .pmm-body { padding: 24px; }
+        .section-label { font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 16px; }
+
+        .materi-item { background-color: white; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+        .materi-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+        .materi-header-left { display: flex; align-items: center; gap: 14px; }
+        .materi-title { font-size: 14px; font-weight: 600; color: #374151; line-height: 1.4; }
+        .status-circle { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid #9ca3af; background-color: #f3f4f6; font-size: 12px; }
+        .status-circle.opened { border-color: #10b981; background-color: #10b981; color: white; }
+        .status-circle.ready { border-color: #3b82f6; background-color: white; color: #3b82f6; }
+        .materi-item.locked { background-color: #f9fafb; }
+        .materi-item.locked .materi-header { cursor: not-allowed; }
+        .materi-item.locked .materi-title { color: #9ca3af; }
+        .materi-content { display: none; padding: 20px; border-top: 1px solid #e5e7eb; background-color: #fafafa; line-height: 1.6; color: #4b5563; font-size: 14px; }
+        .materi-item.expanded .materi-content { display: block; }
+        .arrow-icon { transition: transform 0.2s; color: #6b7280; }
+        .materi-item.expanded .arrow-icon { transform: rotate(180deg); }
+
+        .post-test-card { background-color: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: not-allowed; opacity: 0.6; }
+        .post-test-card.ready { pointer-events: auto; cursor: pointer; opacity: 1; }
+        .post-test-card.remedial-locked { pointer-events: none !important; cursor: not-allowed !important; opacity: 0.4 !important; background-color: #f3f4f6 !important; }
+
+        .post-test-container-page { display: none; background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-top: 10px; }
+        .kuis-step { display: none; }
+        .kuis-step.active { display: block; }
+        .step-navigation { display: flex; justify-content: space-between; margin-top: 24px; align-items: center; }
+        .btn-nav-kuis { background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; }
+        .btn-nav-kuis.disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+        .btn-remedial-action { background-color: #991b1b; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 14px; margin-top: 15px; display: block; width: 100%; text-align: center; text-decoration: none; }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="#" class="brand">
-            <img src="photo-guru.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=EDU'">
-            <span>Kodi EduAdaptif</span>
-        </a>
-    </header>
-
-    <main class="hero">
-        <span class="pill-tag">Portal Edukasi & Otomasi Akademik</span>
-        <h1>Platform Kerja Pendidik & Administrasi Pembelajaran Adaptif</h1>
-        <p class="subtitle">
-            Kodi EduAdaptif membantu guru mengelola presensi harian siswa, pengisian jurnal KBM terintegrasi, serta rekapitulasi penilaian secara real-time dan akurat.
-        </p>
-        
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-            <button class="btn-main" onclick="bukaRuangKerja()">
-                <i class="fas fa-laptop-code"></i> Portal Kerja Guru
-            </button>
-            <button class="btn-main" onclick="bukaRuangSiswa()">
-                <i class="fas fa-user-graduate"></i> Portal Utama Siswa
-            </button>
-        </div>
-    </main>
-
-    <!-- Modal Login Khusus Guru -->
-    <div class="modal-overlay" id="modalLogin">
-        <div class="modal-card">
-            <span class="close-modal" onclick="tutupModal()">&times;</span>
-            <h3 style="margin-bottom: 6px; font-size: 20px;">Login Guru</h3>
-            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">Masukkan Username/NIP dan Password Anda</p>
-            
-            <form onsubmit="prosesLogin(event)">
-                <div class="form-group">
-                    <label for="txtUsername">Username / NIP</label>
-                    <input type="text" id="txtUsername" class="form-control" placeholder="Contoh: 19730213..." required autocomplete="username">
-                </div>
-                <div class="form-group">
-                    <label for="txtPassword">Password</label>
-                    <input type="password" id="txtPassword" class="form-control" placeholder="Masukkan password" required autocomplete="current-password">
-                </div>
-                <button type="submit" id="btnSubmitLogin" class="btn-submit">
-                    <i class="fas fa-right-to-bracket"></i> Masuk Ke Ruang Kerja
+    <div class="global-student-header">
+        <div class="header-left-side">
+            <button type="button" class="btn-back-to-topik" onclick="event.stopPropagation(); kembaliKeDaftarTopik();" title="Kembali ke Daftar Topik">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
                 </button>
-            </form>
+            
+            <!-- PENGGUNAAN LOGO OPSI 2 -->
+            <div class="header-logo-box">
+                <img src="logo-sekolah.png" alt="Logo Sekolah" onerror="this.src='https://via.placeholder.com/32?text=INF'">
+            </div>
+
+            <div class="student-info-text">
+                👤 Siswa: <span id="hdrNamaSiswa">-</span> | Kelas: <span id="hdrKelasSiswa">-</span>
+            </div>
+        </div>
+        <button type="button" class="btn-logout" onclick="event.stopPropagation(); logoutSiswa();">Keluar</button>
+    </div>
+
+    <div class="app-content" style="display: flex; width: 100%; flex-direction: column; align-items: center;">
+        <div class="container">
+            <h1 id="txtJudulTopik">Judul Topik</h1>
+            <div class="description-card" id="txtDeskripsiTopik">
+                Deskripsi topik dimuat di sini...
+            </div>
+            <div class="section-title">Daftar Modul Pelatihan</div>
+            <div class="section-subtitle">Selesaikan modul secara berurutan untuk membuka akses selanjutnya</div>
+
+            <!-- CONTAINER MODUL DINAMIS -->
+            <div class="modules-list" id="modulesListWrapper">
+                <!-- Modul akan dirender lewat JavaScript sesuai data-topik.js -->
+            </div>
         </div>
     </div>
 
-<script>
-    // Membuka portal guru (memeriksa sesi guru)
-    function bukaRuangKerja() {
-        const savedSession = localStorage.getItem('user_session');
-        if (savedSession && savedSession !== "undefined" && savedSession !== "null") {
-            window.location.href = "dashboard.html";
-        } else {
-            document.getElementById('modalLogin').style.display = 'flex';
-        }
-    }
+    <!-- MODAL POPUP MATERI -->
+    <div class="modal-overlay" id="moduleModal">
+        <div class="modal-container">
+            <div class="pmm-header">
+                <button class="btn-back" onclick="tutupModul()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                </button>
+                <div class="tag-modul" id="modalTag">Modul X</div>
+                <h2 id="modalTitle">Judul Modul</h2>
+            </div>
 
-    // Membuka portal login/utama siswa di /siswa/index.html
-    function bukaRuangSiswa() {
-        window.location.href = "/siswa/index.html"; 
-    }
+            <div class="pmm-body">
+                <div id="materiSectionArea">
+                    <div class="section-label">Daftar Materi</div>
+                    <div id="materiListContainer">
+                        <!-- Item materi dinamis -->
+                    </div>
 
-    function tutupModal() {
-        document.getElementById('modalLogin').style.display = 'none';
-    }
+                    <div class="section-label" style="margin-top: 24px;">Post Test</div>
+                    <div class="post-test-card" id="postTestBox" onclick="bukaHalamanPostTest()">
+                        <div class="materi-header-left"><div class="status-circle" id="circle-pt">🔒</div><div><div class="materi-title" style="font-weight: 700;">Kerjakan post test</div></div></div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                </div>
 
-    async function prosesLogin(e) {
-        e.preventDefault();
-        const btn = document.getElementById('btnSubmitLogin');
-        btn.innerText = "Memproses...";
-        btn.disabled = true;
+                <div class="post-test-container-page" id="postTestPageArea">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; border-bottom: 1px solid #e5e7eb; padding-bottom: 12px;">
+                        <h3 style="font-size:16px; font-weight:700; color:#0b3a7a;">Lembar Post Test</h3>
+                        <span id="labelStepIndicator" style="font-size:13px; font-weight:600; color:#6b7280;">Soal 1 dari 1</span>
+                    </div>
+                    
+                    <div id="skorResultContainer"></div>
 
-        const u = document.getElementById('txtUsername').value.trim();
-        const p = document.getElementById('txtPassword').value.trim();
+                    <form id="formKuisSlide" onsubmit="periksaKuis(event)">
+                        <div id="slideQuestionsWrapper"></div>
+                        <div class="step-navigation" id="kuisNavRow">
+                            <button type="button" class="btn-nav-kuis disabled" id="btnPrevKuis" onclick="geserHalamanKuis(-1)">Kembali</button>
+                            <button type="button" class="btn-nav-kuis" id="btnNextKuis" onclick="geserHalamanKuis(1)">Selanjutnya</button>
+                            <button type="submit" class="btn-nav-kuis" id="btnSubmitKuis" style="display:none; background-color:#10b981;">Kirim Jawaban</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        const targetUrl = window.SCRIPT_URL || (window.CONFIG && window.CONFIG.SCRIPT_URL) || "";
+    <script src="datasiswa.js"></script>
+    <script src="data-topik.js"></script>
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbwH3IGe7wra6vC4SyqHxV8h7rr7T4mztd4ZzaFsFkljzvN_090QEngLjXz2RBeDmaTA/exec"; 
 
-        if (!targetUrl) {
-            alert("URL Apps Script belum dikonfigurasi di file config.js!");
-            btn.innerText = "Masuk Ke Ruang Kerja";
-            btn.disabled = false;
-            return;
-        }
+        const urlParams = new URLSearchParams(window.location.search);
+        const topikAktif = parseInt(urlParams.get('topik')) || 1;
 
-        try {
-            const payload = JSON.stringify({
-                action: 'login',
-                username: u,
-                password: p
-            });
+        let sessionUser = null; 
+        let dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
+        let internalAkses = {};
+        let internalDibuka = {};
+        let modulAktif = 1;
+        let totalMateriModulSaatIni = 0;
 
-            const response = await fetch(targetUrl, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: payload
-            });
+        let currentKuisIndex = 0;
+        let totalSoalAktif = 0;
 
-            const result = await response.json();
-
-            if (result.status === "success" && result.data) {
-                const userData = {
-                    username: result.data.username || u,
-                    nama: result.data.nama || u,
-                    mapel: result.data.mapel || "",
-                    ampu_kelas: result.data.ampu_kelas || "",
-                    foto: result.data.foto || "photo-guru.png",
-                    penugasan: result.data.penugasan || []
-                };
-
-                localStorage.setItem('user_session', JSON.stringify(userData));
-                window.location.href = "dashboard.html";
+        (function verifikasiAkses() {
+            const savedUser = localStorage.getItem('loggedSiswa');
+            if(!savedUser) {
+                window.location.replace("login.html");
             } else {
-                alert(result.message || "Username atau Password salah!");
+                sessionUser = JSON.parse(savedUser);
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.getElementById('hdrNamaSiswa').innerText = sessionUser.nama;
+                    document.getElementById('hdrKelasSiswa').innerText = sessionUser.kelas;
+                    loadTopikHeader();
+                    loadProgresDatabase();
+                });
             }
-        } catch (err) {
-            console.error("Error Login:", err);
-            alert("Gagal terhubung ke server! Pastikan URL Apps Script di config.js sudah benar.");
-        } finally {
-            btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Masuk Ke Ruang Kerja';
-            btn.disabled = false;
+        })();
+
+        function loadTopikHeader() {
+            const dataTopikSaatIni = DATA_TOPIK[topikAktif] || DATA_TOPIK[1];
+            document.getElementById('txtJudulTopik').innerText = dataTopikSaatIni.judulTopik;
+            document.getElementById('txtDeskripsiTopik').innerText = dataTopikSaatIni.deskripsi;
         }
-    }
-</script>
+
+        function kembaliKeDaftarTopik() { window.location.replace("topik.html"); }
+        function logoutSiswa() { localStorage.removeItem('loggedSiswa'); window.location.replace("login.html"); }
+
+        function loadProgresDatabase() {
+            if (sessionUser && sessionUser.username === "admin") {
+                dbStatusModul = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true };
+                renderDaftarHalamanUtama();
+                return;
+            }
+
+            if(!sessionUser || API_URL.includes("URL_GOOGLE_APPS_SCRIPT")) {
+                dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
+                renderDaftarHalamanUtama();
+                return;
+            }
+
+            fetch(`${API_URL}?userId=${encodeURIComponent(sessionUser.username)}`)
+                .then(res => res.json())
+                .then(resData => {
+                    if(resData.status === "success") {
+                        dbStatusModul = resData.progress;
+                        for (let key in dbStatusModul) {
+                            dbStatusModul[key] = (dbStatusModul[key] === true || dbStatusModul[key] === "true" || dbStatusModul[key] === "TRUE");
+                        }
+                        dbStatusModul[1] = true; 
+                        renderDaftarHalamanUtama();
+                    }
+                }).catch(() => {
+                    renderDaftarHalamanUtama();
+                });
+        }
+
+        function renderDaftarHalamanUtama() {
+            const dataTopikSaatIni = DATA_TOPIK[topikAktif] || DATA_TOPIK[1];
+            const wrapper = document.getElementById('modulesListWrapper');
+            wrapper.innerHTML = "";
+
+            const modulKeys = Object.keys(dataTopikSaatIni.modul);
+
+            modulKeys.forEach((noModulStr) => {
+                const noModul = parseInt(noModulStr);
+                const modulInfo = dataTopikSaatIni.modul[noModul];
+                const isAktif = (dbStatusModul[noModul] === true);
+                const nextAktif = (dbStatusModul[noModul + 1] === true);
+
+                let classStatus = "";
+                if (!isAktif) classStatus = "locked";
+                else if (nextAktif) classStatus = "completed";
+
+                wrapper.innerHTML += `
+                    <div class="module-card ${classStatus}" id="card-modul-${noModul}" onclick="bukaModul(${noModul})">
+                        <div class="module-number">${noModul}</div>
+                        <div class="module-info">
+                            <div class="module-name">${modulInfo.title}</div>
+                            <div class="module-meta">📖 ${modulInfo.materi.length} materi + Post Test</div>
+                            <button class="btn-study">Pelajari Materi</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function bukaModul(noModul) {
+            const statusAkses = (dbStatusModul[noModul] === true);
+            if (!statusAkses) {
+                alert("Modul terblokir! Selesaikan modul sebelumnya terlebih dahulu.");
+                return;
+            }
+
+            modulAktif = noModul;
+            const dataModul = DATA_TOPIK[topikAktif].modul[noModul];
+            totalMateriModulSaatIni = dataModul.materi.length;
+
+            let isAlreadyDone = (dbStatusModul[noModul+1] === true);
+
+            internalAkses = { 1: true, pt: isAlreadyDone };
+            internalDibuka = { 1: isAlreadyDone };
+
+            for(let m=2; m<=totalMateriModulSaatIni; m++) {
+                internalAkses[m] = isAlreadyDone;
+                internalDibuka[m] = isAlreadyDone;
+            }
+
+            document.getElementById('modalTag').innerText = `Topik ${topikAktif} - Modul ${noModul}`;
+            document.getElementById('modalTitle').innerText = dataModul.title;
+
+            const materiContainer = document.getElementById('materiListContainer');
+            materiContainer.innerHTML = "";
+
+            dataModul.materi.forEach((materiJudul, idx) => {
+                const mNo = idx + 1;
+                materiContainer.innerHTML += `
+                    <div class="materi-item ${mNo > 1 && !isAlreadyDone ? 'locked' : ''}" id="item-${mNo}">
+                        <div class="materi-header" onclick="toggleMateri(${mNo})">
+                            <div class="materi-header-left">
+                                <div class="status-circle ${mNo === 1 || isAlreadyDone ? 'ready' : ''}" id="circle-${mNo}">${mNo > 1 && !isAlreadyDone ? '🔒' : ''}</div>
+                                <div class="materi-title">${materiJudul}</div>
+                            </div>
+                            <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="materi-content" id="content-${mNo}"></div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('materiSectionArea').style.display = 'block';
+            document.getElementById('postTestPageArea').style.display = 'none';
+            document.getElementById('postTestBox').classList.remove('remedial-locked');
+
+            renderAccordionVisual();
+            document.getElementById('moduleModal').classList.add('active');
+        }
+
+        function renderAccordionVisual() {
+            for (let i = 1; i <= totalMateriModulSaatIni; i++) {
+                const item = document.getElementById(`item-${i}`);
+                const circle = document.getElementById(`circle-${i}`);
+                if(!item || !circle) continue;
+
+                item.classList.remove('expanded');
+                document.getElementById(`content-${i}`).style.display = 'none';
+                
+                if (internalAkses[i]) {
+                    item.classList.remove('locked');
+                    circle.innerHTML = internalDibuka[i] ? "✓" : "";
+                    circle.className = internalDibuka[i] ? "status-circle opened" : "status-circle ready";
+                } else {
+                    item.classList.add('locked');
+                    circle.innerHTML = "🔒";
+                    circle.className = "status-circle";
+                }
+            }
+
+            const ptCard = document.getElementById('postTestBox');
+            const ptCircle = document.getElementById('circle-pt');
+            if (internalAkses.pt) {
+                ptCard.classList.add('ready');
+                ptCard.style.opacity = '1';
+                ptCircle.className = "status-circle ready";
+                ptCircle.innerHTML = "";
+            } else {
+                ptCard.classList.remove('ready');
+                ptCard.style.opacity = '0.6';
+                ptCircle.className = "status-circle";
+                ptCircle.innerHTML = "🔒";
+            }
+        }
+
+        function tutupModul() { document.getElementById('moduleModal').classList.remove('active'); }
+
+        // LOGIKA FETCH MATERI DIUBAH AGAR MENANGKAP ERROR FILE 404 KUSTOM
+        function toggleMateri(noMateri) {
+            if (!internalAkses[noMateri]) return;
+            const item = document.getElementById(`item-${noMateri}`);
+            const content = document.getElementById(`content-${noMateri}`);
+            const circle = document.getElementById(`circle-${noMateri}`);
+
+            if (!item.classList.contains('expanded')) {
+                document.querySelectorAll('.materi-item').forEach(el => el.classList.remove('expanded'));
+                
+                item.classList.add('expanded');
+                content.style.display = 'block';
+
+                if (!internalDibuka[noMateri]) {
+                    internalDibuka[noMateri] = true;
+                    circle.className = "status-circle opened";
+                    circle.innerHTML = "✓";
+                }
+
+                content.innerHTML = `<em>Memuat...</em>`;
+                
+                fetch(`materi/t${topikAktif}-m${modulAktif}-m${noMateri}.html`)
+                    .then(res => {
+                        if (!res.ok) throw new Error("404");
+                        return res.text();
+                    })
+                    .then(data => {
+                        content.innerHTML = data;
+                        bukaKunciBerikutnya(noMateri);
+                    })
+                    .catch(() => {
+                        // Tampilan Kustom Saat Materi Belum Dibuat / Error 404
+                        content.innerHTML = `
+                            <div style="text-align: center; padding: 25px 15px; color: #64748b; background-color: #ffffff; border-radius: 8px; border: 1px dashed #cbd5e1;">
+                                <div style="font-size: 32px; margin-bottom: 8px;">🚧</div>
+                                <h4 style="font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Materi Belum Tersedia</h4>
+                                <p style="font-size: 13px; line-height: 1.4;">Bahan ajar digital untuk bagian ini sedang dalam proses penyusunan oleh tim guru.</p>
+                            </div>
+                        `;
+                        // Tetap buka materi berikutnya/kuis jika admin agar tidak stuck testing
+                        if(sessionUser && sessionUser.username === "admin") {
+                            bukaKunciBerikutnya(noMateri);
+                        }
+                    });
+            } else {
+                item.classList.remove('expanded');
+                content.style.display = 'none';
+            }
+        }
+
+        function bukaKunciBerikutnya(currentMateri) {
+            let next = currentMateri + 1;
+            if (next <= totalMateriModulSaatIni) {
+                if (!internalAkses[next]) {
+                    internalAkses[next] = true;
+                    document.getElementById(`item-${next}`).classList.remove('locked');
+                    document.getElementById(`circle-${next}`).className = "status-circle ready";
+                    document.getElementById(`circle-${next}`).innerHTML = "";
+                }
+            } else if (!internalAkses.pt) {
+                internalAkses.pt = true;
+                document.getElementById('postTestBox').classList.add('ready');
+                document.getElementById('postTestBox').style.opacity = '1';
+                document.getElementById('circle-pt').className = "status-circle ready";
+                document.getElementById('circle-pt').innerHTML = "";
+            }
+        }
+
+        // LOGIKA FETCH POSTTEST DIUBAH AGAR MENANGKAP ERROR FILE 404 KUSTOM
+        function bukaHalamanPostTest() {
+            if (!internalAkses.pt) return;
+
+            document.getElementById('materiSectionArea').style.display = 'none';
+            const containerKuis = document.getElementById('postTestPageArea');
+            containerKuis.style.display = 'block';
+
+            document.getElementById('skorResultContainer').innerHTML = "";
+            document.getElementById('kuisNavRow').style.display = 'flex';
+
+            const wrapperSoal = document.getElementById('slideQuestionsWrapper');
+            wrapperSoal.innerHTML = `<div style="text-align:center; padding: 20px;"><em>Memuat Lembar Kuis...</em></div>`;
+
+            fetch(`posttest/t${topikAktif}-m${modulAktif}-pt.html`)
+                .then(res => {
+                    if (!res.ok) throw new Error("404");
+                    return res.text();
+                })
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const originalForm = doc.querySelector('form');
+                    
+                    if(originalForm) {
+                        const childNodes = Array.from(originalForm.children);
+                        wrapperSoal.innerHTML = "";
+                        let indexSoal = 1;
+
+                        childNodes.forEach((node) => {
+                            if (node.tagName === 'DIV') {
+                                node.className = 'kuis-step';
+                                node.id = `step-soal-${indexSoal}`;
+                                wrapperSoal.appendChild(node);
+                                indexSoal++;
+                            }
+                        });
+
+                        totalSoalAktif = indexSoal - 1;
+                        currentKuisIndex = 1;
+                        tampilkanHalamanSoalAktif();
+                    } else {
+                        wrapperSoal.innerHTML = `<div style="color:red; padding:20px;">Gagal memproses berkas soal.</div>`;
+                    }
+                })
+                .catch(() => {
+                    // Tampilan Kustom Saat Soal Kuis Belum Tersedia / Error 404
+                    document.getElementById('kuisNavRow').style.display = 'none';
+                    wrapperSoal.innerHTML = `
+                        <div style="text-align: center; padding: 35px 20px; color: #64748b;">
+                            <div style="font-size: 40px; margin-bottom: 10px;">📝</div>
+                            <h4 style="font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 6px;">Soal Kuis Belum Tersedia</h4>
+                            <p style="font-size: 13px; margin-bottom: 20px;">Lembar evaluasi post test untuk modul ini belum dikonfigurasi di server.</p>
+                            <button type="button" class="btn-nav-kuis" onclick="pemicuUlangModul(null)" style="background-color: #64748b; float: none; display: inline-block;">Kembali</button>
+                        </div>
+                    `;
+                });
+        }
+
+        function tampilkanHalamanSoalAktif() {
+            document.querySelectorAll('.kuis-step').forEach(step => step.classList.remove('active'));
+            
+            const activeStep = document.getElementById(`step-soal-${currentKuisIndex}`);
+            if (activeStep) activeStep.classList.add('active');
+
+            document.getElementById('labelStepIndicator').innerText = `Soal ${currentKuisIndex} dari ${totalSoalAktif}`;
+            document.getElementById('btnPrevKuis').className = (currentKuisIndex === 1) ? "btn-nav-kuis disabled" : "btn-nav-kuis";
+            
+            if (currentKuisIndex === totalSoalAktif) {
+                document.getElementById('btnNextKuis').style.display = 'none';
+                document.getElementById('btnSubmitKuis').style.display = 'block';
+            } else {
+                document.getElementById('btnNextKuis').style.display = 'block';
+                document.getElementById('btnSubmitKuis').style.display = 'none';
+            }
+        }
+
+        function geserHalamanKuis(arah) {
+            let targetIndex = currentKuisIndex + arah;
+            if (targetIndex >= 1 && targetIndex <= totalSoalAktif) {
+                currentKuisIndex = targetIndex;
+                tampilkanHalamanSoalAktif();
+            }
+        }
+
+        function periksaKuis(event) {
+            event.preventDefault();
+            const form = event.target;
+            
+            let totalSoalPilihanGanda = 0;
+            let jawabanBenar = 0;
+            let listJawabanPG = [];
+
+            form.querySelectorAll('input[type="radio"]').forEach(radio => {
+                if(radio.checked) {
+                    const isCorrect = radio.hasAttribute('data-correct');
+                    if(isCorrect) jawabanBenar++;
+                    listJawabanPG.push(`${radio.name}: ${radio.value} (${isCorrect ? "BENAR" : "SALAH"})`);
+                }
+            });
+
+            const namaGrupRadio = new Set();
+            form.querySelectorAll('input[type="radio"]').forEach(radio => namaGrupRadio.add(radio.name));
+            totalSoalPilihanGanda = namaGrupRadio.size;
+
+            let listJawabanEssay = [];
+            form.querySelectorAll('textarea').forEach((txt, idx) => {
+                listJawabanEssay.push('Essay ' + (idx+1) + ': "' + txt.value.replace(/"/g, "'") + '"');
+            });
+
+            let skorAkhir = totalSoalPilihanGanda > 0 ? Math.round((jawabanBenar / totalSoalPilihanGanda) * 100) : 100;
+            let lulus = (skorAkhir === 100);
+
+            const resultWrapper = document.getElementById('skorResultContainer');
+            resultWrapper.innerHTML = `<div style="text-align:center; padding: 20px;"><em>Menyimpan lembar jawaban ke server...</em></div>`;
+
+            document.getElementById('slideQuestionsWrapper').innerHTML = "";
+            document.getElementById('kuisNavRow').style.display = 'none';
+
+            const dataKirim = new URLSearchParams();
+            dataKirim.append('userId', sessionUser.username);
+            dataKirim.append('nama', sessionUser.nama);
+            dataKirim.append('kelas', sessionUser.kelas);
+            dataKirim.append('modulSelesai', modulAktif);
+            dataKirim.append('skor', skorAkhir);
+            dataKirim.append('status', lulus ? "TUNTAS" : "REMEDIAL");
+            dataKirim.append('jawabanPG', listJawabanPG.join(" | "));
+            dataKirim.append('jawabanEssay', listJawabanEssay.join(" | "));
+
+            fetch(API_URL, {
+                method: "POST",
+                mode: "no-cors", 
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: dataKirim.toString()
+            }).then(() => {
+                resultWrapper.innerHTML = ""; 
+                const box = document.createElement('div');
+
+                if(lulus) {
+                    box.className = 'result-box success';
+                    box.innerHTML = `
+                        <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">🎉 HASIL: TUNTAS (LULUS)</div>
+                        <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: 100 / 100</div>
+                        <p style="font-weight: 400; font-size: 13px;">Selamat! Semua jawaban Anda benar. Rekaman jawaban berhasil disimpan dan modul berikutnya telah terbuka.</p>
+                    `;
+                    resultWrapper.appendChild(box);
+                    
+                    document.getElementById('circle-pt').className = "status-circle opened";
+                    document.getElementById('circle-pt').innerHTML = "✓";
+
+                    setTimeout(() => {
+                        let nextModul = modulAktif + 1;
+                        dbStatusModul[nextModul] = true;
+
+                        renderDaftarHalamanUtama();
+                        tutupModul();
+                        alert("Berhasil! Progres tuntas Anda sudah diamankan di sistem.");
+                    }, 2500);
+
+                } else {
+                    box.className = 'result-box fail';
+                    box.innerHTML = `
+                        <div style="font-size: 16px; margin-bottom: 4px; font-weight:700;">❌ HASIL: BELUM TUNTAS</div>
+                        <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">Skor: ${skorAkhir} / 100</div>
+                        <p style="font-weight: 400; font-size: 13px; margin-bottom: 12px;">Maaf, Anda harus menjawab semua kuis dengan benar (Syarat Kelulusan: Skor 100). Percobaan remedial Anda telah dicatat.</p>
+                        <button type="button" class="btn-remedial-action" onclick="pemicuUlangModul(document.getElementById('formKuisSlide'))">Ulangi Mempelajari Modul</button>
+                    `;
+                    resultWrapper.appendChild(box);
+
+                    const ptCard = document.getElementById('postTestBox');
+                    ptCard.classList.add('remedial-locked');
+                }
+                box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        }
+
+        function pemicuUlangModul(form) {
+            if(form) form.reset(); 
+            
+            document.getElementById('materiSectionArea').style.display = 'block';
+            document.getElementById('postTestPageArea').style.display = 'none';
+
+            internalAkses = { 1: true };
+            internalDibuka = { 1: true }; 
+
+            renderAccordionVisual();
+            tutupModul();
+
+            alert("Post Test tidak tuntas! Anda dikembalikan ke halaman utama. Silakan masuk kembali untuk mempelajari ulang materi secara berurutan!");
+        }
+    </script>
 </body>
 </html>
