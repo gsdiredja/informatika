@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Guru - EduAdaptif</title>
+    <title>Dashboard Guru - Kodi EduAdaptif</title>
     
+    <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Config File -->
     <script src="config.js"></script>
 
     <style>
@@ -154,6 +156,24 @@
         }
         .modul-card:hover i { transform: scale(1.1); }
 
+        /* FOOTER DASHBOARD */
+        footer { 
+            background-color: #0f172a; 
+            color: #94a3b8; 
+            text-align: center; 
+            padding: 20px; 
+            font-size: 13px; 
+            margin-top: auto; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 12px; 
+            flex-wrap: wrap; 
+        }
+
+        footer a { color: #38bdf8; text-decoration: none; font-weight: 600; }
+        footer a:hover { text-decoration: underline; }
+
         @media (max-width: 768px) {
             .grid-select { grid-template-columns: 1fr; }
             .grid-modul { grid-template-columns: repeat(2, 1fr); }
@@ -164,9 +184,9 @@
 <body>
 
     <header>
-        <a href="#" class="brand">
+        <a href="dashboard.html" class="brand">
             <img src="photo-guru.png" alt="Logo" onerror="this.src='https://ui-avatars.com/api/?name=Edu&background=0284c7&color=fff'">
-            <span>EduAdaptif</span>
+            <span>Kodi EduAdaptif</span>
         </a>
         <button onclick="prosesLogout()" class="btn-logout">
             <i class="fas fa-right-from-bracket"></i> Keluar
@@ -231,6 +251,11 @@
         </div>
 
     </div>
+
+    <!-- FOOTER DASHBOARD -->
+    <footer>
+        <span>&copy; 2026 <strong>Kodi EduAdaptif</strong> | kodi.web.id</span>
+    </footer>
 
     <script>
         let globalUserData = null;
@@ -318,17 +343,16 @@
             const selectKelas = document.getElementById('selectKelas');
             selectKelas.innerHTML = "";
 
-            if (!selectMapelVal || !globalUserData) {
+            if (!selectMapelVal) {
                 selectKelas.innerHTML = '<option value="">-- Pilih Mapel Terlebih Dahulu --</option>';
                 return;
             }
 
             const setKelasUnik = new Set();
             
-            // 1. Ambil dari penugasan spesifik mapel yang dipilih
-            if (globalUserData.penugasan && Array.isArray(globalUserData.penugasan) && globalUserData.penugasan.length > 0) {
+            if (globalUserData && globalUserData.penugasan && Array.isArray(globalUserData.penugasan)) {
                 globalUserData.penugasan.forEach(p => {
-                    if (p.mapel && p.mapel.trim().toLowerCase() === selectMapelVal.trim().toLowerCase()) {
+                    if (!p.mapel || p.mapel.trim().toLowerCase() === selectMapelVal.trim().toLowerCase()) {
                         if (p.kelas) {
                             String(p.kelas).split(',').forEach(k => {
                                 const cleanK = k.trim();
@@ -341,8 +365,7 @@
                 });
             }
 
-            // 2. Fallback: jika penugasan tidak terpisah per mapel, gunakan ampu_kelas
-            if (setKelasUnik.size === 0 && globalUserData.ampu_kelas) {
+            if (setKelasUnik.size === 0 && globalUserData && globalUserData.ampu_kelas) {
                 String(globalUserData.ampu_kelas).split(',').forEach(k => {
                     const cleanK = k.trim();
                     if (cleanK && cleanK.toLowerCase() !== "guru" && cleanK.toLowerCase() !== "pendidik") {
@@ -354,11 +377,37 @@
             const listKelas = Array.from(setKelasUnik);
 
             if (listKelas.length === 0) {
-                selectKelas.innerHTML = '<option value="">-- Tidak Ada Kelas Terdaftar --</option>';
+                selectKelas.innerHTML = '<option value="">-- Memuat Kelas... --</option>';
+                fetchKelasFromBackend(selectMapelVal);
                 return;
             }
 
             renderKelasOptions(listKelas);
+        }
+
+        async function fetchKelasFromBackend(mapel) {
+            const selectKelas = document.getElementById('selectKelas');
+            try {
+                const targetUrl = window.SCRIPT_URL || (window.CONFIG && window.CONFIG.SCRIPT_URL) || "";
+                const res = await fetch(targetUrl + "?action=getSiswa").then(r => r.json());
+                
+                if (res.status === "success" && Array.isArray(res.data)) {
+                    const kelasSet = new Set();
+                    res.data.forEach(s => {
+                        if (s.kelas) kelasSet.add(String(s.kelas).trim());
+                    });
+                    
+                    const listKelas = Array.from(kelasSet);
+                    if (listKelas.length > 0) {
+                        renderKelasOptions(listKelas);
+                        return;
+                    }
+                }
+                selectKelas.innerHTML = '<option value="">-- Tidak Ada Kelas Terdaftar --</option>';
+            } catch (e) {
+                console.error("Gagal memuat kelas:", e);
+                selectKelas.innerHTML = '<option value="">-- Gagal Memuat Kelas --</option>';
+            }
         }
 
         function renderKelasOptions(listKelas) {
@@ -400,6 +449,5 @@
             window.location.href = "index.html";
         }
     </script>
-    <footer>&copy; 2026 <strong>Kodi EduAdaptif</strong> | kodi.web.id</footer>
 </body>
 </html>
