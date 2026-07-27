@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const alertBox = document.getElementById("alertBox");
 
   // Ganti URL ini dengan URL Web App Google Apps Script Anda jika ada
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYOUR_SCRIPT_ID_HERE/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec";
 
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
