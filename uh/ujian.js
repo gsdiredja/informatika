@@ -282,7 +282,7 @@ async function processExamResults() {
     }
   });
 
-  // Memastikan skor selalu berbentuk angka valid
+  // Hitung Nilai Akhir
   let calculatedScore = 0;
   if (totalObjectiveQuestions > 0) {
     calculatedScore = Math.round((correctCount / totalObjectiveQuestions) * 100);
@@ -295,7 +295,7 @@ async function processExamResults() {
     </div>
   `;
 
-  // Kirim data ke Google Apps Script
+  // Kirim data ke Google Apps Script (Nilai dikirim eksplisit sebagai String)
   try {
     await fetch(SCRIPT_URL, {
       method: "POST",
@@ -308,7 +308,7 @@ async function processExamResults() {
         username: currentUserData.username || currentUsername,
         nama: currentUserData.nama || currentUsername,
         kelas: currentUserData.kelas || "-",
-        nilai: calculatedScore,
+        nilai: String(calculatedScore),
         jawaban: userAnswers
       }),
     });
