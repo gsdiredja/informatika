@@ -2,45 +2,48 @@ let currentQuestionIndex = 0;
 let questionsData = [];
 let userAnswers = {};
 
+// URL GOOGLE APPS SCRIPT
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec";
+
 // KONFIGURASI WAKTU (60 Menit)
 const EXAM_DURATION_MINUTES = 60;
 let totalSeconds = EXAM_DURATION_MINUTES * 60;
 let timerInterval = null;
 let currentUsername = "";
+let currentUserData = {};
 
 document.addEventListener("DOMContentLoaded", () => {
   let userDataStr = localStorage.getItem("userData");
   let soalPath = localStorage.getItem("soalPath");
 
   if (!userDataStr) {
-    userDataStr = JSON.stringify({ username: "Siswa", nama: "Nama Siswa", kelas: "Kelas / NISN" });
+    userDataStr = JSON.stringify({ username: "Siswa", nama: "Nama Siswa", kelas: "-" });
   }
 
   if (!soalPath || soalPath === "undefined") {
     soalPath = "./data/soal-uh1.json";
   }
 
-  const userData = JSON.parse(userDataStr);
-  currentUsername = userData.username || "default_user";
+  currentUserData = JSON.parse(userDataStr);
+  currentUsername = currentUserData.username || "default_user";
 
   document.getElementById("userInfo").innerHTML = `
-    <strong style="font-size: 1.1rem; color: #1e293b;">${userData.nama || userData.username}</strong><br>
-    <span style="color: #64748b; font-size: 0.85rem;">Kelas: ${userData.kelas || '-'} | NISN: ${userData.username}</span>
+    <strong style="font-size: 1.1rem; color: #1e293b;">${currentUserData.nama || currentUserData.username}</strong><br>
+    <span style="color: #64748b; font-size: 0.85rem;">Kelas: ${currentUserData.kelas || '-'} | NISN: ${currentUserData.username}</span>
   `;
 
-  // Cek jika ada sisa waktu tersimpan khusus untuk username ini
+  // Cek sisa waktu tersimpan
   const savedRemainingTime = localStorage.getItem(`remainingTime_${currentUsername}`);
   if (savedRemainingTime !== null) {
     totalSeconds = parseInt(savedRemainingTime, 10);
   } else {
-    // Jika belum pernah menyimpan waktu, set default 60 menit
     totalSeconds = EXAM_DURATION_MINUTES * 60;
   }
 
-  // Jalankan Timer Hitung Mundur
+  // Jalankan Timer
   startTimer();
 
-  // Load Data Soal Ujian
+  // Load Soal
   fetch(soalPath)
     .then((res) => {
       if (!res.ok) throw new Error("HTTP Status " + res.status);
@@ -68,19 +71,16 @@ function startTimer() {
   timerInterval = setInterval(() => {
     totalSeconds--;
     
-    // Simpan sisa waktu spesifik menggunakan NISN / Username
     if (currentUsername) {
       localStorage.setItem(`remainingTime_${currentUsername}`, totalSeconds);
     }
 
     updateTimerDisplay();
 
-    // Notifikasi peringatan saat sisa 5 menit
     if (totalSeconds === 300) {
       alert("Peringatan: Waktu pengerjaan tinggal 5 menit lagi!");
     }
 
-    // Jika waktu habis
     if (totalSeconds <= 0) {
       clearInterval(timerInterval);
       if (currentUsername) {
@@ -99,10 +99,7 @@ function updateTimerDisplay() {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
 
-  const formattedMinutes = String(minutes).padStart(2, '0');
-  const formattedSeconds = String(seconds).padStart(2, '0');
-
-  timerDisplay.innerText = `${formattedMinutes}:${formattedSeconds}`;
+  timerDisplay.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 // MENAMPILKAN SOAL
@@ -165,7 +162,7 @@ function showQuestion(index) {
   }
 }
 
-// MENYIMPAN JAWABAN
+// MENYIMPAN JAWABAN SEMENTARA
 function saveCurrentAnswer() {
   const q = questionsData[currentQuestionIndex];
   if (!q) return;
@@ -202,7 +199,7 @@ function hideWarning() {
   if (warnEl) warnEl.style.display = "none";
 }
 
-// NAVIGASI
+// NAVIGASI SOAL
 function nextQuestion() {
   saveCurrentAnswer();
 
@@ -264,22 +261,25 @@ function forceSubmitExam() {
   processExamResults();
 }
 
-function processExamResults() {
+// PROSES PERHITUNGAN SKOR & KRIM DATA KE APPS SCRIPT (SPREADSHEET)
+async function processExamResults() {
   clearInterval(timerInterval);
   if (currentUsername) {
     localStorage.removeItem(`remainingTime_${currentUsername}`);
   }
 
   let correctCount = 0;
-  let totalQuestions = questionsData.length;
+  let totalObjectiveQuestions = 0;
 
   questionsData.forEach((q) => {
     const userAns = userAnswers[q.name];
-    const correctAns = q.answer;
+    const correctAns = q.key; // Membaca properti 'key' dari JSON
 
     if (q.type === "radio") {
+      totalObjectiveQuestions++;
       if (userAns === correctAns) correctCount++;
     } else if (q.type === "checkbox") {
+      totalObjectiveQuestions++;
       if (Array.isArray(userAns) && Array.isArray(correctAns)) {
         if (
           userAns.length === correctAns.length &&
@@ -291,8 +291,38 @@ function processExamResults() {
     }
   });
 
-  const score = Math.round((correctCount / totalQuestions) * 100);
-  showFinalResult(score, correctCount, totalQuestions);
+  const score = totalObjectiveQuestions > 0 ? Math.round((correctCount / totalObjectiveQuestions) * 100) : 0;
+
+  // Tampilkan indikator penyimpanan
+  const container = document.getElementById("questionsContainer");
+  container.innerHTML = `
+    <div style="text-align:center; padding: 40px;">
+      <p style="font-weight: 600; color: #4f46e5;">Sedang menyimpan hasil ujian ke spreadsheet...</p>
+    </div>
+  `;
+
+  // Kirim data hasil ujian ke Google Spreadsheet via Web App
+  try {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: JSON.stringify({
+        action: "submit",
+        username: currentUserData.username || currentUsername,
+        nama: currentUserData.nama || currentUsername,
+        kelas: currentUserData.kelas || "-",
+        nilai: score
+      }),
+    });
+  } catch (err) {
+    console.error("Gagal menyimpan ke Spreadsheet:", err);
+  }
+
+  // Tampilkan Hasil Ujian
+  showFinalResult(score, correctCount, totalObjectiveQuestions);
 }
 
 function showFinalResult(score, correctCount, totalQuestions) {
@@ -310,12 +340,12 @@ function showFinalResult(score, correctCount, totalQuestions) {
   container.innerHTML = `
     <div style="text-align: center; padding: 20px 10px; background-color: #ffffff; border-radius: 12px;">
       <h2 style="color: #1e293b; margin-bottom: 8px;">Ujian Selesai!</h2>
-      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Hasil nilai Anda telah tercatat.</p>
+      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Hasil nilai Anda telah tercatat di spreadsheet.</p>
       
       <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px; max-width: 280px; margin: 0 auto 20px auto;">
         <span style="font-size: 0.85rem; color: #15803d; font-weight: 700; letter-spacing: 0.5px;">SKOR AKHIR</span>
         <h1 style="font-size: 3.5rem; color: #16a34a; margin: 6px 0; font-weight: 800;">${score}</h1>
-        <p style="font-size: 0.85rem; color: #166534; margin: 0;">Benar ${correctCount} dari ${totalQuestions} soal</p>
+        <p style="font-size: 0.85rem; color: #166534; margin: 0;">Benar ${correctCount} dari ${totalQuestions} soal pilihan ganda</p>
       </div>
 
       <div style="display: flex; gap: 10px; justify-content: center;">
@@ -348,7 +378,6 @@ function restartExam() {
 
 function logout() {
   clearInterval(timerInterval);
-  // Hapus hanya data autentikasi user, BUKAN sisa waktu ujian
   localStorage.removeItem("userData");
   window.location.href = "index.html";
 }
