@@ -2,7 +2,7 @@ let currentQuestionIndex = 0;
 let questionsData = [];
 let userAnswers = {};
 
-// URL Web App Google Apps Script
+// URL GOOGLE APPS SCRIPT
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec";
 
 // KONFIGURASI WAKTU (60 Menit)
@@ -282,8 +282,11 @@ async function processExamResults() {
     }
   });
 
-  // Menghitung skor dengan aman dari pembagian nol / NaN
-  const calculatedScore = totalObjectiveQuestions > 0 ? Math.round((correctCount / totalObjectiveQuestions) * 100) : 0;
+  // Memastikan skor selalu berbentuk angka valid
+  let calculatedScore = 0;
+  if (totalObjectiveQuestions > 0) {
+    calculatedScore = Math.round((correctCount / totalObjectiveQuestions) * 100);
+  }
 
   const container = document.getElementById("questionsContainer");
   container.innerHTML = `
