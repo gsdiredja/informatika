@@ -2,7 +2,7 @@ let currentQuestionIndex = 0;
 let questionsData = [];
 let userAnswers = {};
 
-// URL GOOGLE APPS SCRIPT
+// URL Web App Google Apps Script
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec";
 
 // KONFIGURASI WAKTU (60 Menit)
@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     <span style="color: #64748b; font-size: 0.85rem;">Kelas: ${currentUserData.kelas || '-'} | NISN: ${currentUserData.username}</span>
   `;
 
-  // Cek sisa waktu tersimpan
   const savedRemainingTime = localStorage.getItem(`remainingTime_${currentUsername}`);
   if (savedRemainingTime !== null) {
     totalSeconds = parseInt(savedRemainingTime, 10);
@@ -40,10 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
     totalSeconds = EXAM_DURATION_MINUTES * 60;
   }
 
-  // Jalankan Timer
   startTimer();
 
-  // Load Soal
   fetch(soalPath)
     .then((res) => {
       if (!res.ok) throw new Error("HTTP Status " + res.status);
@@ -64,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// LOGIKA TIMER
 function startTimer() {
   updateTimerDisplay();
 
@@ -102,7 +98,6 @@ function updateTimerDisplay() {
   timerDisplay.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
-// MENAMPILKAN SOAL
 function showQuestion(index) {
   const container = document.getElementById("questionsContainer");
   const q = questionsData[index];
@@ -162,7 +157,6 @@ function showQuestion(index) {
   }
 }
 
-// MENYIMPAN JAWABAN SEMENTARA
 function saveCurrentAnswer() {
   const q = questionsData[currentQuestionIndex];
   if (!q) return;
@@ -199,7 +193,6 @@ function hideWarning() {
   if (warnEl) warnEl.style.display = "none";
 }
 
-// NAVIGASI SOAL
 function nextQuestion() {
   saveCurrentAnswer();
 
@@ -242,7 +235,6 @@ function showWarning(msg) {
   warnEl.style.display = "block";
 }
 
-// SUBMIT JAWABAN
 function submitExam() {
   saveCurrentAnswer();
 
@@ -261,7 +253,6 @@ function forceSubmitExam() {
   processExamResults();
 }
 
-// PROSES PERHITUNGAN SKOR & KRIM DATA KE APPS SCRIPT (SPREADSHEET)
 async function processExamResults() {
   clearInterval(timerInterval);
   if (currentUsername) {
@@ -273,7 +264,7 @@ async function processExamResults() {
 
   questionsData.forEach((q) => {
     const userAns = userAnswers[q.name];
-    const correctAns = q.key; // Membaca properti 'key' dari JSON
+    const correctAns = q.key;
 
     if (q.type === "radio") {
       totalObjectiveQuestions++;
@@ -291,17 +282,17 @@ async function processExamResults() {
     }
   });
 
-  const score = totalObjectiveQuestions > 0 ? Math.round((correctCount / totalObjectiveQuestions) * 100) : 0;
+  // Menghitung skor dengan aman dari pembagian nol / NaN
+  const calculatedScore = totalObjectiveQuestions > 0 ? Math.round((correctCount / totalObjectiveQuestions) * 100) : 0;
 
-  // Tampilkan indikator penyimpanan
   const container = document.getElementById("questionsContainer");
   container.innerHTML = `
     <div style="text-align:center; padding: 40px;">
-      <p style="font-weight: 600; color: #4f46e5;">Sedang menyimpan hasil ujian ke spreadsheet...</p>
+      <p style="font-weight: 600; color: #4f46e5;">Sedang menyimpan nilai & jawaban ke spreadsheet...</p>
     </div>
   `;
 
-  // Kirim data hasil ujian ke Google Spreadsheet via Web App
+  // Kirim data ke Google Apps Script
   try {
     await fetch(SCRIPT_URL, {
       method: "POST",
@@ -314,15 +305,15 @@ async function processExamResults() {
         username: currentUserData.username || currentUsername,
         nama: currentUserData.nama || currentUsername,
         kelas: currentUserData.kelas || "-",
-        nilai: score
+        nilai: calculatedScore,
+        jawaban: userAnswers
       }),
     });
   } catch (err) {
     console.error("Gagal menyimpan ke Spreadsheet:", err);
   }
 
-  // Tampilkan Hasil Ujian
-  showFinalResult(score, correctCount, totalObjectiveQuestions);
+  showFinalResult(calculatedScore, correctCount, totalObjectiveQuestions);
 }
 
 function showFinalResult(score, correctCount, totalQuestions) {
@@ -340,7 +331,7 @@ function showFinalResult(score, correctCount, totalQuestions) {
   container.innerHTML = `
     <div style="text-align: center; padding: 20px 10px; background-color: #ffffff; border-radius: 12px;">
       <h2 style="color: #1e293b; margin-bottom: 8px;">Ujian Selesai!</h2>
-      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Hasil nilai Anda telah tercatat di spreadsheet.</p>
+      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Hasil nilai dan detail jawaban Anda telah dicatat di spreadsheet.</p>
       
       <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px; max-width: 280px; margin: 0 auto 20px auto;">
         <span style="font-size: 0.85rem; color: #15803d; font-weight: 700; letter-spacing: 0.5px;">SKOR AKHIR</span>
