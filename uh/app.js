@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const alertBox = document.getElementById("alertBox");
 
-  // Ganti URL ini dengan URL Web App Google Apps Script Anda jika ada
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCk4HpQqBRpvo4soMIMeHL77dpEKesW3VkrQEfE0wQqbZzood50HP8OV84K2R4S0VZ/exec";
 
   if (loginForm) {
@@ -36,7 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = await response.json();
 
         if (result.status === "success") {
-          localStorage.setItem("userData", JSON.stringify(result.data || { username: username }));
+          // Menyimpan result.user (bukan result.data) agar data Nama & Kelas tersimpan sempurna
+          localStorage.setItem("userData", JSON.stringify(result.user || { username: username, nama: username, kelas: "-" }));
           localStorage.setItem("soalPath", jenisUjian);
           window.location.href = "ujian.html";
         } else {
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (error) {
         console.error("Login Error / Offline Mode:", error);
         
-        // Fallback jika Google Script error/offline agar siswa tetap bisa masuk
+        // Fallback jika terjadi kegagalan jaringan
         const fallbackUserData = { username: username, nama: username, kelas: "-" };
         localStorage.setItem("userData", JSON.stringify(fallbackUserData));
         localStorage.setItem("soalPath", jenisUjian);
