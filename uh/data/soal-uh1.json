@@ -403,10 +403,10 @@
     "title": "Pilihan Ganda Kompleks (8/15) - Pilih 2 Jawaban",
     "text": "Manakah dua library standar (STL) C++ yang menyediakan wadah/container linier dinamis? (Pilih 2)",
     "options": [
-      { "v": "A", "t": "<vector>" },
-      { "v": "B", "t": "<list>" },
-      { "v": "C", "t": "<cmath>" },
-      { "v": "D", "t": "<iostream>" }
+      { "v": "A", "t": "< vecto r>" },
+      { "v": "B", "t": "< list >" },
+      { "v": "C", "t": "< cmath >" },
+      { "v": "D", "t": "< iostream>" }
     ],
     "key": ["A", "B"]
   },
