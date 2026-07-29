@@ -109,7 +109,7 @@
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
                 <!-- JUDUL LAPORAN DINAMIS -->
                 <h2><span id="lbl-title-rekap">Laporan Leger Nilai</span> — <span id="lbl-mapel" style="color:var(--accent-blue);"></span></h2>
-                <button onclick="window.print()" class="btn-action btn-print"><i class="fas fa-print"></i> Cetak PDF</button>
+                <button onclick="window.print()" class="btn-action btn-print"><i class="fas fa-print"></i> Cetak / Export PDF</button>
             </div>
 
             <!-- PILIHAN TAB REKAPITULASI -->
@@ -365,7 +365,7 @@
         }
     }
 
-    // --- 2. REKAP PRESENSI (HARIAN / MINGGUAN / BULANAN) ---
+    // --- 2. REKAP PRESENSI PERBAIKAN TOTAL (DENGAN FETCH DATABASE ASLI & FILTER TANGGAL) ---
     async function loadDataPresensiRekap() {
         const kls = selKelas.value;
         const container = document.getElementById('rekap-table-container');
@@ -374,8 +374,48 @@
         container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Mengomputasi akumulasi presensi...</div>`;
 
         try {
-            const resSiswa = await fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json());
+            // Ambil Data Siswa dan Data Presensi sekaligus dari API
+            const [resSiswa, resPresensi] = await Promise.all([
+                fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json()),
+                fetch(`${API_URL_APP}?action=getPresensi&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json()).catch(() => ({ data: [] }))
+            ]);
+
             const siswaList = resSiswa.data ? resSiswa.data.filter(s => normText(s.kelas) === normText(kls)) : [];
+            const rawPresensi = resPresensi.data || [];
+
+            // Filter Presensi Berdasarkan Periode (Harian, Mingguan, Bulanan)
+            const periodeType = document.getElementById('sel-periode').value;
+            const tglHarian = document.getElementById('input-tgl-harian').value;
+            const tglMulai = document.getElementById('input-tgl-mulai').value;
+            const tglSelesai = document.getElementById('input-tgl-selesai').value;
+            const bulanThn = document.getElementById('input-bulan').value; // YYYY-MM
+
+            const filteredPresensi = rawPresensi.filter(p => {
+                if (!p.tanggal) return false;
+                const pDate = String(p.tanggal).split('T')[0];
+
+                if (periodeType === 'harian') {
+                    return pDate === tglHarian;
+                } else if (periodeType === 'mingguan') {
+                    return pDate >= tglMulai && pDate <= tglSelesai;
+                } else if (periodeType === 'bulanan') {
+                    return pDate.startsWith(bulanThn);
+                }
+                return true;
+            });
+
+            // Map akumulasi per siswa
+            const rekapMap = {};
+            filteredPresensi.forEach(p => {
+                const namaKey = normText(p.nama || p.nama_siswa);
+                if (!rekapMap[namaKey]) rekapMap[namaKey] = { H: 0, S: 0, I: 0, A: 0 };
+
+                const st = String(p.status || '').toUpperCase();
+                if (st.startsWith('H')) rekapMap[namaKey].H++;
+                else if (st.startsWith('S')) rekapMap[namaKey].S++;
+                else if (st.startsWith('I')) rekapMap[namaKey].I++;
+                else if (st.startsWith('A')) rekapMap[namaKey].A++;
+            });
 
             let html = `
                 <div class="table-responsive">
@@ -384,24 +424,30 @@
                             <tr>
                                 <th width="40">No</th>
                                 <th>Nama Lengkap Siswa</th>
-                                <th width="80" style="color:#10b981;">Hadir (H)</th>
-                                <th width="80" style="color:#f59e0b;">Sakit (S)</th>
-                                <th width="80" style="color:#3b82f6;">Izin (I)</th>
-                                <th width="80" style="color:#ef4444;">Alpha (A)</th>
+                                <th width="90" style="color:#10b981;">Hadir (H)</th>
+                                <th width="90" style="color:#f59e0b;">Sakit (S)</th>
+                                <th width="90" style="color:#3b82f6;">Izin (I)</th>
+                                <th width="90" style="color:#ef4444;">Alpha (A)</th>
+                                <th width="100">Kehadiran</th>
                             </tr>
                         </thead>
                         <tbody>`;
 
             siswaList.forEach((s, idx) => {
                 const namaClean = String(s.nama || s.nama_siswa).trim();
+                const rec = rekapMap[normText(namaClean)] || { H: 0, S: 0, I: 0, A: 0 };
+                const totalPertemuan = rec.H + rec.S + rec.I + rec.A;
+                const persenHadir = totalPertemuan > 0 ? Math.round((rec.H / totalPertemuan) * 100) + '%' : '0%';
+
                 html += `
                     <tr>
                         <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-bold">${namaClean}</td>
-                        <td class="txt-center txt-bold" style="color:#10b981;">-</td>
-                        <td class="txt-center txt-bold" style="color:#f59e0b;">-</td>
-                        <td class="txt-center txt-bold" style="color:#3b82f6;">-</td>
-                        <td class="txt-center txt-bold" style="color:#ef4444;">-</td>
+                        <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
+                        <td class="txt-center txt-bold" style="color:#10b981;">${rec.H}</td>
+                        <td class="txt-center txt-bold" style="color:#f59e0b;">${rec.S}</td>
+                        <td class="txt-center txt-bold" style="color:#3b82f6;">${rec.I}</td>
+                        <td class="txt-center txt-bold" style="color:#ef4444;">${rec.A}</td>
+                        <td class="txt-center txt-bold" style="background:#f8fafc;">${persenHadir}</td>
                     </tr>`;
             });
 
