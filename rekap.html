@@ -63,11 +63,14 @@
         footer a { color: #38bdf8; text-decoration: none; font-weight: 600; }
         footer a:hover { text-decoration: underline; }
 
+        /* MODE PRINT/PDF */
         @media print {
             .top-header, footer, .filter-card, .rekap-tabs, .btn-action { display: none !important; }
             .content-area { padding: 0 !important; max-width: 100% !important; }
             .card { box-shadow: none !important; padding: 0 !important; }
             body { background: #fff !important; }
+            .table-responsive { border: none !important; }
+            table th, table td { border: 1px solid #000 !important; }
         }
 
         @media (min-width: 769px) {
@@ -126,7 +129,7 @@
                         <select id="sel-kelas" onchange="loadActiveTab()"></select>
                     </div>
 
-                    <!-- FILTER RENTANG WAKTU (KHUSUS PRESENSI & JURNAL) -->
+                    <!-- FILTER RENTANG WAKTU -->
                     <div id="filter-periode-box" style="flex:1; display:none;">
                         <label style="font-weight:600; display:block; margin-bottom:5px;">Periode Rekap:</label>
                         <select id="sel-periode" onchange="onPeriodeChange()">
@@ -238,7 +241,6 @@
         activeTabType = tab;
         const titleElem = document.getElementById('lbl-title-rekap');
 
-        // PERUBAHAN JUDUL DUA ARAH / DINAMIS
         if (tab === 'nilai') {
             titleElem.innerText = 'Laporan Leger Nilai';
         } else if (tab === 'presensi') {
@@ -365,7 +367,7 @@
         }
     }
 
-   // --- 2. REKAP PRESENSI (SAFE MODE & SUPPORATED FETCH) ---
+    // --- 2. REKAP PRESENSI (SAFE FULL FUNCTION) ---
     async function loadDataPresensiRekap() {
         const kls = selKelas.value;
         const container = document.getElementById('rekap-table-container');
@@ -373,94 +375,95 @@
 
         container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Mengomputasi akumulasi presensi...</div>`;
 
+        let siswaList = [];
+        let rawPresensi = [];
+
+        // 1. Ambil Data Siswa (Diisolasi)
         try {
-            // Ambil Data Siswa
-            const resSiswa = await fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json()).catch(() => ({ data: [] }));
-            const siswaList = resSiswa.data ? resSiswa.data.filter(s => normText(s.kelas) === normText(kls)) : [];
-
-            // Ambil Data Presensi (Aman jika endpoint backend belum siap)
-            let rawPresensi = [];
-            try {
-                const resPresensi = await fetch(`${API_URL_APP}?action=getPresensi&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
-                rawPresensi = resPresensi.data || [];
-            } catch (errPres) {
-                console.warn("Backend getPresensi belum merespon, menampilkan tabel default:", errPres);
-            }
-
-            // Filter Periode Tanggal
-            const periodeType = document.getElementById('sel-periode').value;
-            const tglHarian = document.getElementById('input-tgl-harian').value;
-            const tglMulai = document.getElementById('input-tgl-mulai').value;
-            const tglSelesai = document.getElementById('input-tgl-selesai').value;
-            const bulanThn = document.getElementById('input-bulan').value;
-
-            const filteredPresensi = rawPresensi.filter(p => {
-                if (!p.tanggal) return false;
-                const pDate = String(p.tanggal).split('T')[0];
-                if (periodeType === 'harian') return pDate === tglHarian;
-                if (periodeType === 'mingguan') return pDate >= tglMulai && pDate <= tglSelesai;
-                if (periodeType === 'bulanan') return pDate.startsWith(bulanThn);
-                return true;
-            });
-
-            // Pemetaan Akumulasi
-            const rekapMap = {};
-            filteredPresensi.forEach(p => {
-                const namaKey = normText(p.nama || p.nama_siswa);
-                if (!rekapMap[namaKey]) rekapMap[namaKey] = { H: 0, S: 0, I: 0, A: 0 };
-
-                const st = String(p.status || '').toUpperCase();
-                if (st.startsWith('H')) rekapMap[namaKey].H++;
-                else if (st.startsWith('S')) rekapMap[namaKey].S++;
-                else if (st.startsWith('I')) rekapMap[namaKey].I++;
-                else if (st.startsWith('A')) rekapMap[namaKey].A++;
-            });
-
-            let html = `
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th width="40">No</th>
-                                <th>Nama Lengkap Siswa</th>
-                                <th width="90" style="color:#10b981;">Hadir (H)</th>
-                                <th width="90" style="color:#f59e0b;">Sakit (S)</th>
-                                <th width="90" style="color:#3b82f6;">Izin (I)</th>
-                                <th width="90" style="color:#ef4444;">Alpha (A)</th>
-                                <th width="100">Kehadiran</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-
-            if (siswaList.length === 0) {
-                html += `<tr><td colspan="7" class="txt-center" style="padding:20px; color:#94a3b8;">Tidak ada data siswa untuk kelas ini.</td></tr>`;
-            } else {
-                siswaList.forEach((s, idx) => {
-                    const namaClean = String(s.nama || s.nama_siswa).trim();
-                    const rec = rekapMap[normText(namaClean)] || { H: 0, S: 0, I: 0, A: 0 };
-                    const totalPertemuan = rec.H + rec.S + rec.I + rec.A;
-                    const persenHadir = totalPertemuan > 0 ? Math.round((rec.H / totalPertemuan) * 100) + '%' : '100%';
-
-                    html += `
-                        <tr>
-                            <td class="txt-center">${idx + 1}</td>
-                            <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
-                            <td class="txt-center txt-bold" style="color:#10b981;">${rec.H}</td>
-                            <td class="txt-center txt-bold" style="color:#f59e0b;">${rec.S}</td>
-                            <td class="txt-center txt-bold" style="color:#3b82f6;">${rec.I}</td>
-                            <td class="txt-center txt-bold" style="color:#ef4444;">${rec.A}</td>
-                            <td class="txt-center txt-bold" style="background:#f8fafc;">${persenHadir}</td>
-                        </tr>`;
-                });
-            }
-
-            html += `</tbody></table></div>`;
-            container.innerHTML = html;
-
-        } catch (e) {
-            console.error("Error Presensi:", e);
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat rekap presensi. Silakan periksa koneksi atau coba lagi.</div>`;
+            const resSiswa = await fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json());
+            siswaList = resSiswa.data ? resSiswa.data.filter(s => normText(s.kelas) === normText(kls)) : [];
+        } catch (errSiswa) {
+            console.warn("Gagal mengambil data siswa:", errSiswa);
         }
+
+        // 2. Ambil Data Presensi (Diisolasi)
+        try {
+            const resPresensi = await fetch(`${API_URL_APP}?action=getPresensi&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
+            rawPresensi = resPresensi.data || [];
+        } catch (errPres) {
+            console.warn("API getPresensi belum tersedia/bermasalah, menampilkan tabel standar:", errPres);
+        }
+
+        // 3. Filter Tanggal & Periode
+        const periodeType = document.getElementById('sel-periode') ? document.getElementById('sel-periode').value : 'bulanan';
+        const tglHarian = document.getElementById('input-tgl-harian') ? document.getElementById('input-tgl-harian').value : '';
+        const tglMulai = document.getElementById('input-tgl-mulai') ? document.getElementById('input-tgl-mulai').value : '';
+        const tglSelesai = document.getElementById('input-tgl-selesai') ? document.getElementById('input-tgl-selesai').value : '';
+        const bulanThn = document.getElementById('input-bulan') ? document.getElementById('input-bulan').value : '';
+
+        const filteredPresensi = rawPresensi.filter(p => {
+            if (!p.tanggal) return false;
+            const pDate = String(p.tanggal).split('T')[0];
+            if (periodeType === 'harian') return pDate === tglHarian;
+            if (periodeType === 'mingguan') return pDate >= tglMulai && pDate <= tglSelesai;
+            if (periodeType === 'bulanan') return pDate.startsWith(bulanThn);
+            return true;
+        });
+
+        // 4. Akumulasi Data Per Siswa
+        const rekapMap = {};
+        filteredPresensi.forEach(p => {
+            const namaKey = normText(p.nama || p.nama_siswa);
+            if (!rekapMap[namaKey]) rekapMap[namaKey] = { H: 0, S: 0, I: 0, A: 0 };
+
+            const st = String(p.status || '').toUpperCase();
+            if (st.startsWith('H')) rekapMap[namaKey].H++;
+            else if (st.startsWith('S')) rekapMap[namaKey].S++;
+            else if (st.startsWith('I')) rekapMap[namaKey].I++;
+            else if (st.startsWith('A')) rekapMap[namaKey].A++;
+        });
+
+        // 5. Render Tabel
+        let html = `
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="40">No</th>
+                            <th>Nama Lengkap Siswa</th>
+                            <th width="90" style="color:#10b981;">Hadir (H)</th>
+                            <th width="90" style="color:#f59e0b;">Sakit (S)</th>
+                            <th width="90" style="color:#3b82f6;">Izin (I)</th>
+                            <th width="90" style="color:#ef4444;">Alpha (A)</th>
+                            <th width="100">Kehadiran</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+        if (siswaList.length === 0) {
+            html += `<tr><td colspan="7" class="txt-center" style="padding:20px; color:#94a3b8;">Belum ada data siswa terdaftar untuk kelas ini.</td></tr>`;
+        } else {
+            siswaList.forEach((s, idx) => {
+                const namaClean = String(s.nama || s.nama_siswa).trim();
+                const rec = rekapMap[normText(namaClean)] || { H: 0, S: 0, I: 0, A: 0 };
+                const totalPertemuan = rec.H + rec.S + rec.I + rec.A;
+                const persenHadir = totalPertemuan > 0 ? Math.round((rec.H / totalPertemuan) * 100) + '%' : '0%';
+
+                html += `
+                    <tr>
+                        <td class="txt-center">${idx + 1}</td>
+                        <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
+                        <td class="txt-center txt-bold" style="color:#10b981;">${rec.H}</td>
+                        <td class="txt-center txt-bold" style="color:#f59e0b;">${rec.S}</td>
+                        <td class="txt-center txt-bold" style="color:#3b82f6;">${rec.I}</td>
+                        <td class="txt-center txt-bold" style="color:#ef4444;">${rec.A}</td>
+                        <td class="txt-center txt-bold" style="background:#f8fafc;">${persenHadir}</td>
+                    </tr>`;
+            });
+        }
+
+        html += `</tbody></table></div>`;
+        container.innerHTML = html;
     }
 
     // --- 3. REKAP JURNAL KBM ---
