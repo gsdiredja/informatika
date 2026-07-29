@@ -3,74 +3,156 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rekapitulasi Presensi - Kodi EduAdaptif</title>
+  <title>Kodi EduAdaptif - Rekapitulasi</title>
   
   <!-- Bootstrap 5 CSS & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-  
-  <!-- Library html2pdf.js (Untuk Ekspor PDF Langsung) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
     body {
       background-color: #f4f6f9;
-      font-family: Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
     
-    /* Layout Sidebar & Main Content */
     .wrapper {
       display: flex;
-    }
-    .sidebar {
-      width: 250px;
       min-height: 100vh;
-      background-color: #1e293b;
-      color: #fff;
-      padding: 20px 10px;
     }
+
+    /* Sidebar Style */
+    .sidebar {
+      width: 240px;
+      background-color: #1e2836;
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+    .profile-section {
+      padding: 25px 15px 15px;
+      text-align: center;
+    }
+    .profile-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #0284c7;
+    }
+    .profile-name {
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    .sidebar-menu {
+      padding: 10px 0;
+    }
+    .sidebar-menu .nav-link {
+      color: #94a3b8;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      border-left: 4px solid transparent;
+    }
+    .sidebar-menu .nav-link:hover {
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    .sidebar-menu .nav-link.active {
+      color: #ffffff;
+      background-color: #273547;
+      border-left-color: #0284c7;
+    }
+
+    /* Main Content */
     .main-content {
       flex: 1;
       padding: 30px;
     }
 
-    /* Profil & Menu Sidebar */
-    .profile-section {
-      text-align: center;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #334155;
-    }
-    .profile-img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #0284c7;
-    }
-    .nav-link {
-      color: #94a3b8;
-      padding: 10px 15px;
-      border-radius: 6px;
-      margin-bottom: 5px;
-    }
-    .nav-link:hover, .nav-link.active {
-      background-color: #334155;
-      color: #fff;
+    .page-title {
+      font-weight: 600;
+      color: #1e293b;
     }
 
-    /* CSS Khusus Mode Cetak / Print */
+    /* Nav Tabs */
+    .nav-tabs-custom .btn {
+      padding: 8px 18px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Filter Card */
+    .filter-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
+
+    /* Table Custom Style */
+    .table-custom {
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+    .table-custom th {
+      background-color: #f8fafc;
+      color: #475569;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .table-custom td {
+      font-size: 0.875rem;
+      vertical-align: middle;
+      color: #334155;
+    }
+
+    /* Badges Style */
+    .badge-stat {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    .bg-hadir { background-color: #dcfce7; color: #166534; }
+    .bg-sakit { background-color: #fef9c3; color: #854d0e; }
+    .bg-izin  { background-color: #e0f2fe; color: #075985; }
+    .bg-alpa  { background-color: #fee2e2; color: #991b1b; }
+
+    /* Tab Content Switcher */
+    .tab-pane-content {
+      display: none;
+    }
+    .tab-pane-content.active {
+      display: block;
+    }
+
+    /* Rules Khusus Cetak / Save PDF */
     @media print {
-      .sidebar, .filter-card, .btn-action, header {
+      .sidebar, .filter-card, .nav-tabs-custom, .btn, .no-print {
         display: none !important;
+      }
+      body {
+        background-color: #ffffff !important;
       }
       .main-content {
         padding: 0 !important;
         margin: 0 !important;
         width: 100% !important;
       }
-      .card {
-        border: none !important;
-        box-shadow: none !important;
+      .table-custom {
+        border: 1px solid #000 !important;
+      }
+      .table-custom th, .table-custom td {
+        border: 1px solid #ddd !important;
       }
     }
   </style>
@@ -78,123 +160,171 @@
 <body>
 
 <div class="wrapper">
-  <!-- Sidebar Navigation -->
+  
+  <!-- SIDEBAR (PERSIS FILE 1) -->
   <div class="sidebar">
-    <div class="profile-section mb-4">
-      <img src="https://via.placeholder.com/80" alt="Foto Profil" class="profile-img mb-2">
-      <h6 class="mb-0 fw-bold">Agus Suyatno, S.Kom</h6>
+    <div class="d-flex align-items-center px-3 pt-3">
+      <span class="fw-bold text-white fs-5"><i class="bi bi-lightbulb-fill text-warning me-2"></i>Kodi EduAdaptif</span>
     </div>
-    <nav class="nav flex-column">
-      <a class="nav-link" href="#"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
-      <a class="nav-link" href="#"><i class="bi bi-person-check me-2"></i>Presensi Siswa</a>
-      <a class="nav-link" href="#"><i class="bi bi-journal-text me-2"></i>Jurnal Mengajar</a>
-      <a class="nav-link" href="#"><i class="bi bi-journal-bookmark me-2"></i>Input Nilai</a>
-      <a class="nav-link active" href="#"><i class="bi bi-file-earmark-bar-graph me-2"></i>Rekapitulasi</a>
-    </nav>
+    <div class="profile-section">
+      <!-- Menggunakan SVG avatar yang kompatibel & pasti muncul -->
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23334155'/><circle cx='50' cy='35' r='18' fill='%2394a3b8'/><path d='M20,85 C20,65 30,55 50,55 C70,55 80,65 80,85 Z' fill='%2394a3b8'/></svg>" alt="Agus Suyatno" class="profile-img">
+      <div class="profile-name">Agus Suyatno, S.Kom</div>
+    </div>
+    <div class="sidebar-menu">
+      <a href="#" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <a href="#" class="nav-link"><i class="bi bi-person-check"></i> Presensi Siswa</a>
+      <a href="#" class="nav-link"><i class="bi bi-book"></i> Jurnal Mengajar</a>
+      <a href="#" class="nav-link"><i class="bi bi-mortarboard"></i> Input Nilai</a>
+      <a href="#" class="nav-link active"><i class="bi bi-file-earmark-bar-graph"></i> Rekapitulasi</a>
+    </div>
   </div>
 
-  <!-- Main Content Area -->
+  <!-- MAIN CONTENT AREA -->
   <div class="main-content">
     
-    <!-- Title Section -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2>Rekapitulasi Kelas <span class="text-primary">XI-3</span> — <span class="text-info">Informatika</span></h2>
+    <!-- Title -->
+    <h3 class="page-title mb-4">Rekapitulasi Kelas <span class="text-primary">XI-3</span> — <span class="text-info">Informatika</span></h3>
+
+    <!-- TAB BUTTONS (BERFUNGSI NORMAL) -->
+    <div class="nav-tabs-custom mb-4 d-flex gap-2">
+      <button class="btn btn-primary active" id="btn-tab-presensi" onclick="switchTab('presensi')">
+        <i class="bi bi-person-check-fill me-1"></i> Rekap Presensi
+      </button>
+      <button class="btn btn-outline-secondary" id="btn-tab-nilai" onclick="switchTab('nilai')">
+        <i class="bi bi-mortarboard-fill me-1"></i> Leger Nilai
+      </button>
+      <button class="btn btn-outline-secondary" id="btn-tab-jurnal" onclick="switchTab('jurnal')">
+        <i class="bi bi-book-fill me-1"></i> Rekap Jurnal
+      </button>
     </div>
 
-    <!-- Navigation Tabs -->
-    <div class="mb-4">
-      <button class="btn btn-primary me-1"><i class="bi bi-person-badge me-1"></i> Rekap Presensi</button>
-      <button class="btn btn-outline-secondary me-1"><i class="bi bi-mortarboard me-1"></i> Leger Nilai</button>
-      <button class="btn btn-outline-secondary"><i class="bi bi-book me-1"></i> Rekap Jurnal</button>
-    </div>
-
-    <!-- Filter Card & Action Buttons -->
-    <div class="card p-3 mb-4 filter-card shadow-sm">
+    <!-- FILTER CARD -->
+    <div class="card filter-card p-3 mb-4 shadow-sm">
       <div class="row g-3 align-items-end">
-        <div class="col-md-3">
-          <label class="form-label fw-bold"><i class="bi bi-calendar-event me-1"></i> Periode Rekap:</label>
+        <div class="col-md-4">
+          <label class="form-label small fw-bold text-secondary mb-1">
+            <i class="bi bi-calendar-event me-1"></i> Periode Rekap:
+          </label>
           <select class="form-select">
             <option selected>Bulanan (Bulan & Tahun)</option>
             <option>Semester</option>
           </select>
         </div>
-        <div class="col-md-3">
-          <label class="form-label fw-bold">Pilih Bulan & Tahun:</label>
+        <div class="col-md-4">
+          <label class="form-label small fw-bold text-secondary mb-1">Pilih Bulan & Tahun:</label>
           <input type="month" class="form-control" value="2026-07">
         </div>
-        <div class="col-md-6 d-flex gap-2 btn-action">
-          <button type="button" class="btn btn-primary" onclick="tampilkanRekap()">
+        <div class="col-md-4 d-flex gap-2">
+          <button type="button" class="btn btn-primary flex-grow-1" onclick="tampilkanRekap()">
             <i class="bi bi-search me-1"></i> Tampilkan Rekap
           </button>
           
-          <!-- Tombol Cetak PDF Browser -->
-          <button type="button" class="btn btn-danger" onclick="cetakBrowser()">
-            <i class="bi bi-printer me-1"></i> Cetak / Save PDF
-          </button>
-          
-          <!-- Tombol Download PDF (Library html2pdf) -->
-          <button type="button" class="btn btn-outline-danger" onclick="downloadPDF()">
-            <i class="bi bi-file-earmark-pdf me-1"></i> Download PDF
+          <!-- TOMBOL CETAK PDF (TAMBAHAN FITUR BARU) -->
+          <button type="button" class="btn btn-danger" onclick="window.print()">
+            <i class="bi bi-printer me-1"></i> Cetak PDF
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Area Tabel Rekap -->
-    <div class="card p-4 shadow-sm" id="areaCetak">
-      <h5 class="fw-bold mb-3">Rekapitulasi Kehadiran Siswa (Juli 2026)</h5>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle text-center">
-          <thead class="table-light">
+    <!-- CONTENT TAB 1: REKAP PRESENSI -->
+    <div id="tab-presensi" class="tab-pane-content active">
+      <div class="table-responsive table-custom shadow-sm">
+        <table class="table table-borderless table-hover align-middle mb-0">
+          <thead>
             <tr>
-              <th style="width: 50px;">No</th>
-              <th class="text-start">Nama Siswa</th>
-              <th>Hadir (H)</th>
-              <th>Sakit (S)</th>
-              <th>Izin (I)</th>
-              <th>Alpa (A)</th>
-              <th>Kehadiran</th>
+              <th class="text-center" style="width: 60px;">No</th>
+              <th>Nama Siswa</th>
+              <th class="text-center">Hadir (H)</th>
+              <th class="text-center">Sakit (S)</th>
+              <th class="text-center">Izin (I)</th>
+              <th class="text-center">Alpa (A)</th>
+              <th class="text-center">Kehadiran</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
-              <td class="text-start fw-bold">ACHMAD FAIRUS RADITYA</td>
-              <td><span class="badge bg-success-subtle text-success fs-6">1</span></td>
-              <td><span class="badge bg-warning-subtle text-warning fs-6">0</span></td>
-              <td><span class="badge bg-info-subtle text-info fs-6">0</span></td>
-              <td><span class="badge bg-danger-subtle text-danger fs-6">2</span></td>
-              <td class="fw-bold">33%</td>
+              <td class="text-center">1</td>
+              <td class="fw-bold">ACHMAD FAIRUS RADITYA</td>
+              <td class="text-center"><span class="badge-stat bg-hadir">1</span></td>
+              <td class="text-center"><span class="badge-stat bg-sakit">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-izin">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-alpa">2</span></td>
+              <td class="text-center fw-bold">33%</td>
             </tr>
             <tr>
-              <td>2</td>
-              <td class="text-start fw-bold">AKHMAD FAUZI FADILAH</td>
-              <td><span class="badge bg-success-subtle text-success fs-6">3</span></td>
-              <td><span class="badge bg-warning-subtle text-warning fs-6">0</span></td>
-              <td><span class="badge bg-info-subtle text-info fs-6">0</span></td>
-              <td><span class="badge bg-danger-subtle text-danger fs-6">0</span></td>
-              <td class="fw-bold">100%</td>
+              <td class="text-center">2</td>
+              <td class="fw-bold">AKHMAD FAUZI FADILAH</td>
+              <td class="text-center"><span class="badge-stat bg-hadir">3</span></td>
+              <td class="text-center"><span class="badge-stat bg-sakit">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-izin">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-alpa">0</span></td>
+              <td class="text-center fw-bold">100%</td>
             </tr>
             <tr>
-              <td>3</td>
-              <td class="text-start fw-bold">ALDERIO ILHAM QODZAFI</td>
-              <td><span class="badge bg-success-subtle text-success fs-6">2</span></td>
-              <td><span class="badge bg-warning-subtle text-warning fs-6">0</span></td>
-              <td><span class="badge bg-info-subtle text-info fs-6">0</span></td>
-              <td><span class="badge bg-danger-subtle text-danger fs-6">1</span></td>
-              <td class="fw-bold">67%</td>
+              <td class="text-center">3</td>
+              <td class="fw-bold">ALDERIO ILHAM QODZAFI</td>
+              <td class="text-center"><span class="badge-stat bg-hadir">2</span></td>
+              <td class="text-center"><span class="badge-stat bg-sakit">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-izin">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-alpa">1</span></td>
+              <td class="text-center fw-bold">67%</td>
             </tr>
             <tr>
-              <td>4</td>
-              <td class="text-start fw-bold">ALVIAN MA'RIFATUL ABROR</td>
-              <td><span class="badge bg-success-subtle text-success fs-6">3</span></td>
-              <td><span class="badge bg-warning-subtle text-warning fs-6">0</span></td>
-              <td><span class="badge bg-info-subtle text-info fs-6">0</span></td>
-              <td><span class="badge bg-danger-subtle text-danger fs-6">0</span></td>
-              <td class="fw-bold">100%</td>
+              <td class="text-center">4</td>
+              <td class="fw-bold">ALVIAN MA'RIFATUL ABROR</td>
+              <td class="text-center"><span class="badge-stat bg-hadir">3</span></td>
+              <td class="text-center"><span class="badge-stat bg-sakit">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-izin">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-alpa">0</span></td>
+              <td class="text-center fw-bold">100%</td>
+            </tr>
+            <tr>
+              <td class="text-center">5</td>
+              <td class="fw-bold">AMIRAL JORDAN ARVA</td>
+              <td class="text-center"><span class="badge-stat bg-hadir">3</span></td>
+              <td class="text-center"><span class="badge-stat bg-sakit">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-izin">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-alpa">0</span></td>
+              <td class="text-center fw-bold">100%</td>
+            </tr>
+            <tr>
+              <td class="text-center">6</td>
+              <td class="fw-bold">ASYAFA ZAHRA SALSABILLA</td>
+              <td class="text-center"><span class="badge-stat bg-hadir">3</span></td>
+              <td class="text-center"><span class="badge-stat bg-sakit">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-izin">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-alpa">0</span></td>
+              <td class="text-center fw-bold">100%</td>
+            </tr>
+            <tr>
+              <td class="text-center">7</td>
+              <td class="fw-bold">AURA KIRANA MAULIDA</td>
+              <td class="text-center"><span class="badge-stat bg-hadir">3</span></td>
+              <td class="text-center"><span class="badge-stat bg-sakit">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-izin">0</span></td>
+              <td class="text-center"><span class="badge-stat bg-alpa">0</span></td>
+              <td class="text-center fw-bold">100%</td>
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- CONTENT TAB 2: LEGER NILAI -->
+    <div id="tab-nilai" class="tab-pane-content">
+      <div class="card p-4 shadow-sm text-center">
+        <h5 class="fw-bold mb-3"><i class="bi bi-mortarboard me-2"></i>Leger Nilai Kelas XI-3</h5>
+        <p class="text-muted">Data nilai siswa mata pelajaran Informatika akan ditampilkan di sini.</p>
+      </div>
+    </div>
+
+    <!-- CONTENT TAB 3: REKAP JURNAL -->
+    <div id="tab-jurnal" class="tab-pane-content">
+      <div class="card p-4 shadow-sm text-center">
+        <h5 class="fw-bold mb-3"><i class="bi bi-book me-2"></i>Rekap Jurnal Mengajar</h5>
+        <p class="text-muted">Data jurnal mengajar bulan Juli 2026 akan ditampilkan di sini.</p>
       </div>
     </div>
 
@@ -202,27 +332,31 @@
 </div>
 
 <script>
-  // 1. Opsi Cetak Standar Browser (Save as PDF bawaan Chrome/Edge)
-  function cetakBrowser() {
-    window.print();
-  }
+  // Fungsi Perpindahan Tab (Leger Nilai & Rekap Jurnal Aktif)
+  function switchTab(tabName) {
+    // Hide all contents
+    document.querySelectorAll('.tab-pane-content').forEach(el => el.classList.remove('active'));
+    
+    // Deactivate all buttons
+    document.getElementById('btn-tab-presensi').className = 'btn btn-outline-secondary';
+    document.getElementById('btn-tab-nilai').className = 'btn btn-outline-secondary';
+    document.getElementById('btn-tab-jurnal').className = 'btn btn-outline-secondary';
 
-  // 2. Opsi Download File PDF Langsung menggunakan html2pdf.js
-  function downloadPDF() {
-    const element = document.getElementById('areaCetak');
-    const options = {
-      margin:       10,
-      filename:     'Rekap_Presensi_XI-3_Informatika.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().set(options).from(element).save();
+    // Activate target
+    if (tabName === 'presensi') {
+      document.getElementById('tab-presensi').classList.add('active');
+      document.getElementById('btn-tab-presensi').className = 'btn btn-primary active';
+    } else if (tabName === 'nilai') {
+      document.getElementById('tab-nilai').classList.add('active');
+      document.getElementById('btn-tab-nilai').className = 'btn btn-primary active';
+    } else if (tabName === 'jurnal') {
+      document.getElementById('tab-jurnal').classList.add('active');
+      document.getElementById('btn-tab-jurnal').className = 'btn btn-primary active';
+    }
   }
 
   function tampilkanRekap() {
-    alert("Data rekap diperbarui!");
+    alert("Memuat data rekap...");
   }
 </script>
 
