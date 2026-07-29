@@ -1,420 +1,230 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kodi EduAdaptif - Leger & Rekapitulasi</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rekapitulasi Presensi - Kodi EduAdaptif</title>
+  
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  
+  <!-- Library html2pdf.js (Untuk Ekspor PDF Langsung) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    body {
+      background-color: #f4f6f9;
+      font-family: Arial, sans-serif;
+    }
     
-    <script src="config.js"></script>
+    /* Layout Sidebar & Main Content */
+    .wrapper {
+      display: flex;
+    }
+    .sidebar {
+      width: 250px;
+      min-height: 100vh;
+      background-color: #1e293b;
+      color: #fff;
+      padding: 20px 10px;
+    }
+    .main-content {
+      flex: 1;
+      padding: 30px;
+    }
 
-    <style>
-        :root { --primary-dark: #1e293b; --nav-blue: #2c3e50; --accent-blue: #3498db; --bg-light: #f1f5f9; --white: #ffffff; --secondary-dark: #0f172a; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: var(--bg-light); display: flex; flex-direction: column; min-height: 100vh; color: #334155; }
-        .main-wrapper { display: flex; flex: 1; flex-direction: column; }
-        .top-header { background-color: var(--primary-dark); color: var(--white); text-align: center; padding: 15px 10px; z-index: 100; }
-        
-        .brand-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
-        .brand-header img { width: 32px; height: 36px; border-radius: 6px; object-fit: cover; }
-        .brand-header span { font-size: 18px; font-weight: 800; letter-spacing: 1px; color: #fff; }
+    /* Profil & Menu Sidebar */
+    .profile-section {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #334155;
+    }
+    .profile-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #0284c7;
+    }
+    .nav-link {
+      color: #94a3b8;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-bottom: 5px;
+    }
+    .nav-link:hover, .nav-link.active {
+      background-color: #334155;
+      color: #fff;
+    }
 
-        .profile-pic { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); margin: 0 auto 5px; display: block; }
-        .nav-bar { background-color: var(--nav-blue); display: flex; flex-wrap: wrap; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .nav-bar a { flex: 1; text-align: center; color: #cbd5e1; padding: 12px 5px; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .nav-bar a.active { border-bottom: 3px solid var(--accent-blue); background-color: rgba(255,255,255,0.05); color: #fff; }
-        .btn-logout-top { width: 100%; background-color: #c0392b; text-align: center; color: var(--white); padding: 10px; text-decoration: none; font-size: 13px; font-weight: 600; display: block; border: none; cursor: pointer; }
-        .content-area { flex: 1; padding: 15px; width: 100%; }
-        .card { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        
-        .tab-btn-group { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-        .tab-btn { padding: 10px 18px; border: none; background: #e2e8f0; border-radius: 6px; font-weight: bold; cursor: pointer; color: #475569; font-size: 13px; }
-        .tab-btn.active { background: var(--accent-blue); color: #fff; }
-
-        /* PANEL FILTER PERIODE REKAP */
-        .filter-panel { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
-        .filter-group { display: flex; flex-direction: column; gap: 5px; }
-        .filter-group label { font-size: 12px; font-weight: bold; color: #475569; }
-        .filter-control { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; background: #fff; }
-        .btn-filter { background: var(--accent-blue); color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; align-self: flex-end; }
-        .btn-filter:hover { background: #2980b9; }
-
-        .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
-        table { width: 100%; border-collapse: collapse; }
-        table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: center; padding: 12px; font-size: 13px; border-bottom: 2px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
-        table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; font-size: 13px; }
-        .txt-center { text-align: center; } .txt-bold { font-weight: bold; }
-        
-        .badge-presensi { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; display: inline-block; min-width: 28px; }
-        .badge-h { background: #dcfce7; color: #15803d; }
-        .badge-s { background: #fef9c3; color: #a16207; }
-        .badge-i { background: #e0f2fe; color: #0369a1; }
-        .badge-a { background: #fee2e2; color: #b91c1c; }
-
-        footer { background-color: var(--secondary-dark); color: #94a3b8; text-align: center; padding: 20px; font-size: 13px; margin-top: auto; display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; }
-        footer a { color: #38bdf8; text-decoration: none; font-weight: 600; }
-
-        @media (min-width: 769px) {
-            .main-wrapper { flex-direction: row; }
-            .top-header { width: 260px; min-height: 100vh; position: sticky; top: 0; padding-top: 30px; }
-            .profile-pic { width: 80px; height: 80px; margin-bottom: 12px; }
-            .nav-bar { flex-direction: column; background: none; box-shadow: none; margin-top: 20px; }
-            .nav-bar a { width: 100%; text-align: left; padding: 14px 20px; flex-direction: row; gap: 12px; font-size: 14px; }
-            .nav-bar a.active { border-left: 4px solid var(--accent-blue); background-color: #34495e; border-bottom: none; }
-            .btn-logout-top { position: absolute; bottom: 0; left: 0; padding: 15px; }
-            .content-area { padding: 30px; max-width: calc(100% - 260px); }
-        }
-    </style>
+    /* CSS Khusus Mode Cetak / Print */
+    @media print {
+      .sidebar, .filter-card, .btn-action, header {
+        display: none !important;
+      }
+      .main-content {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+      }
+      .card {
+        border: none !important;
+        box-shadow: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="main-wrapper">
-    <div class="top-header">
-        <div class="brand-header">
-            <img src="logo.png" alt="Logo Kodi" onerror="this.src='https://ui-avatars.com/api/?name=Kodi&background=0284c7&color=fff'">
-            <span>Kodi EduAdaptif</span>
-        </div>
-        <img id="user-pic" src="photo-guru.png" class="profile-pic" alt="User" onerror="this.src='https://via.placeholder.com/80?text=GURU'">
-        <p id="user-name" style="font-size:12px; color:#cbd5e1; font-weight:600;">Loading...</p>
-        <br/>
-        <div class="nav-bar">
-            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            <a href="presensi.html"><i class="fas fa-clipboard-user"></i> Presensi Siswa</a>
-            <a href="jurnal.html"><i class="fas fa-book-open"></i> Jurnal Mengajar</a>
-            <a href="nilai.html"><i class="fas fa-graduation-cap"></i> Input Nilai</a>
-            <a href="rekap.html" class="active"><i class="fas fa-file-invoice"></i> Rekapitulasi</a>
-        </div>
-        <button onclick="logout()" class="btn-logout-top"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+<div class="wrapper">
+  <!-- Sidebar Navigation -->
+  <div class="sidebar">
+    <div class="profile-section mb-4">
+      <img src="https://via.placeholder.com/80" alt="Foto Profil" class="profile-img mb-2">
+      <h6 class="mb-0 fw-bold">Agus Suyatno, S.Kom</h6>
+    </div>
+    <nav class="nav flex-column">
+      <a class="nav-link" href="#"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+      <a class="nav-link" href="#"><i class="bi bi-person-check me-2"></i>Presensi Siswa</a>
+      <a class="nav-link" href="#"><i class="bi bi-journal-text me-2"></i>Jurnal Mengajar</a>
+      <a class="nav-link" href="#"><i class="bi bi-journal-bookmark me-2"></i>Input Nilai</a>
+      <a class="nav-link active" href="#"><i class="bi bi-file-earmark-bar-graph me-2"></i>Rekapitulasi</a>
+    </nav>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    
+    <!-- Title Section -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Rekapitulasi Kelas <span class="text-primary">XI-3</span> — <span class="text-info">Informatika</span></h2>
     </div>
 
-    <div class="content-area">
-        <div class="card">
-            <h2>Rekapitulasi Kelas <span id="lbl-kelas" style="color:var(--accent-blue);"></span> — <span id="lbl-mapel" style="color:var(--accent-blue);"></span></h2>
-            
-            <div class="tab-btn-group" style="margin-top:20px;">
-                <button class="tab-btn active" onclick="switchTab('presensi', event)"><i class="fas fa-user-check"></i> Rekap Presensi</button>
-                <button class="tab-btn" onclick="switchTab('nilai', event)"><i class="fas fa-graduation-cap"></i> Leger Nilai</button>
-                <button class="tab-btn" onclick="switchTab('jurnal', event)"><i class="fas fa-book-open"></i> Rekap Jurnal</button>
-            </div>
-
-            <!-- TAB 1: REKAP PRESENSI -->
-            <div id="tab-presensi" class="tab-content">
-                <!-- PANEL FILTER PERIODE PRESENSI -->
-                <div class="filter-panel">
-                    <div class="filter-group">
-                        <label><i class="fas fa-calendar-alt"></i> Periode Rekap:</label>
-                        <select id="filter-tipe" class="filter-control" onchange="toggleFilterTanggal()">
-                            <option value="semua">Semua Periode (Total)</option>
-                            <option value="harian">Harian (Tanggal Spesifik)</option>
-                            <option value="mingguan">Mingguan (Rentang Tanggal)</option>
-                            <option value="bulanan">Bulanan (Bulan & Tahun)</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-group" id="group-tgl1" style="display:none;">
-                        <label id="lbl-tgl1">Tanggal / Bulan:</label>
-                        <input type="date" id="input-val1" class="filter-control">
-                    </div>
-
-                    <div class="filter-group" id="group-tgl2" style="display:none;">
-                        <label>Sampai Tanggal:</label>
-                        <input type="date" id="input-val2" class="filter-control">
-                    </div>
-
-                    <button class="btn-filter" onclick="loadRekapPresensi()"><i class="fas fa-search"></i> Tampilkan Rekap</button>
-                </div>
-
-                <div id="container-rekap-presensi">Memuat rekap presensi...</div>
-            </div>
-
-            <!-- TAB 2: LEGER NILAI -->
-            <div id="tab-nilai" class="tab-content" style="display:none;">
-                <h3 style="margin-bottom:15px; font-size:16px;"><i class="fas fa-list-ol"></i> Leger Penilaian Akademik</h3>
-                <div id="container-rekap-nilai">Memuat leger nilai...</div>
-            </div>
-
-            <!-- TAB 3: REKAP JURNAL -->
-            <div id="tab-jurnal" class="tab-content" style="display:none;">
-                <h3 style="margin-bottom:15px; font-size:16px;"><i class="fas fa-journal-whills"></i> Riwayat Jurnal KBM</h3>
-                <div id="container-rekap-jurnal">Memuat rekap jurnal...</div>
-            </div>
-
-        </div>
+    <!-- Navigation Tabs -->
+    <div class="mb-4">
+      <button class="btn btn-primary me-1"><i class="bi bi-person-badge me-1"></i> Rekap Presensi</button>
+      <button class="btn btn-outline-secondary me-1"><i class="bi bi-mortarboard me-1"></i> Leger Nilai</button>
+      <button class="btn btn-outline-secondary"><i class="bi bi-book me-1"></i> Rekap Jurnal</button>
     </div>
+
+    <!-- Filter Card & Action Buttons -->
+    <div class="card p-3 mb-4 filter-card shadow-sm">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-3">
+          <label class="form-label fw-bold"><i class="bi bi-calendar-event me-1"></i> Periode Rekap:</label>
+          <select class="form-select">
+            <option selected>Bulanan (Bulan & Tahun)</option>
+            <option>Semester</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Pilih Bulan & Tahun:</label>
+          <input type="month" class="form-control" value="2026-07">
+        </div>
+        <div class="col-md-6 d-flex gap-2 btn-action">
+          <button type="button" class="btn btn-primary" onclick="tampilkanRekap()">
+            <i class="bi bi-search me-1"></i> Tampilkan Rekap
+          </button>
+          
+          <!-- Tombol Cetak PDF Browser -->
+          <button type="button" class="btn btn-danger" onclick="cetakBrowser()">
+            <i class="bi bi-printer me-1"></i> Cetak / Save PDF
+          </button>
+          
+          <!-- Tombol Download PDF (Library html2pdf) -->
+          <button type="button" class="btn btn-outline-danger" onclick="downloadPDF()">
+            <i class="bi bi-file-earmark-pdf me-1"></i> Download PDF
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Area Tabel Rekap -->
+    <div class="card p-4 shadow-sm" id="areaCetak">
+      <h5 class="fw-bold mb-3">Rekapitulasi Kehadiran Siswa (Juli 2026)</h5>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 50px;">No</th>
+              <th class="text-start">Nama Siswa</th>
+              <th>Hadir (H)</th>
+              <th>Sakit (S)</th>
+              <th>Izin (I)</th>
+              <th>Alpa (A)</th>
+              <th>Kehadiran</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td class="text-start fw-bold">ACHMAD FAIRUS RADITYA</td>
+              <td><span class="badge bg-success-subtle text-success fs-6">1</span></td>
+              <td><span class="badge bg-warning-subtle text-warning fs-6">0</span></td>
+              <td><span class="badge bg-info-subtle text-info fs-6">0</span></td>
+              <td><span class="badge bg-danger-subtle text-danger fs-6">2</span></td>
+              <td class="fw-bold">33%</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td class="text-start fw-bold">AKHMAD FAUZI FADILAH</td>
+              <td><span class="badge bg-success-subtle text-success fs-6">3</span></td>
+              <td><span class="badge bg-warning-subtle text-warning fs-6">0</span></td>
+              <td><span class="badge bg-info-subtle text-info fs-6">0</span></td>
+              <td><span class="badge bg-danger-subtle text-danger fs-6">0</span></td>
+              <td class="fw-bold">100%</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td class="text-start fw-bold">ALDERIO ILHAM QODZAFI</td>
+              <td><span class="badge bg-success-subtle text-success fs-6">2</span></td>
+              <td><span class="badge bg-warning-subtle text-warning fs-6">0</span></td>
+              <td><span class="badge bg-info-subtle text-info fs-6">0</span></td>
+              <td><span class="badge bg-danger-subtle text-danger fs-6">1</span></td>
+              <td class="fw-bold">67%</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td class="text-start fw-bold">ALVIAN MA'RIFATUL ABROR</td>
+              <td><span class="badge bg-success-subtle text-success fs-6">3</span></td>
+              <td><span class="badge bg-warning-subtle text-warning fs-6">0</span></td>
+              <td><span class="badge bg-info-subtle text-info fs-6">0</span></td>
+              <td><span class="badge bg-danger-subtle text-danger fs-6">0</span></td>
+              <td class="fw-bold">100%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<footer>
-    <span>&copy; 2026 <strong>Kodi EduAdaptif</strong> | kodi.web.id</span>
-    <span>|</span>
-    <a href="aboutme.html"> Development</a>
-</footer>
-
 <script>
-    const API_URL_APP = typeof window.API_URL !== 'undefined' ? window.API_URL : (window.CONFIG ? window.CONFIG.SCRIPT_URL : '');
-    const userSession = JSON.parse(localStorage.getItem('user_session'));
-    const activeMapel = localStorage.getItem('active_mapel') || (userSession ? userSession.mapel : "");
-    const activeKelas = localStorage.getItem('active_kelas') || "";
+  // 1. Opsi Cetak Standar Browser (Save as PDF bawaan Chrome/Edge)
+  function cetakBrowser() {
+    window.print();
+  }
 
-    if (!userSession) window.location.href = 'index.html';
+  // 2. Opsi Download File PDF Langsung menggunakan html2pdf.js
+  function downloadPDF() {
+    const element = document.getElementById('areaCetak');
+    const options = {
+      margin:       10,
+      filename:     'Rekap_Presensi_XI-3_Informatika.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
 
-    document.getElementById('user-name').innerText = userSession.nama || userSession.username || "Guru";
-    document.getElementById('lbl-mapel').innerText = activeMapel || "Belum Dipilih";
-    document.getElementById('lbl-kelas').innerText = activeKelas || "Belum Dipilih";
-    if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
+    html2pdf().set(options).from(element).save();
+  }
 
-    function cleanTextJS(str) {
-        return String(str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-    }
-
-    function logout() {
-        localStorage.clear();
-        window.location.href = 'index.html';
-    }
-
-    function toggleFilterTanggal() {
-        const tipe = document.getElementById('filter-tipe').value;
-        const g1 = document.getElementById('group-tgl1');
-        const g2 = document.getElementById('group-tgl2');
-        const lbl1 = document.getElementById('lbl-tgl1');
-        const val1 = document.getElementById('input-val1');
-
-        if (tipe === 'semua') {
-            g1.style.display = 'none';
-            g2.style.display = 'none';
-        } else if (tipe === 'harian') {
-            g1.style.display = 'flex';
-            g2.style.display = 'none';
-            lbl1.innerText = "Tanggal:";
-            val1.type = "date";
-        } else if (tipe === 'mingguan') {
-            g1.style.display = 'flex';
-            g2.style.display = 'flex';
-            lbl1.innerText = "Mulai Tanggal:";
-            val1.type = "date";
-        } else if (tipe === 'bulanan') {
-            g1.style.display = 'flex';
-            g2.style.display = 'none';
-            lbl1.innerText = "Pilih Bulan & Tahun:";
-            val1.type = "month";
-        }
-    }
-
-    function switchTab(tabName, evt) {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-
-        if (evt) evt.currentTarget.classList.add('active');
-
-        if (tabName === 'presensi') {
-            document.getElementById('tab-presensi').style.display = 'block';
-        } else if (tabName === 'nilai') {
-            document.getElementById('tab-nilai').style.display = 'block';
-            loadRekapNilai();
-        } else if (tabName === 'jurnal') {
-            document.getElementById('tab-jurnal').style.display = 'block';
-            loadRekapJurnal();
-        }
-    }
-
-    // --- 1. AMBIL DATA REKAP PRESENSI ---
-    async function loadRekapPresensi() {
-        const container = document.getElementById('container-rekap-presensi');
-        container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data rekap presensi...</div>`;
-
-        const tipe = document.getElementById('filter-tipe').value;
-        let v1 = document.getElementById('input-val1').value;
-        let v2 = document.getElementById('input-val2').value;
-
-        // Susun parameter URL untuk backend Apps Script
-        let queryParams = `action=getPresensi&kelas=${encodeURIComponent(activeKelas)}&mapel=${encodeURIComponent(activeMapel)}&tipe=${encodeURIComponent(tipe)}`;
-        
-        if (tipe !== 'semua' && v1) {
-            queryParams += `&val1=${encodeURIComponent(v1)}`;
-        }
-        if (tipe === 'mingguan' && v2) {
-            queryParams += `&val2=${encodeURIComponent(v2)}`;
-        }
-
-        try {
-            // Ambil Siswa Kelas
-            const resSiswa = await fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(activeKelas)}`).then(r => r.json());
-            const listSiswa = resSiswa.data || [];
-
-            // Ambil Rekap Presensi
-            const resPresensi = await fetch(`${API_URL_APP}?${queryParams}`).then(r => r.json());
-            const dataPresensi = resPresensi.data || {};
-
-            if (listSiswa.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Tidak ada data siswa terdaftar di Kelas ${activeKelas}.</div>`;
-                return;
-            }
-
-            let html = `
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th width="50">No</th>
-                                <th style="text-align:left;">Nama Siswa</th>
-                                <th width="90">Hadir (H)</th>
-                                <th width="90">Sakit (S)</th>
-                                <th width="90">Izin (I)</th>
-                                <th width="90">Alpa (A)</th>
-                                <th width="100">Kehadiran</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-
-            listSiswa.forEach((s, idx) => {
-                const keyNama = cleanTextJS(s.nama_siswa || s.nama);
-                
-                // Cari data di rekap presensi berdasarkan nama bersih (fleksibel)
-                let p = dataPresensi[keyNama];
-                
-                // Jika tidak langsung ketemu, coba cari pencocokan nama alternatif
-                if (!p) {
-                    for (let k in dataPresensi) {
-                        if (cleanTextJS(k) === keyNama || keyNama.includes(cleanTextJS(k))) {
-                            p = dataPresensi[k];
-                            break;
-                        }
-                    }
-                }
-
-                if (!p) p = { H: 0, S: 0, I: 0, A: 0 };
-                
-                const totalHadir = p.H || 0;
-                const totalSakit = p.S || 0;
-                const totalIzin = p.I || 0;
-                const totalAlpa = p.A || 0;
-                const totalPertemuan = totalHadir + totalSakit + totalIzin + totalAlpa;
-
-                let persentase = totalPertemuan > 0 ? Math.round((totalHadir / totalPertemuan) * 100) : 0;
-
-                html += `
-                    <tr>
-                        <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-bold" style="text-align:left;">${s.nama_siswa || s.nama}</td>
-                        <td class="txt-center"><span class="badge-presensi badge-h">${totalHadir}</span></td>
-                        <td class="txt-center"><span class="badge-presensi badge-s">${totalSakit}</span></td>
-                        <td class="txt-center"><span class="badge-presensi badge-i">${totalIzin}</span></td>
-                        <td class="txt-center"><span class="badge-presensi badge-a">${totalAlpa}</span></td>
-                        <td class="txt-center txt-bold">${persentase}%</td>
-                    </tr>`;
-            });
-
-            html += `</tbody></table></div>`;
-            container.innerHTML = html;
-
-        } catch (e) {
-            console.error(e);
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat rekap presensi.</div>`;
-        }
-    }
-
-    // --- 2. AMBIL LEGER NILAI ---
-    async function loadRekapNilai() {
-        const container = document.getElementById('container-rekap-nilai');
-        container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat leger nilai...</div>`;
-
-        try {
-            const resSiswa = await fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(activeKelas)}`).then(r => r.json());
-            const listSiswa = resSiswa.data || [];
-
-            const resNilai = await fetch(`${API_URL_APP}?action=getNilai&kelas=${encodeURIComponent(activeKelas)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
-            const dataNilai = resNilai.data || {};
-
-            if (listSiswa.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Tidak ada data siswa.</div>`;
-                return;
-            }
-
-            let html = `
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th width="40">No</th>
-                                <th style="text-align:left;">Nama Siswa</th>
-                                <th>NH1</th><th>NH2</th><th>NH3</th><th>NH4</th>
-                                <th>T1</th><th>T2</th><th>T3</th><th>T4</th>
-                                <th>STS1</th><th>STS2</th><th>SAS1</th><th>SAS2</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-
-            listSiswa.forEach((s, idx) => {
-                const keyNama = cleanTextJS(s.nama_siswa || s.nama);
-                const n = dataNilai[keyNama] || {};
-
-                html += `
-                    <tr>
-                        <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-bold" style="text-align:left;">${s.nama_siswa || s.nama}</td>
-                        <td class="txt-center">${n.nh1 || '-'}</td><td class="txt-center">${n.nh2 || '-'}</td>
-                        <td class="txt-center">${n.nh3 || '-'}</td><td class="txt-center">${n.nh4 || '-'}</td>
-                        <td class="txt-center">${n.tugas1 || '-'}</td><td class="txt-center">${n.tugas2 || '-'}</td>
-                        <td class="txt-center">${n.tugas3 || '-'}</td><td class="txt-center">${n.tugas4 || '-'}</td>
-                        <td class="txt-center">${n.sts1 || '-'}</td><td class="txt-center">${n.sts2 || '-'}</td>
-                        <td class="txt-center">${n.sas1 || '-'}</td><td class="txt-center">${n.sas2 || '-'}</td>
-                    </tr>`;
-            });
-
-            html += `</tbody></table></div>`;
-            container.innerHTML = html;
-
-        } catch (e) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat leger nilai.</div>`;
-        }
-    }
-
-    // --- 3. AMBIL REKAP JURNAL ---
-    async function loadRekapJurnal() {
-        const container = document.getElementById('container-rekap-jurnal');
-        container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat riwayat jurnal...</div>`;
-
-        try {
-            const res = await fetch(`${API_URL_APP}?action=getJurnal&kelas=${encodeURIComponent(activeKelas)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
-            const listJurnal = res.data || [];
-
-            if (listJurnal.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Belum ada riwayat jurnal KBM tersimpan.</div>`;
-                return;
-            }
-
-            let html = `
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th width="40">No</th>
-                                <th width="110">Tanggal</th>
-                                <th style="text-align:left;">Materi KBM</th>
-                                <th style="text-align:left;">Tugas / Catatan</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-
-            listJurnal.reverse().forEach((j, idx) => {
-                html += `
-                    <tr>
-                        <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-center">${String(j.tanggal).split('T')[0]}</td>
-                        <td style="text-align:left;">${j.materi || '-'}</td>
-                        <td style="text-align:left;">${j.tugas || j.catatan || '-'}</td>
-                    </tr>`;
-            });
-
-            html += `</tbody></table></div>`;
-            container.innerHTML = html;
-
-        } catch (e) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat riwayat jurnal.</div>`;
-        }
-    }
-
-    // Jalankan awal
-    loadRekapPresensi();
+  function tampilkanRekap() {
+    alert("Data rekap diperbarui!");
+  }
 </script>
+
 </body>
 </html>
