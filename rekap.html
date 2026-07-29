@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kodi EduAdaptif - Rekapitulasi & Laporan</title>
+    <title>Kodi EduAdaptif - Leger & Rekapitulasi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="config.js"></script>
@@ -17,7 +17,7 @@
         
         .brand-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
         .brand-header img { width: 32px; height: 36px; border-radius: 6px; object-fit: cover; }
-        .brand-header span { font-size: 18px; font-weight: 800; text-transform: none; letter-spacing: 1px; color: #fff; }
+        .brand-header span { font-size: 18px; font-weight: 800; letter-spacing: 1px; color: #fff; }
 
         .profile-pic { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-blue); margin: 0 auto 5px; display: block; }
         .nav-bar { background-color: var(--nav-blue); display: flex; flex-wrap: wrap; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -27,48 +27,24 @@
         .content-area { flex: 1; padding: 15px; width: 100%; }
         .card { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
         
-        /* MENU TAB REKAP */
-        .rekap-tabs { display: flex; gap: 10px; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
-        .tab-btn { padding: 10px 18px; background: #f1f5f9; border: none; border-radius: 8px 8px 0 0; font-weight: bold; font-size: 13px; color: #64748b; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .tab-btn-group { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+        .tab-btn { padding: 10px 18px; border: none; background: #e2e8f0; border-radius: 6px; font-weight: bold; cursor: pointer; color: #475569; font-size: 13px; }
         .tab-btn.active { background: var(--accent-blue); color: #fff; }
 
-        .filter-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
-        .form-grid { display: flex; flex-direction: column; gap: 12px; }
-        select, input[type="date"], input[type="month"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
-        
         .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
         table { width: 100%; border-collapse: collapse; }
-        table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: center; padding: 10px 8px; font-size: 12px; border: 1px solid #e2e8f0; }
-        table td { padding: 8px 10px; border: 1px solid #e2e8f0; font-size: 12px; }
+        table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: center; padding: 12px; font-size: 13px; border-bottom: 2px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
+        table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; font-size: 13px; }
         .txt-center { text-align: center; } .txt-bold { font-weight: bold; }
         
-        .btn-action { padding: 10px 16px; border-radius: 6px; font-weight: bold; font-size: 13px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-print { background: #8e44ad; color: #fff; }
-        .btn-print:hover { background: #732d91; }
+        .badge-presensi { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; }
+        .badge-h { background: #dcfce7; color: #15803d; }
+        .badge-s { background: #fef9c3; color: #a16207; }
+        .badge-i { background: #e0f2fe; color: #0369a1; }
+        .badge-a { background: #fee2e2; color: #b91c1c; }
 
-        footer { 
-            background-color: var(--secondary-dark); 
-            color: #94a3b8; 
-            text-align: center; 
-            padding: 20px; 
-            font-size: 13px; 
-            margin-top: auto; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 12px; 
-            flex-wrap: wrap; 
-        }
-
+        footer { background-color: var(--secondary-dark); color: #94a3b8; text-align: center; padding: 20px; font-size: 13px; margin-top: auto; display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; }
         footer a { color: #38bdf8; text-decoration: none; font-weight: 600; }
-        footer a:hover { text-decoration: underline; }
-
-        @media print {
-            .top-header, footer, .filter-card, .rekap-tabs, .btn-action { display: none !important; }
-            .content-area { padding: 0 !important; max-width: 100% !important; }
-            .card { box-shadow: none !important; padding: 0 !important; }
-            body { background: #fff !important; }
-        }
 
         @media (min-width: 769px) {
             .main-wrapper { flex-direction: row; }
@@ -79,7 +55,6 @@
             .nav-bar a.active { border-left: 4px solid var(--accent-blue); background-color: #34495e; border-bottom: none; }
             .btn-logout-top { position: absolute; bottom: 0; left: 0; padding: 15px; }
             .content-area { padding: 30px; max-width: calc(100% - 260px); }
-            .form-grid { flex-direction: row; }
         }
     </style>
 </head>
@@ -106,61 +81,32 @@
 
     <div class="content-area">
         <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
-                <!-- JUDUL LAPORAN DINAMIS -->
-                <h2><span id="lbl-title-rekap">Laporan Leger Nilai</span> — <span id="lbl-mapel" style="color:var(--accent-blue);"></span></h2>
-                <button onclick="window.print()" class="btn-action btn-print"><i class="fas fa-print"></i> Cetak / Export PDF</button>
-            </div>
-
-            <!-- PILIHAN TAB REKAPITULASI -->
-            <div class="rekap-tabs">
-                <button class="tab-btn active" onclick="switchTab('nilai')"><i class="fas fa-graduation-cap"></i> Leger Nilai</button>
-                <button class="tab-btn" onclick="switchTab('presensi')"><i class="fas fa-clipboard-check"></i> Rekap Presensi</button>
-                <button class="tab-btn" onclick="switchTab('jurnal')"><i class="fas fa-journal-whills"></i> Rekap Jurnal</button>
-            </div>
+            <h2>Rekapitulasi Kelas <span id="lbl-kelas" style="color:var(--accent-blue);"></span> — <span id="lbl-mapel" style="color:var(--accent-blue);"></span></h2>
             
-            <div class="filter-card">
-                <div class="form-grid">
-                    <div style="flex:1;">
-                        <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Kelas:</label>
-                        <select id="sel-kelas" onchange="loadActiveTab()"></select>
-                    </div>
-
-                    <!-- FILTER RENTANG WAKTU (KHUSUS PRESENSI & JURNAL) -->
-                    <div id="filter-periode-box" style="flex:1; display:none;">
-                        <label style="font-weight:600; display:block; margin-bottom:5px;">Periode Rekap:</label>
-                        <select id="sel-periode" onchange="onPeriodeChange()">
-                            <option value="harian">Harian (Tanggal Spesifik)</option>
-                            <option value="mingguan">Mingguan (Rentang Tanggal)</option>
-                            <option value="bulanan" selected>Bulanan (Bulan / Tahun)</option>
-                        </select>
-                    </div>
-
-                    <!-- INPUTAN FILTER TANGGAL / BULAN -->
-                    <div id="box-filter-harian" style="flex:1; display:none;">
-                        <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Tanggal:</label>
-                        <input type="date" id="input-tgl-harian" onchange="loadActiveTab()">
-                    </div>
-
-                    <div id="box-filter-mingguan" style="flex:2; display:none; gap:10px;">
-                        <div style="flex:1;">
-                            <label style="font-weight:600; display:block; margin-bottom:5px;">Dari Tanggal:</label>
-                            <input type="date" id="input-tgl-mulai" onchange="loadActiveTab()">
-                        </div>
-                        <div style="flex:1;">
-                            <label style="font-weight:600; display:block; margin-bottom:5px;">Sampai Tanggal:</label>
-                            <input type="date" id="input-tgl-selesai" onchange="loadActiveTab()">
-                        </div>
-                    </div>
-
-                    <div id="box-filter-bulanan" style="flex:1; display:none;">
-                        <label style="font-weight:600; display:block; margin-bottom:5px;">Pilih Bulan:</label>
-                        <input type="month" id="input-bulan" onchange="loadActiveTab()">
-                    </div>
-                </div>
+            <div class="tab-btn-group" style="margin-top:20px;">
+                <button class="tab-btn active" onclick="switchTab('presensi')"><i class="fas fa-user-check"></i> Rekap Presensi</button>
+                <button class="tab-btn" onclick="switchTab('nilai')"><i class="fas fa-graduation-cap"></i> Leger Nilai</button>
+                <button class="tab-btn" onclick="switchTab('jurnal')"><i class="fas fa-book-open"></i> Rekap Jurnal</button>
             </div>
 
-            <div id="rekap-table-container">Memuat data rekapitulasi...</div>
+            <!-- CONTAINER REKAP PRESENSI -->
+            <div id="tab-presensi" class="tab-content">
+                <h3 style="margin-bottom:15px; font-size:16px;"><i class="fas fa-users-viewfinder"></i> Rekap Kehadiran Siswa</h3>
+                <div id="container-rekap-presensi">Memuat rekap presensi...</div>
+            </div>
+
+            <!-- CONTAINER LEGER NILAI -->
+            <div id="tab-nilai" class="tab-content" style="display:none;">
+                <h3 style="margin-bottom:15px; font-size:16px;"><i class="fas fa-list-ol"></i> Leger Penilaian Akademik</h3>
+                <div id="container-rekap-nilai">Memuat leger nilai...</div>
+            </div>
+
+            <!-- CONTAINER REKAP JURNAL -->
+            <div id="tab-jurnal" class="tab-content" style="display:none;">
+                <h3 style="margin-bottom:15px; font-size:16px;"><i class="fas fa-journal-whills"></i> Riwayat Jurnal KBM</h3>
+                <div id="container-rekap-jurnal">Memuat rekap jurnal...</div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -181,104 +127,11 @@
 
     document.getElementById('user-name').innerText = userSession.nama || userSession.username || "Guru";
     document.getElementById('lbl-mapel').innerText = activeMapel || "Belum Dipilih";
+    document.getElementById('lbl-kelas').innerText = activeKelas || "Belum Dipilih";
     if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
 
-    const selKelas = document.getElementById('sel-kelas');
-    let activeTabType = 'nilai'; // 'nilai', 'presensi', 'jurnal'
-
-    // Set Default Filter Date
-    const today = new Date().toISOString().split('T')[0];
-    const currentMonth = new Date().toISOString().slice(0, 7);
-    document.getElementById('input-tgl-harian').value = today;
-    document.getElementById('input-tgl-mulai').value = today;
-    document.getElementById('input-tgl-selesai').value = today;
-    document.getElementById('input-bulan').value = currentMonth;
-
-    populateKelasOptions();
-
-    function normText(str) {
+    function cleanTextJS(str) {
         return String(str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-    }
-
-    function populateKelasOptions() {
-        const setKelas = new Set();
-        if (userSession.penugasan && Array.isArray(userSession.penugasan)) {
-            userSession.penugasan.forEach(p => {
-                if (!activeMapel || normText(p.mapel) === normText(activeMapel)) {
-                    if (p.kelas) {
-                        String(p.kelas).split(',').forEach(k => {
-                            if (k.trim()) setKelas.add(k.trim());
-                        });
-                    }
-                }
-            });
-        }
-
-        if (setKelas.size === 0 && userSession.ampu_kelas) {
-            String(userSession.ampu_kelas).split(',').forEach(k => {
-                if (k.trim()) setKelas.add(k.trim());
-            });
-        }
-
-        const listKelas = Array.from(setKelas);
-        if (listKelas.length === 0) {
-            selKelas.innerHTML = '<option value="">-- Tidak Ada Kelas Terdaftar --</option>';
-            return;
-        }
-
-        selKelas.innerHTML = listKelas.map(k => `<option value="${k}">${k}</option>`).join('');
-        if (activeKelas && listKelas.includes(activeKelas)) {
-            selKelas.value = activeKelas;
-        }
-        
-        switchTab('nilai');
-    }
-
-    function switchTab(tab) {
-        activeTabType = tab;
-        const titleElem = document.getElementById('lbl-title-rekap');
-
-        // PERUBAHAN JUDUL DUA ARAH / DINAMIS
-        if (tab === 'nilai') {
-            titleElem.innerText = 'Laporan Leger Nilai';
-        } else if (tab === 'presensi') {
-            titleElem.innerText = 'Laporan Rekap Presensi';
-        } else if (tab === 'jurnal') {
-            titleElem.innerText = 'Laporan Rekap Jurnal KBM';
-        }
-
-        document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
-            btn.classList.toggle('active', (tab==='nilai' && idx===0) || (tab==='presensi' && idx===1) || (tab==='jurnal' && idx===2));
-        });
-
-        const isNilai = (tab === 'nilai');
-        document.getElementById('filter-periode-box').style.display = isNilai ? 'none' : 'block';
-        
-        if (isNilai) {
-            hideAllDateBoxes();
-        } else {
-            onPeriodeChange();
-        }
-
-        loadActiveTab();
-    }
-
-    function hideAllDateBoxes() {
-        document.getElementById('box-filter-harian').style.display = 'none';
-        document.getElementById('box-filter-mingguan').style.display = 'none';
-        document.getElementById('box-filter-bulanan').style.display = 'none';
-    }
-
-    function onPeriodeChange() {
-        if (activeTabType === 'nilai') return;
-        const p = document.getElementById('sel-periode').value;
-        hideAllDateBoxes();
-
-        if (p === 'harian') document.getElementById('box-filter-harian').style.display = 'block';
-        else if (p === 'mingguan') document.getElementById('box-filter-mingguan').style.display = 'flex';
-        else if (p === 'bulanan') document.getElementById('box-filter-bulanan').style.display = 'block';
-
-        loadActiveTab();
     }
 
     function logout() {
@@ -286,146 +139,106 @@
         window.location.href = 'index.html';
     }
 
-    function loadActiveTab() {
-        if (activeTabType === 'nilai') loadDataNilai();
-        else if (activeTabType === 'presensi') loadDataPresensiRekap();
-        else if (activeTabType === 'jurnal') loadDataJurnalRekap();
-    }
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
 
-    // --- 1. REKAP LEGER NILAI ---
-    async function loadDataNilai() {
-        const kls = selKelas.value;
-        const container = document.getElementById('rekap-table-container');
-        if (!kls) return;
-
-        container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Mengomputasi data leger nilai...</div>`;
-
-        try {
-            const [resSiswa, resNilai] = await Promise.all([
-                fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json()),
-                fetch(`${API_URL_APP}?action=getNilai&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json())
-            ]);
-
-            const siswaList = resSiswa.data ? resSiswa.data.filter(s => normText(s.kelas) === normText(kls)) : [];
-            const nilaiDataObj = resNilai.data || {};
-
-            let html = `
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th rowspan="2" width="40">No</th>
-                                <th rowspan="2">Nama Lengkap Siswa</th>
-                                <th colspan="4">Nilai Harian</th>
-                                <th colspan="4">Tugas</th>
-                                <th colspan="2">STS</th>
-                                <th colspan="2">SAS</th>
-                                <th rowspan="2" width="70" style="background:#e0f2fe; color:#0369a1;">Rerata</th>
-                            </tr>
-                            <tr>
-                                <th>NH1</th><th>NH2</th><th>NH3</th><th>NH4</th>
-                                <th>T1</th><th>T2</th><th>T3</th><th>T4</th>
-                                <th>S1</th><th>S2</th>
-                                <th>A1</th><th>A2</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-
-            siswaList.forEach((s, idx) => {
-                const namaClean = String(s.nama || s.nama_siswa).trim();
-                const scores = nilaiDataObj[normText(namaClean)] || {};
-                const getVal = (k) => (scores[k] !== undefined && scores[k] !== "") ? parseInt(scores[k]) : 0;
-
-                const nh1 = getVal('nh1'), nh2 = getVal('nh2'), nh3 = getVal('nh3'), nh4 = getVal('nh4');
-                const t1 = getVal('tugas1'), t2 = getVal('tugas2'), t3 = getVal('tugas3'), t4 = getVal('tugas4');
-                const s1 = getVal('sts1'), s2 = getVal('sts2');
-                const a1 = getVal('sas1'), a2 = getVal('sas2');
-
-                const allVals = [nh1, nh2, nh3, nh4, t1, t2, t3, t4, s1, s2, a1, a2].filter(v => v > 0);
-                const rerata = allVals.length > 0 ? (allVals.reduce((a,b)=>a+b, 0) / allVals.length).toFixed(1) : "0";
-
-                html += `
-                    <tr>
-                        <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
-                        <td class="txt-center">${nh1 || '-'}</td><td class="txt-center">${nh2 || '-'}</td>
-                        <td class="txt-center">${nh3 || '-'}</td><td class="txt-center">${nh4 || '-'}</td>
-                        <td class="txt-center">${t1 || '-'}</td><td class="txt-center">${t2 || '-'}</td>
-                        <td class="txt-center">${t3 || '-'}</td><td class="txt-center">${t4 || '-'}</td>
-                        <td class="txt-center">${s1 || '-'}</td><td class="txt-center">${s2 || '-'}</td>
-                        <td class="txt-center">${a1 || '-'}</td><td class="txt-center">${a2 || '-'}</td>
-                        <td class="txt-center txt-bold" style="background:#f0f9ff; color:#0284c7;">${rerata}</td>
-                    </tr>`;
-            });
-
-            html += `</tbody></table></div>`;
-            container.innerHTML = html;
-        } catch (err) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat rekap nilai.</div>`;
+        if (tabName === 'presensi') {
+            event.currentTarget.classList.add('active');
+            document.getElementById('tab-presensi').style.display = 'block';
+        } else if (tabName === 'nilai') {
+            event.currentTarget.classList.add('active');
+            document.getElementById('tab-nilai').style.display = 'block';
+            loadRekapNilai();
+        } else if (tabName === 'jurnal') {
+            event.currentTarget.classList.add('active');
+            document.getElementById('tab-jurnal').style.display = 'block';
+            loadRekapJurnal();
         }
     }
 
-    // --- 2. REKAP PRESENSI (HARIAN / MINGGUAN / BULANAN) ---
-    async function loadDataPresensiRekap() {
-        const kls = selKelas.value;
-        const container = document.getElementById('rekap-table-container');
-        if (!kls) return;
-
-        container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Mengomputasi akumulasi presensi...</div>`;
+    // --- 1. PROSES BACA REKAP PRESENSI ---
+    async function loadRekapPresensi() {
+        const container = document.getElementById('container-rekap-presensi');
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat data rekap presensi...</div>`;
 
         try {
-            const resSiswa = await fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json());
-            const siswaList = resSiswa.data ? resSiswa.data.filter(s => normText(s.kelas) === normText(kls)) : [];
+            // Ambil daftar siswa kelas aktif lebih dulu
+            const resSiswa = await fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(activeKelas)}`).then(r => r.json());
+            const listSiswa = resSiswa.data || [];
+
+            // Ambil data presensi
+            const resPresensi = await fetch(`${API_URL_APP}?action=getPresensi&kelas=${encodeURIComponent(activeKelas)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
+            const dataPresensi = resPresensi.data || {};
+
+            if (listSiswa.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Tidak ada data siswa ditemukan untuk kelas ini.</div>`;
+                return;
+            }
 
             let html = `
                 <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
-                                <th width="40">No</th>
-                                <th>Nama Lengkap Siswa</th>
-                                <th width="80" style="color:#10b981;">Hadir (H)</th>
-                                <th width="80" style="color:#f59e0b;">Sakit (S)</th>
-                                <th width="80" style="color:#3b82f6;">Izin (I)</th>
-                                <th width="80" style="color:#ef4444;">Alpha (A)</th>
+                                <th width="50">No</th>
+                                <th style="text-align:left;">Nama Siswa</th>
+                                <th width="90">Hadir (H)</th>
+                                <th width="90">Sakit (S)</th>
+                                <th width="90">Izin (I)</th>
+                                <th width="90">Alpa (A)</th>
+                                <th width="100">Kehadiran</th>
                             </tr>
                         </thead>
                         <tbody>`;
 
-            siswaList.forEach((s, idx) => {
-                const namaClean = String(s.nama || s.nama_siswa).trim();
+            listSiswa.forEach((s, idx) => {
+                const keyNama = cleanTextJS(s.nama_siswa || s.nama);
+                const p = dataPresensi[keyNama] || { H: 0, S: 0, I: 0, A: 0 };
+                
+                const totalHadir = p.H || 0;
+                const totalSakit = p.S || 0;
+                const totalIzin = p.I || 0;
+                const totalAlpa = p.A || 0;
+                const totalPertemuan = totalHadir + totalSakit + totalIzin + totalAlpa;
+
+                let persentase = totalPertemuan > 0 ? Math.round((totalHadir / totalPertemuan) * 100) : 0;
+
                 html += `
                     <tr>
                         <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-bold">${namaClean}</td>
-                        <td class="txt-center txt-bold" style="color:#10b981;">-</td>
-                        <td class="txt-center txt-bold" style="color:#f59e0b;">-</td>
-                        <td class="txt-center txt-bold" style="color:#3b82f6;">-</td>
-                        <td class="txt-center txt-bold" style="color:#ef4444;">-</td>
+                        <td class="txt-bold" style="text-align:left;">${s.nama_siswa || s.nama}</td>
+                        <td class="txt-center"><span class="badge-presensi badge-h">${totalHadir}</span></td>
+                        <td class="txt-center"><span class="badge-presensi badge-s">${totalSakit}</span></td>
+                        <td class="txt-center"><span class="badge-presensi badge-i">${totalIzin}</span></td>
+                        <td class="txt-center"><span class="badge-presensi badge-a">${totalAlpa}</span></td>
+                        <td class="txt-center txt-bold">${persentase}%</td>
                     </tr>`;
             });
 
             html += `</tbody></table></div>`;
             container.innerHTML = html;
+
         } catch (e) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat rekap presensi.</div>`;
+            console.error(e);
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat rekap presensi. Pastikan koneksi dan backend Apps Script aktif.</div>`;
         }
     }
 
-    // --- 3. REKAP JURNAL KBM ---
-    async function loadDataJurnalRekap() {
-        const kls = selKelas.value;
-        const container = document.getElementById('rekap-table-container');
-        if (!kls) return;
-
-        container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat rekap jurnal KBM...</div>`;
+    // --- 2. PROSES BACA REKAP NILAI ---
+    async function loadRekapNilai() {
+        const container = document.getElementById('container-rekap-nilai');
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat leger nilai...</div>`;
 
         try {
-            const res = await fetch(`${API_URL_APP}?action=getJurnal&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
-            const jurnalList = res.data ? res.data.filter(j => normText(j.kelas) === normText(kls)) : [];
+            const resSiswa = await fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(activeKelas)}`).then(r => r.json());
+            const listSiswa = resSiswa.data || [];
 
-            if (jurnalList.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:30px; color:#94a3b8;">Belum ada catatan jurnal KBM untuk periode ini.</div>`;
+            const resNilai = await fetch(`${API_URL_APP}?action=getNilai&kelas=${encodeURIComponent(activeKelas)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
+            const dataNilai = resNilai.data || {};
+
+            if (listSiswa.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Tidak ada data siswa.</div>`;
                 return;
             }
 
@@ -435,29 +248,86 @@
                         <thead>
                             <tr>
                                 <th width="40">No</th>
-                                <th width="120">Tanggal</th>
-                                <th>Uraian Materi / Pembahasan KBM</th>
-                                <th>Tugas / Catatan Tambahan</th>
+                                <th style="text-align:left;">Nama Siswa</th>
+                                <th>NH1</th><th>NH2</th><th>NH3</th><th>NH4</th>
+                                <th>T1</th><th>T2</th><th>T3</th><th>T4</th>
+                                <th>STS1</th><th>STS2</th><th>SAS1</th><th>SAS2</th>
                             </tr>
                         </thead>
                         <tbody>`;
 
-            jurnalList.forEach((j, idx) => {
+            listSiswa.forEach((s, idx) => {
+                const keyNama = cleanTextJS(s.nama_siswa || s.nama);
+                const n = dataNilai[keyNama] || {};
+
                 html += `
                     <tr>
                         <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-center">${String(j.tanggal).split('T')[0]}</td>
-                        <td>${j.materi || '-'}</td>
-                        <td>${j.tugas || j.catatan || '-'}</td>
+                        <td class="txt-bold" style="text-align:left;">${s.nama_siswa || s.nama}</td>
+                        <td class="txt-center">${n.nh1 || '-'}</td><td class="txt-center">${n.nh2 || '-'}</td>
+                        <td class="txt-center">${n.nh3 || '-'}</td><td class="txt-center">${n.nh4 || '-'}</td>
+                        <td class="txt-center">${n.tugas1 || '-'}</td><td class="txt-center">${n.tugas2 || '-'}</td>
+                        <td class="txt-center">${n.tugas3 || '-'}</td><td class="txt-center">${n.tugas4 || '-'}</td>
+                        <td class="txt-center">${n.sts1 || '-'}</td><td class="txt-center">${n.sts2 || '-'}</td>
+                        <td class="txt-center">${n.sas1 || '-'}</td><td class="txt-center">${n.sas2 || '-'}</td>
                     </tr>`;
             });
 
             html += `</tbody></table></div>`;
             container.innerHTML = html;
+
         } catch (e) {
-            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat rekap jurnal.</div>`;
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat leger nilai.</div>`;
         }
     }
+
+    // --- 3. PROSES BACA REKAP JURNAL ---
+    async function loadRekapJurnal() {
+        const container = document.getElementById('container-rekap-jurnal');
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat riwayat jurnal...</div>`;
+
+        try {
+            const res = await fetch(`${API_URL_APP}?action=getJurnal&kelas=${encodeURIComponent(activeKelas)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
+            const listJurnal = res.data || [];
+
+            if (listJurnal.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Belum ada riwayat jurnal KBM tersimpan.</div>`;
+                return;
+            }
+
+            let html = `
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="40">No</th>
+                                <th width="110">Tanggal</th>
+                                <th style="text-align:left;">Materi KBM</th>
+                                <th style="text-align:left;">Tugas / Catatan</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            listJurnal.reverse().forEach((j, idx) => {
+                html += `
+                    <tr>
+                        <td class="txt-center">${idx + 1}</td>
+                        <td class="txt-center">${String(j.tanggal).split('T')[0]}</td>
+                        <td style="text-align:left;">${j.materi || '-'}</td>
+                        <td style="text-align:left;">${j.tugas || j.catatan || '-'}</td>
+                    </tr>`;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+
+        } catch (e) {
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat riwayat jurnal.</div>`;
+        }
+    }
+
+    // Jalankan langsung saat halaman dibuka
+    loadRekapPresensi();
 </script>
 </body>
 </html>
