@@ -367,7 +367,8 @@
         }
     }
 
-    // --- 2. REKAP PRESENSI (SAFE FULL FUNCTION) ---
+    
+   // --- 2. REKAP PRESENSI (HARIAN / MINGGUAN / BULANAN) ---
     async function loadDataPresensiRekap() {
         const kls = selKelas.value;
         const container = document.getElementById('rekap-table-container');
@@ -375,97 +376,66 @@
 
         container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Mengomputasi akumulasi presensi...</div>`;
 
-        let siswaList = [];
-        let rawPresensi = [];
-
-        // 1. Ambil Data Siswa (Diisolasi)
         try {
-            const resSiswa = await fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json());
-            siswaList = resSiswa.data ? resSiswa.data.filter(s => normText(s.kelas) === normText(kls)) : [];
-        } catch (errSiswa) {
-            console.warn("Gagal mengambil data siswa:", errSiswa);
-        }
+            // 1. Ambil Parameter Filter Tanggal / Periode
+            const tipe = document.getElementById('sel-periode').value;
+            let val1 = "", val2 = "";
 
-        // 2. Ambil Data Presensi (Diisolasi)
-        try {
-            const resPresensi = await fetch(`${API_URL_APP}?action=getPresensi&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
-            rawPresensi = resPresensi.data || [];
-        } catch (errPres) {
-            console.warn("API getPresensi belum tersedia/bermasalah, menampilkan tabel standar:", errPres);
-        }
+            if (tipe === 'harian') {
+                val1 = document.getElementById('input-tgl-harian').value;
+            } else if (tipe === 'mingguan') {
+                val1 = document.getElementById('input-tgl-mulai').value;
+                val2 = document.getElementById('input-tgl-selesai').value;
+            } else if (tipe === 'bulanan') {
+                val1 = document.getElementById('input-bulan').value;
+            }
 
-        // 3. Filter Tanggal & Periode
-        const periodeType = document.getElementById('sel-periode') ? document.getElementById('sel-periode').value : 'bulanan';
-        const tglHarian = document.getElementById('input-tgl-harian') ? document.getElementById('input-tgl-harian').value : '';
-        const tglMulai = document.getElementById('input-tgl-mulai') ? document.getElementById('input-tgl-mulai').value : '';
-        const tglSelesai = document.getElementById('input-tgl-selesai') ? document.getElementById('input-tgl-selesai').value : '';
-        const bulanThn = document.getElementById('input-bulan') ? document.getElementById('input-bulan').value : '';
+            // 2. Fetch Data Siswa dan Data Rekap Presensi secara Paralel
+            const [resSiswa, resPresensi] = await Promise.all([
+                fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json()),
+                fetch(`${API_URL_APP}?action=getPresensi&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}&tipe=${encodeURIComponent(tipe)}&val1=${encodeURIComponent(val1)}&val2=${encodeURIComponent(val2)}`).then(r => r.json())
+            ]);
 
-        const filteredPresensi = rawPresensi.filter(p => {
-            if (!p.tanggal) return false;
-            const pDate = String(p.tanggal).split('T')[0];
-            if (periodeType === 'harian') return pDate === tglHarian;
-            if (periodeType === 'mingguan') return pDate >= tglMulai && pDate <= tglSelesai;
-            if (periodeType === 'bulanan') return pDate.startsWith(bulanThn);
-            return true;
-        });
+            const siswaList = resSiswa.data ? resSiswa.data.filter(s => normText(s.kelas) === normText(kls)) : [];
+            const rekapDataObj = resPresensi.data || {};
 
-        // 4. Akumulasi Data Per Siswa
-        const rekapMap = {};
-        filteredPresensi.forEach(p => {
-            const namaKey = normText(p.nama || p.nama_siswa);
-            if (!rekapMap[namaKey]) rekapMap[namaKey] = { H: 0, S: 0, I: 0, A: 0 };
+            let html = `
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="40">No</th>
+                                <th>Nama Lengkap Siswa</th>
+                                <th width="80" style="color:#10b981;">Hadir (H)</th>
+                                <th width="80" style="color:#f59e0b;">Sakit (S)</th>
+                                <th width="80" style="color:#3b82f6;">Izin (I)</th>
+                                <th width="80" style="color:#ef4444;">Alpha (A)</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
 
-            const st = String(p.status || '').toUpperCase();
-            if (st.startsWith('H')) rekapMap[namaKey].H++;
-            else if (st.startsWith('S')) rekapMap[namaKey].S++;
-            else if (st.startsWith('I')) rekapMap[namaKey].I++;
-            else if (st.startsWith('A')) rekapMap[namaKey].A++;
-        });
-
-        // 5. Render Tabel
-        let html = `
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th width="40">No</th>
-                            <th>Nama Lengkap Siswa</th>
-                            <th width="90" style="color:#10b981;">Hadir (H)</th>
-                            <th width="90" style="color:#f59e0b;">Sakit (S)</th>
-                            <th width="90" style="color:#3b82f6;">Izin (I)</th>
-                            <th width="90" style="color:#ef4444;">Alpha (A)</th>
-                            <th width="100">Kehadiran</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
-
-        if (siswaList.length === 0) {
-            html += `<tr><td colspan="7" class="txt-center" style="padding:20px; color:#94a3b8;">Belum ada data siswa terdaftar untuk kelas ini.</td></tr>`;
-        } else {
             siswaList.forEach((s, idx) => {
                 const namaClean = String(s.nama || s.nama_siswa).trim();
-                const rec = rekapMap[normText(namaClean)] || { H: 0, S: 0, I: 0, A: 0 };
-                const totalPertemuan = rec.H + rec.S + rec.I + rec.A;
-                const persenHadir = totalPertemuan > 0 ? Math.round((rec.H / totalPertemuan) * 100) + '%' : '0%';
+                const keyNama = normText(namaClean);
+                const rec = rekapDataObj[keyNama] || { H: 0, S: 0, I: 0, A: 0 };
 
                 html += `
                     <tr>
                         <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-bold" style="color:#1e293b;">${namaClean}</td>
-                        <td class="txt-center txt-bold" style="color:#10b981;">${rec.H}</td>
-                        <td class="txt-center txt-bold" style="color:#f59e0b;">${rec.S}</td>
-                        <td class="txt-center txt-bold" style="color:#3b82f6;">${rec.I}</td>
-                        <td class="txt-center txt-bold" style="color:#ef4444;">${rec.A}</td>
-                        <td class="txt-center txt-bold" style="background:#f8fafc;">${persenHadir}</td>
+                        <td class="txt-bold">${namaClean}</td>
+                        <td class="txt-center txt-bold" style="color:#10b981;">${rec.H || 0}</td>
+                        <td class="txt-center txt-bold" style="color:#f59e0b;">${rec.S || 0}</td>
+                        <td class="txt-center txt-bold" style="color:#3b82f6;">${rec.I || 0}</td>
+                        <td class="txt-center txt-bold" style="color:#ef4444;">${rec.A || 0}</td>
                     </tr>`;
             });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        } catch (e) {
+            container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat rekap presensi.</div>`;
         }
-
-        html += `</tbody></table></div>`;
-        container.innerHTML = html;
     }
-
     // --- 3. REKAP JURNAL KBM ---
     async function loadDataJurnalRekap() {
         const kls = selKelas.value;
