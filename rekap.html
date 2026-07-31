@@ -36,6 +36,40 @@
         .form-grid { display: flex; flex-direction: column; gap: 12px; }
         select, input[type="date"], input[type="month"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
         
+        /* HEADER KOP CETAK / LAPORAN RESMI */
+        .print-header-kop {
+            display: none; /* Sembunyikan di layar normal */
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #1e293b;
+        }
+        .print-header-kop h2 {
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        .print-meta-table {
+            width: 100%;
+            margin-top: 8px;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .print-meta-table td {
+            padding: 4px 6px;
+            border: none !important;
+            vertical-align: top;
+            text-align: left;
+        }
+        .print-meta-table td.label-col {
+            font-weight: 600;
+            width: 130px;
+            color: #334155;
+        }
+
         .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: var(--white); }
         table { width: 100%; border-collapse: collapse; }
         table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-align: center; padding: 10px 8px; font-size: 12px; border: 1px solid #e2e8f0; }
@@ -43,8 +77,8 @@
         .txt-center { text-align: center; } .txt-bold { font-weight: bold; }
         
         .btn-action { padding: 10px 16px; border-radius: 6px; font-weight: bold; font-size: 13px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-print { background: #e74c3c; color: #fff; }
-        .btn-print:hover { background: #c0392b; }
+        .btn-print { background: #8e44ad; color: #fff; }
+        .btn-print:hover { background: #732d91; }
 
         footer { 
             background-color: var(--secondary-dark); 
@@ -63,14 +97,13 @@
         footer a { color: #38bdf8; text-decoration: none; font-weight: 600; }
         footer a:hover { text-decoration: underline; }
 
-        /* MODE PRINT/PDF */
         @media print {
-            .top-header, footer, .filter-card, .rekap-tabs, .btn-action { display: none !important; }
+            .top-header, footer, .filter-card, .rekap-tabs, .btn-action, .screen-title-box { display: none !important; }
             .content-area { padding: 0 !important; max-width: 100% !important; }
-            .card { box-shadow: none !important; padding: 0 !important; }
-            body { background: #fff !important; }
-            .table-responsive { border: none !important; }
-            table th, table td { border: 1px solid #000 !important; }
+            .card { box-shadow: none !important; padding: 0 !important; border: none !important; }
+            body { background: #fff !important; font-size: 11pt; }
+            .print-header-kop { display: block !important; }
+            table th { background-color: #f1f5f9 !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
 
         @media (min-width: 769px) {
@@ -109,10 +142,33 @@
 
     <div class="content-area">
         <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
-                <!-- JUDUL LAPORAN DINAMIS -->
+            <!-- JUDUL PADA LAYAR MONITOR -->
+            <div class="screen-title-box" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
                 <h2><span id="lbl-title-rekap">Laporan Leger Nilai</span> — <span id="lbl-mapel" style="color:var(--accent-blue);"></span></h2>
                 <button onclick="window.print()" class="btn-action btn-print"><i class="fas fa-print"></i> Cetak / Export PDF</button>
+            </div>
+
+            <!-- HEADER KOP LAPORAN UNTUK CETAK/PDF PROFESSIONAL -->
+            <div class="print-header-kop">
+                <h2 id="print-main-title">LAPORAN LEGER NILAI</h2>
+                <table class="print-meta-table">
+                    <tr>
+                        <td class="label-col">Mata Pelajaran</td>
+                        <td width="10">:</td>
+                        <td id="print-mapel-val" style="font-weight: bold;">-</td>
+                        <td class="label-col">Guru Pengampu</td>
+                        <td width="10">:</td>
+                        <td id="print-guru-val">-</td>
+                    </tr>
+                    <tr>
+                        <td class="label-col">Kelas</td>
+                        <td>:</td>
+                        <td id="print-kelas-val" style="font-weight: bold;">-</td>
+                        <td class="label-col" id="lbl-meta-periode">Periode</td>
+                        <td>:</td>
+                        <td id="print-periode-val">-</td>
+                    </tr>
+                </table>
             </div>
 
             <!-- PILIHAN TAB REKAPITULASI -->
@@ -129,7 +185,7 @@
                         <select id="sel-kelas" onchange="loadActiveTab()"></select>
                     </div>
 
-                    <!-- FILTER RENTANG WAKTU -->
+                    <!-- FILTER RENTANG WAKTU (KHUSUS PRESENSI & JURNAL) -->
                     <div id="filter-periode-box" style="flex:1; display:none;">
                         <label style="font-weight:600; display:block; margin-bottom:5px;">Periode Rekap:</label>
                         <select id="sel-periode" onchange="onPeriodeChange()">
@@ -182,7 +238,8 @@
 
     if (!userSession) window.location.href = 'index.html';
 
-    document.getElementById('user-name').innerText = userSession.nama || userSession.username || "Guru";
+    const namaGuru = userSession.nama || userSession.username || "Guru";
+    document.getElementById('user-name').innerText = namaGuru;
     document.getElementById('lbl-mapel').innerText = activeMapel || "Belum Dipilih";
     if (userSession.foto) document.getElementById('user-pic').src = userSession.foto;
 
@@ -201,6 +258,17 @@
 
     function normText(str) {
         return String(str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    function formatDateIndo(dateStr) {
+        if (!dateStr) return "-";
+        const [year, month, day] = dateStr.split('-');
+        const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        if (day) {
+            return `${parseInt(day)} ${months[parseInt(month) - 1]} ${year}`;
+        } else {
+            return `${months[parseInt(month) - 1]} ${year}`;
+        }
     }
 
     function populateKelasOptions() {
@@ -235,6 +303,43 @@
         }
         
         switchTab('nilai');
+    }
+
+    function updateHeaderPrint() {
+        const kls = selKelas.value || "-";
+        document.getElementById('print-mapel-val').innerText = activeMapel || "-";
+        document.getElementById('print-kelas-val').innerText = kls;
+        document.getElementById('print-guru-val').innerText = namaGuru;
+
+        const mainTitle = document.getElementById('print-main-title');
+        const periodeVal = document.getElementById('print-periode-val');
+
+        if (activeTabType === 'nilai') {
+            mainTitle.innerText = "LAPORAN LEGER NILAI";
+            periodeVal.innerText = "Semester Aktif";
+        } else if (activeTabType === 'presensi') {
+            mainTitle.innerText = "LAPORAN REKAP PRESENSI SISWA";
+            periodeVal.innerText = getPeriodeTextFormatted();
+        } else if (activeTabType === 'jurnal') {
+            mainTitle.innerText = "LAPORAN REKAP JURNAL MENGAJAR (KBM)";
+            periodeVal.innerText = getPeriodeTextFormatted();
+        }
+    }
+
+    function getPeriodeTextFormatted() {
+        const p = document.getElementById('sel-periode').value;
+        if (p === 'harian') {
+            const tgl = document.getElementById('input-tgl-harian').value;
+            return formatDateIndo(tgl);
+        } else if (p === 'mingguan') {
+            const tgl1 = document.getElementById('input-tgl-mulai').value;
+            const tgl2 = document.getElementById('input-tgl-selesai').value;
+            return `${formatDateIndo(tgl1)} s.d. ${formatDateIndo(tgl2)}`;
+        } else if (p === 'bulanan') {
+            const bln = document.getElementById('input-bulan').value;
+            return formatDateIndo(bln);
+        }
+        return "-";
     }
 
     function switchTab(tab) {
@@ -289,6 +394,7 @@
     }
 
     function loadActiveTab() {
+        updateHeaderPrint();
         if (activeTabType === 'nilai') loadDataNilai();
         else if (activeTabType === 'presensi') loadDataPresensiRekap();
         else if (activeTabType === 'jurnal') loadDataJurnalRekap();
@@ -367,8 +473,7 @@
         }
     }
 
-    
-   // --- 2. REKAP PRESENSI (HARIAN / MINGGUAN / BULANAN) ---
+    // --- 2. REKAP PRESENSI (HARIAN / MINGGUAN / BULANAN) ---
     async function loadDataPresensiRekap() {
         const kls = selKelas.value;
         const container = document.getElementById('rekap-table-container');
@@ -377,7 +482,6 @@
         container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Mengomputasi akumulasi presensi...</div>`;
 
         try {
-            // 1. Ambil Parameter Filter Tanggal / Periode
             const tipe = document.getElementById('sel-periode').value;
             let val1 = "", val2 = "";
 
@@ -390,7 +494,6 @@
                 val1 = document.getElementById('input-bulan').value;
             }
 
-            // 2. Fetch Data Siswa dan Data Rekap Presensi secara Paralel
             const [resSiswa, resPresensi] = await Promise.all([
                 fetch(`${API_URL_APP}?action=getSiswa&kelas=${encodeURIComponent(kls)}`).then(r => r.json()),
                 fetch(`${API_URL_APP}?action=getPresensi&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}&tipe=${encodeURIComponent(tipe)}&val1=${encodeURIComponent(val1)}&val2=${encodeURIComponent(val2)}`).then(r => r.json())
@@ -436,6 +539,7 @@
             container.innerHTML = `<div style="color:#ef4444; padding:20px; text-align:center;">Gagal memuat rekap presensi.</div>`;
         }
     }
+
     // --- 3. REKAP JURNAL KBM ---
     async function loadDataJurnalRekap() {
         const kls = selKelas.value;
@@ -445,7 +549,7 @@
         container.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Memuat rekap jurnal KBM...</div>`;
 
         try {
-            const res = await fetch(`${API_URL_APP}?action=getJurnal&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
+            const res = await fetch(`${API_URL_APP}?action=getJurnal&kelas=${encodeURIComponent(kls)}&mapel=${encodeURIComponent(activeMapel)}`).then(r => r.json());
             const jurnalList = res.data ? res.data.filter(j => normText(j.kelas) === normText(kls)) : [];
 
             if (jurnalList.length === 0) {
@@ -470,7 +574,7 @@
                 html += `
                     <tr>
                         <td class="txt-center">${idx + 1}</td>
-                        <td class="txt-center">${String(j.tanggal).split('T')[0]}</td>
+                        <td class="txt-center">${formatDateIndo(String(j.tanggal).split('T')[0])}</td>
                         <td>${j.materi || '-'}</td>
                         <td>${j.tugas || j.catatan || '-'}</td>
                     </tr>`;
