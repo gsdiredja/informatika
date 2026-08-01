@@ -12,6 +12,16 @@ let timerInterval = null;
 let currentUsername = "";
 let currentUserData = {};
 
+// FUNGSI UNTUK MENYEIMBANGKAN NAMA PAKET AGAR KONSISTEN DI LOCALSTORAGE
+function getCleanPaketId(rawPath) {
+  if (!rawPath) return "soal-uh1";
+  return String(rawPath)
+    .replace(/^.*[\\\/]/, '') // Hapus path folder (misal: ./data/)
+    .replace('.json', '')     // Hapus ekstensi .json
+    .trim()
+    .toLowerCase();
+}
+
 // ALGORITMA PENGAJAKAN SOAL & JAWABAN (FISHER-YATES SHUFFLE)
 function shuffleArray(array) {
   let shuffled = array.slice();
@@ -24,19 +34,22 @@ function shuffleArray(array) {
 
 document.addEventListener("DOMContentLoaded", () => {
   let userDataStr = localStorage.getItem("userData");
-  let soalPath = localStorage.getItem("soalPath");
+  let rawSoalPath = localStorage.getItem("soalPath");
 
   if (!userDataStr) {
     window.location.href = "index.html";
     return;
   }
 
-  if (!soalPath || soalPath === "undefined") {
-    soalPath = "./data/soal-uh1.json";
+  if (!rawSoalPath || rawSoalPath === "undefined") {
+    rawSoalPath = "./data/soal-uh1.json";
   }
 
   currentUserData = JSON.parse(userDataStr);
   currentUsername = currentUserData.username || "";
+
+  // Normalisasi ID paket untuk kunci penyimpanan konsisten
+  const cleanPaketId = getCleanPaketId(rawSoalPath);
 
   // Render Info Peserta Ujian
   document.getElementById("userInfo").innerHTML = `
@@ -50,9 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   startTimer();
 
-  // 🔒 MENCEGAH CELAH REFRESH: BACA DARI LOCALSTORAGE JIKA SUDAH ADA SOAL TERACAK
-  const cachedQuestionsKey = `questions_${currentUsername}_${soalPath}`;
-  const savedAnswersKey = `answers_${currentUsername}_${soalPath}`;
+  // 🔒 PENYIMPANAN SOAL PERSISTEN (ANTI-REFRESH)
+  const cachedQuestionsKey = `questions_${currentUsername}_${cleanPaketId}`;
+  const savedAnswersKey = `answers_${currentUsername}_${cleanPaketId}`;
 
   // Restore jawaban jika siswa sempat refresh
   const savedUserAnswers = localStorage.getItem(savedAnswersKey);
@@ -63,29 +76,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const cachedQuestions = localStorage.getItem(cachedQuestionsKey);
 
   if (cachedQuestions) {
-    // Jika siswa merefresh halaman, gunakan susunan soal yang sudah diacak sebelumnya
+    // 1. JIKA REFRESH: BACA DARI LOCALSTORAGE (TIDAK ACAK UANG)
     questionsData = JSON.parse(cachedQuestions);
     renderNumberGrid();
     showQuestion(currentQuestionIndex);
   } else {
-    // Jika baru pertama kali masuk, fetch dan acak soal
-    fetch(soalPath)
+    // 2. JIKA BARU PERTAMA KALI MASUK: FETCH DAN ACAK SEKALI
+    fetch(rawSoalPath)
       .then((res) => {
         if (!res.ok) throw new Error("HTTP Status " + res.status);
         return res.json();
       })
       .then((data) => {
-        // 1. ACAK URUTAN SOAL
+        // Acak Urutan Soal & Pilihan Jawaban
         questionsData = shuffleArray(data);
-
-        // 2. ACAK PILIHAN JAWABAN PADA SETIAP SOAL
         questionsData.forEach((q) => {
           if (q.options && Array.isArray(q.options)) {
             q.options = shuffleArray(q.options);
           }
         });
 
-        // Simpan susunan teracak ke localStorage agar tidak berubah saat refresh
+        // Simpan susunan hasil acakan ke localStorage
         localStorage.setItem(cachedQuestionsKey, JSON.stringify(questionsData));
 
         renderNumberGrid();
@@ -299,9 +310,10 @@ function saveCurrentAnswer() {
     else delete userAnswers[q.name];
   }
 
-  // Backup jawaban ke localStorage
-  let soalPath = localStorage.getItem("soalPath") || "soal-uh1";
-  const savedAnswersKey = `answers_${currentUsername}_${soalPath}`;
+  // Backup jawaban ke localStorage secara konsisten
+  let rawSoalPath = localStorage.getItem("soalPath") || "soal-uh1";
+  const cleanPaketId = getCleanPaketId(rawSoalPath);
+  const savedAnswersKey = `answers_${currentUsername}_${cleanPaketId}`;
   localStorage.setItem(savedAnswersKey, JSON.stringify(userAnswers));
 
   renderNumberGrid();
@@ -405,7 +417,6 @@ async function processExamResults() {
     console.error("Gagal Mengirim Data:", err);
   }
 
-  // Hapus cache soal & sisa waktu setelah berhasil dikirim
   clearExamCache();
   showFinalResult();
 }
@@ -432,7 +443,6 @@ function showFinalResult() {
   `;
 }
 
-// 🚪 KONFIRMASI KELUAR / LOGOUT RESMI
 function confirmLogout() {
   if (confirm("Apakah Anda yakin ingin keluar dari sesi ujian saat ini? Status sesi Anda akan di-reset.")) {
     logout();
@@ -457,10 +467,12 @@ function logout() {
 }
 
 function clearExamCache() {
-  let soalPath = localStorage.getItem("soalPath") || "soal-uh1";
+  let rawSoalPath = localStorage.getItem("soalPath") || "soal-uh1";
+  const cleanPaketId = getCleanPaketId(rawSoalPath);
+
   if (currentUsername) {
     localStorage.removeItem(`remainingTime_${currentUsername}`);
-    localStorage.removeItem(`questions_${currentUsername}_${soalPath}`);
-    localStorage.removeItem(`answers_${currentUsername}_${soalPath}`);
+    localStorage.removeItem(`questions_${currentUsername}_${cleanPaketId}`);
+    localStorage.removeItem(`answers_${currentUsername}_${cleanPaketId}`);
   }
 }
