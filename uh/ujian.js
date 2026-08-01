@@ -3,7 +3,7 @@ let questionsData = [];
 let userAnswers = {};
 
 // URL GOOGLE APPS SCRIPT
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyt2yEo-WbYDRXf7RFY-mTxhDk_yGKnK9dqpCYKiNhlXYwEIYUuaNfMJXnn1LWNbq43/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlIv4VZBFcgi5iZ3sdW-gNGqBXbA4IStfH98qPlcNMsVd1oTh0gm7cQMXUE70oKqjT/exec";
 
 // KONFIGURASI WAKTU (60 Menit)
 const EXAM_DURATION_MINUTES = 60;
