@@ -2,13 +2,25 @@ let currentQuestionIndex = 0;
 let questionsData = [];
 let userAnswers = {};
 
+// URL GOOGLE APPS SCRIPT
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyt2yEo-WbYDRXf7RFY-mTxhDk_yGKnK9dqpCYKiNhlXYwEIYUuaNfMJXnn1LWNbq43/exec";
 
+// KONFIGURASI WAKTU (60 Menit)
 const EXAM_DURATION_MINUTES = 60;
 let totalSeconds = EXAM_DURATION_MINUTES * 60;
 let timerInterval = null;
 let currentUsername = "";
 let currentUserData = {};
+
+// ALGORITMA PENGAJAKAN SOAL & JAWABAN (FISHER-YATES SHUFFLE)
+function shuffleArray(array) {
+  let shuffled = array.slice(); // Buat salinan agar tidak merusak sumber asli jika diperlukan
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   let userDataStr = localStorage.getItem("userData");
@@ -26,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   currentUserData = JSON.parse(userDataStr);
   currentUsername = currentUserData.username || "";
 
-  // Info User AKM Style
+  // Render Info User AKM
   document.getElementById("userInfo").innerHTML = `
     PESERTA: <strong>${currentUserData.nama || currentUserData.username}</strong> | KELAS: <strong>${currentUserData.kelas || '-'}</strong> | NISN: <strong>${currentUserData.username}</strong>
   `;
@@ -39,14 +51,32 @@ document.addEventListener("DOMContentLoaded", () => {
   startTimer();
 
   fetch(soalPath)
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) throw new Error("HTTP Status " + res.status);
+      return res.json();
+    })
     .then((data) => {
-      questionsData = data;
+      // 1. ACAK URUTAN SOAL (1 - 45)
+      questionsData = shuffleArray(data);
+
+      // 2. ACAK PILIHAN JAWABAN PADA SETIAP SOAL
+      questionsData.forEach((q) => {
+        if (q.options && Array.isArray(q.options)) {
+          q.options = shuffleArray(q.options);
+        }
+      });
+
       renderNumberGrid();
       showQuestion(currentQuestionIndex);
     })
     .catch((err) => {
-      document.getElementById("questionsContainer").innerHTML = `<p style="color:red;">Gagal memuat file soal JSON.</p>`;
+      console.error(err);
+      document.getElementById("questionsContainer").innerHTML = `
+        <div style="color: #dc2626; padding: 20px; text-align: center;">
+          <p><strong>Gagal Memuat Soal Ujian!</strong></p>
+          <small>Pastikan file JSON berada di folder <code>data/</code> server Anda.</small>
+        </div>
+      `;
     });
 });
 
@@ -59,7 +89,7 @@ function startTimer() {
 
     if (totalSeconds <= 0) {
       clearInterval(timerInterval);
-      alert("Waktu Habis! Ujian terkirim otomatis.");
+      alert("Waktu Ujian telah habis! Jawaban Anda dikumpulkan secara otomatis.");
       forceSubmitExam();
     }
   }, 1000);
@@ -76,13 +106,11 @@ function updateTimerDisplay() {
   timerDisplay.innerText = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
-// TOGGLE SIDEBAR GRID NAVIGASI (RESPONSIF)
 function toggleSidebar() {
   const sidebar = document.getElementById("gridSidebar");
   sidebar.classList.toggle("open");
 }
 
-// PENGATUR UKURAN FONT (A- A A+)
 function changeFontSize(size) {
   const panel = document.getElementById("examPanel");
   if (size === 'small') panel.style.fontSize = '0.875rem';
@@ -90,7 +118,6 @@ function changeFontSize(size) {
   else if (size === 'large') panel.style.fontSize = '1.15rem';
 }
 
-// RENDER PETA GRID NOMOR SOAL AKM
 function renderNumberGrid() {
   const gridContainer = document.getElementById("numberGrid");
   let html = "";
@@ -119,7 +146,6 @@ function showQuestion(index) {
   const container = document.getElementById("questionsContainer");
   const q = questionsData[index];
 
-  // Update Badges & Titles
   document.getElementById("questionTitle").innerText = `Soal Nomor ${index + 1}`;
   
   let typeText = "Pilihan Ganda";
@@ -128,37 +154,46 @@ function showQuestion(index) {
   document.getElementById("questionTypeBadge").innerText = typeText;
 
   let html = `<div style="line-height: 1.6; color: #1e293b;">`;
-  html += `<p style="margin-bottom: 20px; font-weight: 600;">${q.text}</p>`;
+  html += `<p style="margin-bottom: 20px; font-weight: 600; font-size: 1.05rem;">${q.text}</p>`;
 
+  // 1. PILIHAN GANDA (SINGLE CHOICE - BADGE HURUF A, B, C, D)
   if (q.type === "radio") {
-    q.options.forEach((opt) => {
-      const isChecked = userAnswers[q.name] === opt.v ? "checked" : "";
+    q.options.forEach((opt, idx) => {
+      const isChecked = userAnswers[q.name] === opt.v;
+      const labelBadge = String.fromCharCode(65 + idx); // A, B, C, D berdasarkan urutan tampil
+
       html += `
-        <div style="margin-bottom: 12px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
-          <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
-            <input type="radio" name="${q.name}" value="${opt.v}" ${isChecked} onchange="hideWarning()" />
-            <span><strong>${opt.v}.</strong> ${opt.t}</span>
-          </label>
+        <div class="option-item ${isChecked ? 'selected' : ''}" onclick="selectRadioOption('${q.name}', '${opt.v}', this)">
+          <input type="radio" name="${q.name}" value="${opt.v}" ${isChecked ? 'checked' : ''} style="display: none;" />
+          <div class="option-badge">${labelBadge}</div>
+          <div class="option-text">${opt.t}</div>
         </div>
       `;
     });
-  } else if (q.type === "checkbox") {
+  } 
+  
+  // 2. PILIHAN GANDA KOMPLEKS (MULTIPLE CHOICE - BADGE ANGKA 1, 2, 3, 4)
+  else if (q.type === "checkbox") {
     const savedArr = userAnswers[q.name] || [];
-    q.options.forEach((opt) => {
-      const isChecked = savedArr.includes(opt.v) ? "checked" : "";
+    q.options.forEach((opt, idx) => {
+      const isChecked = savedArr.includes(opt.v);
+      const labelBadge = idx + 1; // 1, 2, 3, 4 berdasarkan urutan tampil
+
       html += `
-        <div style="margin-bottom: 12px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
-          <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
-            <input type="checkbox" name="${q.name}" value="${opt.v}" ${isChecked} onchange="hideWarning()" />
-            <span><strong>${opt.v}.</strong> ${opt.t}</span>
-          </label>
+        <div class="option-item ${isChecked ? 'selected' : ''}" onclick="toggleCheckboxOption('${q.name}', '${opt.v}', this)">
+          <input type="checkbox" name="${q.name}" value="${opt.v}" ${isChecked ? 'checked' : ''} style="display: none;" />
+          <div class="option-badge badge-checkbox">${labelBadge}</div>
+          <div class="option-text">${opt.t}</div>
         </div>
       `;
     });
-  } else if (q.type === "essay") {
+  } 
+  
+  // 3. ESSAY / URAIAN
+  else if (q.type === "essay") {
     const savedText = userAnswers[q.name] || "";
     html += `
-      <textarea id="essayInput" name="${q.name}" rows="5" style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #cbd5e1; outline: none;" placeholder="Ketikkan jawaban uraian Anda secara rinci..." oninput="hideWarning()">${savedText}</textarea>
+      <textarea id="essayInput" name="${q.name}" rows="5" class="essay-box" placeholder="Ketikkan jawaban uraian Anda secara rinci..." oninput="hideWarning()">${savedText}</textarea>
     `;
   }
 
@@ -177,6 +212,38 @@ function showQuestion(index) {
   }
 
   renderNumberGrid();
+}
+
+// HANDLER KLIK RADIO (PILIHAN GANDA)
+function selectRadioOption(qName, val, el) {
+  const parent = el.parentNode;
+  parent.querySelectorAll('.option-item').forEach(item => {
+    item.classList.remove('selected');
+    const input = item.querySelector('input');
+    if (input) input.checked = false;
+  });
+
+  el.classList.add('selected');
+  const input = el.querySelector('input');
+  if (input) input.checked = true;
+
+  saveCurrentAnswer();
+  hideWarning();
+}
+
+// HANDLER KLIK CHECKBOX (PG KOMPLEKS)
+function toggleCheckboxOption(qName, val, el) {
+  const input = el.querySelector('input');
+  if (input) {
+    input.checked = !input.checked;
+    if (input.checked) {
+      el.classList.add('selected');
+    } else {
+      el.classList.remove('selected');
+    }
+  }
+  saveCurrentAnswer();
+  hideWarning();
 }
 
 function saveCurrentAnswer() {
@@ -209,7 +276,6 @@ function isQuestionAnswered(qName) {
 }
 
 function hideWarning() {
-  saveCurrentAnswer();
   const warnEl = document.getElementById("warningMessage");
   if (warnEl) warnEl.style.display = "none";
 }
@@ -255,7 +321,7 @@ function submitExam() {
     return;
   }
 
-  if (confirm("Apakah Anda yakin ingin mengakhiri ujian ini?")) {
+  if (confirm("Apakah Anda yakin ingin mengakhiri ujian ini? Jawaban tidak dapat diubah setelah dikirim.")) {
     processExamResults();
   }
 }
