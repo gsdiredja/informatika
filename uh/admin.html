@@ -261,6 +261,36 @@
         </div>
       </div>
 
+      <!-- KOTAK HELPER UPLOAD & KONVERSI GAMBAR OTOMATIS -->
+<div class="card" style="background-color: #f0fdf4; border-color: #bbf7d0;">
+  <div class="card-title" style="color: #166534;">🖼️ Helper Upload Gambar Soal (Auto Convert to WebP)</div>
+  <p style="font-size:0.85rem; color:#15803d; margin-bottom:12px;">
+    Pilih gambar (.jpg, .png, .bmp) dari perangkat Anda. Sistem akan otomatis mengompresi & mengubahnya menjadi format <strong>WebP</strong> yang sangat ringan.
+  </p>
+
+  <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+    <input type="file" id="imageInput" accept="image/*" class="form-control" style="max-width: 300px; background: white;">
+    <button type="button" onclick="processAndConvertImage()" class="btn-submit" style="background-color: #16a34a;">
+      ⚡ Konversi ke WebP
+    </button>
+  </div>
+
+  <!-- Hasil Konversi -->
+  <div id="imageResultBox" style="display: none; margin-top: 16px; padding: 12px; background: white; border-radius: 8px; border: 1px solid #bbf7d0;">
+    <p style="font-size: 0.8rem; color: #166534; font-weight: bold; margin-bottom: 6px;">
+      ✅ Gambar Berhasil Dikompresi ke WebP (<span id="fileSizeInfo"></span>)
+    </p>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <input type="text" id="webpDataUrl" class="form-control" readonly style="font-size: 0.8rem; background: #f8fafc;">
+      <button type="button" onclick="copyWebpData()" class="btn-submit" style="padding: 8px 16px; font-size: 0.8rem;">
+        📋 Salin Kode
+      </button>
+    </div>
+    <div style="margin-top: 10px; text-align: center;">
+      <img id="imagePreview" src="" alt="Preview" style="max-height: 120px; border-radius: 4px; border: 1px solid #cbd5e1;">
+    </div>
+  </div>
+</div>
       <!-- CARD 2: COPAS SOAL (JSON FORMAT) -->
       <div class="card">
         <div class="card-title">2. Copas Bank Soal (JSON Format)</div>
