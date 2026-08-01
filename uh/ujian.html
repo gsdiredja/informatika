@@ -100,6 +100,23 @@
 
     .font-btn:hover { background-color: #475569; }
 
+    /* Tombol Keluar Header */
+    .btn-logout-header {
+      background-color: #dc2626;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-logout-header:hover {
+      background-color: #b91c1c;
+    }
+
     /* 2. SUB BAR INFO SISWA */
     .sub-bar {
       background-color: #ffffff;
@@ -157,7 +174,7 @@
       color: var(--akm-blue);
     }
 
-    /* --- STYLES OPSI JAWABAN KUSTOM (A, B, C, D & 1, 2, 3, 4) --- */
+    /* --- STYLES OPSI JAWABAN KUSTOM --- */
     .option-item {
       display: flex;
       align-items: center;
@@ -204,7 +221,6 @@
       line-height: 1.4;
     }
 
-    /* STATUS TERPILIH / SELECTED */
     .option-item.selected {
       border-color: #2563eb;
       background-color: #eff6ff;
@@ -347,6 +363,9 @@
       <div class="timer-badge">
         ⏱️ <span id="timerDisplay">00:60:00</span>
       </div>
+
+      <!-- Tombol Keluar Resmi -->
+      <button class="btn-logout-header" onclick="confirmLogout()">Keluar 🚪</button>
     </div>
   </header>
 
