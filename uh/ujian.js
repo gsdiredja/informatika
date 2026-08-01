@@ -14,7 +14,7 @@ let currentUserData = {};
 
 // ALGORITMA PENGAJAKAN SOAL & JAWABAN (FISHER-YATES SHUFFLE)
 function shuffleArray(array) {
-  let shuffled = array.slice(); // Buat salinan agar tidak merusak sumber asli jika diperlukan
+  let shuffled = array.slice(); // Buat salinan agar tidak merusak array asli
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   currentUserData = JSON.parse(userDataStr);
   currentUsername = currentUserData.username || "";
 
-  // Render Info User AKM
+  // Render Info Peserta Ujian
   document.getElementById("userInfo").innerHTML = `
     PESERTA: <strong>${currentUserData.nama || currentUserData.username}</strong> | KELAS: <strong>${currentUserData.kelas || '-'}</strong> | NISN: <strong>${currentUserData.username}</strong>
   `;
@@ -120,6 +120,7 @@ function changeFontSize(size) {
 
 function renderNumberGrid() {
   const gridContainer = document.getElementById("numberGrid");
+  if (!gridContainer) return;
   let html = "";
 
   questionsData.forEach((q, idx) => {
@@ -160,7 +161,7 @@ function showQuestion(index) {
   if (q.type === "radio") {
     q.options.forEach((opt, idx) => {
       const isChecked = userAnswers[q.name] === opt.v;
-      const labelBadge = String.fromCharCode(65 + idx); // A, B, C, D berdasarkan urutan tampil
+      const labelBadge = String.fromCharCode(65 + idx); // Badge Tampil: A, B, C, D
 
       html += `
         <div class="option-item ${isChecked ? 'selected' : ''}" onclick="selectRadioOption('${q.name}', '${opt.v}', this)">
@@ -177,7 +178,7 @@ function showQuestion(index) {
     const savedArr = userAnswers[q.name] || [];
     q.options.forEach((opt, idx) => {
       const isChecked = savedArr.includes(opt.v);
-      const labelBadge = idx + 1; // 1, 2, 3, 4 berdasarkan urutan tampil
+      const labelBadge = idx + 1; // Badge Tampil: 1, 2, 3, 4
 
       html += `
         <div class="option-item ${isChecked ? 'selected' : ''}" onclick="toggleCheckboxOption('${q.name}', '${opt.v}', this)">
@@ -331,6 +332,7 @@ function forceSubmitExam() {
   processExamResults();
 }
 
+// PROSES PENGIRIMAN DATA KE GOOGLE APPS SCRIPT (LANGKAH 3)
 async function processExamResults() {
   clearInterval(timerInterval);
   if (currentUsername) localStorage.removeItem(`remainingTime_${currentUsername}`);
@@ -342,6 +344,9 @@ async function processExamResults() {
     </div>
   `;
 
+  // MENGAMBIL PAKET UJIAN SECARA DINAMIS DARI LOCALSTORAGE
+  let rawSoalPath = localStorage.getItem("soalPath") || "soal-uh1";
+
   try {
     await fetch(SCRIPT_URL, {
       method: "POST",
@@ -352,6 +357,7 @@ async function processExamResults() {
         username: currentUserData.username || currentUsername,
         nama: currentUserData.nama || "-",
         kelas: currentUserData.kelas || "-",
+        paket: rawSoalPath, // PAKET DIKIRIM KE GOOGLE APPS SCRIPT
         jawaban: userAnswers
       }),
     });
@@ -363,8 +369,11 @@ async function processExamResults() {
 }
 
 function showFinalResult() {
-  document.getElementById("gridSidebar").style.display = "none";
-  document.querySelector(".akm-footer").style.display = "none";
+  const gridSidebar = document.getElementById("gridSidebar");
+  const akmFooter = document.querySelector(".akm-footer");
+
+  if (gridSidebar) gridSidebar.style.display = "none";
+  if (akmFooter) akmFooter.style.display = "none";
 
   document.getElementById("examPanel").innerHTML = `
     <div style="text-align: center; padding: 40px 10px;">
