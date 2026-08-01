@@ -2,10 +2,8 @@ let currentQuestionIndex = 0;
 let questionsData = [];
 let userAnswers = {};
 
-// URL GOOGLE APPS SCRIPT
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCBCf1vGxeLLNRbN0EjRyH19CqZ4xIsTUYSGLTvIuCXuKUPWHZJtkr6c3aRNwv9V_0/exec";
 
-// KONFIGURASI WAKTU (60 Menit)
 const EXAM_DURATION_MINUTES = 60;
 let totalSeconds = EXAM_DURATION_MINUTES * 60;
 let timerInterval = null;
@@ -17,7 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let soalPath = localStorage.getItem("soalPath");
 
   if (!userDataStr) {
-    userDataStr = JSON.stringify({ username: "Siswa", nama: "Nama Siswa", kelas: "-" });
+    window.location.href = "index.html";
+    return;
   }
 
   if (!soalPath || soalPath === "undefined") {
@@ -25,64 +24,42 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   currentUserData = JSON.parse(userDataStr);
-  currentUsername = currentUserData.username || "default_user";
+  currentUsername = currentUserData.username || "";
 
+  // Info User AKM Style
   document.getElementById("userInfo").innerHTML = `
-    <strong style="font-size: 1.1rem; color: #1e293b;">${currentUserData.nama || currentUserData.username}</strong><br>
-    <span style="color: #64748b; font-size: 0.85rem;">Kelas: ${currentUserData.kelas || '-'} | NISN: ${currentUserData.username}</span>
+    PESERTA: <strong>${currentUserData.nama || currentUserData.username}</strong> | KELAS: <strong>${currentUserData.kelas || '-'}</strong> | NISN: <strong>${currentUserData.username}</strong>
   `;
 
   const savedRemainingTime = localStorage.getItem(`remainingTime_${currentUsername}`);
   if (savedRemainingTime !== null) {
     totalSeconds = parseInt(savedRemainingTime, 10);
-  } else {
-    totalSeconds = EXAM_DURATION_MINUTES * 60;
   }
 
   startTimer();
 
   fetch(soalPath)
-    .then((res) => {
-      if (!res.ok) throw new Error("HTTP Status " + res.status);
-      return res.json();
-    })
+    .then((res) => res.json())
     .then((data) => {
       questionsData = data;
+      renderNumberGrid();
       showQuestion(currentQuestionIndex);
     })
     .catch((err) => {
-      console.error(err);
-      document.getElementById("questionsContainer").innerHTML = `
-        <div style="color: #dc2626; padding: 20px; text-align: center;">
-          <p><strong>Gagal Memuat Soal Ujian!</strong></p>
-          <small>Pastikan file JSON berada di folder <code>data/</code> server Anda (Path: ${soalPath})</small>
-        </div>
-      `;
+      document.getElementById("questionsContainer").innerHTML = `<p style="color:red;">Gagal memuat file soal JSON.</p>`;
     });
 });
 
 function startTimer() {
   updateTimerDisplay();
-
   timerInterval = setInterval(() => {
     totalSeconds--;
-    
-    if (currentUsername) {
-      localStorage.setItem(`remainingTime_${currentUsername}`, totalSeconds);
-    }
-
+    if (currentUsername) localStorage.setItem(`remainingTime_${currentUsername}`, totalSeconds);
     updateTimerDisplay();
-
-    if (totalSeconds === 300) {
-      alert("Peringatan: Waktu pengerjaan tinggal 5 menit lagi!");
-    }
 
     if (totalSeconds <= 0) {
       clearInterval(timerInterval);
-      if (currentUsername) {
-        localStorage.removeItem(`remainingTime_${currentUsername}`);
-      }
-      alert("Waktu ujian telah habis! Sistem akan otomatis mengumpulkan jawaban Anda.");
+      alert("Waktu Habis! Ujian terkirim otomatis.");
       forceSubmitExam();
     }
   }, 1000);
@@ -92,32 +69,75 @@ function updateTimerDisplay() {
   const timerDisplay = document.getElementById("timerDisplay");
   if (!timerDisplay) return;
 
-  const minutes = Math.floor(totalSeconds / 60);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
 
-  timerDisplay.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  timerDisplay.innerText = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+// TOGGLE SIDEBAR GRID NAVIGASI (RESPONSIF)
+function toggleSidebar() {
+  const sidebar = document.getElementById("gridSidebar");
+  sidebar.classList.toggle("open");
+}
+
+// PENGATUR UKURAN FONT (A- A A+)
+function changeFontSize(size) {
+  const panel = document.getElementById("examPanel");
+  if (size === 'small') panel.style.fontSize = '0.875rem';
+  else if (size === 'medium') panel.style.fontSize = '1rem';
+  else if (size === 'large') panel.style.fontSize = '1.15rem';
+}
+
+// RENDER PETA GRID NOMOR SOAL AKM
+function renderNumberGrid() {
+  const gridContainer = document.getElementById("numberGrid");
+  let html = "";
+
+  questionsData.forEach((q, idx) => {
+    const isAnswered = isQuestionAnswered(q.name);
+    const isActive = idx === currentQuestionIndex;
+
+    let classList = "btn-num";
+    if (isActive) classList += " active";
+    else if (isAnswered) classList += " answered";
+
+    html += `<button class="${classList}" onclick="jumpToQuestion(${idx})">${idx + 1}</button>`;
+  });
+
+  gridContainer.innerHTML = html;
+}
+
+function jumpToQuestion(index) {
+  saveCurrentAnswer();
+  currentQuestionIndex = index;
+  showQuestion(currentQuestionIndex);
 }
 
 function showQuestion(index) {
   const container = document.getElementById("questionsContainer");
   const q = questionsData[index];
 
-  let html = `<div style="padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">`;
+  // Update Badges & Titles
+  document.getElementById("questionTitle").innerText = `Soal Nomor ${index + 1}`;
   
-  if (q.title) {
-    html += `<h4 style="margin-top:0; color:#2d3748; margin-bottom: 10px;">${q.title}</h4>`;
-  }
-  
-  html += `<p style="margin-bottom: 16px; font-weight: 500; line-height: 1.5; color: #1e293b;">${q.text}</p>`;
+  let typeText = "Pilihan Ganda";
+  if (q.type === "checkbox") typeText = "Pilihan Ganda Kompleks";
+  else if (q.type === "essay") typeText = "Uraian / Essay";
+  document.getElementById("questionTypeBadge").innerText = typeText;
+
+  let html = `<div style="line-height: 1.6; color: #1e293b;">`;
+  html += `<p style="margin-bottom: 20px; font-weight: 600;">${q.text}</p>`;
 
   if (q.type === "radio") {
     q.options.forEach((opt) => {
       const isChecked = userAnswers[q.name] === opt.v ? "checked" : "";
       html += `
-        <div style="margin-bottom: 10px;">
-          <label style="cursor: pointer; display: flex; align-items: center; gap: 8px; color: #334155;">
+        <div style="margin-bottom: 12px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
+          <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
             <input type="radio" name="${q.name}" value="${opt.v}" ${isChecked} onchange="hideWarning()" />
-            <span>${opt.t}</span>
+            <span><strong>${opt.v}.</strong> ${opt.t}</span>
           </label>
         </div>
       `;
@@ -127,10 +147,10 @@ function showQuestion(index) {
     q.options.forEach((opt) => {
       const isChecked = savedArr.includes(opt.v) ? "checked" : "";
       html += `
-        <div style="margin-bottom: 10px;">
-          <label style="cursor: pointer; display: flex; align-items: center; gap: 8px; color: #334155;">
+        <div style="margin-bottom: 12px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
+          <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
             <input type="checkbox" name="${q.name}" value="${opt.v}" ${isChecked} onchange="hideWarning()" />
-            <span>${opt.t}</span>
+            <span><strong>${opt.v}.</strong> ${opt.t}</span>
           </label>
         </div>
       `;
@@ -138,23 +158,25 @@ function showQuestion(index) {
   } else if (q.type === "essay") {
     const savedText = userAnswers[q.name] || "";
     html += `
-      <textarea id="essayInput" name="${q.name}" rows="4" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; outline: none;" placeholder="Tuliskan jawaban Anda di sini..." oninput="hideWarning()">${savedText}</textarea>
+      <textarea id="essayInput" name="${q.name}" rows="5" style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #cbd5e1; outline: none;" placeholder="Ketikkan jawaban uraian Anda secara rinci..." oninput="hideWarning()">${savedText}</textarea>
     `;
   }
 
   html += `</div>`;
   container.innerHTML = html;
 
-  document.getElementById("questionProgress").innerText = `${index + 1}/${questionsData.length}`;
+  document.getElementById("questionProgress").innerText = `Soal ${index + 1} dari ${questionsData.length}`;
   document.getElementById("btnPrev").disabled = (index === 0);
 
   if (index === questionsData.length - 1) {
     document.getElementById("btnNext").style.display = "none";
-    document.getElementById("btnSubmitExam").style.display = "inline-block";
+    document.getElementById("btnSubmitExam").style.display = "inline-flex";
   } else {
-    document.getElementById("btnNext").style.display = "inline-block";
+    document.getElementById("btnNext").style.display = "inline-flex";
     document.getElementById("btnSubmitExam").style.display = "none";
   }
+
+  renderNumberGrid();
 }
 
 function saveCurrentAnswer() {
@@ -174,16 +196,15 @@ function saveCurrentAnswer() {
     if (essayText) userAnswers[q.name] = essayText;
     else delete userAnswers[q.name];
   }
+
+  renderNumberGrid();
 }
 
-function isCurrentQuestionAnswered() {
-  const q = questionsData[currentQuestionIndex];
-  const ans = userAnswers[q.name];
-
+function isQuestionAnswered(qName) {
+  const ans = userAnswers[qName];
   if (!ans) return false;
   if (Array.isArray(ans) && ans.length === 0) return false;
   if (typeof ans === "string" && ans.trim() === "") return false;
-
   return true;
 }
 
@@ -195,12 +216,10 @@ function hideWarning() {
 
 function nextQuestion() {
   saveCurrentAnswer();
-
-  if (!isCurrentQuestionAnswered()) {
-    showWarning("Anda harus menjawab soal ini sebelum melanjutkan!");
+  if (!isQuestionAnswered(questionsData[currentQuestionIndex].name)) {
+    showWarning("Jawab soal ini terlebih dahulu!");
     return;
   }
-
   if (currentQuestionIndex < questionsData.length - 1) {
     currentQuestionIndex++;
     showQuestion(currentQuestionIndex);
@@ -220,30 +239,23 @@ function showWarning(msg) {
   if (!warnEl) {
     warnEl = document.createElement("div");
     warnEl.id = "warningMessage";
-    warnEl.style.color = "#dc2626";
-    warnEl.style.backgroundColor = "#fef2f2";
-    warnEl.style.padding = "8px 12px";
-    warnEl.style.borderRadius = "6px";
+    warnEl.style.color = "#ef4444";
     warnEl.style.marginTop = "10px";
-    warnEl.style.fontSize = "0.875rem";
-    warnEl.style.border = "1px solid #fecaca";
-
-    const container = document.getElementById("questionsContainer");
-    container.parentNode.insertBefore(warnEl, container.nextSibling);
+    warnEl.style.fontWeight = "bold";
+    document.getElementById("questionsContainer").appendChild(warnEl);
   }
-  warnEl.innerText = msg;
+  warnEl.innerText = "⚠️ " + msg;
   warnEl.style.display = "block";
 }
 
 function submitExam() {
   saveCurrentAnswer();
-
-  if (!isCurrentQuestionAnswered()) {
-    showWarning("Anda harus menjawab soal terakhir sebelum mengumpulkan!");
+  if (!isQuestionAnswered(questionsData[currentQuestionIndex].name)) {
+    showWarning("Jawab soal terakhir terlebih dahulu!");
     return;
   }
 
-  if (confirm("Apakah Anda yakin ingin menyelesaikan ujian ini?")) {
+  if (confirm("Apakah Anda yakin ingin mengakhiri ujian ini?")) {
     processExamResults();
   }
 }
@@ -255,123 +267,57 @@ function forceSubmitExam() {
 
 async function processExamResults() {
   clearInterval(timerInterval);
-  if (currentUsername) {
-    localStorage.removeItem(`remainingTime_${currentUsername}`);
-  }
+  if (currentUsername) localStorage.removeItem(`remainingTime_${currentUsername}`);
 
-  let correctCount = 0;
-  let totalObjectiveQuestions = 0;
-
-  questionsData.forEach((q) => {
-    const userAns = userAnswers[q.name];
-    const correctAns = q.key;
-
-    if (q.type === "radio") {
-      totalObjectiveQuestions++;
-      if (userAns === correctAns) correctCount++;
-    } else if (q.type === "checkbox") {
-      totalObjectiveQuestions++;
-      if (Array.isArray(userAns) && Array.isArray(correctAns)) {
-        if (
-          userAns.length === correctAns.length &&
-          userAns.every((val) => correctAns.includes(val))
-        ) {
-          correctCount++;
-        }
-      }
-    }
-  });
-
-  // Hitung Nilai Akhir
-  let calculatedScore = 0;
-  if (totalObjectiveQuestions > 0) {
-    calculatedScore = Math.round((correctCount / totalObjectiveQuestions) * 100);
-  }
-
-  const container = document.getElementById("questionsContainer");
-  container.innerHTML = `
-    <div style="text-align:center; padding: 40px;">
-      <p style="font-weight: 600; color: #4f46e5;">Sedang menyimpan nilai & jawaban ke spreadsheet...</p>
+  document.getElementById("examPanel").innerHTML = `
+    <div style="text-align:center; padding: 60px;">
+      <h3>Sedang Memproses & Mengirimkan Jawaban...</h3>
+      <p style="color:#64748b; margin-top:8px;">Mohon jangan menutup halaman ini.</p>
     </div>
   `;
 
-  // Kirim data ke Google Apps Script (Nilai dikirim eksplisit sebagai String)
   try {
     await fetch(SCRIPT_URL, {
       method: "POST",
       mode: "cors",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8",
-      },
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({
         action: "submit",
         username: currentUserData.username || currentUsername,
-        nama: currentUserData.nama || currentUsername,
+        nama: currentUserData.nama || "-",
         kelas: currentUserData.kelas || "-",
-        nilai: String(calculatedScore),
         jawaban: userAnswers
       }),
     });
   } catch (err) {
-    console.error("Gagal menyimpan ke Spreadsheet:", err);
+    console.error("Gagal Mengirim Data:", err);
   }
 
-  showFinalResult(calculatedScore, correctCount, totalObjectiveQuestions);
+  showFinalResult();
 }
 
-function showFinalResult(score, correctCount, totalQuestions) {
-  const container = document.getElementById("questionsContainer");
+function showFinalResult() {
+  document.getElementById("gridSidebar").style.display = "none";
+  document.querySelector(".akm-footer").style.display = "none";
 
-  document.getElementById("btnPrev").style.display = "none";
-  document.getElementById("btnNext").style.display = "none";
-  document.getElementById("btnSubmitExam").style.display = "none";
-  document.getElementById("questionProgress").style.display = "none";
-  document.getElementById("timerContainer").style.display = "none";
-  
-  const warnEl = document.getElementById("warningMessage");
-  if (warnEl) warnEl.style.display = "none";
+  document.getElementById("examPanel").innerHTML = `
+    <div style="text-align: center; padding: 40px 10px;">
+      <div style="font-size: 4rem; margin-bottom: 12px;">🏛️</div>
+      <h2 style="color: #0f172a; margin-bottom: 8px;">Ujian Asesmen Selesai</h2>
+      <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 24px;">
+        Jawaban dan respon ujian Anda telah tersimpan secara resmi di server.
+      </p>
 
-  container.innerHTML = `
-    <div style="text-align: center; padding: 20px 10px; background-color: #ffffff; border-radius: 12px;">
-      <h2 style="color: #1e293b; margin-bottom: 8px;">Ujian Selesai!</h2>
-      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Hasil nilai dan detail jawaban Anda telah dicatat di spreadsheet.</p>
-      
-      <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px; max-width: 280px; margin: 0 auto 20px auto;">
-        <span style="font-size: 0.85rem; color: #15803d; font-weight: 700; letter-spacing: 0.5px;">SKOR AKHIR</span>
-        <h1 style="font-size: 3.5rem; color: #16a34a; margin: 6px 0; font-weight: 800;">${score}</h1>
-        <p style="font-size: 0.85rem; color: #166534; margin: 0;">Benar ${correctCount} dari ${totalQuestions} soal pilihan ganda</p>
-      </div>
-
-      <div style="display: flex; gap: 10px; justify-content: center;">
-        <button onclick="restartExam()" style="padding: 10px 20px; background-color: #4f46e5; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
-          🔄 Ulangi Ujian Lagi
-        </button>
-        <button onclick="logout()" style="padding: 10px 20px; background-color: #dc2626; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
-          Keluar
-        </button>
-      </div>
+      <button onclick="logout()" style="padding: 12px 30px; background-color: #1e3a8a; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">
+        Keluar Dari Portal Ujian
+      </button>
     </div>
   `;
-}
-
-function restartExam() {
-  userAnswers = {};
-  currentQuestionIndex = 0;
-  totalSeconds = EXAM_DURATION_MINUTES * 60;
-  if (currentUsername) {
-    localStorage.removeItem(`remainingTime_${currentUsername}`);
-  }
-
-  document.getElementById("btnPrev").style.display = "inline-block";
-  document.getElementById("questionProgress").style.display = "inline-block";
-  document.getElementById("timerContainer").style.display = "flex";
-
-  startTimer();
-  showQuestion(currentQuestionIndex);
 }
 
 function logout() {
   clearInterval(timerInterval);
   localStorage.removeItem("userData");
+  if (currentUsername) localStorage.removeItem(`remainingTime_${currentUsername}`);
   window.location.href = "index.html";
 }
