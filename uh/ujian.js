@@ -3,7 +3,7 @@ let questionsData = [];
 let userAnswers = {};
 
 // URL GOOGLE APPS SCRIPT
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlIv4VZBFcgi5iZ3sdW-gNGqBXbA4IStfH98qPlcNMsVd1oTh0gm7cQMXUE70oKqjT/exec";
+const SCRIPT_URL = ""https://script.google.com/macros/s/AKfycbwlIv4VZBFcgi5iZ3sdW-gNGqBXbA4IStfH98qPlcNMsVd1oTh0gm7cQMXUE70oKqjT/exec";
 
 // KONFIGURASI WAKTU (60 Menit)
 const EXAM_DURATION_MINUTES = 60;
@@ -14,7 +14,7 @@ let currentUserData = {};
 
 // ALGORITMA PENGAJAKAN SOAL & JAWABAN (FISHER-YATES SHUFFLE)
 function shuffleArray(array) {
-  let shuffled = array.slice(); // Buat salinan agar tidak merusak array asli
+  let shuffled = array.slice();
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -108,7 +108,7 @@ function updateTimerDisplay() {
 
 function toggleSidebar() {
   const sidebar = document.getElementById("gridSidebar");
-  sidebar.classList.toggle("open");
+  if (sidebar) sidebar.classList.toggle("open");
 }
 
 function changeFontSize(size) {
@@ -131,16 +131,33 @@ function renderNumberGrid() {
     if (isActive) classList += " active";
     else if (isAnswered) classList += " answered";
 
-    html += `<button class="${classList}" onclick="jumpToQuestion(${idx})">${idx + 1}</button>`;
+    html += `<button class="${classList}" onclick="jumpToQuestion(${idx})" title="Soal ${idx + 1}">${idx + 1}</button>`;
   });
 
   gridContainer.innerHTML = html;
 }
 
+// 🔒 NAVIGASI GRID DENGAN VALIDASI PENGISIAN SOAL
 function jumpToQuestion(index) {
+  // Abaikan jika mengklik nomor soal yang sedang terbuka
+  if (index === currentQuestionIndex) return;
+
   saveCurrentAnswer();
+
+  // Mencegah loncat ke nomor lain jika soal aktif belum dijawab
+  if (!isQuestionAnswered(questionsData[currentQuestionIndex].name)) {
+    showWarning("Anda harus menjawab soal ini terlebih dahulu sebelum berpindah ke nomor lain!");
+    return;
+  }
+
   currentQuestionIndex = index;
   showQuestion(currentQuestionIndex);
+
+  // Tutup sidebar navigasi jika di layar HP/Tablet
+  const sidebar = document.getElementById("gridSidebar");
+  if (sidebar && sidebar.classList.contains("open")) {
+    sidebar.classList.remove("open");
+  }
 }
 
 function showQuestion(index) {
@@ -161,7 +178,7 @@ function showQuestion(index) {
   if (q.type === "radio") {
     q.options.forEach((opt, idx) => {
       const isChecked = userAnswers[q.name] === opt.v;
-      const labelBadge = String.fromCharCode(65 + idx); // Badge Tampil: A, B, C, D
+      const labelBadge = String.fromCharCode(65 + idx); // A, B, C, D
 
       html += `
         <div class="option-item ${isChecked ? 'selected' : ''}" onclick="selectRadioOption('${q.name}', '${opt.v}', this)">
@@ -178,7 +195,7 @@ function showQuestion(index) {
     const savedArr = userAnswers[q.name] || [];
     q.options.forEach((opt, idx) => {
       const isChecked = savedArr.includes(opt.v);
-      const labelBadge = idx + 1; // Badge Tampil: 1, 2, 3, 4
+      const labelBadge = idx + 1; // 1, 2, 3, 4
 
       html += `
         <div class="option-item ${isChecked ? 'selected' : ''}" onclick="toggleCheckboxOption('${q.name}', '${opt.v}', this)">
@@ -284,7 +301,7 @@ function hideWarning() {
 function nextQuestion() {
   saveCurrentAnswer();
   if (!isQuestionAnswered(questionsData[currentQuestionIndex].name)) {
-    showWarning("Jawab soal ini terlebih dahulu!");
+    showWarning("Jawab soal ini terlebih dahulu sebelum melanjutkan!");
     return;
   }
   if (currentQuestionIndex < questionsData.length - 1) {
@@ -295,6 +312,10 @@ function nextQuestion() {
 
 function prevQuestion() {
   saveCurrentAnswer();
+  if (!isQuestionAnswered(questionsData[currentQuestionIndex].name)) {
+    showWarning("Jawab soal ini terlebih dahulu sebelum berpindah!");
+    return;
+  }
   if (currentQuestionIndex > 0) {
     currentQuestionIndex--;
     showQuestion(currentQuestionIndex);
@@ -332,7 +353,6 @@ function forceSubmitExam() {
   processExamResults();
 }
 
-// PROSES PENGIRIMAN DATA KE GOOGLE APPS SCRIPT (LANGKAH 3)
 async function processExamResults() {
   clearInterval(timerInterval);
   if (currentUsername) localStorage.removeItem(`remainingTime_${currentUsername}`);
@@ -344,7 +364,6 @@ async function processExamResults() {
     </div>
   `;
 
-  // MENGAMBIL PAKET UJIAN SECARA DINAMIS DARI LOCALSTORAGE
   let rawSoalPath = localStorage.getItem("soalPath") || "soal-uh1";
 
   try {
@@ -357,7 +376,7 @@ async function processExamResults() {
         username: currentUserData.username || currentUsername,
         nama: currentUserData.nama || "-",
         kelas: currentUserData.kelas || "-",
-        paket: rawSoalPath, // PAKET DIKIRIM KE GOOGLE APPS SCRIPT
+        paket: rawSoalPath,
         jawaban: userAnswers
       }),
     });
@@ -392,6 +411,17 @@ function showFinalResult() {
 
 function logout() {
   clearInterval(timerInterval);
+  
+  // Mengirim request logout untuk melepaskan status ONLINE di Sheets (Optional)
+  if (currentUsername) {
+    fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ action: "logout", username: currentUsername }),
+    }).catch(() => {});
+  }
+
   localStorage.removeItem("userData");
   if (currentUsername) localStorage.removeItem(`remainingTime_${currentUsername}`);
   window.location.href = "index.html";
