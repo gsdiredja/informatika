@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const alertBox = document.getElementById("alertBox");
 
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlIv4VZBFcgi5iZ3sdW-gNGqBXbA4IStfH98qPlcNMsVd1oTh0gm7cQMXUE70oKqjT/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_REQmCaDxmcXJdoSBsslBzzx4ypM0fdaXahLTFz6FawTAmZonGhM6S7DB9eV530Yk/exec";
 
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
