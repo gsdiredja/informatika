@@ -3,131 +3,298 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lembar Ujian Harian</title>
+  <title>CBT AKM - Asesmen Kompetensi Siswa</title>
   <style>
+    :root {
+      --akm-blue: #1e3a8a;
+      --akm-header: #0f172a;
+      --akm-bg: #f1f5f9;
+      --akm-border: #cbd5e1;
+      --akm-green: #16a34a;
+      --akm-yellow: #d97706;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+
     body {
-      background-color: #f8fafc;
-      display: flex;
-      justify-content: center;
-      padding: 12px;
-      min-height: 100vh;
-    }
-    .exam-card {
-      background-color: #ffffff;
-      border-radius: 16px;
-      padding: 16px;
-      width: 100%;
-      max-width: 600px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      border: 1px solid #e2e8f0;
+      background-color: var(--akm-bg);
+      color: #1e293b;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      overflow: hidden;
     }
-    .header-user {
+
+    /* 1. HEADER UTAMA AKM */
+    .akm-navbar {
+      background-color: var(--akm-header);
+      color: #ffffff;
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-title h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title span {
+      font-size: 0.75rem;
+      background-color: #2563eb;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Timer Box */
+    .timer-badge {
+      background-color: #ef4444;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: monospace;
+    }
+
+    /* Pengatur Ukuran Font */
+    .font-sizer {
+      display: flex;
+      background-color: #334155;
+      border-radius: 6px;
+      padding: 2px;
+    }
+
+    .font-btn {
+      background: none;
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+
+    .font-btn:hover { background-color: #475569; }
+
+    /* 2. SUB-HEADER INFO SISWA */
+    .sub-bar {
+      background-color: #ffffff;
+      border-bottom: 1px solid var(--akm-border);
+      padding: 8px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .user-details strong { color: var(--akm-blue); }
+
+    .btn-grid-toggle {
+      background-color: var(--akm-blue);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 3. DUAL-PANEL CONTAINER */
+    .main-container {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Panel Soal & Stimulus */
+    .exam-panel {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      background-color: #ffffff;
+      margin: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--akm-border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--akm-blue);
+      padding-bottom: 8px;
       margin-bottom: 16px;
-      border-bottom: 1px solid #e2e8f0;
-      padding-bottom: 12px;
+      font-weight: 700;
+      color: var(--akm-blue);
+    }
+
+    /* 4. SIDEBAR NAVIGASI NOMOR SOAL (AKM STYLE GRID) */
+    .grid-sidebar {
+      width: 280px;
+      background-color: #ffffff;
+      border-left: 1px solid var(--akm-border);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .grid-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #334155;
+      border-bottom: 1px solid var(--akm-border);
+      padding-bottom: 6px;
+    }
+
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
       gap: 8px;
     }
-    /* Style Kotak Waktu / Timer */
-    .timer-box {
-      background-color: #fef2f2;
-      color: #dc2626;
-      border: 1px solid #fecaca;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .btn-logout {
-      background-color: #dc2626;
-      color: white;
-      border: none;
-      padding: 6px 12px;
+
+    .btn-num {
+      aspect-ratio: 1;
+      border: 1px solid var(--akm-border);
+      background-color: #f8fafc;
       border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.85rem;
-    }
-
-    /* BAR NAVIGASI BAWAH (Dipaksa 1 Baris Sejajar Rata Tengah) */
-    .nav-bar {
+      cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-top: 20px;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-num.active { border: 2px solid var(--akm-blue); background-color: #dbeafe; color: var(--akm-blue); }
+    .btn-num.answered { background-color: var(--akm-green); color: white; border-color: var(--akm-green); }
+
+    /* Legend Status */
+    .grid-legend {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
       gap: 6px;
-      width: 100%;
-      flex-wrap: nowrap; /* Mencegah elemen tertekuk ke bawah */
     }
 
-    .btn-nav {
-      flex: 1; /* Agar lebar tombol kiri & kanan seimbang */
-      padding: 10px 4px;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      text-align: center;
-      white-space: nowrap; /* Mencegah teks tombol terpotong */
-    }
-    .btn-prev {
-      background-color: #e2e8f0;
-      color: #334155;
-    }
-    .btn-prev:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .btn-next {
-      background-color: #4f46e5;
-      color: white;
-    }
-    .btn-submit {
-      background-color: #16a34a;
-      color: white;
+    .legend-item { display: flex; align-items: center; gap: 8px; }
+    .legend-box { width: 14px; height: 14px; border-radius: 3px; border: 1px solid #cbd5e1; }
+
+    /* 5. FOOTER NAVIGASI */
+    .akm-footer {
+      background-color: #ffffff;
+      border-top: 1px solid var(--akm-border);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    #questionProgress {
+    .btn-action {
+      padding: 10px 20px;
+      border-radius: 6px;
       font-weight: 700;
-      color: #1e293b;
-      font-size: 0.95rem;
-      padding: 0 8px;
-      text-align: center;
-      white-space: nowrap;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-prev { background-color: #64748b; color: white; }
+    .btn-next { background-color: var(--akm-blue); color: white; }
+    .btn-submit { background-color: var(--akm-green); color: white; }
+    .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Responsive Mobile Hide Sidebar */
+    @media (max-width: 768px) {
+      .grid-sidebar {
+        position: absolute;
+        right: 0; top: 0; bottom: 0;
+        z-index: 20;
+        box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+        transform: translateX(100%);
+      }
+      .grid-sidebar.open { transform: translateX(0); }
     }
   </style>
 </head>
 <body>
 
-  <div class="exam-card">
-    <div>
-      <div class="header-user">
-        <div id="userInfo">
-          <!-- Info Siswa Dirender via JS -->
-        </div>
+  <!-- HEADER UTAMA -->
+  <header class="akm-navbar">
+    <div class="brand-title">
+      <h1>CBT AKM SYSTEM</h1>
+      <span>PUSMENJAR MODELLING</span>
+    </div>
 
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <!-- Timer Hitung Mundur -->
-          <div id="timerContainer" class="timer-box">
-            ⏱️ <span id="timerDisplay">60:00</span>
-          </div>
-          <button class="btn-logout" onclick="logout()">Keluar</button>
-        </div>
+    <div class="header-controls">
+      <!-- Ukuran Font -->
+      <div class="font-sizer">
+        <button class="font-btn" onclick="changeFontSize('small')">A</button>
+        <button class="font-btn" onclick="changeFontSize('medium')" style="font-size:1.1rem;">A</button>
+        <button class="font-btn" onclick="changeFontSize('large')" style="font-size:1.3rem;">A</button>
+      </div>
+
+      <!-- Timer -->
+      <div class="timer-badge">
+        ⏱️ <span id="timerDisplay">00:60:00</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- SUB BAR INFO SISWA -->
+  <section class="sub-bar">
+    <div class="user-details" id="userInfo">
+      <!-- Info Siswa via JS -->
+    </div>
+    <button class="btn-grid-toggle" onclick="toggleSidebar()">
+      📱 Daftar Soal
+    </button>
+  </section>
+
+  <!-- MAIN DUAL PANEL -->
+  <main class="main-container">
+    <!-- PANEL SOAL -->
+    <div class="exam-panel" id="examPanel">
+      <div class="question-header">
+        <span id="questionTitle">Soal Nomor 1</span>
+        <span id="questionTypeBadge" style="font-size:0.75rem; background:#e2e8f0; padding:2px 8px; border-radius:12px; color:#475569;">Pilihan Ganda</span>
       </div>
 
       <div id="questionsContainer">
@@ -135,16 +302,30 @@
       </div>
     </div>
 
-    <!-- Navigasi Bawah Presisi 1 Baris -->
-    <div class="nav-bar">
-      <button id="btnPrev" class="btn-nav btn-prev" onclick="prevQuestion()">Sebelumnya</button>
+    <!-- SIDEBAR DAFTAR SOAL -->
+    <aside class="grid-sidebar" id="gridSidebar">
+      <div class="grid-title">PETA NAVIGASI SOAL</div>
+      <div class="number-grid" id="numberGrid">
+        <!-- Grid Nomor Soal Generasi via JS -->
+      </div>
 
-      <div id="questionProgress">1/45</div>
+      <div class="grid-legend">
+        <div class="legend-item"><div class="legend-box" style="background-color: var(--akm-green);"></div> Sudah Dijawab</div>
+        <div class="legend-item"><div class="legend-box" style="background-color: #dbeafe; border-color: var(--akm-blue);"></div> Soal Aktif</div>
+        <div class="legend-item"><div class="legend-box" style="background-color: #f8fafc;"></div> Belum Dijawab</div>
+      </div>
+    </aside>
+  </main>
 
-      <button id="btnNext" class="btn-nav btn-next" onclick="nextQuestion()">Selanjutnya</button>
-      <button id="btnSubmitExam" class="btn-nav btn-submit" onclick="submitExam()" style="display: none;">Kirim Jawaban</button>
-    </div>
-  </div>
+  <!-- FOOTER NAVIGASI -->
+  <footer class="akm-footer">
+    <button id="btnPrev" class="btn-action btn-prev" onclick="prevQuestion()">⬅️ Sebelumnya</button>
+    
+    <div id="questionProgress" style="font-weight: 700; color: #475569;">Soal 1 dari 45</div>
+
+    <button id="btnNext" class="btn-action btn-next" onclick="nextQuestion()">Selanjutnya ➡️</button>
+    <button id="btnSubmitExam" class="btn-action btn-submit" onclick="submitExam()" style="display: none;">Selesaikan Ujian ✔️</button>
+  </footer>
 
   <script src="ujian.js"></script>
 </body>
