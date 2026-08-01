@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CBT AKM - Asesmen Kompetensi Siswa</title>
+  <title>CBT AKM - Portal Ujian Berbasis Komputer</title>
   <style>
     :root {
       --akm-blue: #1e3a8a;
@@ -11,7 +11,6 @@
       --akm-bg: #f1f5f9;
       --akm-border: #cbd5e1;
       --akm-green: #16a34a;
-      --akm-yellow: #d97706;
     }
 
     * {
@@ -67,7 +66,7 @@
       gap: 16px;
     }
 
-    /* Timer Box */
+    /* Timer Badge */
     .timer-badge {
       background-color: #ef4444;
       color: white;
@@ -81,7 +80,7 @@
       font-family: monospace;
     }
 
-    /* Pengatur Ukuran Font */
+    /* Font Size Sizer */
     .font-sizer {
       display: flex;
       background-color: #334155;
@@ -101,7 +100,7 @@
 
     .font-btn:hover { background-color: #475569; }
 
-    /* 2. SUB-HEADER INFO SISWA */
+    /* 2. SUB BAR INFO SISWA */
     .sub-bar {
       background-color: #ffffff;
       border-bottom: 1px solid var(--akm-border);
@@ -128,7 +127,7 @@
       gap: 6px;
     }
 
-    /* 3. DUAL-PANEL CONTAINER */
+    /* 3. DUAL-PANEL MAIN CONTAINER */
     .main-container {
       flex: 1;
       display: flex;
@@ -136,7 +135,6 @@
       position: relative;
     }
 
-    /* Panel Soal & Stimulus */
     .exam-panel {
       flex: 1;
       padding: 24px;
@@ -146,6 +144,7 @@
       border-radius: 8px;
       border: 1px solid var(--akm-border);
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: font-size 0.2s ease;
     }
 
     .question-header {
@@ -153,12 +152,87 @@
       justify-content: space-between;
       border-bottom: 2px solid var(--akm-blue);
       padding-bottom: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       font-weight: 700;
       color: var(--akm-blue);
     }
 
-    /* 4. SIDEBAR NAVIGASI NOMOR SOAL (AKM STYLE GRID) */
+    /* --- STYLES OPSI JAWABAN KUSTOM (A, B, C, D & 1, 2, 3, 4) --- */
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      background-color: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .option-item:hover {
+      border-color: #2563eb;
+      background-color: #f8fafc;
+    }
+
+    .option-badge {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      background-color: #f1f5f9;
+      border: 1.5px solid #94a3b8;
+      color: #334155;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .badge-checkbox {
+      border-radius: 6px;
+    }
+
+    .option-text {
+      font-size: 0.95rem;
+      color: #1e293b;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    /* STATUS TERPILIH / SELECTED */
+    .option-item.selected {
+      border-color: #2563eb;
+      background-color: #eff6ff;
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+    }
+
+    .option-item.selected .option-badge {
+      background-color: #2563eb;
+      border-color: #2563eb;
+      color: #ffffff;
+    }
+
+    .essay-box {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1.5px solid #cbd5e1;
+      outline: none;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    .essay-box:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* 4. SIDEBAR NAVIGASI GRID */
     .grid-sidebar {
       width: 280px;
       background-color: #ffffff;
@@ -202,7 +276,6 @@
     .btn-num.active { border: 2px solid var(--akm-blue); background-color: #dbeafe; color: var(--akm-blue); }
     .btn-num.answered { background-color: var(--akm-green); color: white; border-color: var(--akm-green); }
 
-    /* Legend Status */
     .grid-legend {
       margin-top: 10px;
       font-size: 0.75rem;
@@ -241,7 +314,6 @@
     .btn-submit { background-color: var(--akm-green); color: white; }
     .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* Responsive Mobile Hide Sidebar */
     @media (max-width: 768px) {
       .grid-sidebar {
         position: absolute;
@@ -264,14 +336,14 @@
     </div>
 
     <div class="header-controls">
-      <!-- Ukuran Font -->
+      <!-- Pengatur Ukuran Font -->
       <div class="font-sizer">
-        <button class="font-btn" onclick="changeFontSize('small')">A</button>
-        <button class="font-btn" onclick="changeFontSize('medium')" style="font-size:1.1rem;">A</button>
-        <button class="font-btn" onclick="changeFontSize('large')" style="font-size:1.3rem;">A</button>
+        <button class="font-btn" onclick="changeFontSize('small')">A-</button>
+        <button class="font-btn" onclick="changeFontSize('medium')" style="font-size:1.05rem;">A</button>
+        <button class="font-btn" onclick="changeFontSize('large')" style="font-size:1.2rem;">A+</button>
       </div>
 
-      <!-- Timer -->
+      <!-- Hitung Mundur Waktu -->
       <div class="timer-badge">
         ⏱️ <span id="timerDisplay">00:60:00</span>
       </div>
@@ -281,7 +353,7 @@
   <!-- SUB BAR INFO SISWA -->
   <section class="sub-bar">
     <div class="user-details" id="userInfo">
-      <!-- Info Siswa via JS -->
+      <!-- Info Siswa Rendered via JS -->
     </div>
     <button class="btn-grid-toggle" onclick="toggleSidebar()">
       📱 Daftar Soal
@@ -302,7 +374,7 @@
       </div>
     </div>
 
-    <!-- SIDEBAR DAFTAR SOAL -->
+    <!-- SIDEBAR PETA NAVIGASI SOAL -->
     <aside class="grid-sidebar" id="gridSidebar">
       <div class="grid-title">PETA NAVIGASI SOAL</div>
       <div class="number-grid" id="numberGrid">
