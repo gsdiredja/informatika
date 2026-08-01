@@ -16,8 +16,8 @@ let currentUserData = {};
 function getCleanPaketId(rawPath) {
   if (!rawPath) return "soal-uh1";
   return String(rawPath)
-    .replace(/^.*[\\\/]/, '') // Hapus path folder (misal: ./data/)
-    .replace('.json', '')     // Hapus ekstensi .json
+    .replace(/^.*[\\\/]/, '') 
+    .replace('.json', '')     
     .trim()
     .toLowerCase();
 }
@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
   currentUserData = JSON.parse(userDataStr);
   currentUsername = currentUserData.username || "";
 
-  // Normalisasi ID paket untuk kunci penyimpanan konsisten
   const cleanPaketId = getCleanPaketId(rawSoalPath);
 
   // Render Info Peserta Ujian
@@ -56,18 +55,21 @@ document.addEventListener("DOMContentLoaded", () => {
     PESERTA: <strong>${currentUserData.nama || currentUserData.username}</strong> | KELAS: <strong>${currentUserData.kelas || '-'}</strong> | NISN: <strong>${currentUserData.username}</strong>
   `;
 
+  // 🔒 RESTORE SISA WAKTU (TIMER CONTINUATION)
   const savedRemainingTime = localStorage.getItem(`remainingTime_${currentUsername}`);
   if (savedRemainingTime !== null) {
     totalSeconds = parseInt(savedRemainingTime, 10);
+  } else {
+    totalSeconds = EXAM_DURATION_MINUTES * 60;
   }
 
   startTimer();
 
-  // 🔒 PENYIMPANAN SOAL PERSISTEN (ANTI-REFRESH)
+  // 🔒 PENYIMPANAN SOAL & JAWABAN PERSISTEN (ANTI RESET SAAT LOGOUT/REFRESH)
   const cachedQuestionsKey = `questions_${currentUsername}_${cleanPaketId}`;
   const savedAnswersKey = `answers_${currentUsername}_${cleanPaketId}`;
 
-  // Restore jawaban jika siswa sempat refresh
+  // Restore jawaban yang pernah diisi
   const savedUserAnswers = localStorage.getItem(savedAnswersKey);
   if (savedUserAnswers) {
     try { userAnswers = JSON.parse(savedUserAnswers); } catch(e) {}
@@ -76,19 +78,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const cachedQuestions = localStorage.getItem(cachedQuestionsKey);
 
   if (cachedQuestions) {
-    // 1. JIKA REFRESH: BACA DARI LOCALSTORAGE (TIDAK ACAK UANG)
+    // 1. GUNAKAN DATA LAMA JIKA ADA (MELEPAS KEMBALI PROSES UJIAN SEBELUMNYA)
     questionsData = JSON.parse(cachedQuestions);
+
+    // Cari nomor soal terakhir yang belum diisi agar siswa langsung diarahkan ke sana
+    let lastUnansweredIndex = 0;
+    for (let i = 0; i < questionsData.length; i++) {
+      if (!isQuestionAnswered(questionsData[i].name)) {
+        lastUnansweredIndex = i;
+        break;
+      }
+    }
+    currentQuestionIndex = lastUnansweredIndex;
+
     renderNumberGrid();
     showQuestion(currentQuestionIndex);
   } else {
-    // 2. JIKA BARU PERTAMA KALI MASUK: FETCH DAN ACAK SEKALI
+    // 2. BARU PERTAMA KALI UJIAN: FETCH & ACAK SEKALI
     fetch(rawSoalPath)
       .then((res) => {
         if (!res.ok) throw new Error("HTTP Status " + res.status);
         return res.json();
       })
       .then((data) => {
-        // Acak Urutan Soal & Pilihan Jawaban
         questionsData = shuffleArray(data);
         questionsData.forEach((q) => {
           if (q.options && Array.isArray(q.options)) {
@@ -96,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
 
-        // Simpan susunan hasil acakan ke localStorage
         localStorage.setItem(cachedQuestionsKey, JSON.stringify(questionsData));
 
         renderNumberGrid();
@@ -204,7 +215,7 @@ function showQuestion(index) {
   let html = `<div style="line-height: 1.6; color: #1e293b;">`;
   html += `<p style="margin-bottom: 20px; font-weight: 600; font-size: 1.05rem;">${q.text}</p>`;
 
-  // 1. PILIHAN GANDA (SINGLE CHOICE - A, B, C, D)
+  // 1. PILIHAN GANDA (SINGLE CHOICE)
   if (q.type === "radio") {
     q.options.forEach((opt, idx) => {
       const isChecked = userAnswers[q.name] === opt.v;
@@ -220,7 +231,7 @@ function showQuestion(index) {
     });
   } 
   
-  // 2. PILIHAN GANDA KOMPLEKS (MULTIPLE CHOICE - 1, 2, 3, 4)
+  // 2. PILIHAN GANDA KOMPLEKS (MULTIPLE CHOICE)
   else if (q.type === "checkbox") {
     const savedArr = userAnswers[q.name] || [];
     q.options.forEach((opt, idx) => {
@@ -310,7 +321,6 @@ function saveCurrentAnswer() {
     else delete userAnswers[q.name];
   }
 
-  // Backup jawaban ke localStorage secara konsisten
   let rawSoalPath = localStorage.getItem("soalPath") || "soal-uh1";
   const cleanPaketId = getCleanPaketId(rawSoalPath);
   const savedAnswersKey = `answers_${currentUsername}_${cleanPaketId}`;
@@ -417,6 +427,7 @@ async function processExamResults() {
     console.error("Gagal Mengirim Data:", err);
   }
 
+  // 🔒 HANYA HAPUS CACHE SAAT BERHASIL SUBMIT JAWABAN
   clearExamCache();
   showFinalResult();
 }
@@ -443,8 +454,9 @@ function showFinalResult() {
   `;
 }
 
+// 🚪 LOGOUT AMAN: STATUS DI-RESET TAPI SOAL & WAKTU DI BROWSER TIDAK DI-RESET
 function confirmLogout() {
-  if (confirm("Apakah Anda yakin ingin keluar dari sesi ujian saat ini? Status sesi Anda akan di-reset.")) {
+  if (confirm("Apakah Anda yakin ingin keluar dari sesi ujian? Kemajuan jawaban dan sisa waktu Anda tetap akan tersimpan.")) {
     logout();
   }
 }
@@ -461,11 +473,12 @@ function logout() {
     }).catch(() => {});
   }
 
-  clearExamCache();
+  // JANGAN HAPUS CACHE SOAL/JAWABAN/TIMER SAAT LOGOUT
   localStorage.removeItem("userData");
   window.location.href = "index.html";
 }
 
+// FUNGSI INI HANYA DIPANGGUL JIKA SUBMIT SELESAI
 function clearExamCache() {
   let rawSoalPath = localStorage.getItem("soalPath") || "soal-uh1";
   const cleanPaketId = getCleanPaketId(rawSoalPath);
