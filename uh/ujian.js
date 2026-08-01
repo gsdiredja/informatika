@@ -50,34 +50,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
   startTimer();
 
-  fetch(soalPath)
-    .then((res) => {
-      if (!res.ok) throw new Error("HTTP Status " + res.status);
-      return res.json();
-    })
-    .then((data) => {
-      // 1. ACAK URUTAN SOAL (1 - 45)
-      questionsData = shuffleArray(data);
+  // 🔒 MENCEGAH CELAH REFRESH: BACA DARI LOCALSTORAGE JIKA SUDAH ADA SOAL TERACAK
+  const cachedQuestionsKey = `questions_${currentUsername}_${soalPath}`;
+  const savedAnswersKey = `answers_${currentUsername}_${soalPath}`;
 
-      // 2. ACAK PILIHAN JAWABAN PADA SETIAP SOAL
-      questionsData.forEach((q) => {
-        if (q.options && Array.isArray(q.options)) {
-          q.options = shuffleArray(q.options);
-        }
+  // Restore jawaban jika siswa sempat refresh
+  const savedUserAnswers = localStorage.getItem(savedAnswersKey);
+  if (savedUserAnswers) {
+    try { userAnswers = JSON.parse(savedUserAnswers); } catch(e) {}
+  }
+
+  const cachedQuestions = localStorage.getItem(cachedQuestionsKey);
+
+  if (cachedQuestions) {
+    // Jika siswa merefresh halaman, gunakan susunan soal yang sudah diacak sebelumnya
+    questionsData = JSON.parse(cachedQuestions);
+    renderNumberGrid();
+    showQuestion(currentQuestionIndex);
+  } else {
+    // Jika baru pertama kali masuk, fetch dan acak soal
+    fetch(soalPath)
+      .then((res) => {
+        if (!res.ok) throw new Error("HTTP Status " + res.status);
+        return res.json();
+      })
+      .then((data) => {
+        // 1. ACAK URUTAN SOAL
+        questionsData = shuffleArray(data);
+
+        // 2. ACAK PILIHAN JAWABAN PADA SETIAP SOAL
+        questionsData.forEach((q) => {
+          if (q.options && Array.isArray(q.options)) {
+            q.options = shuffleArray(q.options);
+          }
+        });
+
+        // Simpan susunan teracak ke localStorage agar tidak berubah saat refresh
+        localStorage.setItem(cachedQuestionsKey, JSON.stringify(questionsData));
+
+        renderNumberGrid();
+        showQuestion(currentQuestionIndex);
+      })
+      .catch((err) => {
+        console.error(err);
+        document.getElementById("questionsContainer").innerHTML = `
+          <div style="color: #dc2626; padding: 20px; text-align: center;">
+            <p><strong>Gagal Memuat Soal Ujian!</strong></p>
+            <small>Pastikan file JSON berada di folder <code>data/</code> server Anda.</small>
+          </div>
+        `;
       });
-
-      renderNumberGrid();
-      showQuestion(currentQuestionIndex);
-    })
-    .catch((err) => {
-      console.error(err);
-      document.getElementById("questionsContainer").innerHTML = `
-        <div style="color: #dc2626; padding: 20px; text-align: center;">
-          <p><strong>Gagal Memuat Soal Ujian!</strong></p>
-          <small>Pastikan file JSON berada di folder <code>data/</code> server Anda.</small>
-        </div>
-      `;
-    });
+  }
 });
 
 function startTimer() {
@@ -137,14 +160,11 @@ function renderNumberGrid() {
   gridContainer.innerHTML = html;
 }
 
-// 🔒 NAVIGASI GRID DENGAN VALIDASI PENGISIAN SOAL
 function jumpToQuestion(index) {
-  // Abaikan jika mengklik nomor soal yang sedang terbuka
   if (index === currentQuestionIndex) return;
 
   saveCurrentAnswer();
 
-  // Mencegah loncat ke nomor lain jika soal aktif belum dijawab
   if (!isQuestionAnswered(questionsData[currentQuestionIndex].name)) {
     showWarning("Anda harus menjawab soal ini terlebih dahulu sebelum berpindah ke nomor lain!");
     return;
@@ -153,7 +173,6 @@ function jumpToQuestion(index) {
   currentQuestionIndex = index;
   showQuestion(currentQuestionIndex);
 
-  // Tutup sidebar navigasi jika di layar HP/Tablet
   const sidebar = document.getElementById("gridSidebar");
   if (sidebar && sidebar.classList.contains("open")) {
     sidebar.classList.remove("open");
@@ -174,11 +193,11 @@ function showQuestion(index) {
   let html = `<div style="line-height: 1.6; color: #1e293b;">`;
   html += `<p style="margin-bottom: 20px; font-weight: 600; font-size: 1.05rem;">${q.text}</p>`;
 
-  // 1. PILIHAN GANDA (SINGLE CHOICE - BADGE HURUF A, B, C, D)
+  // 1. PILIHAN GANDA (SINGLE CHOICE - A, B, C, D)
   if (q.type === "radio") {
     q.options.forEach((opt, idx) => {
       const isChecked = userAnswers[q.name] === opt.v;
-      const labelBadge = String.fromCharCode(65 + idx); // A, B, C, D
+      const labelBadge = String.fromCharCode(65 + idx);
 
       html += `
         <div class="option-item ${isChecked ? 'selected' : ''}" onclick="selectRadioOption('${q.name}', '${opt.v}', this)">
@@ -190,12 +209,12 @@ function showQuestion(index) {
     });
   } 
   
-  // 2. PILIHAN GANDA KOMPLEKS (MULTIPLE CHOICE - BADGE ANGKA 1, 2, 3, 4)
+  // 2. PILIHAN GANDA KOMPLEKS (MULTIPLE CHOICE - 1, 2, 3, 4)
   else if (q.type === "checkbox") {
     const savedArr = userAnswers[q.name] || [];
     q.options.forEach((opt, idx) => {
       const isChecked = savedArr.includes(opt.v);
-      const labelBadge = idx + 1; // 1, 2, 3, 4
+      const labelBadge = idx + 1;
 
       html += `
         <div class="option-item ${isChecked ? 'selected' : ''}" onclick="toggleCheckboxOption('${q.name}', '${opt.v}', this)">
@@ -232,7 +251,6 @@ function showQuestion(index) {
   renderNumberGrid();
 }
 
-// HANDLER KLIK RADIO (PILIHAN GANDA)
 function selectRadioOption(qName, val, el) {
   const parent = el.parentNode;
   parent.querySelectorAll('.option-item').forEach(item => {
@@ -249,7 +267,6 @@ function selectRadioOption(qName, val, el) {
   hideWarning();
 }
 
-// HANDLER KLIK CHECKBOX (PG KOMPLEKS)
 function toggleCheckboxOption(qName, val, el) {
   const input = el.querySelector('input');
   if (input) {
@@ -281,6 +298,11 @@ function saveCurrentAnswer() {
     if (essayText) userAnswers[q.name] = essayText;
     else delete userAnswers[q.name];
   }
+
+  // Backup jawaban ke localStorage
+  let soalPath = localStorage.getItem("soalPath") || "soal-uh1";
+  const savedAnswersKey = `answers_${currentUsername}_${soalPath}`;
+  localStorage.setItem(savedAnswersKey, JSON.stringify(userAnswers));
 
   renderNumberGrid();
 }
@@ -355,7 +377,6 @@ function forceSubmitExam() {
 
 async function processExamResults() {
   clearInterval(timerInterval);
-  if (currentUsername) localStorage.removeItem(`remainingTime_${currentUsername}`);
 
   document.getElementById("examPanel").innerHTML = `
     <div style="text-align:center; padding: 60px;">
@@ -384,6 +405,8 @@ async function processExamResults() {
     console.error("Gagal Mengirim Data:", err);
   }
 
+  // Hapus cache soal & sisa waktu setelah berhasil dikirim
+  clearExamCache();
   showFinalResult();
 }
 
@@ -409,10 +432,16 @@ function showFinalResult() {
   `;
 }
 
+// 🚪 KONFIRMASI KELUAR / LOGOUT RESMI
+function confirmLogout() {
+  if (confirm("Apakah Anda yakin ingin keluar dari sesi ujian saat ini? Status sesi Anda akan di-reset.")) {
+    logout();
+  }
+}
+
 function logout() {
   clearInterval(timerInterval);
   
-  // Mengirim request logout untuk melepaskan status ONLINE di Sheets (Optional)
   if (currentUsername) {
     fetch(SCRIPT_URL, {
       method: "POST",
@@ -422,7 +451,16 @@ function logout() {
     }).catch(() => {});
   }
 
+  clearExamCache();
   localStorage.removeItem("userData");
-  if (currentUsername) localStorage.removeItem(`remainingTime_${currentUsername}`);
   window.location.href = "index.html";
+}
+
+function clearExamCache() {
+  let soalPath = localStorage.getItem("soalPath") || "soal-uh1";
+  if (currentUsername) {
+    localStorage.removeItem(`remainingTime_${currentUsername}`);
+    localStorage.removeItem(`questions_${currentUsername}_${soalPath}`);
+    localStorage.removeItem(`answers_${currentUsername}_${soalPath}`);
+  }
 }
