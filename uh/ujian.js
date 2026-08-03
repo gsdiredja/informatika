@@ -2,7 +2,6 @@ let currentQuestionIndex = 0;
 let questionsData = [];
 let userAnswers = {};
 
-// URL GOOGLE APPS SCRIPT
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_REQmCaDxmcXJdoSBsslBzzx4ypM0fdaXahLTFz6FawTAmZonGhM6S7DB9eV530Yk/exec";
 
 const EXAM_DURATION_MINUTES = 60;
@@ -55,7 +54,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     currentUsername = currentUserData.username || "siswa";
     const cleanPaketId = getCleanPaketId(rawSoalPath);
 
-    // Render Info Peserta
     const userInfoEl = document.getElementById("userInfo");
     if (userInfoEl) {
       userInfoEl.innerHTML = `
@@ -63,7 +61,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
     }
 
-    // Restore Timer
     const savedRemainingTime = localStorage.getItem(`remainingTime_${currentUsername}`);
     if (savedRemainingTime !== null && !isNaN(parseInt(savedRemainingTime))) {
       totalSeconds = parseInt(savedRemainingTime, 10);
@@ -73,7 +70,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     startTimer();
 
-    // Cache Keys
     const cachedQuestionsKey = `questions_${currentUsername}_${cleanPaketId}`;
     const savedAnswersKey = `answers_${currentUsername}_${cleanPaketId}`;
 
@@ -89,7 +85,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       renderNumberGrid();
       showQuestion(0);
     } else {
-      // 1. Coba Ambil dari GAS (Google Apps Script)
       let loaded = false;
       try {
         const response = await fetch(SCRIPT_URL, {
@@ -107,10 +102,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.warn("Gagal load dari GAS, mencoba lokal file...", err);
       }
 
-      // 2. Fallback: Coba Ambil dari File JSON Lokal
       if (!loaded) {
+        let targetLocalPath = rawSoalPath;
+        if (!targetLocalPath.startsWith('./') && !targetLocalPath.startsWith('data/')) {
+          targetLocalPath = `./data/${cleanPaketId}.json`;
+        }
+
         try {
-          const localRes = await fetch(rawSoalPath);
+          const localRes = await fetch(targetLocalPath);
           if (localRes.ok) {
             const localData = await localRes.json();
             if (Array.isArray(localData) && localData.length > 0) {
@@ -123,7 +122,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       }
 
-      // 3. Eksekusi Tampilan
       if (loaded && questionsData.length > 0) {
         questionsData.forEach((q) => {
           if (q.options && Array.isArray(q.options)) {
@@ -150,7 +148,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
   } catch (fatalError) {
-    console.error("Fatal Error Engine:", fatalError);
     if (container) {
       container.innerHTML = `
         <div style="color: #dc2626; padding: 20px; text-align: center;">
@@ -254,7 +251,16 @@ function showQuestion(index) {
   if (badgeEl) badgeEl.innerText = typeText;
 
   let html = `<div style="line-height: 1.6; color: #1e293b;">`;
-  html += `<p style="margin-bottom: 20px; font-weight: 600; font-size: 1.05rem;">${q.text}</p>`;
+  html += `<p style="margin-bottom: 12px; font-weight: 600; font-size: 1.05rem;">${q.text}</p>`;
+
+  // GAMBAR SOAL JIKA ADA
+  if (q.image && q.image.trim() !== "") {
+    html += `
+      <div style="text-align: center; margin-bottom: 16px;">
+        <img src="${q.image}" alt="Gambar Soal" style="max-width: 100%; max-height: 350px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+      </div>
+    `;
+  }
 
   if (q.type === "radio" && Array.isArray(q.options)) {
     q.options.forEach((opt, idx) => {
