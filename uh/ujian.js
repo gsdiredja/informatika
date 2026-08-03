@@ -2,7 +2,7 @@ let currentQuestionIndex = 0;
 let questionsData = [];
 let userAnswers = {};
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_REQmCaDxmcXJdoSBsslBzzx4ypM0fdaXahLTFz6FawTAmZonGhM6S7DB9eV530Yk/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAkcxn5FRhUkz2lSnrx2boJK4MoAG7Lacl--mQ_DbLhVUzCJDQHs4gbOLmah0o7pv4/exec";
 
 const EXAM_DURATION_MINUTES = 60;
 let totalSeconds = EXAM_DURATION_MINUTES * 60;
