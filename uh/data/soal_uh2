@@ -1,0 +1,435 @@
+[
+{
+"name": "q1",
+"type": "radio",
+"title": "Soal Benar / Salah",
+"text": "Algoritma Binary Search dapat bekerja dengan baik pada data yang belum terurut.",
+"options": [
+{ "v": "A", "t": "Benar" },
+{ "v": "B", "t": "Salah" }
+],
+"key": "B"
+},
+{
+"name": "q2",
+"type": "radio",
+"title": "Soal Benar / Salah",
+"text": "Teknik Memoization dalam Dynamic Programming biasanya diimplementasikan menggunakan fungsi rekursif.",
+"options": [
+{ "v": "A", "t": "Benar" },
+{ "v": "B", "t": "Salah" }
+],
+"key": "A"
+},
+{
+"name": "q3",
+"type": "radio",
+"title": "Soal Benar / Salah",
+"text": "Dalam strategi Divide and Conquer, tahap 'Combine' bertujuan untuk menyatukan solusi dari sub-masalah yang telah diselesaikan.",
+"options": [
+{ "v": "A", "t": "Benar" },
+{ "v": "B", "t": "Salah" }
+],
+"key": "A"
+},
+{
+"name": "q4",
+"type": "radio",
+"title": "Soal Benar / Salah",
+"text": "Variabel tipe 'double' memiliki presisi yang lebih rendah dibandingkan dengan tipe 'float' dalam C++.",
+"options": [
+{ "v": "A", "t": "Benar" },
+{ "v": "B", "t": "Salah" }
+],
+"key": "B"
+},
+{
+"name": "q5",
+"type": "radio",
+"title": "Soal Benar / Salah",
+"text": "Algoritma Greedy merupakan pilihan terbaik untuk menyelesaikan masalah 0/1 Knapsack agar mendapatkan hasil paling optimal.",
+"options": [
+{ "v": "A", "t": "Benar" },
+{ "v": "B", "t": "Salah" }
+],
+"key": "B"
+},
+{
+"name": "q6",
+"type": "radio",
+"title": "Soal Benar / Salah",
+"text": "Indeks terakhir dari sebuah array berukuran N di C++ adalah N-1.",
+"options": [
+{ "v": "A", "t": "Benar" },
+{ "v": "B", "t": "Salah" }
+],
+"key": "A"
+},
+{
+"name": "q7",
+"type": "radio",
+"title": "Soal Benar / Salah",
+"text": "Struktur data 'Queue' (antrean) beroperasi berdasarkan prinsip LIFO (Last In First Out).",
+"options": [
+{ "v": "A", "t": "Benar" },
+{ "v": "B", "t": "Salah" }
+],
+"key": "B"
+},
+{
+"name": "q8",
+"type": "radio",
+"title": "Soal Benar / Salah",
+"text": "Pernyataan #include <iostream> diperlukan agar kita dapat menggunakan fungsi cin dan cout.",
+"options": [
+{ "v": "A", "t": "Benar" },
+{ "v": "B", "t": "Salah" }
+],
+"key": "A"
+},
+{
+"name": "q9",
+"type": "radio",
+"title": "Soal Benar / Salah",
+"text": "Dalam C++, penulisan variabel bersifat 'case sensitive', artinya 'Nama' dan 'nama' dianggap berbeda.",
+"options": [
+{ "v": "A", "t": "Benar" },
+{ "v": "B", "t": "Salah" }
+],
+"key": "A"
+},
+{
+"name": "q10",
+"type": "radio",
+"title": "Soal Benar / Salah",
+"text": "Pendekatan pemrograman yang mencoba semua kemungkinan untuk menemukan solusi disebut Brute Force.",
+"options": [
+{ "v": "A", "t": "Benar" },
+{ "v": "B", "t": "Salah" }
+],
+"key": "A"
+},
+{
+"name": "q11",
+"type": "radio",
+"title": "Pilihan Ganda",
+"text": "Karakteristik utama yang membedakan Dynamic Programming dengan Divide and Conquer adalah adanya...",
+"options": [
+{ "v": "A", "t": "Pembagian masalah menjadi sub-masalah" },
+{ "v": "B", "t": "Penggunaan fungsi rekursif" },
+{ "v": "C", "t": "Sub-masalah yang saling tumpang tindih (overlapping subproblems)" },
+{ "v": "D", "t": "Penggabungan solusi di akhir proses" },
+{ "v": "E", "t": "Penggunaan memori yang sangat kecil" }
+],
+"key": "C"
+},
+{
+"name": "q12",
+"type": "radio",
+"title": "Pilihan Ganda",
+"text": "Dalam C++, operator logika yang digunakan untuk operasi 'OR' adalah...",
+"options": [
+{ "v": "A", "t": "&&" },
+{ "v": "B", "t": "||" },
+{ "v": "C", "t": "!" },
+{ "v": "D", "t": "" },
+{ "v": "E", "t": "!=" }
+],
+"key": "B"
+},
+{
+"name": "q13",
+"type": "radio",
+"title": "Pilihan Ganda",
+"text": "Manakah dari algoritma berikut yang menggunakan strategi Greedy untuk mencari jalur terpendek?",
+"options": [
+{ "v": "A", "t": "Binary Search" },
+{ "v": "B", "t": "Merge Sort" },
+{ "v": "C", "t": "Dijkstra's Algorithm" },
+{ "v": "D", "t": "Bubble Sort" },
+{ "v": "E", "t": "Linear Regression" }
+],
+"key": "C"
+},
+{
+"name": "q14",
+"type": "radio",
+"title": "Pilihan Ganda",
+"text": "Tipe data yang digunakan untuk menyimpan nilai kebenaran (true/false) di C++ adalah...",
+"options": [
+{ "v": "A", "t": "int" },
+{ "v": "B", "t": "char" },
+{ "v": "C", "t": "float" },
+{ "v": "D", "t": "bool" },
+{ "v": "E", "t": "string" }
+],
+"key": "D"
+},
+{
+"name": "q15",
+"type": "radio",
+"title": "Pilihan Ganda",
+"text": "Kapan kondisi 'Recursion Limit Exceeded' atau 'Stack Overflow' biasanya terjadi?",
+"options": [
+{ "v": "A", "t": "Ketika memori komputer penuh oleh file" },
+{ "v": "B", "t": "Ketika fungsi rekursif memanggil dirinya sendiri tanpa henti" },
+{ "v": "C", "t": "Ketika variabel global terlalu banyak" },
+{ "v": "D", "t": "Ketika program tidak memiliki fungsi main" },
+{ "v": "E", "t": "Ketika input pengguna terlalu panjang" }
+],
+"key": "B"
+},
+{
+"name": "q16",
+"type": "radio",
+"title": "Pilihan Ganda",
+"text": "Fungsi std::vector::size() di C++ digunakan untuk...",
+"options": [
+{ "v": "A", "t": "Menghapus semua elemen vector" },
+{ "v": "B", "t": "Menambahkan elemen baru" },
+{ "v": "C", "t": "Mengetahui jumlah elemen yang ada dalam vector" },
+{ "v": "D", "t": "Mengubah kapasitas maksimum memori" },
+{ "v": "E", "t": "Mengurutkan data dalam vector" }
+],
+"key": "C"
+},
+{
+"name": "q17",
+"type": "radio",
+"title": "Pilihan Ganda",
+"text": "Pendekatan 'Top-Down' pada pemrograman dinamis identik dengan...",
+"options": [
+{ "v": "A", "t": "Iterasi menggunakan for loop" },
+{ "v": "B", "t": "Rekursi dan Memoization" },
+{ "v": "C", "t": "Tabulation menggunakan array" },
+{ "v": "D", "t": "Penggunaan pointer" },
+{ "v": "E", "t": "Stack manual" }
+],
+"key": "B"
+},
+{
+"name": "q18",
+"type": "radio",
+"title": "Pilihan Ganda",
+"text": "Simbol // dalam baris kode C++ digunakan untuk...",
+"options": [
+{ "v": "A", "t": "Pembagian bilangan bulat" },
+{ "v": "B", "t": "Menyatakan sisa bagi" },
+{ "v": "C", "t": "Menuliskan komentar satu baris" },
+{ "v": "D", "t": "Mengakhiri program" },
+{ "v": "E", "t": "Mendeklarasikan pointer" }
+],
+"key": "C"
+},
+{
+"name": "q19",
+"type": "radio",
+"title": "Pilihan Ganda",
+"text": "Manakah penulisan output yang benar di C++ untuk mencetak teks 'Hello World' disertai baris baru?",
+"options": [
+{ "v": "A", "t": "print("Hello World");" },
+{ "v": "B", "t": "cout >> "Hello World" >> endl;" },
+{ "v": "C", "t": "cout << "Hello World" << endl;" },
+{ "v": "D", "t": "system.out.println("Hello World");" },
+{ "v": "E", "t": "echo "Hello World";" }
+],
+"key": "C"
+},
+{
+"name": "q20",
+"type": "radio",
+"title": "Pilihan Ganda",
+"text": "Apa yang dilakukan oleh perintah std::reverse(v.begin(), v.end()) pada library <algorithm>?",
+"options": [
+{ "v": "A", "t": "Mengurutkan elemen dari terkecil" },
+{ "v": "B", "t": "Menghapus elemen pertama" },
+{ "v": "C", "t": "Membalik urutan elemen dalam container" },
+{ "v": "D", "t": "Mencari elemen tertentu" },
+{ "v": "E", "t": "Menggandakan isi container" }
+],
+"key": "C"
+},
+{
+"name": "q21",
+"type": "checkbox",
+"title": "Pilihan Ganda Kompleks",
+"text": "Manakah dua pernyataan berikut yang benar mengenai strategi Divide and Conquer?",
+"options": [
+{ "v": "A", "t": "Membagi masalah menjadi sub-masalah yang identik namun lebih kecil" },
+{ "v": "B", "t": "Hanya dapat digunakan untuk masalah sorting" },
+{ "v": "C", "t": "Solusi sub-masalah digabungkan untuk membentuk solusi masalah utama" },
+{ "v": "D", "t": "Selalu menghasilkan waktu eksekusi yang lebih lambat dibanding Iterasi" },
+{ "v": "E", "t": "Tidak membutuhkan memori tambahan" }
+],
+"key": ["A", "C"]
+},
+{
+"name": "q22",
+"type": "checkbox",
+"title": "Pilihan Ganda Kompleks",
+"text": "Pilih dua karakteristik dari algoritma Greedy berikut ini:",
+"options": [
+{ "v": "A", "t": "Mencari solusi optimal melalui eksplorasi seluruh ruang kemungkinan" },
+{ "v": "B", "t": "Memilih opsi terbaik yang tersedia saat ini (local optimum)" },
+{ "v": "C", "t": "Keputusan yang sudah diambil dapat diubah di langkah berikutnya" },
+{ "v": "D", "t": "Bersifat efisien secara waktu karena tidak melakukan perhitungan ulang" },
+{ "v": "E", "t": "Selalu memberikan solusi global optimal untuk setiap masalah" }
+],
+"key": ["B", "D"]
+},
+{
+"name": "q23",
+"type": "checkbox",
+"title": "Pilihan Ganda Kompleks",
+"text": "Pilih dua operator yang digunakan untuk melakukan perbandingan (relational) di C++:",
+"options": [
+{ "v": "A", "t": "=" },
+{ "v": "B", "t": "" },
+{ "v": "C", "t": "!=" },
+{ "v": "D", "t": "&&" },
+{ "v": "E", "t": "+=" }
+],
+"key": ["B", "C"]
+},
+{
+"name": "q24",
+"type": "checkbox",
+"title": "Pilihan Ganda Kompleks",
+"text": "Dua hal berikut merupakan bagian penting dalam perulangan for di C++:",
+"options": [
+{ "v": "A", "t": "Inisialisasi variabel counter" },
+{ "v": "B", "t": "Penentuan nilai balik (return value)" },
+{ "v": "C", "t": "Kondisi terminasi (berhenti)" },
+{ "v": "D", "t": "Deklarasi library di dalam kurung" },
+{ "v": "E", "t": "Penggunaan titik koma di akhir blok kurung kurawal" }
+],
+"key": ["A", "C"]
+},
+{
+"name": "q25",
+"type": "checkbox",
+"title": "Pilihan Ganda Kompleks",
+"text": "Manakah dua fungsi berikut yang berkaitan dengan pengelolaan elemen di std::vector?",
+"options": [
+{ "v": "A", "t": "pop_back()" },
+{ "v": "B", "t": "getline()" },
+{ "v": "C", "t": "clear()" },
+{ "v": "D", "t": "scanf()" },
+{ "v": "E", "t": "main()" }
+],
+"key": ["A", "C"]
+},
+{
+"name": "q26",
+"type": "checkbox",
+"title": "Pilihan Ganda Kompleks",
+"text": "Pilih dua keunggulan utama dari penggunaan Dynamic Programming:",
+"options": [
+{ "v": "A", "t": "Mengurangi waktu eksekusi dengan menghindari perhitungan berulang" },
+{ "v": "B", "t": "Membutuhkan kapasitas RAM yang jauh lebih kecil dibanding rekursi" },
+{ "v": "C", "t": "Cocok untuk masalah dengan struktur overlapping subproblems" },
+{ "v": "D", "t": "Sangat mudah dipahami dan diimplementasikan oleh pemula" },
+{ "v": "E", "t": "Tidak memerlukan struktur data tambahan seperti tabel atau array" }
+],
+"key": ["A", "C"]
+},
+{
+"name": "q27",
+"type": "checkbox",
+"title": "Pilihan Ganda Kompleks",
+"text": "Dua tipe data berikut digunakan untuk menampung angka bulat di C++:",
+"options": [
+{ "v": "A", "t": "int" },
+{ "v": "B", "t": "long long" },
+{ "v": "C", "t": "char" },
+{ "v": "D", "t": "double" },
+{ "v": "E", "t": "bool" }
+],
+"key": ["A", "B"]
+},
+{
+"name": "q28",
+"type": "checkbox",
+"title": "Pilihan Ganda Kompleks",
+"text": "Manakah dua hal yang mendefinisikan 'Base Case' dalam rekursi?",
+"options": [
+{ "v": "A", "t": "Bagian fungsi yang memanggil dirinya sendiri" },
+{ "v": "B", "t": "Kondisi sederhana yang solusinya sudah diketahui secara langsung" },
+{ "v": "C", "t": "Titik di mana pemanggilan rekursif dihentikan" },
+{ "v": "D", "t": "Variabel yang menyimpan hasil perkalian akhir" },
+{ "v": "E", "t": "Parameter fungsi yang bertipe string" }
+],
+"key": ["B", "C"]
+},
+{
+"name": "q29",
+"type": "checkbox",
+"title": "Pilihan Ganda Kompleks",
+"text": "Pilih dua algoritma pengurutan yang umumnya bekerja secara efisien pada data skala besar:",
+"options": [
+{ "v": "A", "t": "Quick Sort" },
+{ "v": "B", "t": "Selection Sort" },
+{ "v": "C", "t": "Merge Sort" },
+{ "v": "D", "t": "Bubble Sort" },
+{ "v": "E", "t": "Bogo Sort" }
+],
+"key": ["A", "C"]
+},
+{
+"name": "q30",
+"type": "checkbox",
+"title": "Pilihan Ganda Kompleks",
+"text": "Manakah dua pernyataan yang benar mengenai Array di C++?",
+"options": [
+{ "v": "A", "t": "Dapat menyimpan berbagai tipe data dalam satu nama variabel" },
+{ "v": "B", "t": "Ukurannya harus ditentukan saat deklarasi (statis)" },
+{ "v": "C", "t": "Alamat memori elemen array berada pada posisi yang berdampingan" },
+{ "v": "D", "t": "Dapat diperbesar ukurannya secara otomatis saat program berjalan" },
+{ "v": "E", "t": "Indeks array selalu dimulai dari 1" }
+],
+"key": ["B", "C"]
+},
+{
+"name": "q31",
+"type": "matching",
+"title": "Soal Menjodohkan",
+"text": "Jodohkanlah Istilah Pemrograman berikut dengan penjelasannya yang tepat!",
+"pairs": [
+{ "q": "LIFO", "a": "Prinsip kerja struktur data Stack" },
+{ "q": "FIFO", "a": "Prinsip kerja struktur data Queue" },
+{ "q": "Tabulation", "a": "Pendekatan Bottom-Up pada Dynamic Programming" },
+{ "q": "Memoization", "a": "Pendekatan Top-Down pada Dynamic Programming" },
+{ "q": "Recursion", "a": "Fungsi yang memanggil dirinya sendiri" }
+]
+},
+{
+"name": "q32",
+"type": "essay",
+"title": "Soal Essay",
+"text": "Berikan satu contoh masalah sehari-hari yang dapat diselesaikan dengan prinsip algoritma Greedy dan jelaskan mengapa algoritma tersebut cocok digunakan!"
+},
+{
+"name": "q33",
+"type": "essay",
+"title": "Soal Essay",
+"text": "Jelaskan perbedaan cara kerja antara perulangan while dan do-while dalam bahasa C++!"
+},
+{
+"name": "q34",
+"type": "essay",
+"title": "Soal Essay",
+"text": "Tuliskan struktur dasar program C++ (dari include hingga return 0) yang meminta input satu angka lalu mencetaknya kembali ke layar!"
+},
+{
+"name": "q35",
+"type": "essay",
+"title": "Soal Essay",
+"text": "Apa yang dimaksud dengan 'Kompleksitas Waktu' dalam sebuah algoritma, dan mengapa hal tersebut penting untuk diperhatikan oleh seorang programmer?"
+},
+{
+"name": "q36",
+"type": "essay",
+"title": "Soal Essay",
+"text": "Sebutkan dan jelaskan dua kelebihan menggunakan std::vector dibandingkan dengan array standar (int arr[n])!"
+}
+]
