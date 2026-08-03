@@ -17,201 +17,36 @@
       --success: #16a34a;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-main);
-      color: var(--text-dark);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* HEADER NAVBAR */
-    .admin-navbar {
-      background-color: #0f172a;
-      color: #ffffff;
-      padding: 14px 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .brand-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-title h1 {
-      font-size: 1.15rem;
-      font-weight: 700;
-    }
-
-    .badge-admin {
-      background-color: #dc2626;
-      color: white;
-      font-size: 0.7rem;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    /* MAIN CONTAINER */
-    .main-container {
-      max-width: 1000px;
-      width: 100%;
-      margin: 30px auto;
-      padding: 0 20px;
-      flex: 1;
-    }
-
-    .page-title {
-      margin-bottom: 20px;
-    }
-
-    .page-title h2 {
-      font-size: 1.5rem;
-      color: var(--text-dark);
-    }
-
-    .page-title p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    /* CARD STYLES */
-    .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
-    }
-
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 16px;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 8px;
-    }
-
-    /* FORM GRID */
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .form-group label {
-      font-size: 0.825rem;
-      font-weight: 700;
-      color: #334155;
-      text-transform: uppercase;
-    }
-
-    .form-control {
-      padding: 10px 12px;
-      border: 1.5px solid var(--border-color);
-      border-radius: 6px;
-      font-size: 0.9rem;
-      outline: none;
-      transition: all 0.2s;
-    }
-
-    .form-control:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    textarea.form-control {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      resize: vertical;
-    }
-
-    /* BUTTONS & ALERT */
-    .btn-submit {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: background 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-submit:hover {
-      background-color: var(--primary-hover);
-    }
-
-    .btn-submit:disabled {
-      background-color: #94a3b8;
-      cursor: not-allowed;
-    }
-
-    .alert-box {
-      padding: 12px 16px;
-      border-radius: 6px;
-      font-size: 0.875rem;
-      margin-top: 16px;
-      display: none;
-    }
-
-    .alert-success {
-      background-color: #f0fdf4;
-      color: #15803d;
-      border: 1px solid #bbf7d0;
-    }
-
-    .alert-error {
-      background-color: #fef2f2;
-      color: #dc2626;
-      border: 1px solid #fecaca;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 16px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border-color);
-      background: white;
-    }
-
-    .footer a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
+    body { background-color: var(--bg-main); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; }
+    .admin-navbar { background-color: #0f172a; color: #ffffff; padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
+    .brand-title { display: flex; align-items: center; gap: 10px; }
+    .brand-title h1 { font-size: 1.15rem; font-weight: 700; }
+    .badge-admin { background-color: #dc2626; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
+    .main-container { max-width: 1000px; width: 100%; margin: 30px auto; padding: 0 20px; flex: 1; }
+    .page-title { margin-bottom: 20px; }
+    .page-title h2 { font-size: 1.5rem; color: var(--text-dark); }
+    .page-title p { font-size: 0.9rem; color: var(--text-muted); }
+    .card { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03); }
+    .card-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 16px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 0.825rem; font-weight: 700; color: #334155; text-transform: uppercase; }
+    .form-control { padding: 10px 12px; border: 1.5px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; outline: none; transition: all 0.2s; }
+    .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+    textarea.form-control { font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; line-height: 1.4; resize: vertical; }
+    .btn-submit { background-color: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-submit:hover { background-color: var(--primary-hover); }
+    .btn-submit:disabled { background-color: #94a3b8; cursor: not-allowed; }
+    .alert-box { padding: 12px 16px; border-radius: 6px; font-size: 0.875rem; margin-top: 16px; display: none; }
+    .alert-success { background-color: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+    .alert-error { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .footer { text-align: center; padding: 16px; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); background: white; }
+    .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
   </style>
 </head>
 <body>
 
-  <!-- HEADER NAVBAR -->
   <header class="admin-navbar">
     <div class="brand-title">
       <h1>CBT CONTROL PANEL</h1>
@@ -222,7 +57,25 @@
   <main class="main-container">
     <div class="page-title">
       <h2>Input & Pengaturan Jadwal Ujian</h2>
-      <p>Buat paket ujian baru, atur rentang waktu akses siswa, dan simpan bank soal ke server.</p>
+      <p>Buat/Edit paket ujian, atur rentang waktu akses siswa, dan simpan bank soal ke server.</p>
+    </div>
+
+    <!-- CARD MODAL SEARCH (MODE EDIT) -->
+    <div class="card" style="background-color: #f8fafc; border-color: #2563eb;">
+      <div class="card-title" style="color: #1e3a8a;">🔍 Edit Paket Soal Yang Sudah Ada</div>
+      <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">
+        Masukkan Kode Ujian yang ingin diedit untuk memuat data dari Spreadsheet.
+      </p>
+
+      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <input type="text" id="searchKodeSoal" class="form-control" placeholder="Contoh: UH2-CPP" style="max-width: 320px;">
+        <button type="button" onclick="loadExamPackageForEdit()" class="btn-submit" style="background-color: #2563eb; padding: 10px 18px;">
+          📥 Muat Data Soal
+        </button>
+        <button type="button" onclick="resetToNewMode()" id="btnResetMode" class="btn-submit" style="background-color: #64748b; padding: 10px 18px; display: none;">
+          🔄 Switch ke Mode Buat Baru
+        </button>
+      </div>
     </div>
 
     <form id="adminForm">
@@ -261,11 +114,11 @@
         </div>
       </div>
 
-      <!-- CARD 2: HELPER UPLOAD & KONVERSI GAMBAR OTOMATIS KE WEBP -->
+      <!-- CARD 2: HELPER UPLOAD GAMBAR AUTO-WEBP -->
       <div class="card" style="background-color: #f0fdf4; border-color: #bbf7d0;">
         <div class="card-title" style="color: #166534;">🖼️ Helper Upload Gambar Soal (Auto Convert to WebP)</div>
         <p style="font-size:0.85rem; color:#15803d; margin-bottom:12px;">
-          Pilih file gambar (.jpg, .png, .bmp) dari perangkat Anda. Sistem akan otomatis mengompresi & mengubahnya menjadi format <strong>WebP</strong> yang sangat ringan.
+          Pilih file gambar. Sistem akan mengompresinya menjadi format <strong>WebP</strong> yang sangat ringan.
         </p>
 
         <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
@@ -275,7 +128,6 @@
           </button>
         </div>
 
-        <!-- Hasil Konversi WebP -->
         <div id="imageResultBox" style="display: none; margin-top: 16px; padding: 12px; background: white; border-radius: 8px; border: 1px solid #bbf7d0;">
           <p style="font-size: 0.8rem; color: #166534; font-weight: bold; margin-bottom: 6px;">
             ✅ Gambar Berhasil Dikompresi ke WebP (<span id="fileSizeInfo"></span>)
@@ -292,11 +144,11 @@
         </div>
       </div>
 
-      <!-- CARD 3: COPAS SOAL (JSON FORMAT) -->
+      <!-- CARD 3: BANK SOAL JSON -->
       <div class="card">
         <div class="card-title">3. Copas Bank Soal (JSON Format)</div>
         <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">
-          Tempelkan susunan soal dalam format JSON di bawah ini. Jika ada gambar, masukkan hasil salinan kode WebP di atas pada properti <code>"image"</code>.
+          Tempelkan susunan soal JSON. Masukkan kode WebP di properti <code>"image"</code> jika ada gambar.
         </p>
 
         <div class="form-group">
@@ -304,7 +156,7 @@
   {
     "name": "q1",
     "type": "radio",
-    "title": "Pilihan Ganda (1/10)",
+    "title": "Pilihan Ganda",
     "text": "Siapakah penemu C++?",
     "image": "",
     "options": [
@@ -320,12 +172,12 @@
       <div class="card">
         <div class="card-title">4. Input Kunci Jawaban</div>
         <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">
-          Format penulisan kunci jawaban: <code>KODE_SOAL: KUNCI</code> dipisahkan koma.<br>
-          Contoh Single Choice: <code>q1:B, q2:A, q3:D</code> | Contoh PG Kompleks: <code>q26:A,C</code>
+          Format: <code>KODE_SOAL: KUNCI</code> dipisahkan koma.<br>
+          Contoh: <code>q1:B, q2:A, q21:A,C</code>
         </p>
 
         <div class="form-group">
-          <textarea id="kunciText" class="form-control" rows="4" placeholder="q1:B, q2:A, q3:D, q26:A,C" required></textarea>
+          <textarea id="kunciText" class="form-control" rows="4" placeholder="q1:B, q2:A, q3:D, q21:A,C" required></textarea>
         </div>
       </div>
 
@@ -342,14 +194,73 @@
   </main>
 
   <footer class="footer">
-    © 2026 CBT Control Panel • Developed by <a href="https://kodi.web.id/aboutme.htm" target="_blank">Pak Cokro</a>
+    © 2026 CBT Control Panel • Developed by Agus Tjakra
   </footer>
 
   <script>
-    // URL GOOGLE APPS SCRIPT
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_REQmCaDxmcXJdoSBsslBzzx4ypM0fdaXahLTFz6FawTAmZonGhM6S7DB9eV530Yk/exec";
+    let currentMode = "CREATE";
 
-    // ⚡ FUNGSI KONVERSI OTOMATIS GAMBAR KE WEBP (CLIENT-SIDE)
+    // 📥 AMBIL DATA DARI SPREADSHEET UNTUK EDIT
+    async function loadExamPackageForEdit() {
+      const searchKode = document.getElementById("searchKodeSoal").value.trim();
+      if (!searchKode) {
+        alert("Masukkan Kode Ujian yang ingin diedit terlebih dahulu!");
+        return;
+      }
+
+      hideAlert();
+      
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action: "getAdminExamPackage", kodeSoal: searchKode })
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+          const data = result.data;
+          currentMode = "EDIT";
+          
+          document.getElementById("btnResetMode").style.display = "inline-flex";
+          document.getElementById("btnSubmit").innerText = "🔄 Perbarui & Simpan Perubahan Paket";
+          document.getElementById("btnSubmit").style.backgroundColor = "#d97706";
+
+          document.getElementById("kodeSoal").value = data.jadwal ? data.jadwal.kodeSoal : searchKode;
+          document.getElementById("kodeSoal").readOnly = true;
+          
+          if (data.jadwal) {
+            document.getElementById("namaUjian").value = data.jadwal.namaUjian || "";
+            document.getElementById("durasi").value = data.jadwal.durasi || 60;
+            document.getElementById("jadwalMulai").value = data.jadwal.jadwalMulai || "";
+            document.getElementById("jadwalSelesai").value = data.jadwal.jadwalSelesai || "";
+          }
+
+          document.getElementById("soalJson").value = JSON.stringify(data.soalJson, null, 2);
+          document.getElementById("kunciText").value = data.kunciText || "";
+
+          showAlert("✅ Data paket '" + searchKode + "' berhasil dimuat. Silakan lakukan perubahan di bawah.", "success");
+        } else {
+          showAlert("❌ " + result.message, "error");
+        }
+      } catch (err) {
+        showAlert("❌ Gagal terhubung ke server Google Apps Script.", "error");
+      }
+    }
+
+    function resetToNewMode() {
+      currentMode = "CREATE";
+      document.getElementById("adminForm").reset();
+      document.getElementById("kodeSoal").readOnly = false;
+      document.getElementById("btnResetMode").style.display = "none";
+      document.getElementById("btnSubmit").innerText = "💾 Simpan & Terbitkan Ujian";
+      document.getElementById("btnSubmit").style.backgroundColor = "";
+      hideAlert();
+    }
+
     function processAndConvertImage() {
       const fileInput = document.getElementById('imageInput');
       if (!fileInput.files || !fileInput.files[0]) {
@@ -363,11 +274,8 @@
       reader.onload = function (e) {
         const img = new Image();
         img.onload = function () {
-          // 1. Buat Canvas untuk Pemrosesan Gambar
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
-
-          // 2. Batasi Lebar Maksimal Gambar (Maksimal 800px) agar Ukuran Selalu Ringan
           const MAX_WIDTH = 800;
           let width = img.width;
           let height = img.height;
@@ -379,21 +287,14 @@
 
           canvas.width = width;
           canvas.height = height;
-
-          // 3. Draw Gambar ke Canvas
           ctx.drawImage(img, 0, 0, width, height);
 
-          // 4. Konversi ke Format WebP Kualitas 80%
           const webpBase64 = canvas.toDataURL('image/webp', 0.8);
-
-          // Hitung Estimasi Ukuran File WebP
           const head = 'data:image/webp;base64,';
           const sizeInBytes = Math.round((webpBase64.length - head.length) * 3 / 4);
-          const sizeInKb = (sizeInBytes / 1024).toFixed(1);
-
-          // Render Hasil
+          
           document.getElementById('webpDataUrl').value = webpBase64;
-          document.getElementById('fileSizeInfo').innerText = `Ukuran: ${sizeInKb} KB`;
+          document.getElementById('fileSizeInfo').innerText = `Ukuran: ${(sizeInBytes / 1024).toFixed(1)} KB`;
           document.getElementById('imagePreview').src = webpBase64;
           document.getElementById('imageResultBox').style.display = 'block';
         };
@@ -406,17 +307,14 @@
     function copyWebpData() {
       const copyText = document.getElementById("webpDataUrl");
       copyText.select();
-      copyText.setSelectionRange(0, 99999);
       navigator.clipboard.writeText(copyText.value);
-      alert("Kode WebP berhasil disalin! Tinggal tempelkan pada properti \"image\" di JSON soal.");
+      alert("Kode WebP berhasil disalin!");
     }
 
-    // 📤 HANDLER SUBMIT DATA ADMIN KE GOOGLE APPS SCRIPT
     document.getElementById("adminForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const btnSubmit = document.getElementById("btnSubmit");
-
       const kodeSoal = document.getElementById("kodeSoal").value.trim();
       const namaUjian = document.getElementById("namaUjian").value.trim();
       const durasi = document.getElementById("durasi").value;
@@ -425,16 +323,14 @@
       const soalJsonRaw = document.getElementById("soalJson").value;
       const kunciTextRaw = document.getElementById("kunciText").value;
 
-      // 1. Validasi JSON Soal
       let parsedSoal = [];
       try {
         parsedSoal = JSON.parse(soalJsonRaw);
       } catch (err) {
-        showAlert("Format JSON Soal Salah/Error! Periksa kembali tanda petik dan koma.", "error");
+        showAlert("Format JSON Soal Salah/Error! Periksa tanda petik dan koma.", "error");
         return;
       }
 
-      // 2. Parsing Format Kunci Jawaban (q1:B, q2:A)
       const kunciObj = {};
       try {
         const pairs = kunciTextRaw.split(",");
@@ -445,13 +341,15 @@
           }
         });
       } catch (err) {
-        showAlert("Format Kunci Jawaban Salah! Contoh: q1:B, q2:A, q26:A,C", "error");
+        showAlert("Format Kunci Jawaban Salah! Contoh: q1:B, q2:A, q21:A,C", "error");
         return;
       }
 
       btnSubmit.disabled = true;
-      btnSubmit.innerText = "⏳ Memproses & Menyimpan ke Server...";
+      btnSubmit.innerText = "⏳ Memproses Ke Server...";
       hideAlert();
+
+      const targetAction = (currentMode === "EDIT") ? "updateExamPackage" : "saveNewExamPackage";
 
       try {
         const response = await fetch(SCRIPT_URL, {
@@ -459,7 +357,7 @@
           mode: "cors",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify({
-            action: "saveNewExamPackage",
+            action: targetAction,
             kodeSoal: kodeSoal,
             namaUjian: namaUjian,
             durasi: durasi,
@@ -474,17 +372,14 @@
 
         if (result.status === "success") {
           showAlert("✅ " + result.message, "success");
-          document.getElementById("adminForm").reset();
-          document.getElementById('imageResultBox').style.display = 'none';
+          resetToNewMode();
         } else {
-          showAlert("❌ " + (result.message || "Gagal menyimpan paket ujian."), "error");
+          showAlert("❌ " + (result.message || "Gagal menyimpan."), "error");
         }
       } catch (error) {
-        console.error("Error Admin Submit:", error);
-        showAlert("❌ Gagal terhubung ke server Google Apps Script. Periksa SCRIPT_URL Anda.", "error");
+        showAlert("❌ Gagal terhubung ke server Google Apps Script.", "error");
       } finally {
         btnSubmit.disabled = false;
-        btnSubmit.innerText = "💾 Simpan & Terbitkan Ujian";
       }
     });
 
@@ -496,8 +391,7 @@
     }
 
     function hideAlert() {
-      const alertBox = document.getElementById("alertBox");
-      alertBox.style.display = "none";
+      document.getElementById("alertBox").style.display = "none";
     }
   </script>
 </body>
