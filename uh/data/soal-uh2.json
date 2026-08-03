@@ -19,7 +19,7 @@
       },
       {
         "text": "Meningkatkan kecepatan jaringan internet secara otomatis",
-        "image": ""
+        "image": "./images/soal1.png"
       }
     ]
   },
@@ -31,7 +31,7 @@
     "options": [
       {
         "text": "Keyboard",
-        "image": ""
+        "image": ""./images/soal1.png
       },
       {
         "text": "Mouse",
@@ -51,7 +51,7 @@
     "id": 3,
     "type": "essay",
     "question": "Jelaskan secara singkat perbedaan antara RAM dan Harddisk (storage) dalam sistem komputer!",
-    "image": ""
+    "image": "./images/soal1.png"
   },
   {
     "id": 4,
