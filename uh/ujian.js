@@ -14,7 +14,7 @@ function getCleanPaketId(rawPath) {
   if (!rawPath) return "soal-uh1";
   return String(rawPath)
     .replace(/^.*[\\\/]/, '') 
-    .replace('.json', '')     
+    .replace('.json', '')      
     .trim()
     .toLowerCase();
 }
@@ -203,7 +203,8 @@ function renderNumberGrid() {
   let html = "";
 
   questionsData.forEach((q, idx) => {
-    const isAnswered = isQuestionAnswered(q.name);
+    const qKey = q.name || q.id || `q_${idx}`;
+    const isAnswered = isQuestionAnswered(qKey);
     const isActive = idx === currentQuestionIndex;
 
     let classList = "btn-num";
@@ -220,7 +221,8 @@ function jumpToQuestion(index) {
   if (index === currentQuestionIndex) return;
   saveCurrentAnswer();
 
-  if (!isQuestionAnswered(questionsData[currentQuestionIndex].name)) {
+  const currentKey = questionsData[currentQuestionIndex].name || questionsData[currentQuestionIndex].id || `q_${currentQuestionIndex}`;
+  if (!isQuestionAnswered(currentKey)) {
     showWarning("Jawab soal ini terlebih dahulu sebelum berpindah!");
     return;
   }
@@ -239,6 +241,7 @@ function showQuestion(index) {
   if (!container || !questionsData[index]) return;
 
   const q = questionsData[index];
+  const qKey = q.name || q.id || `q_${index}`;
 
   const titleEl = document.getElementById("questionTitle");
   if (titleEl) titleEl.innerText = `Soal Nomor ${index + 1}`;
@@ -250,51 +253,74 @@ function showQuestion(index) {
   const badgeEl = document.getElementById("questionTypeBadge");
   if (badgeEl) badgeEl.innerText = typeText;
 
-  let html = `<div style="line-height: 1.6; color: #1e293b;">`;
-  html += `<p style="margin-bottom: 12px; font-weight: 600; font-size: 1.05rem;">${q.text}</p>`;
+  // Mendukung properti q.question (dari JSON) maupun q.text
+  const questionTextHtml = q.question || q.text || "";
 
-  // GAMBAR SOAL JIKA ADA
-  if (q.image && q.image.trim() !== "") {
+  let html = `<div style="line-height: 1.6; color: #1e293b;">`;
+  html += `<p style="margin-bottom: 12px; font-weight: 600; font-size: 1.05rem;">${questionTextHtml}</p>`;
+
+  // --- RENDERING GAMBAR UTAMA SOAL ---
+  const mainImg = q.image || q.img || "";
+  if (mainImg && mainImg.trim() !== "") {
     html += `
       <div style="text-align: center; margin-bottom: 16px;">
-        <img src="${q.image}" alt="Gambar Soal" style="max-width: 100%; max-height: 350px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <img src="${mainImg}" alt="Gambar Soal" style="max-width: 100%; max-height: 350px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
       </div>
     `;
   }
 
+  // --- RENDERING OPSI RADIO (PILIHAN GANDA) ---
   if (q.type === "radio" && Array.isArray(q.options)) {
     q.options.forEach((opt, idx) => {
-      const isChecked = userAnswers[q.name] === opt.v;
+      const optVal = opt.v !== undefined ? opt.v : (opt.value !== undefined ? opt.value : String.fromCharCode(65 + idx));
+      const optText = opt.t || opt.text || "";
+      const optImg = opt.image || opt.img || "";
+      const isChecked = userAnswers[qKey] === optVal;
       const labelBadge = String.fromCharCode(65 + idx);
 
-      html += `
-        <div class="option-item ${isChecked ? 'selected' : ''}" onclick="selectRadioOption('${q.name}', '${opt.v}', this)">
-          <input type="radio" name="${q.name}" value="${opt.v}" ${isChecked ? 'checked' : ''} style="display: none;" />
-          <div class="option-badge">${labelBadge}</div>
-          <div class="option-text">${opt.t || ''}</div>
-        </div>
-      `;
-    });
-  } 
-  else if (q.type === "checkbox" && Array.isArray(q.options)) {
-    const savedArr = userAnswers[q.name] || [];
-    q.options.forEach((opt, idx) => {
-      const isChecked = savedArr.includes(opt.v);
-      const labelBadge = idx + 1;
+      let imgHtml = "";
+      if (optImg && optImg.trim() !== "") {
+        imgHtml = `<div style="margin-top: 8px;"><img src="${optImg}" alt="Gambar Opsi" style="max-width: 200px; max-height: 150px; border-radius: 6px; border: 1px solid #e2e8f0;"></div>`;
+      }
 
       html += `
-        <div class="option-item ${isChecked ? 'selected' : ''}" onclick="toggleCheckboxOption('${q.name}', '${opt.v}', this)">
-          <input type="checkbox" name="${q.name}" value="${opt.v}" ${isChecked ? 'checked' : ''} style="display: none;" />
-          <div class="option-badge badge-checkbox">${labelBadge}</div>
-          <div class="option-text">${opt.t || ''}</div>
+        <div class="option-item ${isChecked ? 'selected' : ''}" onclick="selectRadioOption('${qKey}', '${optVal}', this)">
+          <input type="radio" name="${qKey}" value="${optVal}" ${isChecked ? 'checked' : ''} style="display: none;" />
+          <div class="option-badge">${labelBadge}</div>
+          <div class="option-text">${optText}${imgHtml}</div>
         </div>
       `;
     });
   } 
+  // --- RENDERING OPSI CHECKBOX (KOMPLEKS) ---
+  else if (q.type === "checkbox" && Array.isArray(q.options)) {
+    const savedArr = userAnswers[qKey] || [];
+    q.options.forEach((opt, idx) => {
+      const optVal = opt.v !== undefined ? opt.v : (opt.value !== undefined ? opt.value : String.fromCharCode(65 + idx));
+      const optText = opt.t || opt.text || "";
+      const optImg = opt.image || opt.img || "";
+      const isChecked = savedArr.includes(optVal);
+      const labelBadge = idx + 1;
+
+      let imgHtml = "";
+      if (optImg && optImg.trim() !== "") {
+        imgHtml = `<div style="margin-top: 8px;"><img src="${optImg}" alt="Gambar Opsi" style="max-width: 200px; max-height: 150px; border-radius: 6px; border: 1px solid #e2e8f0;"></div>`;
+      }
+
+      html += `
+        <div class="option-item ${isChecked ? 'selected' : ''}" onclick="toggleCheckboxOption('${qKey}', '${optVal}', this)">
+          <input type="checkbox" name="${qKey}" value="${optVal}" ${isChecked ? 'checked' : ''} style="display: none;" />
+          <div class="option-badge badge-checkbox">${labelBadge}</div>
+          <div class="option-text">${optText}${imgHtml}</div>
+        </div>
+      `;
+    });
+  } 
+  // --- RENDERING ESSAY ---
   else if (q.type === "essay") {
-    const savedText = userAnswers[q.name] || "";
+    const savedText = userAnswers[qKey] || "";
     html += `
-      <textarea id="essayInput" name="${q.name}" rows="5" class="essay-box" placeholder="Ketikkan jawaban uraian Anda secara rinci..." oninput="hideWarning()">${savedText}</textarea>
+      <textarea id="essayInput" name="${qKey}" rows="5" class="essay-box" placeholder="Ketikkan jawaban uraian Anda secara rinci..." oninput="hideWarning()">${savedText}</textarea>
     `;
   } else {
     html += `<p style="color:#64748b;"><i>Tipe soal (${q.type}) tidak dapat ditampilkan.</i></p>`;
@@ -353,19 +379,20 @@ function toggleCheckboxOption(qName, val, el) {
 function saveCurrentAnswer() {
   if (!questionsData || !questionsData[currentQuestionIndex]) return;
   const q = questionsData[currentQuestionIndex];
+  const qKey = q.name || q.id || `q_${currentQuestionIndex}`;
 
   if (q.type === "radio") {
-    const selected = document.querySelector(`input[name="${q.name}"]:checked`);
-    if (selected) userAnswers[q.name] = selected.value;
+    const selected = document.querySelector(`input[name="${qKey}"]:checked`);
+    if (selected) userAnswers[qKey] = selected.value;
   } else if (q.type === "checkbox") {
-    const checkedBoxes = document.querySelectorAll(`input[name="${q.name}"]:checked`);
+    const checkedBoxes = document.querySelectorAll(`input[name="${qKey}"]:checked`);
     const values = Array.from(checkedBoxes).map((cb) => cb.value);
-    if (values.length > 0) userAnswers[q.name] = values;
-    else delete userAnswers[q.name];
+    if (values.length > 0) userAnswers[qKey] = values;
+    else delete userAnswers[qKey];
   } else if (q.type === "essay") {
     const essayText = document.getElementById("essayInput")?.value.trim();
-    if (essayText) userAnswers[q.name] = essayText;
-    else delete userAnswers[q.name];
+    if (essayText) userAnswers[qKey] = essayText;
+    else delete userAnswers[qKey];
   }
 
   let rawSoalPath = localStorage.getItem("soalPath") || "soal-uh1";
@@ -391,7 +418,8 @@ function hideWarning() {
 
 function nextQuestion() {
   saveCurrentAnswer();
-  if (!isQuestionAnswered(questionsData[currentQuestionIndex].name)) {
+  const qKey = questionsData[currentQuestionIndex].name || questionsData[currentQuestionIndex].id || `q_${currentQuestionIndex}`;
+  if (!isQuestionAnswered(qKey)) {
     showWarning("Jawab soal ini terlebih dahulu sebelum melanjutkan!");
     return;
   }
@@ -403,7 +431,8 @@ function nextQuestion() {
 
 function prevQuestion() {
   saveCurrentAnswer();
-  if (!isQuestionAnswered(questionsData[currentQuestionIndex].name)) {
+  const qKey = questionsData[currentQuestionIndex].name || questionsData[currentQuestionIndex].id || `q_${currentQuestionIndex}`;
+  if (!isQuestionAnswered(qKey)) {
     showWarning("Jawab soal ini terlebih dahulu sebelum berpindah!");
     return;
   }
@@ -430,7 +459,8 @@ function showWarning(msg) {
 
 function submitExam() {
   saveCurrentAnswer();
-  if (!isQuestionAnswered(questionsData[currentQuestionIndex].name)) {
+  const qKey = questionsData[currentQuestionIndex].name || questionsData[currentQuestionIndex].id || `q_${currentQuestionIndex}`;
+  if (!isQuestionAnswered(qKey)) {
     showWarning("Jawab soal terakhir terlebih dahulu!");
     return;
   }
