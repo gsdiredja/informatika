@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const alertBox = document.getElementById("alertBox");
   const jenisUjianSelect = document.getElementById("jenisUjian");
 
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPdMy9I6A-GtHXY0TZd62ByjdkqPcpVFkcrA8_9vaOvIxZbWJ6CCGDjLqLpXtfWk4T/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbySm7Bw7wgYVZwu7cs6xAuXyQc1Y-FUxJuiJ80YxyFOQeLSNfsrBQ0dgsYN4B_9LZgg/exec";
 
   // 🔄 FUNGSI OTOMATIS: Tarik Paket Ujian Aktif dari Sheet 'Jadwal_Ujian'
   async function loadActiveExams() {
