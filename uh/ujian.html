@@ -39,6 +39,7 @@
       align-items: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       z-index: 10;
+      flex-shrink: 0;
     }
 
     .brand-title {
@@ -126,6 +127,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 0.85rem;
+      flex-shrink: 0;
     }
 
     .user-details strong { color: var(--akm-blue); }
@@ -150,6 +152,7 @@
       display: flex;
       overflow: hidden;
       position: relative;
+      min-height: 0; /* Penting agar kontainer flex tidak meluap ke luar layar */
     }
 
     .exam-panel {
@@ -303,7 +306,7 @@
     .legend-item { display: flex; align-items: center; gap: 8px; }
     .legend-box { width: 14px; height: 14px; border-radius: 3px; border: 1px solid #cbd5e1; }
 
-    /* 5. FOOTER NAVIGASI */
+    /* 5. FOOTER NAVIGASI (DIPERBAIKI) */
     .akm-footer {
       background-color: #ffffff;
       border-top: 1px solid var(--akm-border);
@@ -311,6 +314,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-shrink: 0; /* Mengunci footer agar tidak pernah terdorong keluar layar */
+      z-index: 30;
+      position: relative;
     }
 
     .btn-action {
@@ -330,15 +336,35 @@
     .btn-submit { background-color: var(--akm-green); color: white; }
     .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    @media (max-width: 768px) {
+    /* MEDIA QUERY RESPONSIVE UNTUK TABLET & HP (DIUBAH KE 1024PX) */
+    @media (max-width: 1024px) {
       .grid-sidebar {
         position: absolute;
-        right: 0; top: 0; bottom: 0;
-        z-index: 20;
-        box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+        right: 0; 
+        top: 0; 
+        bottom: 0;
+        z-index: 40;
+        box-shadow: -4px 0 10px rgba(0,0,0,0.15);
         transform: translateX(100%);
       }
-      .grid-sidebar.open { transform: translateX(0); }
+      
+      .grid-sidebar.open { 
+        transform: translateX(0); 
+      }
+
+      .exam-panel {
+        margin: 8px;
+        padding: 16px;
+      }
+
+      .akm-footer {
+        padding: 10px 16px;
+      }
+
+      .btn-action {
+        padding: 10px 14px;
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
