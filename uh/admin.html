@@ -99,6 +99,11 @@
             <label for="durasi">Durasi (Menit)</label>
             <input type="number" id="durasi" class="form-control" value="60" min="5" required>
           </div>
+
+          <div class="form-group">
+            <label for="maxSoal">Jumlah Soal Dikeluarkan</label>
+            <input type="number" id="maxSoal" class="form-control" placeholder="Isi 0 jika ingin keluar semua" value="0" min="0" required>
+          </div>
         </div>
 
         <div class="form-grid">
@@ -216,7 +221,7 @@
           method: "POST",
           mode: "cors",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ action: "getAdminExamPackage", kodeSoal: searchKode })
+          body: JSON.stringify({ action: "getadminexampackage", kodeSoal: searchKode })
         });
 
         const result = await response.json();
@@ -239,7 +244,14 @@
             document.getElementById("jadwalSelesai").value = data.jadwal.jadwalSelesai || "";
           }
 
-          document.getElementById("soalJson").value = JSON.stringify(data.soalJson, null, 2);
+          if (data.soalJson && !Array.isArray(data.soalJson) && data.soalJson.questions) {
+            document.getElementById("maxSoal").value = data.soalJson.maxQuestions || 0;
+            document.getElementById("soalJson").value = JSON.stringify(data.soalJson.questions, null, 2);
+          } else {
+            document.getElementById("maxSoal").value = 0;
+            document.getElementById("soalJson").value = JSON.stringify(data.soalJson || [], null, 2);
+          }
+
           document.getElementById("kunciText").value = data.kunciText || "";
 
           showAlert("✅ Data paket '" + searchKode + "' berhasil dimuat. Silakan lakukan perubahan di bawah.", "success");
@@ -318,6 +330,7 @@
       const kodeSoal = document.getElementById("kodeSoal").value.trim();
       const namaUjian = document.getElementById("namaUjian").value.trim();
       const durasi = document.getElementById("durasi").value;
+      const maxSoal = parseInt(document.getElementById("maxSoal").value) || 0;
       const jadwalMulai = document.getElementById("jadwalMulai").value;
       const jadwalSelesai = document.getElementById("jadwalSelesai").value;
       const soalJsonRaw = document.getElementById("soalJson").value;
@@ -329,6 +342,14 @@
       } catch (err) {
         showAlert("Format JSON Soal Salah/Error! Periksa tanda petik dan koma.", "error");
         return;
+      }
+
+      let finalSoalPackage = parsedSoal;
+      if (maxSoal > 0) {
+        finalSoalPackage = {
+          maxQuestions: maxSoal,
+          questions: Array.isArray(parsedSoal) ? parsedSoal : (parsedSoal.questions || [])
+        };
       }
 
       const kunciObj = {};
@@ -349,7 +370,7 @@
       btnSubmit.innerText = "⏳ Memproses Ke Server...";
       hideAlert();
 
-      const targetAction = (currentMode === "EDIT") ? "updateExamPackage" : "saveNewExamPackage";
+      const targetAction = (currentMode === "EDIT") ? "updateexampackage" : "savenewexampackage";
 
       try {
         const response = await fetch(SCRIPT_URL, {
@@ -363,7 +384,7 @@
             durasi: durasi,
             jadwalMulai: jadwalMulai,
             jadwalSelesai: jadwalSelesai,
-            soalJson: parsedSoal,
+            soalJson: finalSoalPackage,
             kunciObj: kunciObj
           }),
         });
