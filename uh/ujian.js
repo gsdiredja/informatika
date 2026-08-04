@@ -86,6 +86,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       showQuestion(0);
     } else {
       let loaded = false;
+      let rawLoadedQuestions = null;
+
       try {
         const response = await fetch(SCRIPT_URL, {
           method: "POST",
@@ -94,8 +96,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           body: JSON.stringify({ action: "getquestions", paket: cleanPaketId })
         });
         const result = await response.json();
-        if (result.status === "success" && Array.isArray(result.data) && result.data.length > 0) {
-          questionsData = shuffleArray(result.data);
+        if (result.status === "success" && result.data) {
+          rawLoadedQuestions = result.data;
           loaded = true;
         }
       } catch(err) {
@@ -112,8 +114,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           const localRes = await fetch(targetLocalPath);
           if (localRes.ok) {
             const localData = await localRes.json();
-            if (Array.isArray(localData) && localData.length > 0) {
-              questionsData = shuffleArray(localData);
+            if (localData) {
+              rawLoadedQuestions = localData;
               loaded = true;
             }
           }
@@ -122,7 +124,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       }
 
-      if (loaded && questionsData.length > 0) {
+      if (loaded && rawLoadedQuestions) {
+        let finalArray = [];
+        let maxQty = 0;
+
+        if (!Array.isArray(rawLoadedQuestions) && rawLoadedQuestions.questions) {
+          maxQty = rawLoadedQuestions.maxQuestions || 0;
+          finalArray = rawLoadedQuestions.questions;
+        } else if (Array.isArray(rawLoadedQuestions)) {
+          finalArray = rawLoadedQuestions;
+        }
+
+        let shuffledAll = shuffleArray(finalArray);
+
+        if (maxQty > 0 && maxQty < shuffledAll.length) {
+          questionsData = shuffledAll.slice(0, maxQty);
+        } else {
+          questionsData = shuffledAll;
+        }
+
         questionsData.forEach((q) => {
           if (q.options && Array.isArray(q.options)) {
             q.options = shuffleArray(q.options);
@@ -253,13 +273,11 @@ function showQuestion(index) {
   const badgeEl = document.getElementById("questionTypeBadge");
   if (badgeEl) badgeEl.innerText = typeText;
 
-  // Mendukung properti q.question (dari JSON) maupun q.text
   const questionTextHtml = q.question || q.text || "";
 
   let html = `<div style="line-height: 1.6; color: #1e293b;">`;
   html += `<p style="margin-bottom: 12px; font-weight: 600; font-size: 1.05rem;">${questionTextHtml}</p>`;
 
-  // --- RENDERING GAMBAR UTAMA SOAL ---
   const mainImg = q.image || q.img || "";
   if (mainImg && mainImg.trim() !== "") {
     html += `
@@ -269,7 +287,6 @@ function showQuestion(index) {
     `;
   }
 
-  // --- RENDERING OPSI RADIO (PILIHAN GANDA) ---
   if (q.type === "radio" && Array.isArray(q.options)) {
     q.options.forEach((opt, idx) => {
       const optVal = opt.v !== undefined ? opt.v : (opt.value !== undefined ? opt.value : String.fromCharCode(65 + idx));
@@ -292,7 +309,6 @@ function showQuestion(index) {
       `;
     });
   } 
-  // --- RENDERING OPSI CHECKBOX (KOMPLEKS) ---
   else if (q.type === "checkbox" && Array.isArray(q.options)) {
     const savedArr = userAnswers[qKey] || [];
     q.options.forEach((opt, idx) => {
@@ -316,7 +332,6 @@ function showQuestion(index) {
       `;
     });
   } 
-  // --- RENDERING ESSAY ---
   else if (q.type === "essay") {
     const savedText = userAnswers[qKey] || "";
     html += `
