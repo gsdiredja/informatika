@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value.trim();
-      const jenisUjian = document.getElementById("jenisUjian").value;
+      const jenisUjian = document.getElementById("jenisUjian").value; // Ambil nilai paket ujian
       
       if (!jenisUjian) {
         showAlert("Pilih paket ujian yang valid terlebih dahulu!");
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
             action: "login",
             username: username,
             password: password,
-            paket: jenisUjian // 👈 MENGIRIM KODE PAKET UJIAN YANG DIPILIH
+            paket: jenisUjian // 👈 WAJIB: Mengirimkan kode paket ke GAS agar status menjadi ONLINE_KODEPAKET
           }),
         });
 
