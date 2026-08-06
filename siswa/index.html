@@ -85,11 +85,9 @@
             <button type="button" class="btn-back-to-topik" onclick="event.stopPropagation(); kembaliKeDaftarTopik();" title="Kembali ke Daftar Topik">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                        <polyline points="12 19 5 12 12 5"></polyline>
-                    </svg>
-                </button>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
             
             <!-- PENGGUNAAN LOGO OPSI 2 -->
             <div class="header-logo-box">
@@ -175,6 +173,7 @@
 
         let sessionUser = null; 
         let dbStatusModul = { 1: true, 2: false, 3: false, 4: false, 5: false };
+        let sistemAksesGlobal = {}; // KONTROL DARI ADMIN (PengaturanAkses)
         let internalAkses = {};
         let internalDibuka = {};
         let modulAktif = 1;
@@ -224,7 +223,9 @@
                 .then(res => res.json())
                 .then(resData => {
                     if(resData.status === "success") {
-                        dbStatusModul = resData.progress;
+                        dbStatusModul = resData.progress || {};
+                        sistemAksesGlobal = resData.aksesSystem || {}; // Menyimpan data dari sheet PengaturanAkses
+                        
                         for (let key in dbStatusModul) {
                             dbStatusModul[key] = (dbStatusModul[key] === true || dbStatusModul[key] === "true" || dbStatusModul[key] === "TRUE");
                         }
@@ -246,20 +247,25 @@
             modulKeys.forEach((noModulStr) => {
                 const noModul = parseInt(noModulStr);
                 const modulInfo = dataTopikSaatIni.modul[noModul];
-                const isAktif = (dbStatusModul[noModul] === true);
-                const nextAktif = (dbStatusModul[noModul + 1] === true);
+                
+                const isAktifByProgress = (dbStatusModul[noModul] === true);
+                const keyAkses = `modul_${topikAktif}_${noModul}`;
+                const isDizinkanAdmin = (sistemAksesGlobal[keyAkses] !== false);
+
+                // Akses terbuka jika diizinkan Admin DAN lulus modul sebelumnya (kecuali Admin login)
+                const isBisaDiakses = (sessionUser && sessionUser.username === "admin") || (isDizinkanAdmin && isAktifByProgress);
 
                 let classStatus = "";
-                if (!isAktif) classStatus = "locked";
-                else if (nextAktif) classStatus = "completed";
+                if (!isBisaDiakses) classStatus = "locked";
+                else if (dbStatusModul[noModul + 1] === true) classStatus = "completed";
 
                 wrapper.innerHTML += `
                     <div class="module-card ${classStatus}" id="card-modul-${noModul}" onclick="bukaModul(${noModul})">
                         <div class="module-number">${noModul}</div>
                         <div class="module-info">
-                            <div class="module-name">${modulInfo.title}</div>
+                            <div class="module-name">${modulInfo.title} ${!isDizinkanAdmin ? '<small style="color:red; font-size:12px;">(Ditutup Admin)</small>' : ''}</div>
                             <div class="module-meta">📖 ${modulInfo.materi.length} materi + Post Test</div>
-                            <button class="btn-study">Pelajari Materi</button>
+                            <button class="btn-study">${isBisaDiakses ? 'Pelajari Materi' : 'Terkunci'}</button>
                         </div>
                     </div>
                 `;
@@ -267,8 +273,19 @@
         }
 
         function bukaModul(noModul) {
-            const statusAkses = (dbStatusModul[noModul] === true);
-            if (!statusAkses) {
+            const keyAkses = `modul_${topikAktif}_${noModul}`;
+            const isDizinkanAdmin = (sistemAksesGlobal[keyAkses] !== false);
+            const isLulusUrutan = (dbStatusModul[noModul] === true);
+
+            // Bypass pengecekan jika user adalah admin
+            if (sessionUser && sessionUser.username === "admin") {
+                // Izinkan masuk
+            } 
+            else if (!isDizinkanAdmin) {
+                alert("Akses modul ini sedang ditutup oleh Admin/Guru.");
+                return;
+            } 
+            else if (!isLulusUrutan) {
                 alert("Modul terblokir! Selesaikan modul sebelumnya terlebih dahulu.");
                 return;
             }
@@ -354,7 +371,6 @@
 
         function tutupModul() { document.getElementById('moduleModal').classList.remove('active'); }
 
-        // LOGIKA FETCH MATERI DIUBAH AGAR MENANGKAP ERROR FILE 404 KUSTOM
         function toggleMateri(noMateri) {
             if (!internalAkses[noMateri]) return;
             const item = document.getElementById(`item-${noMateri}`);
@@ -385,7 +401,6 @@
                         bukaKunciBerikutnya(noMateri);
                     })
                     .catch(() => {
-                        // Tampilan Kustom Saat Materi Belum Dibuat / Error 404
                         content.innerHTML = `
                             <div style="text-align: center; padding: 25px 15px; color: #64748b; background-color: #ffffff; border-radius: 8px; border: 1px dashed #cbd5e1;">
                                 <div style="font-size: 32px; margin-bottom: 8px;">🚧</div>
@@ -393,7 +408,6 @@
                                 <p style="font-size: 13px; line-height: 1.4;">Bahan ajar digital untuk bagian ini sedang dalam proses penyusunan oleh tim guru.</p>
                             </div>
                         `;
-                        // Tetap buka materi berikutnya/kuis jika admin agar tidak stuck testing
                         if(sessionUser && sessionUser.username === "admin") {
                             bukaKunciBerikutnya(noMateri);
                         }
@@ -422,7 +436,6 @@
             }
         }
 
-        // LOGIKA FETCH POSTTEST DIUBAH AGAR MENANGKAP ERROR FILE 404 KUSTOM
         function bukaHalamanPostTest() {
             if (!internalAkses.pt) return;
 
@@ -468,7 +481,6 @@
                     }
                 })
                 .catch(() => {
-                    // Tampilan Kustom Saat Soal Kuis Belum Tersedia / Error 404
                     document.getElementById('kuisNavRow').style.display = 'none';
                     wrapperSoal.innerHTML = `
                         <div style="text-align: center; padding: 35px 20px; color: #64748b;">
