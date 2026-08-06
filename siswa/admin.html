@@ -8,14 +8,21 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: #f3f4f6; padding: 30px 20px; }
-        .container { max-width: 700px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h2 { color: #1e293b; font-size: 20px; margin-bottom: 6px; }
-        p.desc { font-size: 13px; color: #64748b; margin-bottom: 24px; }
+        .container { max-width: 750px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
+        h2 { color: #1e293b; font-size: 20px; }
+        .btn-refresh { background-color: #3b82f6; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 12px; }
+        .btn-refresh:hover { background-color: #2563eb; }
+        p.desc { font-size: 13px; color: #64748b; margin-bottom: 20px; }
         .topik-group { margin-bottom: 24px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
         .topik-header { background: #0f172a; color: white; padding: 12px 16px; font-weight: 700; font-size: 14px; }
         .control-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #f1f5f9; background: #fff; }
         .control-row:last-child { border-bottom: none; }
+        .modul-info { display: flex; align-items: center; gap: 10px; }
         .modul-title { font-size: 13px; font-weight: 600; color: #334155; }
+        .badge-status { font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 700; text-transform: uppercase; }
+        .badge-open { background-color: #d1fae5; color: #047857; }
+        .badge-closed { background-color: #fee2e2; color: #b91c1c; }
         .btn-group { display: flex; gap: 8px; }
         .btn { padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s; }
         .btn-open { background-color: #10b981; color: white; }
@@ -27,31 +34,50 @@
 <body>
 
 <div class="container">
-    <h2>🛠️ Panel Kontrol Akses Modul (Admin)</h2>
-    <p class="desc">Atur izin akses topik dan modul untuk siswa secara real-time:</p>
+    <div class="header">
+        <h2>🛠️ Panel Kontrol Akses Modul (Admin)</h2>
+        <button class="btn-refresh" onclick="muatStatusAksesData()">🔄 Reload Status</button>
+    </div>
+    <p class="desc">Atur izin akses topik dan modul untuk siswa secara real-time. Perubahan langsung tersimpan ke Google Sheets.</p>
 
-    <!-- Container Kontrol Otomatis -->
     <div id="adminControlWrapper">
-        <em>Memuat daftar modul...</em>
+        <em>Memuat status dari server...</em>
     </div>
 </div>
 
-<!-- Mengambil Data Topik & Modul Secara Otomatis -->
+<!-- Pastikan data-topik.js dipanggil pertama -->
 <script src="data-topik.js"></script>
 <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwH3IGe7wra6vC4SyqHxV8h7rr7T4mztd4ZzaFsFkljzvN_090QEngLjXz2RBeDmaTA/exec";
+    let statusAksesServer = {};
 
-    // Fungsi Render Otomatis Berdasarkan data-topik.js
+    function muatStatusAksesData() {
+        const wrapper = document.getElementById('adminControlWrapper');
+        wrapper.innerHTML = "<em>Memuat status terbaru...</em>";
+
+        // Ambil data status saat ini dari doGet Apps Script
+        fetch(`${API_URL}?userId=admin`)
+            .then(res => res.json())
+            .then(resData => {
+                if (resData.status === "success") {
+                    statusAksesServer = resData.aksesSystem || {};
+                }
+                renderAdminPanelOtomatis();
+            })
+            .catch(() => {
+                renderAdminPanelOtomatis();
+            });
+    }
+
     function renderAdminPanelOtomatis() {
         const wrapper = document.getElementById('adminControlWrapper');
         wrapper.innerHTML = "";
 
         if (typeof DATA_TOPIK === 'undefined') {
-            wrapper.innerHTML = "<span style='color:red;'>Gagal memuat file data-topik.js!</span>";
+            wrapper.innerHTML = "<span style='color:red;'>Gagal memuat file data-topik.js! Pastikan lokasi file sejajar dengan admin.html.</span>";
             return;
         }
 
-        // Looping Otomatis Semua Topik
         Object.keys(DATA_TOPIK).forEach(topikId => {
             const topik = DATA_TOPIK[topikId];
             
@@ -60,14 +86,22 @@
                     <div class="topik-header">TOPIK ${topikId}: ${topik.judulTopik}</div>
             `;
 
-            // Looping Otomatis Semua Modul di Dalam Topik Tersebut
             Object.keys(topik.modul).forEach(modulId => {
                 const modul = topik.modul[modulId];
                 const keyAkses = `modul_${topikId}_${modulId}`;
+                
+                // Cek status saat ini (default: OPEN)
+                const isOpen = statusAksesServer[keyAkses] !== false;
+                const badgeHtml = isOpen 
+                    ? `<span class="badge-status badge-open" id="badge-${keyAkses}">OPEN</span>` 
+                    : `<span class="badge-status badge-closed" id="badge-${keyAkses}">CLOSED</span>`;
 
                 htmlGroup += `
                     <div class="control-row">
-                        <div class="modul-title">${modul.title}</div>
+                        <div class="modul-info">
+                            <div class="modul-title">${modul.title}</div>
+                            ${badgeHtml}
+                        </div>
                         <div class="btn-group">
                             <button class="btn btn-open" onclick="kirimPerintahAdmin('${keyAkses}', 'OPEN')">Buka Akses</button>
                             <button class="btn btn-close" onclick="kirimPerintahAdmin('${keyAkses}', 'CLOSED')">Tutup Akses</button>
@@ -82,22 +116,39 @@
     }
 
     function kirimPerintahAdmin(keyAkses, status) {
-        const params = new URLSearchParams();
-        params.append('action', 'updateAksesAdmin');
-        params.append('keyAkses', keyAkses);
-        params.append('statusBaru', status);
+        const dataKirim = new URLSearchParams();
+        dataKirim.append('action', 'updateAksesAdmin');
+        dataKirim.append('keyAkses', keyAkses);
+        dataKirim.append('statusBaru', status);
 
         fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: params.toString()
+            body: dataKirim.toString()
         })
-        .then(() => alert(`Berhasil! Status ${keyAkses} diubah menjadi: ${status}`))
-        .catch(err => alert("Gagal memperbarui status akses di server."));
+        .then(res => res.json())
+        .then(resData => {
+            if (resData.status === "success") {
+                // Update tampilan indikator secara instan
+                statusAksesServer[keyAkses] = (status === "OPEN");
+                const badge = document.getElementById(`badge-${keyAkses}`);
+                if (badge) {
+                    badge.className = status === "OPEN" ? "badge-status badge-open" : "badge-status badge-closed";
+                    badge.innerText = status;
+                }
+                alert(`Berhasil! ${keyAkses} diubah menjadi ${status}`);
+            } else {
+                alert("Gagal: " + resData.message);
+            }
+        })
+        .catch(err => {
+            alert("Terjadi kesalahan koneksi ke server Apps Script.");
+        });
     }
 
-    // Jalankan render saat halaman siap
-    document.addEventListener("DOMContentLoaded", renderAdminPanelOtomatis);
+    window.onload = function() {
+        muatStatusAksesData();
+    };
 </script>
 
 </body>
