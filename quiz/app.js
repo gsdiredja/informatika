@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ action: "getactiveexams" })
       });
 
-      // Menerima array [ {kode, nama, durasi}, ... ] dari code.gs
       const activeExams = await response.json();
 
       jenisUjianSelect.innerHTML = ""; // Kosongkan placeholder loading
@@ -36,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (error) {
       console.error("Gagal memuat jadwal dari Google Apps Script:", error);
-      // Fallback pilihan default jika koneksi gagal
       jenisUjianSelect.innerHTML = `<option value="soal-uh1" selected>UH1 - Pemrograman Dasar</option>`;
     }
   }
@@ -74,14 +72,14 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({
             action: "login",
             username: username,
-            password: password
+            password: password,
+            paket: jenisUjian // 👈 MENGIRIM KODE PAKET UJIAN YANG DIPILIH
           }),
         });
 
         const result = await response.json();
 
         if (result.status === "success") {
-          // Menyimpan result.user agar data Nama & Kelas tersimpan sempurna
           localStorage.setItem("userData", JSON.stringify(result.user || { username: username, nama: username, kelas: "-" }));
           localStorage.setItem("soalPath", jenisUjian);
           window.location.href = "ujian.html";
@@ -93,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (error) {
         console.error("Login Error / Offline Mode:", error);
         
-        // Fallback jika terjadi kegagalan jaringan
         const fallbackUserData = { username: username, nama: username, kelas: "-" };
         localStorage.setItem("userData", JSON.stringify(fallbackUserData));
         localStorage.setItem("soalPath", jenisUjian);
