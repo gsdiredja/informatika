@@ -4,43 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Kontrol Akses Modul</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f6f9; }
-        .card { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h2 { margin-top: 0; color: #1e293b; }
-        .control-group { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .btn-open { background: #10b981; color: white; }
-        .btn-close { background: #ef4444; color: white; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f3f4f6; padding: 30px 20px; }
+        .container { max-width: 700px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h2 { color: #1e293b; font-size: 20px; margin-bottom: 6px; }
+        p.desc { font-size: 13px; color: #64748b; margin-bottom: 24px; }
+        .topik-group { margin-bottom: 24px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
+        .topik-header { background: #0f172a; color: white; padding: 12px 16px; font-weight: 700; font-size: 14px; }
+        .control-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #f1f5f9; background: #fff; }
+        .control-row:last-child { border-bottom: none; }
+        .modul-title { font-size: 13px; font-weight: 600; color: #334155; }
+        .btn-group { display: flex; gap: 8px; }
+        .btn { padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s; }
+        .btn-open { background-color: #10b981; color: white; }
+        .btn-open:hover { background-color: #059669; }
+        .btn-close { background-color: #ef4444; color: white; }
+        .btn-close:hover { background-color: #dc2626; }
     </style>
 </head>
 <body>
 
-<div class="card">
+<div class="container">
     <h2>🛠️ Panel Kontrol Akses Modul (Admin)</h2>
-    <p>Atur izin akses topik dan modul untuk siswa secara real-time:</p>
+    <p class="desc">Atur izin akses topik dan modul untuk siswa secara real-time:</p>
 
-    <!-- Contoh Sakelar Topik 1 Modul 1 -->
-    <div class="control-group">
-        <span>Topik 1 - Modul 1</span>
-        <div>
-            <button class="btn btn-open" onclick="kirimPerintahAdmin('modul_1_1', 'OPEN')">Buka Akses</button>
-            <button class="btn btn-close" onclick="kirimPerintahAdmin('modul_1_1', 'CLOSED')">Tutup Akses</button>
-        </div>
-    </div>
-
-    <!-- Contoh Sakelar Topik 1 Modul 2 -->
-    <div class="control-group">
-        <span>Topik 1 - Modul 2</span>
-        <div>
-            <button class="btn btn-open" onclick="kirimPerintahAdmin('modul_1_2', 'OPEN')">Buka Akses</button>
-            <button class="btn btn-close" onclick="kirimPerintahAdmin('modul_1_2', 'CLOSED')">Tutup Akses</button>
-        </div>
+    <!-- Container Kontrol Otomatis -->
+    <div id="adminControlWrapper">
+        <em>Memuat daftar modul...</em>
     </div>
 </div>
 
+<!-- Mengambil Data Topik & Modul Secara Otomatis -->
+<script src="data-topik.js"></script>
 <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwH3IGe7wra6vC4SyqHxV8h7rr7T4mztd4ZzaFsFkljzvN_090QEngLjXz2RBeDmaTA/exec";
+
+    // Fungsi Render Otomatis Berdasarkan data-topik.js
+    function renderAdminPanelOtomatis() {
+        const wrapper = document.getElementById('adminControlWrapper');
+        wrapper.innerHTML = "";
+
+        if (typeof DATA_TOPIK === 'undefined') {
+            wrapper.innerHTML = "<span style='color:red;'>Gagal memuat file data-topik.js!</span>";
+            return;
+        }
+
+        // Looping Otomatis Semua Topik
+        Object.keys(DATA_TOPIK).forEach(topikId => {
+            const topik = DATA_TOPIK[topikId];
+            
+            let htmlGroup = `
+                <div class="topik-group">
+                    <div class="topik-header">TOPIK ${topikId}: ${topik.judulTopik}</div>
+            `;
+
+            // Looping Otomatis Semua Modul di Dalam Topik Tersebut
+            Object.keys(topik.modul).forEach(modulId => {
+                const modul = topik.modul[modulId];
+                const keyAkses = `modul_${topikId}_${modulId}`;
+
+                htmlGroup += `
+                    <div class="control-row">
+                        <div class="modul-title">${modul.title}</div>
+                        <div class="btn-group">
+                            <button class="btn btn-open" onclick="kirimPerintahAdmin('${keyAkses}', 'OPEN')">Buka Akses</button>
+                            <button class="btn btn-close" onclick="kirimPerintahAdmin('${keyAkses}', 'CLOSED')">Tutup Akses</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            htmlGroup += `</div>`;
+            wrapper.innerHTML += htmlGroup;
+        });
+    }
 
     function kirimPerintahAdmin(keyAkses, status) {
         const params = new URLSearchParams();
@@ -53,9 +92,12 @@
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: params.toString()
         })
-        .then(() => alert(`Berhasil! Status ${keyAkses} diubah menjadi ${status}`))
-        .catch(err => alert("Gagal memperbarui status akses."));
+        .then(() => alert(`Berhasil! Status ${keyAkses} diubah menjadi: ${status}`))
+        .catch(err => alert("Gagal memperbarui status akses di server."));
     }
+
+    // Jalankan render saat halaman siap
+    document.addEventListener("DOMContentLoaded", renderAdminPanelOtomatis);
 </script>
 
 </body>
