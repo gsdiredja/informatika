@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Kontrol Akses Modul</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f6f9; }
+        .card { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { margin-top: 0; color: #1e293b; }
+        .control-group { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-open { background: #10b981; color: white; }
+        .btn-close { background: #ef4444; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🛠️ Panel Kontrol Akses Modul (Admin)</h2>
+    <p>Atur izin akses topik dan modul untuk siswa secara real-time:</p>
+
+    <!-- Contoh Sakelar Topik 1 Modul 1 -->
+    <div class="control-group">
+        <span>Topik 1 - Modul 1</span>
+        <div>
+            <button class="btn btn-open" onclick="kirimPerintahAdmin('modul_1_1', 'OPEN')">Buka Akses</button>
+            <button class="btn btn-close" onclick="kirimPerintahAdmin('modul_1_1', 'CLOSED')">Tutup Akses</button>
+        </div>
+    </div>
+
+    <!-- Contoh Sakelar Topik 1 Modul 2 -->
+    <div class="control-group">
+        <span>Topik 1 - Modul 2</span>
+        <div>
+            <button class="btn btn-open" onclick="kirimPerintahAdmin('modul_1_2', 'OPEN')">Buka Akses</button>
+            <button class="btn btn-close" onclick="kirimPerintahAdmin('modul_1_2', 'CLOSED')">Tutup Akses</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwH3IGe7wra6vC4SyqHxV8h7rr7T4mztd4ZzaFsFkljzvN_090QEngLjXz2RBeDmaTA/exec";
+
+    function kirimPerintahAdmin(keyAkses, status) {
+        const params = new URLSearchParams();
+        params.append('action', 'updateAksesAdmin');
+        params.append('keyAkses', keyAkses);
+        params.append('statusBaru', status);
+
+        fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: params.toString()
+        })
+        .then(() => alert(`Berhasil! Status ${keyAkses} diubah menjadi ${status}`))
+        .catch(err => alert("Gagal memperbarui status akses."));
+    }
+</script>
+
+</body>
+</html>
