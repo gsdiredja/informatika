@@ -6,6 +6,9 @@
     <title>Sistem Modul Pembelajaran Informatika</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ==========================================
+           1. GAYA TAMPILAN WEB (WEB VIEW)
+           ========================================== */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: #f3f4f6; color: #333333; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
@@ -43,7 +46,7 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #f3f4f6; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 1000; overflow-y: auto; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-container { max-width: 650px; width: 100%; margin: 0 auto; background-color: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
-        .pmm-header { background-color: #0b3a7a; color: white; padding: 30px 24px; }
+        .pmm-header { background-color: #0b3a7a; color: white; padding: 30px 24px; position: relative; }
         .btn-back { background: transparent; border: none; color: white; cursor: pointer; display: flex; align-items: center; margin-bottom: 20px; }
         .pmm-header h2 { font-size: 20px; font-weight: 700; line-height: 1.4; }
         .pmm-body { padding: 24px; }
@@ -75,6 +78,76 @@
         .btn-nav-kuis { background-color: #0b3a7a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; }
         .btn-nav-kuis.disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
         .btn-remedial-action { background-color: #991b1b; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 14px; margin-top: 15px; display: block; width: 100%; text-align: center; text-decoration: none; }
+        
+        .btn-print-pdf { position: absolute; right: 24px; top: 24px; background-color: #3b82f6; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .btn-print-pdf:hover { background-color: #2563eb; }
+
+        /* ==========================================
+           2. GAYA CETAK KHUSUS PDF (@media print)
+           ========================================== */
+        @media print {
+            @page {
+                size: A4;
+                margin: 18mm 15mm 20mm 15mm;
+            }
+
+            /* Sembunyikan elemen UI web yang tidak perlu di PDF */
+            .global-student-header,
+            .btn-back,
+            .btn-logout,
+            .btn-study,
+            .btn-print-pdf,
+            .arrow-icon,
+            .step-navigation,
+            .post-test-card,
+            .modal-overlay:not(.active) {
+                display: none !important;
+            }
+
+            body, .modal-overlay, .modal-container {
+                background: #ffffff !important;
+                color: #000000 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                position: static !important;
+                overflow: visible !important;
+            }
+
+            .pmm-header {
+                background-color: #0b3a7a !important;
+                color: white !important;
+                padding: 20px !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .materi-item {
+                border: none !important;
+                margin-bottom: 20px !important;
+            }
+
+            .materi-header {
+                padding: 10px 0 !important;
+                border-bottom: 2px solid #0b3a7a !important;
+            }
+
+            .materi-content {
+                display: block !important;
+                padding: 15px 0 !important;
+                background: transparent !important;
+                color: #1f2937 !important;
+                font-size: 11pt !important;
+                line-height: 1.6 !important;
+            }
+
+            table, pre, blockquote {
+                page-break-inside: avoid;
+            }
+
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+        }
     </style>
 </head>
 <body>
@@ -119,6 +192,12 @@
                 <button class="btn-back" onclick="tutupModul()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                 </button>
+                
+                <!-- Tombol Cetak PDF -->
+                <button type="button" class="btn-print-pdf" onclick="window.print()">
+                    🖨️ Cetak PDF
+                </button>
+
                 <div class="tag-modul" id="modalTag">Modul X</div>
                 <h2 id="modalTitle">Judul Modul</h2>
             </div>
@@ -245,10 +324,7 @@
                 const isAktifByProgress = (dbStatusModul[noModul] === true);
                 const keyAkses = `modul_${topikAktif}_${noModul}`;
                 
-                // Cek status izin dari admin (Default dianggap OPEN/true jika belum diset di sheet)
                 const isStatusOpenAdmin = (sistemAksesGlobal[keyAkses] !== false);
-
-                // Modul BISA DIBUKA jika diizinkan Admin ATAU jika user adalah admin
                 const isBisaDiakses = (sessionUser && sessionUser.username === "admin") || (isStatusOpenAdmin && (isAktifByProgress || sistemAksesGlobal[keyAkses] === true));
 
                 let classStatus = "";
@@ -274,7 +350,6 @@
             const isLulusUrutan = (dbStatusModul[noModul] === true);
             const isAdminUser = (sessionUser && sessionUser.username === "admin");
 
-            // Modul bisa dibuka jika Admin memilih OPEN atau jika user adalah akun admin
             const bolehMasuk = isAdminUser || (isStatusOpenAdmin && (isLulusUrutan || sistemAksesGlobal[keyAkses] === true));
 
             if (!isStatusOpenAdmin && !isAdminUser) {
