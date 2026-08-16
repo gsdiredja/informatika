@@ -4,7 +4,7 @@ let userAnswers = {};
 
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbySm7Bw7wgYVZwu7cs6xAuXyQc1Y-FUxJuiJ80YxyFOQeLSNfsrBQ0dgsYN4B_9LZgg/exec";
 
-const EXAM_DURATION_MINUTES = 60;
+let EXAM_DURATION_MINUTES = 60;
 let totalSeconds = EXAM_DURATION_MINUTES * 60;
 let timerInterval = null;
 let currentUsername = "";
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (!rawSoalPath || rawSoalPath === "undefined") {
-      rawSoalPath = "./data/soal-uh1.json";
+      rawSoalPath = "soal-uh1";
     }
 
     try {
@@ -61,11 +61,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
     }
 
-    const savedRemainingTime = localStorage.getItem(`remainingTime_${currentUsername}`);
+    const savedRemainingTime = localStorage.getItem(`remainingTime_${currentUsername}_${cleanPaketId}`);
     if (savedRemainingTime !== null && !isNaN(parseInt(savedRemainingTime))) {
       totalSeconds = parseInt(savedRemainingTime, 10);
-    } else {
-      totalSeconds = EXAM_DURATION_MINUTES * 60;
     }
 
     startTimer();
@@ -135,6 +133,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           finalArray = rawLoadedQuestions;
         }
 
+        // Pengacakan urutan soal
         let shuffledAll = shuffleArray(finalArray);
 
         if (maxQty > 0 && maxQty < shuffledAll.length) {
@@ -143,9 +142,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           questionsData = shuffledAll;
         }
 
+        // Pengacakan opsi jawaban pada masing-masing soal
         questionsData.forEach((q) => {
-          if (q.options && Array.isArray(q.options)) {
+          if (q.options && Array.isArray(q.options) && q.type !== "boolean") {
             q.options = shuffleArray(q.options);
+          }
+          if (q.matchOptions && Array.isArray(q.matchOptions)) {
+            q.matchOptions = shuffleArray(q.matchOptions);
           }
         });
 
@@ -180,9 +183,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function startTimer() {
   updateTimerDisplay();
+  const cleanPaketId = getCleanPaketId(localStorage.getItem("soalPath"));
+  
   timerInterval = setInterval(() => {
     totalSeconds--;
-    if (currentUsername) localStorage.setItem(`remainingTime_${currentUsername}`, totalSeconds);
+    if (currentUsername) localStorage.setItem(`remainingTime_${currentUsername}_${cleanPaketId}`, totalSeconds);
     updateTimerDisplay();
 
     if (totalSeconds <= 0) {
@@ -267,7 +272,9 @@ function showQuestion(index) {
   if (titleEl) titleEl.innerText = `Soal Nomor ${index + 1}`;
   
   let typeText = "Pilihan Ganda";
-  if (q.type === "checkbox") typeText = "Pilihan Ganda Kompleks";
+  if (q.type === "boolean") typeText = "Benar / Salah";
+  else if (q.type === "checkbox" || q.type === "checkbox_limit_2") typeText = "Pilihan Ganda Kompleks (2 Pilihan)";
+  else if (q.type === "matching") typeText = "Menjodohkan";
   else if (q.type === "essay") typeText = "Uraian / Essay";
   
   const badgeEl = document.getElementById("questionTypeBadge");
@@ -287,9 +294,10 @@ function showQuestion(index) {
     `;
   }
 
-  if (q.type === "radio" && Array.isArray(q.options)) {
+  // 1. TIPE: PILIHAN GANDA & BENAR/SALAH
+  if ((q.type === "radio" || q.type === "boolean") && Array.isArray(q.options)) {
     q.options.forEach((opt, idx) => {
-      const optVal = opt.v !== undefined ? opt.v : (opt.value !== undefined ? opt.value : String.fromCharCode(65 + idx));
+      const optVal = opt.v !== undefined ? opt.v : String.fromCharCode(65 + idx);
       const optText = opt.t || opt.text || "";
       const optImg = opt.image || opt.img || "";
       const isChecked = userAnswers[qKey] === optVal;
@@ -309,10 +317,13 @@ function showQuestion(index) {
       `;
     });
   } 
-  else if (q.type === "checkbox" && Array.isArray(q.options)) {
-    const savedArr = userAnswers[qKey] || [];
+  // 2. TIPE: PILIHAN GANDA KOMPLEKS (2 JAWABAN)
+  else if ((q.type === "checkbox" || q.type === "checkbox_limit_2") && Array.isArray(q.options)) {
+    const savedArr = Array.isArray(userAnswers[qKey]) ? userAnswers[qKey] : [];
+    html += `<p style="font-size:0.8rem; color:#64748b; margin-bottom:10px;"><em>*Pilihlah tepat 2 jawaban yang paling tepat.</em></p>`;
+
     q.options.forEach((opt, idx) => {
-      const optVal = opt.v !== undefined ? opt.v : (opt.value !== undefined ? opt.value : String.fromCharCode(65 + idx));
+      const optVal = opt.v !== undefined ? opt.v : String.fromCharCode(65 + idx);
       const optText = opt.t || opt.text || "";
       const optImg = opt.image || opt.img || "";
       const isChecked = savedArr.includes(optVal);
@@ -326,19 +337,38 @@ function showQuestion(index) {
       html += `
         <div class="option-item ${isChecked ? 'selected' : ''}" onclick="toggleCheckboxOption('${qKey}', '${optVal}', this)">
           <input type="checkbox" name="${qKey}" value="${optVal}" ${isChecked ? 'checked' : ''} style="display: none;" />
-          <div class="option-badge badge-checkbox">${labelBadge}</div>
+          <div class="option-badge">${labelBadge}</div>
           <div class="option-text">${optText}${imgHtml}</div>
         </div>
       `;
     });
   } 
+  // 3. TIPE: MENJODOHKAN (MATCHING)
+  else if (q.type === "matching" && Array.isArray(q.pairs)) {
+    const savedPairs = (typeof userAnswers[qKey] === "object" && userAnswers[qKey] !== null) ? userAnswers[qKey] : {};
+    html += `<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">`;
+
+    q.pairs.forEach((pair) => {
+      html += `
+        <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1.5px solid #cbd5e1; flex-wrap: wrap; gap: 10px;">
+          <span style="font-weight: 600; font-size: 0.95rem;">${pair.left}</span>
+          <select class="form-control" style="max-width: 320px; width: 100%;" onchange="saveMatchingOption('${qKey}', '${pair.id}', this.value)">
+            <option value="">-- Pilih Jawaban Pasangan --</option>
+            ${(q.matchOptions || []).map(opt => `
+              <option value="${opt.v}" ${savedPairs[pair.id] === opt.v ? 'selected' : ''}>${opt.t}</option>
+            `).join('')}
+          </select>
+        </div>
+      `;
+    });
+    html += `</div>`;
+  }
+  // 4. TIPE: ESSAY / URAIAN
   else if (q.type === "essay") {
-    const savedText = userAnswers[qKey] || "";
+    const savedText = typeof userAnswers[qKey] === "string" ? userAnswers[qKey] : "";
     html += `
-      <textarea id="essayInput" name="${qKey}" rows="5" class="essay-box" placeholder="Ketikkan jawaban uraian Anda secara rinci..." oninput="hideWarning()">${savedText}</textarea>
+      <textarea id="essayInput" name="${qKey}" rows="6" class="essay-box" placeholder="Ketikkan jawaban uraian Anda secara rinci..." oninput="saveEssayText('${qKey}', this.value)">${savedText}</textarea>
     `;
-  } else {
-    html += `<p style="color:#64748b;"><i>Tipe soal (${q.type}) tidak dapat ditampilkan.</i></p>`;
   }
 
   html += `</div>`;
@@ -376,53 +406,76 @@ function selectRadioOption(qName, val, el) {
   const input = el.querySelector('input');
   if (input) input.checked = true;
 
+  userAnswers[qName] = val;
   saveCurrentAnswer();
   hideWarning();
 }
 
 function toggleCheckboxOption(qName, val, el) {
-  const input = el.querySelector('input');
-  if (input) {
-    input.checked = !input.checked;
-    if (input.checked) el.classList.add('selected');
-    else el.classList.remove('selected');
+  if (!Array.isArray(userAnswers[qName])) {
+    userAnswers[qName] = [];
+  }
+
+  const idx = userAnswers[qName].indexOf(val);
+  if (idx > -1) {
+    userAnswers[qName].splice(idx, 1);
+    el.classList.remove('selected');
+    const input = el.querySelector('input');
+    if (input) input.checked = false;
+  } else {
+    if (userAnswers[qName].length >= 2) {
+      alert("Anda hanya dapat memilih maksimal 2 jawaban!");
+      return;
+    }
+    userAnswers[qName].push(val);
+    el.classList.add('selected');
+    const input = el.querySelector('input');
+    if (input) input.checked = true;
+  }
+
+  saveCurrentAnswer();
+  hideWarning();
+}
+
+function saveMatchingOption(qName, pairId, val) {
+  if (typeof userAnswers[qName] !== "object" || userAnswers[qName] === null) {
+    userAnswers[qName] = {};
+  }
+
+  if (val) {
+    userAnswers[qName][pairId] = val;
+  } else {
+    delete userAnswers[qName][pairId];
+  }
+
+  saveCurrentAnswer();
+  hideWarning();
+}
+
+function saveEssayText(qName, text) {
+  if (text.trim() !== "") {
+    userAnswers[qName] = text.trim();
+  } else {
+    delete userAnswers[qName];
   }
   saveCurrentAnswer();
   hideWarning();
 }
 
 function saveCurrentAnswer() {
-  if (!questionsData || !questionsData[currentQuestionIndex]) return;
-  const q = questionsData[currentQuestionIndex];
-  const qKey = q.name || q.id || `q_${currentQuestionIndex}`;
-
-  if (q.type === "radio") {
-    const selected = document.querySelector(`input[name="${qKey}"]:checked`);
-    if (selected) userAnswers[qKey] = selected.value;
-  } else if (q.type === "checkbox") {
-    const checkedBoxes = document.querySelectorAll(`input[name="${qKey}"]:checked`);
-    const values = Array.from(checkedBoxes).map((cb) => cb.value);
-    if (values.length > 0) userAnswers[qKey] = values;
-    else delete userAnswers[qKey];
-  } else if (q.type === "essay") {
-    const essayText = document.getElementById("essayInput")?.value.trim();
-    if (essayText) userAnswers[qKey] = essayText;
-    else delete userAnswers[qKey];
-  }
-
   let rawSoalPath = localStorage.getItem("soalPath") || "soal-uh1";
   const cleanPaketId = getCleanPaketId(rawSoalPath);
   const savedAnswersKey = `answers_${currentUsername}_${cleanPaketId}`;
   localStorage.setItem(savedAnswersKey, JSON.stringify(userAnswers));
-
   renderNumberGrid();
 }
 
 function isQuestionAnswered(qName) {
   const ans = userAnswers[qName];
   if (!ans) return false;
-  if (Array.isArray(ans) && ans.length === 0) return false;
-  if (typeof ans === "string" && ans.trim() === "") return false;
+  if (Array.isArray(ans)) return ans.length > 0;
+  if (typeof ans === "object") return Object.keys(ans).length > 0;
+  if (typeof ans === "string") return ans.trim() !== "";
   return true;
 }
 
@@ -579,7 +632,7 @@ function clearExamCache() {
   const cleanPaketId = getCleanPaketId(rawSoalPath);
 
   if (currentUsername) {
-    localStorage.removeItem(`remainingTime_${currentUsername}`);
+    localStorage.removeItem(`remainingTime_${currentUsername}_${cleanPaketId}`);
     localStorage.removeItem(`questions_${currentUsername}_${cleanPaketId}`);
     localStorage.removeItem(`answers_${currentUsername}_${cleanPaketId}`);
   }
