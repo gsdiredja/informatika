@@ -42,7 +42,6 @@
     .alert-success { background-color: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
     .alert-error { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
     .footer { text-align: center; padding: 16px; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); background: white; }
-    .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -57,14 +56,14 @@
   <main class="main-container">
     <div class="page-title">
       <h2>Input & Pengaturan Jadwal Ujian</h2>
-      <p>Buat/Edit paket ujian, atur rentang waktu akses siswa, dan simpan bank soal ke server.</p>
+      <p>Buat/Edit paket ujian, atur status manual OPEN/CLOSE, dan simpan bank soal ke Spreadsheet.</p>
     </div>
 
-    <!-- CARD MODAL SEARCH (MODE EDIT) -->
+    <!-- CARD SEARCH EDIT -->
     <div class="card" style="background-color: #f8fafc; border-color: #2563eb;">
       <div class="card-title" style="color: #1e3a8a;">🔍 Edit Paket Soal Yang Sudah Ada</div>
       <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">
-        Masukkan Kode Ujian yang ingin diedit untuk memuat data dari Spreadsheet.
+        Masukkan Kode Ujian untuk memuat data dari Spreadsheet.
       </p>
 
       <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
@@ -73,16 +72,16 @@
           📥 Muat Data Soal
         </button>
         <button type="button" onclick="resetToNewMode()" id="btnResetMode" class="btn-submit" style="background-color: #64748b; padding: 10px 18px; display: none;">
-          🔄 Switch ke Mode Buat Baru
+          🔄 Mode Buat Baru
         </button>
       </div>
     </div>
 
     <form id="adminForm">
       
-      <!-- CARD 1: INFORMASI & JADWAL UJIAN -->
+      <!-- CARD 1: INFORMASI, JADWAL & KONTROL STATUS -->
       <div class="card">
-        <div class="card-title">1. Informasi & Jadwal Ujian</div>
+        <div class="card-title">1. Informasi, Jadwal & Kontrol Akses</div>
         
         <div class="form-grid">
           <div class="form-group">
@@ -100,9 +99,13 @@
             <input type="number" id="durasi" class="form-control" value="60" min="5" required>
           </div>
 
+          <!-- KONTROL MANUAL STATUS BUKA / TUTUP UJIAN -->
           <div class="form-group">
-            <label for="maxSoal">Jumlah Soal Dikeluarkan</label>
-            <input type="number" id="maxSoal" class="form-control" placeholder="Isi 0 jika ingin keluar semua" value="0" min="0" required>
+            <label for="statusUjian">Status Kontrol Akses</label>
+            <select id="statusUjian" class="form-control" style="font-weight: bold; color: #1e3a8a;">
+              <option value="OPEN" selected>🟢 OPEN (Bisa Diakses Siswa)</option>
+              <option value="CLOSE">🔴 CLOSE (Terkunci/Ditutup)</option>
+            </select>
           </div>
         </div>
 
@@ -115,6 +118,11 @@
           <div class="form-group">
             <label for="jadwalSelesai">Waktu Akses Selesai</label>
             <input type="datetime-local" id="jadwalSelesai" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label for="maxSoal">Jumlah Soal Dikeluarkan</label>
+            <input type="number" id="maxSoal" class="form-control" placeholder="Isi 0 jika keluar semua" value="0" min="0" required>
           </div>
         </div>
       </div>
@@ -153,20 +161,19 @@
       <div class="card">
         <div class="card-title">3. Copas Bank Soal (JSON Format)</div>
         <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">
-          Tempelkan susunan soal JSON. Masukkan kode WebP di properti <code>"image"</code> jika ada gambar.
+          Mendukung tipe: <code>boolean</code>, <code>radio</code>, <code>checkbox_limit_2</code>, <code>matching</code>, dan <code>essay</code>.
         </p>
 
         <div class="form-group">
           <textarea id="soalJson" class="form-control" rows="12" placeholder='[
   {
     "name": "q1",
-    "type": "radio",
-    "title": "Pilihan Ganda",
-    "text": "Siapakah penemu C++?",
-    "image": "",
+    "type": "boolean",
+    "title": "Benar / Salah",
+    "text": "Algoritma Greedy selalu menghasilkan solusi paling optimal.",
     "options": [
-      { "v": "A", "t": "Dennis Ritchie" },
-      { "v": "B", "t": "Bjarne Stroustrup" }
+      { "v": "A", "t": "Benar" },
+      { "v": "B", "t": "Salah" }
     ]
   }
 ]' required></textarea>
@@ -178,11 +185,11 @@
         <div class="card-title">4. Input Kunci Jawaban</div>
         <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">
           Format: <code>KODE_SOAL: KUNCI</code> dipisahkan koma.<br>
-          Contoh: <code>q1:B, q2:A, q21:A,C</code>
+          Contoh: <code>q1:B, q2:A, q3:A,C, q4:{"p1":"A","p2":"B"}</code>
         </p>
 
         <div class="form-group">
-          <textarea id="kunciText" class="form-control" rows="4" placeholder="q1:B, q2:A, q3:D, q21:A,C" required></textarea>
+          <textarea id="kunciText" class="form-control" rows="4" placeholder='q1:B, q2:A, q3:A,C, q4:{"p1":"A","p2":"B"}' required></textarea>
         </div>
       </div>
 
@@ -199,7 +206,7 @@
   </main>
 
   <footer class="footer">
-    © 2026 CBT Control Panel • Developed by Agus Tjakra
+    © 2026 CBT Control Panel
   </footer>
 
   <script>
@@ -242,6 +249,7 @@
             document.getElementById("durasi").value = data.jadwal.durasi || 60;
             document.getElementById("jadwalMulai").value = data.jadwal.jadwalMulai || "";
             document.getElementById("jadwalSelesai").value = data.jadwal.jadwalSelesai || "";
+            document.getElementById("statusUjian").value = data.jadwal.statusUjian || "OPEN";
           }
 
           if (data.soalJson && !Array.isArray(data.soalJson) && data.soalJson.questions) {
@@ -330,6 +338,7 @@
       const kodeSoal = document.getElementById("kodeSoal").value.trim();
       const namaUjian = document.getElementById("namaUjian").value.trim();
       const durasi = document.getElementById("durasi").value;
+      const statusUjian = document.getElementById("statusUjian").value;
       const maxSoal = parseInt(document.getElementById("maxSoal").value) || 0;
       const jadwalMulai = document.getElementById("jadwalMulai").value;
       const jadwalSelesai = document.getElementById("jadwalSelesai").value;
@@ -340,7 +349,7 @@
       try {
         parsedSoal = JSON.parse(soalJsonRaw);
       } catch (err) {
-        showAlert("Format JSON Soal Salah/Error! Periksa tanda petik dan koma.", "error");
+        showAlert("Format JSON Soal Salah/Error! Periksa tanda petik dan kurung siku/kurawal.", "error");
         return;
       }
 
@@ -352,17 +361,26 @@
         };
       }
 
+      // Parsing kunci jawaban (Mendukung String biasa, Array 'A,C', dan JSON Object '{"p1":"A"}')
       const kunciObj = {};
       try {
-        const pairs = kunciTextRaw.split(",");
-        pairs.forEach(p => {
-          const item = p.split(":");
-          if (item.length === 2) {
-            kunciObj[item[0].trim()] = item[1].trim().toUpperCase();
+        const regex = /([^:,]+):\s*({[^}]+}|[^,]+)/g;
+        let match;
+        while ((match = regex.exec(kunciTextRaw)) !== null) {
+          const qName = match[1].trim();
+          let qKeyVal = match[2].trim();
+          if (qKeyVal.startsWith("{") && qKeyVal.endsWith("}")) {
+            try {
+              kunciObj[qName] = JSON.parse(qKeyVal);
+            } catch(e) {
+              kunciObj[qName] = qKeyVal;
+            }
+          } else {
+            kunciObj[qName] = qKeyVal.toUpperCase();
           }
-        });
+        }
       } catch (err) {
-        showAlert("Format Kunci Jawaban Salah! Contoh: q1:B, q2:A, q21:A,C", "error");
+        showAlert("Format Kunci Jawaban Salah! Contoh: q1:B, q2:A, q3:A,C, q4:{\"p1\":\"A\"}", "error");
         return;
       }
 
@@ -382,6 +400,7 @@
             kodeSoal: kodeSoal,
             namaUjian: namaUjian,
             durasi: durasi,
+            statusUjian: statusUjian,
             jadwalMulai: jadwalMulai,
             jadwalSelesai: jadwalSelesai,
             soalJson: finalSoalPackage,
