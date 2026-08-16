@@ -176,7 +176,7 @@
     color: var(--akm-blue);
   }
 
-  /* OPSI JAWABAN */
+  /* OPSI JAWABAN UMUM & CHECKBOX */
   .option-item {
     display: flex;
     align-items: center;
@@ -188,6 +188,12 @@
     border-radius: 8px;
     cursor: pointer;
     user-select: none;
+    transition: all 0.15s ease;
+  }
+
+  .option-item:hover {
+    border-color: #94a3b8;
+    background-color: #f8fafc;
   }
 
   .option-badge {
@@ -216,6 +222,17 @@
     color: #ffffff;
   }
 
+  .form-control {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1.5px solid #cbd5e1;
+    font-size: 0.85rem;
+    outline: none;
+  }
+  .form-control:focus {
+    border-color: #2563eb;
+  }
+
   .essay-box {
     width: 100%;
     padding: 12px;
@@ -223,6 +240,10 @@
     border: 1.5px solid #cbd5e1;
     outline: none;
     font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .essay-box:focus {
+    border-color: #2563eb;
   }
 
   /* 4. SIDEBAR NAVIGASI GRID */
@@ -316,47 +337,16 @@
   .btn-submit { background-color: var(--akm-green); color: white; }
   .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  /* 📱 MEDIA QUERIES KHUSUS HP DAN TABLET (Max Width 768px) */
+  /* RESPONSIVE SMARTPHONE (Layar <= 768px) */
   @media (max-width: 768px) {
-    .akm-navbar {
-      padding: 6px 10px;
-    }
+    .akm-navbar { padding: 6px 10px; }
+    .brand-title h1 { font-size: 0.85rem; }
+    .brand-title span, .font-sizer { display: none; }
+    .sub-bar { font-size: 0.725rem; padding: 4px 10px; }
+    .user-details { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%; }
+    .exam-panel { margin: 4px; padding: 10px; }
+    .option-item { padding: 8px 10px; font-size: 0.875rem; }
 
-    .brand-title h1 {
-      font-size: 0.85rem;
-    }
-
-    .brand-title span {
-      display: none; /* Sembunyikan badge di HP agar hemat ruang */
-    }
-
-    .font-sizer {
-      display: none; /* Sembunyikan font sizer di layar kecil */
-    }
-
-    .sub-bar {
-      font-size: 0.725rem;
-      padding: 4px 10px;
-    }
-
-    .user-details {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 70%;
-    }
-
-    .exam-panel {
-      margin: 4px;
-      padding: 10px;
-    }
-
-    .option-item {
-      padding: 8px 10px;
-      font-size: 0.875rem;
-    }
-
-    /* SideBar Navigasi menjadi Pop-Up Overlay di HP */
     .grid-sidebar {
       position: fixed;
       right: 0; 
@@ -369,22 +359,10 @@
       transform: translateX(100%);
     }
 
-    .grid-sidebar.open { 
-      transform: translateX(0); 
-    }
-
-    .akm-footer {
-      padding: 0 8px;
-    }
-
-    .btn-action {
-      padding: 8px 10px;
-      font-size: 0.75rem;
-    }
-
-    #questionProgress {
-      font-size: 0.75rem !important;
-    }
+    .grid-sidebar.open { transform: translateX(0); }
+    .akm-footer { padding: 0 8px; }
+    .btn-action { padding: 8px 10px; font-size: 0.75rem; }
+    #questionProgress { font-size: 0.75rem !important; }
   }
 </style>
 </head>
@@ -415,7 +393,7 @@
   <!-- SUB BAR INFO SISWA -->
   <section class="sub-bar">
     <div class="user-details" id="userInfo">
-      <!-- Info Siswa Rendered via JS -->
+      <!-- Info Siswa Dimuat via JS -->
     </div>
     <button class="btn-grid-toggle" onclick="toggleSidebar()">
       📱 Daftar Soal
@@ -438,7 +416,7 @@
     <aside class="grid-sidebar" id="gridSidebar">
       <div class="grid-title">PETA NAVIGASI SOAL</div>
       <div class="number-grid" id="numberGrid">
-        <!-- Grid Nomor Soal via JS -->
+        <!-- Grid Nomor Soal Dimuat via JS -->
       </div>
 
       <div class="grid-legend">
@@ -453,7 +431,7 @@
   <footer class="akm-footer">
     <button id="btnPrev" class="btn-action btn-prev" onclick="prevQuestion()">⬅️ Sebelumnya</button>
     
-    <div id="questionProgress" style="font-weight: 700; color: #475569; font-size: 0.85rem;">Soal 1 dari 45</div>
+    <div id="questionProgress" style="font-weight: 700; color: #475569; font-size: 0.85rem;">Soal 1 dari ...</div>
 
     <button id="btnNext" class="btn-action btn-next" onclick="nextQuestion()">Selanjutnya ➡️</button>
     <button id="btnSubmitExam" class="btn-action btn-submit" onclick="submitExam()" style="display: none;">Selesaikan Ujian ✔️</button>
